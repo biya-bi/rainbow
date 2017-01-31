@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	<!-- JSF and Spring are integrated -->
+	<application>
+		<!-- <message-bundle>resources.application</message-bundle> -->
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<!-- <locale-config> -->
+		<!-- <default-locale>en</default-locale> -->
+		<!-- </locale-config> -->
+
+		<resource-bundle>
+			<base-name>org.optimum.asset.explorer.ui.Labels</base-name>
+			<var>labels</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>org.optimum.asset.explorer.ui.ValidationMessages</base-name>
+			<var>valMsg</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>org.optimum.asset.explorer.ui.Messages</base-name>
+			<var>msg</var>
+		</resource-bundle>
+		<resource-bundle>
+			<base-name>org.optimum.asset.explorer.ui.SecurityMessages</base-name>
+			<var>secMsg</var>
+		</resource-bundle>
+	</application>
+
+	<!-- configuration of navigation rules -->
+	<navigation-rule>
+		<from-view-id>/pages/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/success.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/pages/error.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+</faces-config>

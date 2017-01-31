@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <composite:interface>
+        <composite:attribute name="title" />
+        <composite:attribute name="actionListener" method-signature="java.lang.String action()" />
+        <composite:attribute name="update" />
+        <composite:attribute name="dialogWidgetVar" />
+        <composite:attribute name="disabled" default="false" type="java.lang.Boolean"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:commandButton immediate="true" style="max-width: 20px; height: 30px;" icon="ui-icon-plus" update="#{cc.attrs.update}" actionListener="#{cc.attrs.actionListener}" oncomplete="PF('#{cc.attrs.dialogWidgetVar}').show()" title="#{cc.attrs.title}" rendered="#{cc.rendered}" disabled="#{cc.attrs.disabled}"/>
+    </composite:implementation>
+</html>
+

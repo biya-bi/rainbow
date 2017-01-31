@@ -1,0 +1,11 @@
+org\rainbow\persistence\dao\impl\UserDao.class
+org\rainbow\persistence\dao\impl\Dao$1.class
+org\rainbow\persistence\dao\impl\Dao.class
+org\rainbow\persistence\dao\impl\exceptions\DuplicateProductCodeException.class
+org\rainbow\persistence\dao\impl\exceptions\NonexistentEntityException.class
+org\rainbow\persistence\dao\impl\exceptions\RainbowShoppingCartException.class
+org\rainbow\persistence\dao\impl\ProductDao$1.class
+org\rainbow\persistence\dao\impl\Pageable.class
+org\rainbow\persistence\dao\impl\UpdateOperation.class
+org\rainbow\persistence\dao\impl\exceptions\DuplicateProductNameException.class
+org\rainbow\persistence\dao\impl\ProductDao.class

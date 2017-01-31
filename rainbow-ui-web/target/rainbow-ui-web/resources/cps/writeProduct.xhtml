@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:t="http://asset.explorer.optimum.org/ui">
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+	<p:panelGrid rendered="#{productController.current != null}">
+		<p:row>
+			<p:column>
+				<p:outputLabel styleClass="field-label"
+					value="#{labels.ProductCodeLabel}" for="code" />
+			</p:column>
+			<p:column>
+				<p:inputText styleClass="field-value" id="code"
+					value="#{productController.current.code}"
+					title="#{labels.ProductCodeTitle}" required="true"
+					requiredMessage="#{valMsg.ProductCodeRequired}">
+					<p:clientValidator event="keyup" />
+				</p:inputText>
+			</p:column>
+			<p:column />
+			<p:column>
+				<p:message for="code" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel styleClass="field-label"
+					value="#{labels.ProductNameLabel}" for="name" />
+			</p:column>
+			<p:column>
+				<p:inputText styleClass="field-value" id="name"
+					value="#{productController.current.name}"
+					title="#{labels.ProductNameTitle}" required="true"
+					requiredMessage="#{valMsg.ProductNameRequired}">
+					<p:clientValidator event="keyup" />
+				</p:inputText>
+			</p:column>
+			<p:column />
+			<p:column>
+				<p:message for="name" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel styleClass="field-label" value="#{labels.PriceLabel}"
+					for="price" />
+			</p:column>
+			<p:column>
+				<p:inputText converterMessage="#{valMsg.PriceInvalid}"
+					validatorMessage="#{valMsg.PriceInvalid}" styleClass="field-value"
+					id="price" value="#{productController.current.price}"
+					title="#{labels.PriceTitle}" required="true"
+					requiredMessage="#{valMsg.PriceRequired}">
+					<p:clientValidator event="keyup" />
+				</p:inputText>
+			</p:column>
+			<p:column />
+			<p:column>
+				<p:message for="price" />
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+</composite:implementation>
+</html>
+

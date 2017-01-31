@@ -1,0 +1,7 @@
+org\rainbow\persistence\dao\IDao.class
+org\rainbow\persistence\dao\Filter.class
+org\rainbow\persistence\dao\SearchOptions.class
+org\rainbow\persistence\dao\SingleValuedFilter.class
+org\rainbow\persistence\dao\ListValuedFilter.class
+org\rainbow\persistence\dao\RelationalOperator.class
+org\rainbow\persistence\dao\RangeValuedFilter.class
