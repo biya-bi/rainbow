@@ -11,8 +11,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -20,6 +18,7 @@ import org.rainbow.persistence.dao.impl.exceptions.DuplicateProductCodeException
 import org.rainbow.persistence.dao.impl.exceptions.DuplicateProductNameException;
 import org.rainbow.service.api.IService;
 import org.rainbow.shopping.cart.model.Product;
+import org.rainbow.shopping.cart.ui.web.utilities.CrudNotificationInfo;
 import org.rainbow.shopping.cart.ui.web.utilities.JsfUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,11 +27,10 @@ import org.springframework.stereotype.Component;
  *
  * @author Biya-Bi
  */
-//@ManagedBean(name = "productController")
 @Component
 @Named
 @ViewScoped
-//@CrudNotificationInfo(createdMessageKey = "ProductCreated", updatedMessageKey = "ProductUpdated", deletedMessageKey = "ProductDeleted")
+@CrudNotificationInfo(createdMessageKey = "ProductCreated", updatedMessageKey = "ProductUpdated", deletedMessageKey = "ProductDeleted")
 public class ProductController extends TrackableController<Product> {
 
     /**
@@ -40,7 +38,6 @@ public class ProductController extends TrackableController<Product> {
 	 */
 	private static final long serialVersionUID = -1423310559956400949L;
 
-	//@ManagedProperty(value = "#{productService}")
 	@Autowired
     private IService<Product> service;
 

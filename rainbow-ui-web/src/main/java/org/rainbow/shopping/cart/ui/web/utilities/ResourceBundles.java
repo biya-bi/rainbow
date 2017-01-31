@@ -11,9 +11,9 @@ package org.rainbow.shopping.cart.ui.web.utilities;
  */
 public class ResourceBundles {
 
-    public static final String CRUD_MESSAGES = "org.optimum.asset.explorer.ui.CrudMessages";
-    public static final String LABELS = "org.optimum.asset.explorer.ui.Labels";
-    public static final String VALIDATION_MESSAGES = "org.optimum.asset.explorer.ui.ValidationMessages";
-    public static final String SECURITY_MESSAGES = "org.optimum.asset.explorer.ui.SecurityMessages";
-    public static final String MESSAGES = "org.optimum.asset.explorer.ui.Messages";
+    public static final String CRUD_MESSAGES = "org.rainbow.shopping.cart.ui.web.CrudMessages";
+    public static final String LABELS = "org.rainbow.shopping.cart.ui.web.Labels";
+    public static final String VALIDATION_MESSAGES = "org.rainbow.shopping.cart.ui.web.ValidationMessages";
+    public static final String SECURITY_MESSAGES = "org.rainbow.shopping.cart.ui.web.SecurityMessages";
+    public static final String MESSAGES = "org.rainbow.shopping.cart.ui.web.Messages";
 }

@@ -20,7 +20,6 @@ org\rainbow\shopping\cart\ui\web\data\TrackableLazyDataModel$2.class
 org\rainbow\ui\web\controller\Controller$1.class
 org\rainbow\shopping\cart\ui\web\data\ProductLazyDataModel$1.class
 org\rainbow\shopping\cart\ui\web\utilities\ResourceNames.class
-org\rainbow\shopping\cart\ui\web\bean\UserManagedBean.class
 org\rainbow\shopping\cart\ui\web\data\IntegerIdLazyDataModel.class
 org\rainbow\shopping\cart\ui\web\bean\SessionBean.class
 org\rainbow\shopping\cart\ui\web\data\TrackableLazyDataModel.class

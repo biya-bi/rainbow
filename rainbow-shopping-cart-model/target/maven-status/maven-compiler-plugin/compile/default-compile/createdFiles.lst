@@ -1,6 +1,5 @@
-org\rainbow\shopping\cart\model\Trackable.class
-org\rainbow\shopping\cart\model\User.class
 org\rainbow\shopping\cart\model\Order.class
+org\rainbow\shopping\cart\model\Trackable.class
 org\rainbow\shopping\cart\model\Account.class
 org\rainbow\shopping\cart\model\Identifiable.class
 org\rainbow\shopping\cart\model\OrderDetail.class

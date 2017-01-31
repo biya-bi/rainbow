@@ -13,19 +13,19 @@
 		<!-- </locale-config> -->
 
 		<resource-bundle>
-			<base-name>org.optimum.asset.explorer.ui.Labels</base-name>
+			<base-name>org.rainbow.shopping.cart.ui.web.Labels</base-name>
 			<var>labels</var>
 		</resource-bundle>
 		<resource-bundle>
-			<base-name>org.optimum.asset.explorer.ui.ValidationMessages</base-name>
+			<base-name>org.rainbow.shopping.cart.ui.web.ValidationMessages</base-name>
 			<var>valMsg</var>
 		</resource-bundle>
 		<resource-bundle>
-			<base-name>org.optimum.asset.explorer.ui.Messages</base-name>
+			<base-name>org.rainbow.shopping.cart.ui.web.Messages</base-name>
 			<var>msg</var>
 		</resource-bundle>
 		<resource-bundle>
-			<base-name>org.optimum.asset.explorer.ui.SecurityMessages</base-name>
+			<base-name>org.rainbow.shopping.cart.ui.web.SecurityMessages</base-name>
 			<var>secMsg</var>
 		</resource-bundle>
 	</application>

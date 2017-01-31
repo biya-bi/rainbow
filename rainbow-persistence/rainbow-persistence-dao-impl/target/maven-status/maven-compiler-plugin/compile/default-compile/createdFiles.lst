@@ -1,4 +1,3 @@
-org\rainbow\persistence\dao\impl\UserDao.class
 org\rainbow\persistence\dao\impl\Dao$1.class
 org\rainbow\persistence\dao\impl\Dao.class
 org\rainbow\persistence\dao\impl\exceptions\DuplicateProductCodeException.class
