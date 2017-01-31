@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14848529975217" configfile="/rainbow-ui-web/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="pages/index.xhtml" x="122" y="370" id="pf14848530923578" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14848530923579 pf148485309235710" path="/pages/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/success.xhtml" x="338" y="178" id="pf148485309235711" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14848530923579" path="/pages/success.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/error.xhtml" x="338" y="562" id="pf148485309235712" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf148485309235710" path="/pages/error.xhtml"/>
+  <links id="pf14848530923579" target="pf148485309235711" source="pf14848530923578" outcome="success"/>
+  <links id="pf148485309235710" target="pf148485309235712" source="pf14848530923578" outcome="error"/>
+</pageflow:Pageflow>

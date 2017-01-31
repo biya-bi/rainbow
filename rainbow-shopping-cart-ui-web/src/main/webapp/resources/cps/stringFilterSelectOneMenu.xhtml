@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+    <composite:interface>
+        <composite:attribute name="changeUpdate" />
+        <composite:attribute name="selectedValue" />
+        <composite:attribute name="changeWidgetVar" />
+    </composite:interface>
+
+    <composite:implementation>
+        <p:selectOneMenu value="#{cc.attrs.selectedValue}" onchange="PF('#{cc.attrs.changeWidgetVar}').filter()">
+            <p:ajax event="change" update="#{cc.attrs.changeUpdate}"  />
+            <f:selectItem itemLabel="#{labels.Contains}" itemValue="CONTAINS" />
+            <f:selectItem itemLabel="#{labels.DoesNotContain}" itemValue="DOES_NOT_CONTAIN" />
+            <f:selectItem itemLabel="#{labels.StartsWith}" itemValue="STARTS_WITH" />
+            <f:selectItem itemLabel="#{labels.EndsWith}" itemValue="ENDS_WITH" />
+            <f:selectItem itemLabel="#{labels.Equal}" itemValue="EQUAL" />
+            <f:selectItem itemLabel="#{labels.NotEqual}" itemValue="NOT_EQUAL" />
+            <f:selectItem itemLabel="#{labels.IsEmpty}" itemValue="IS_EMPTY" />
+            <f:selectItem itemLabel="#{labels.IsNotEmpty}" itemValue="IS_NOT_EMPTY" />
+        </p:selectOneMenu>
+    </composite:implementation>
+
+</html>
+

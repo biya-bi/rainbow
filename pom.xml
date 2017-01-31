@@ -8,7 +8,7 @@
 	<modules>
 		<module>rainbow-service</module>
 		<module>rainbow-persistence</module>
-		<module>rainbow-ui-web</module>
+		<module>rainbow-shopping-cart-ui-web</module>
 		<module>rainbow-shopping-cart-model</module>
 	</modules>
 	<properties>
