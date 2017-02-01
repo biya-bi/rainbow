@@ -8,29 +8,18 @@
 	<h:outputScript name="js/jsfcrud.js" />
 </h:head>
 
+
 <h:body>
-	<h:outputStylesheet name="css/styles.css" />
-	<p:layout fullPage="true">
-		<p:layoutUnit position="north" resizable="true" closable="true"
-			collapsible="true" styleClass="noScrolllayoutUnit">
-		</p:layoutUnit>
-		<p:layoutUnit position="south" closable="true" collapsible="true"
-			styleClass="noScrolllayoutUnit">
-			<h:panelGrid columns="2" styleClass="footer-panelgrid">
-			</h:panelGrid>
-		</p:layoutUnit>
 
-		<p:layoutUnit resizable="true" position="west" header="Dashboard"
-			collapsible="true">
-		</p:layoutUnit>
+	<ui:composition template="/layout.xhtml">
 
-		<p:layoutUnit position="center">
-			<h:panelGroup id="mainContentPanelGroup" layout="block">
-				<ui:include src="/WEB-INF/pages/products/list.xhtml" />
+		<ui:define name="bodyContent">
+			<h:panelGroup layout="block">
+				<ui:include src="#{navigationController.selectedUrl}" />
 			</h:panelGroup>
-		</p:layoutUnit>
+		</ui:define>
 
-	</p:layout>
+	</ui:composition>
 
 </h:body>
 </html>
