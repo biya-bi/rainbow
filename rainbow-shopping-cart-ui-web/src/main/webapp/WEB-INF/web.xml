@@ -22,7 +22,7 @@
     <param-value>Development</param-value>
   </context-param>
   <welcome-file-list>
-    <welcome-file>pages/index.xhtml</welcome-file>
+    <welcome-file>index.xhtml</welcome-file>
   </welcome-file-list>
     <context-param>
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>

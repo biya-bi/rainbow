@@ -4,7 +4,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-	<title>Welcome to OTV_JSF_Spring_Hibernate_Project</title>
+	<title>#{labels.ApplicationName}</title>
+	<h:outputScript name="js/jsfcrud.js" />
 </h:head>
 
 <h:body>
@@ -25,7 +26,7 @@
 
 		<p:layoutUnit position="center">
 			<h:panelGroup id="mainContentPanelGroup" layout="block">
-				<ui:include src="/pages/products/list.xhtml" />
+				<ui:include src="/WEB-INF/pages/products/list.xhtml" />
 			</h:panelGroup>
 		</p:layoutUnit>
 

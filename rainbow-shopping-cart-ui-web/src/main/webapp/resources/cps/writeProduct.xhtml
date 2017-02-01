@@ -49,14 +49,14 @@
 		</p:row>
 		<p:row>
 			<p:column>
-				<p:outputLabel styleClass="field-label" value="#{labels.PriceLabel}"
+				<p:outputLabel styleClass="field-label" value="#{labels.ProductPriceLabel}"
 					for="price" />
 			</p:column>
 			<p:column>
 				<p:inputText converterMessage="#{valMsg.PriceInvalid}"
 					validatorMessage="#{valMsg.PriceInvalid}" styleClass="field-value"
 					id="price" value="#{productController.current.price}"
-					title="#{labels.PriceTitle}" required="true"
+					title="#{labels.ProductPriceTitle}" required="true"
 					requiredMessage="#{valMsg.PriceRequired}">
 					<p:clientValidator event="keyup" />
 				</p:inputText>

@@ -11,12 +11,12 @@
 
     <composite:implementation>
         <p:panelGrid columns="2" rendered="#{productController.current != null}">
-            <p:outputLabel styleClass="field-label" value="#{labels.ProductNumberLabel}" for="code" />
+            <p:outputLabel styleClass="field-label" value="#{labels.ProductCodeLabel}" for="code" />
             <h:outputText styleClass="field-value" id="code" value="#{productController.current.code}" title="#{labels.ProductCodeTitle}"/>
             <p:outputLabel styleClass="field-label" value="#{labels.ProductNameLabel}" for="name" />
             <h:outputText styleClass="field-value" id="name" value="#{productController.current.name}" title="#{labels.ProductNameTitle}"/>
 
-            <p:outputLabel styleClass="field-label" value="#{labels.PriceLabel}" for="price" />
+            <p:outputLabel styleClass="field-label" value="#{labels.ProductPriceLabel}" for="price" />
             <h:outputText styleClass="field-value" id="price" value="#{productController.current.price}" title="#{labels.PriceTitle}"/>
           
         </p:panelGrid>
