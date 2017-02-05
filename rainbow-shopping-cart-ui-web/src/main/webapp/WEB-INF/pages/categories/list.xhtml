@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:body>
+	<cps:trackableDataGrid id="categoryList"
+		title="#{labels.ListCategoriesTitle}"
+		dataSource="#{categoryLazyDataModel}"
+		selectedItem="#{categoryController.current}"
+		selectedValue="#{item.id}"
+		createActionListener="#{categoryController.prepareCreate()}"
+		createDialog="categoryCreateDialog"
+		createUpdate=":categoryCreate:form" editDialog="categoryEditDialog"
+		editUpdate=":categoryEdit:form" detailsDialog="categoryDetailsDialog"
+		detailsUpdate=":categoryDetails:form"
+		deleteDialog="categoryDeleteDialog"
+		deleteUpdate=":categoryDelete:form"
+		columnToggleListener="#{categoryController.onToggle}"
+		creatorFilterValue="#{categoryLazyDataModel.creatorFilter.value}"
+		creatorFilterOperator="#{categoryLazyDataModel.creatorFilter.operator}"
+		updaterFilterValue="#{categoryLazyDataModel.updaterFilter.value}"
+		updaterFilterOperator="#{categoryLazyDataModel.updaterFilter.operator}"
+		creationDateFilterValue="#{categoryLazyDataModel.creationDateFilter.value}"
+		creationDateFilterOperator="#{categoryLazyDataModel.creationDateFilter.operator}"
+		lastUpdateDateFilterValue="#{categoryLazyDataModel.lastUpdateDateFilter.value}"
+		lastUpdateDateFilterOperator="#{categoryLazyDataModel.lastUpdateDateFilter.operator}"
+		creatorColumnVisible="#{categoryController.auditColumnsStates[4]}"
+		updaterColumnVisible="#{categoryController.auditColumnsStates[5]}"
+		creationDateColumnVisible="#{categoryController.auditColumnsStates[6]}"
+		lastUpdateDateColumnVisible="#{categoryController.auditColumnsStates[7]}">
+
+		<p:column headerText="#{labels.CategoryNameTitle}"
+			filterBy="#{item.name}" sortBy="#{item.name}"
+			filterValue="#{categoryLazyDataModel.nameFilter.value}">
+			<h:outputText value="#{item.name}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="categoryList:form:dataTable"
+					selectedValue="#{categoryLazyDataModel.nameFilter.operator}"
+					changeWidgetVar="categoryListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.CategoryParentTitle}"
+			filterBy="#{item.parent.name}"
+			sortBy="#{item.parent.name}"
+			filterValue="#{categoryLazyDataModel.parentNameFilter.value}">
+			<p:commandLink update=":categoryDetails:form"
+				value="#{item.parent.name}"
+				oncomplete="PF('categoryDetailsDialog').show()">
+				<f:setPropertyActionListener value="#{item.parent}"
+					target="#{categoryController.current}" />
+			</p:commandLink>
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="categoryList:form:dataTable"
+					selectedValue="#{categoryLazyDataModel.parentNameFilter.operator}"
+					changeWidgetVar="categoryListDataTable" />
+			</f:facet>
+		</p:column>
+	</cps:trackableDataGrid>
+
+	<ui:include src="/WEB-INF/pages/categories/create.xhtml" />
+	<ui:include src="/WEB-INF/pages/categories/edit.xhtml" />
+	<ui:include src="/WEB-INF/pages/categories/details.xhtml" />
+	<ui:include src="/WEB-INF/pages/categories/delete.xhtml" />
+	<ui:include src="/WEB-INF/pages/categories/parent_details.xhtml"/>
+
+</h:body>
+</html>
+

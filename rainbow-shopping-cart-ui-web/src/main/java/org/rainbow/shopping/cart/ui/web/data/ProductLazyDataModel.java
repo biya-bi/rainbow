@@ -10,9 +10,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.persistence.dao.Filter;
@@ -21,47 +21,50 @@ import org.rainbow.persistence.dao.SingleValuedFilter;
 import org.rainbow.service.api.IService;
 import org.rainbow.shopping.cart.model.Product;
 import org.rainbow.shopping.cart.ui.web.utilities.DefaultComparator;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Biya-Bi
  */
-// @Named
-@ManagedBean(name = "productLazyDataModel")
+@Component
+@Named
 @RequestScoped
 public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> {
-
-	public void setService(IService<Product> productService) {
-		this.service = productService;
-	}
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7519254045099132912L;
+	private static final long serialVersionUID = 239573269282240813L;
 
-	@ManagedProperty(value = "#{productService}")
+	@Inject
+	@Qualifier("productService")
 	private IService<Product> service;
 
 	private static final String NAME_FILTER = "name";
 	private static final String CODE_FILTER = "code";
 	private static final String PRICE_FILTER = "price";
+	private static final String CATEGORY_NAME_FILTER = "category.name";
 
 	private final List<Filter<?>> filters;
 
 	private final SingleValuedFilter<String> nameFilter;
 	private final SingleValuedFilter<String> codeFilter;
 	private final SingleValuedFilter<String> priceFilter;
+	private final SingleValuedFilter<String> categoryNameFilter;
 
 	public ProductLazyDataModel() {
 		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
 		codeFilter = new SingleValuedFilter<>(CODE_FILTER, RelationalOperator.CONTAINS, "");
 		priceFilter = new SingleValuedFilter<>(PRICE_FILTER);
+		categoryNameFilter = new SingleValuedFilter<>(CATEGORY_NAME_FILTER, RelationalOperator.CONTAINS, "");
 
 		filters = new ArrayList<>();
 		filters.add(nameFilter);
 		filters.add(codeFilter);
 		filters.add(priceFilter);
+		filters.add(categoryNameFilter);
 	}
 
 	@Override
@@ -79,6 +82,10 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 
 	public SingleValuedFilter<String> getPriceFilter() {
 		return priceFilter;
+	}
+
+	public SingleValuedFilter<String> getCategoryNameFilter() {
+		return categoryNameFilter;
 	}
 
 	@Override
@@ -136,6 +143,29 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 					@Override
 					public int compare(Product one, Product other) {
 						int result = comparator.compare(one.getPrice(), other.getPrice());
+						if (order == SortOrder.DESCENDING) {
+							return -result;
+						}
+						return result;
+					}
+				});
+				break;
+			}
+			case CATEGORY_NAME_FILTER: {
+				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
+				Collections.sort(list, new Comparator<Product>() {
+					@Override
+					public int compare(Product one, Product other) {
+						if (one.getCategory() == null && other.getCategory() == null) {
+							return 0;
+						}
+						if (one.getCategory() == null) {
+							return order == SortOrder.DESCENDING ? 1 : -1;
+						}
+						if (other.getCategory() == null) {
+							return order == SortOrder.DESCENDING ? -1 : 1;
+						}
+						int result = comparator.compare(one.getCategory().getName(), other.getCategory().getName());
 						if (order == SortOrder.DESCENDING) {
 							return -result;
 						}

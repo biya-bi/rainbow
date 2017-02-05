@@ -7,8 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Products")
@@ -23,6 +26,8 @@ public class Product extends Trackable<Long> {
 	private String name;
 	private double price;
 	private byte[] image;
+	private Category category;
+	private String description;
 
 	public Product() {
 	}
@@ -36,10 +41,10 @@ public class Product extends Trackable<Long> {
 
 	@Override
 	public void setId(Long id) {
-		// TODO Auto-generated method stub
 		super.setId(id);
 	}
-	
+
+	@NotNull
 	@Column(length = 20, nullable = false, unique = true)
 	public String getCode() {
 		return code;
@@ -49,6 +54,7 @@ public class Product extends Trackable<Long> {
 		this.code = code;
 	}
 
+	@NotNull
 	@Column(length = 255, nullable = false)
 	public String getName() {
 		return name;
@@ -75,6 +81,26 @@ public class Product extends Trackable<Long> {
 
 	public void setImage(byte[] image) {
 		this.image = image;
+	}
+
+	@ManyToOne
+	@NotNull
+	@JoinColumn(nullable = false)
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Column(columnDefinition = "TEXT")
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

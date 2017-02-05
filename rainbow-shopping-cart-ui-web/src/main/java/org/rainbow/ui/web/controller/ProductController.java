@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.rainbow.persistence.dao.impl.exceptions.DuplicateProductCodeException;
@@ -20,7 +21,7 @@ import org.rainbow.service.api.IService;
 import org.rainbow.shopping.cart.model.Product;
 import org.rainbow.shopping.cart.ui.web.utilities.CrudNotificationInfo;
 import org.rainbow.shopping.cart.ui.web.utilities.JsfUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,7 +39,8 @@ public class ProductController extends TrackableController<Product> {
 	 */
 	private static final long serialVersionUID = -1423310559956400949L;
 
-	@Autowired
+	@Inject
+	@Qualifier("productService")
     private IService<Product> service;
 
     private static final String DUPLICATE_PRODUCT_NUMBER_ERROR_KEY = "DuplicateProductCode";
@@ -51,10 +53,6 @@ public class ProductController extends TrackableController<Product> {
     protected IService<Product> getService() {
         return service;
     }
-
-    public void setService(IService<Product> service) {
-		this.service = service;
-	}
 
 	@Override
     protected boolean handle(Throwable throwable) {

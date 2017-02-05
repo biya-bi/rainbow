@@ -12,9 +12,15 @@
 	<context:annotation-config />
 
 	<bean id="productService" class="org.rainbow.service.api.impl.ProductService">
-		<property name="dao">
+		<constructor-arg>
 			<bean class="org.rainbow.persistence.dao.impl.ProductDao" />
-		</property>
+		</constructor-arg>
+	</bean>
+
+	<bean id="categoryService" class="org.rainbow.service.api.impl.CategoryService">
+		<constructor-arg>
+			<bean class="org.rainbow.persistence.dao.impl.CategoryDao" />
+		</constructor-arg>
 	</bean>
 
 	<bean id="dataSource"
@@ -44,7 +50,7 @@
 				<entry key="eclipselink.logging.level" value="ALL" />
 				<entry key="javax.persistence.schema-generation.database.action"
 					value="drop-and-create" />
-				<entry key="eclipselink.weaving" value="false"/>
+				<entry key="eclipselink.weaving" value="false" />
 			</map>
 		</property>
 		<!-- <property name="loadTimeWeaver"> -->
@@ -61,10 +67,11 @@
 					value="org.eclipse.persistence.platform.database.MySQLPlatform" />
 			</bean>
 		</property>
-<!-- 		<property name="loadTimeWeaver"> -->
-<!-- 			<bean -->
-<!-- 				class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver" /> -->
-<!-- 		</property> -->
+		<!-- <property name="loadTimeWeaver"> -->
+		<!-- <bean -->
+		<!-- class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver" 
+			/> -->
+		<!-- </property> -->
 	</bean>
 
 	<!-- Enable the configuration of transactional behavior based on annotations -->

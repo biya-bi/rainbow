@@ -1,10 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:composite="http://java.sun.com/jsf/composite"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
-	xmlns:t="http://asset.explorer.optimum.org/ui">
+	xmlns:t="http://shopping.cart.rainbow.org/ui">
 
 <composite:interface>
 </composite:interface>
@@ -49,21 +48,60 @@
 		</p:row>
 		<p:row>
 			<p:column>
-				<p:outputLabel styleClass="field-label" value="#{labels.ProductPriceLabel}"
-					for="price" />
+				<p:outputLabel styleClass="field-label"
+					value="#{labels.ProductPriceLabel}" for="price" />
 			</p:column>
 			<p:column>
-				<p:inputText converterMessage="#{valMsg.PriceInvalid}"
-					validatorMessage="#{valMsg.PriceInvalid}" styleClass="field-value"
-					id="price" value="#{productController.current.price}"
+				<p:inputText converterMessage="#{valMsg.ProductPriceInvalid}"
+					validatorMessage="#{valMsg.ProductPriceInvalid}"
+					styleClass="field-value" id="price"
+					value="#{productController.current.price}"
 					title="#{labels.ProductPriceTitle}" required="true"
-					requiredMessage="#{valMsg.PriceRequired}">
+					requiredMessage="#{valMsg.ProductPriceRequired}">
 					<p:clientValidator event="keyup" />
 				</p:inputText>
 			</p:column>
 			<p:column />
 			<p:column>
 				<p:message for="price" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel id="categoryLabel" styleClass="field-label"
+					value="#{labels.ProductCategoryLabel}" for="categoryDropDown" />
+			</p:column>
+			<p:column>
+				<t:dropDown styleClass="field-value" id="categoryDropDown"
+					labelId="categoryLabel" messageId="categoryDropDownMessage"
+					rowKey="#{item.id}"
+					selectionText="#{productController.current.category.name}"
+					dataSource="#{categoryLazyDataModel}" itemLabel="#{item.name}"
+					selection="#{productController.current.category}"
+					filterValue="#{categoryLazyDataModel.nameFilter.value}"
+					toolTip="#{labels.ProductCategoryTitle}" required="true"
+					requiredMessage="#{valMsg.ProductCategoryRequired}" />
+			</p:column>
+			<p:column>
+				<cps:quickCreateButton
+					actionListener="#{categoryController.prepareCreate()}"
+					update=":categoryCreate:form"
+					dialogWidgetVar="categoryCreateDialog"
+					title="#{labels.CreateCategoryTitle}" />
+			</p:column>
+			<p:column>
+				<p:message id="categoryDropDownMessage" for="categoryDropDown" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel styleClass="field-label"
+					value="#{labels.ProductDescriptionLabel}" />
+			</p:column>
+			<p:column>
+				<p:inputTextarea styleClass="field-value" id="description"
+					value="#{productController.current.description}"
+					title="#{labels.ProductDescriptionTitle}" />
 			</p:column>
 		</p:row>
 	</p:panelGrid>

@@ -15,7 +15,10 @@ import javax.persistence.Table;
 @Table(name = "Order_Details")
 public class OrderDetail extends Trackable<Long> {
 
-	private static final long serialVersionUID = 7550745928843183535L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9078319944416714611L;
 	private Order order;
 	private Product product;
 	private int quanity;
@@ -35,7 +38,7 @@ public class OrderDetail extends Trackable<Long> {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ORDER_ID", nullable = false, foreignKey = @ForeignKey(name = "ORDER_DETAIL_ORD_FK"))
+	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "ORDER_DETAIL_ORD_FK"))
 	public Order getOrder() {
 		return order;
 	}
@@ -45,7 +48,7 @@ public class OrderDetail extends Trackable<Long> {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PRODUCT_ID", nullable = false, foreignKey = @ForeignKey(name = "ORDER_DETAIL_PROD_FK"))
+	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "ORDER_DETAIL_PROD_FK"))
 	public Product getProduct() {
 		return product;
 	}

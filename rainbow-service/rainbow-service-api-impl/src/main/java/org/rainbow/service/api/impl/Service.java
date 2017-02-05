@@ -11,12 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class Service<T> implements IService<T> {
 	private IDao<T> dao;
 
-	public IDao<T> getDao() {
-		return dao;
+	public Service(IDao<T> dao) {
+		if (dao == null)
+			throw new IllegalArgumentException("The dao argument cannot be null.");
+		this.dao = dao;
 	}
 
-	public void setDao(IDao<T> dao) {
-		this.dao = dao;
+	public IDao<T> getDao() {
+		return dao;
 	}
 
 	@Override

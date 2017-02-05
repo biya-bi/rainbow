@@ -1,24 +1,35 @@
 package org.rainbow.shopping.cart.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "Orders", uniqueConstraints = { @UniqueConstraint(columnNames = "Order_Num") })
+@Table(name = "Orders")
 public class Order extends Trackable<Long> {
 
-	private static final long serialVersionUID = -2576670215015463100L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1113933775141589254L;
 
 	private Date orderDate;
-	private int orderNum;
+	private long orderNumber;
 	private double amount;
+	private OrderStatus status;
+	private List<OrderDetail> details;
 
 	private String customerName;
 	private String customerAddress;
@@ -34,11 +45,12 @@ public class Order extends Trackable<Long> {
 
 	@Override
 	public void setId(Long id) {
-		// TODO Auto-generated method stub
 		super.setId(id);
 	}
 
-	@Column(name = "Order_Date", nullable = false)
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	public Date getOrderDate() {
 		return orderDate;
 	}
@@ -47,16 +59,16 @@ public class Order extends Trackable<Long> {
 		this.orderDate = orderDate;
 	}
 
-	@Column(name = "Order_Num", nullable = false)
-	public int getOrderNum() {
-		return orderNum;
+	@Column(nullable = false, unique = true)
+	public long getOrderNumber() {
+		return orderNumber;
 	}
 
-	public void setOrderNum(int orderNum) {
-		this.orderNum = orderNum;
+	public void setOrderNumber(long orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
-	@Column(name = "Amount", nullable = false)
+	@Column(nullable = false)
 	public double getAmount() {
 		return amount;
 	}
@@ -65,7 +77,25 @@ public class Order extends Trackable<Long> {
 		this.amount = amount;
 	}
 
-	@Column(name = "Customer_Name", length = 255, nullable = false)
+	@Enumerated(EnumType.STRING)
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
+	@OneToMany(mappedBy = "order")
+	public List<OrderDetail> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<OrderDetail> details) {
+		this.details = details;
+	}
+
+	@Column(length = 255, nullable = false)
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -74,7 +104,7 @@ public class Order extends Trackable<Long> {
 		this.customerName = customerName;
 	}
 
-	@Column(name = "Customer_Address", length = 255, nullable = false)
+	@Column(length = 255, nullable = false)
 	public String getCustomerAddress() {
 		return customerAddress;
 	}
@@ -83,7 +113,7 @@ public class Order extends Trackable<Long> {
 		this.customerAddress = customerAddress;
 	}
 
-	@Column(name = "Customer_Email", length = 128, nullable = false)
+	@Column(length = 128, nullable = false)
 	public String getCustomerEmail() {
 		return customerEmail;
 	}
@@ -92,7 +122,7 @@ public class Order extends Trackable<Long> {
 		this.customerEmail = customerEmail;
 	}
 
-	@Column(name = "Customer_Phone", length = 128, nullable = false)
+	@Column(length = 128, nullable = false)
 	public String getCustomerPhone() {
 		return customerPhone;
 	}
