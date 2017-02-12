@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
 	xmlns:t="http://shopping.cart.rainbow.org/ui">
@@ -13,37 +13,60 @@
 	<p:panelGrid rendered="#{categoryController.current != null}">
 		<p:row>
 			<p:column>
-				<p:outputLabel styleClass="field-label"
-					value="#{labels.CategoryNameLabel}" for="name" />
+				<p:panelGrid>
+					<p:graphicImage id="graphicImage"
+						value="#{categoryController.photo}" styleClass="photo-style" />
+				</p:panelGrid>
 			</p:column>
 			<p:column>
-				<p:inputText styleClass="field-value" id="name"
-					value="#{categoryController.current.name}"
-					title="#{labels.CategoryNameTitle}" required="true"
-					requiredMessage="#{valMsg.CategoryNameRequired}">
-					<p:clientValidator event="keyup" />
-				</p:inputText>
-			</p:column>
-			<p:column />
-			<p:column>
-				<p:message for="name" />
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.CategoryNameLabel}" for="name" />
+						</p:column>
+						<p:column>
+							<p:inputText styleClass="field-value" id="name"
+								value="#{categoryController.current.name}"
+								title="#{labels.CategoryNameTitle}" required="true"
+								requiredMessage="#{valMsg.CategoryNameRequired}">
+								<p:clientValidator event="keyup" />
+							</p:inputText>
+						</p:column>
+						<p:column />
+						<p:column>
+							<p:message for="name" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<p:outputLabel id="categoryParentLabel" styleClass="field-label"
+								value="#{labels.CategoryParentLabel}"
+								for="categoryParentDropDown" />
+						</p:column>
+						<p:column>
+							<t:dropDown styleClass="field-value" id="categoryParentDropDown"
+								labelId="categoryLabel" messageId="categoryDropDownMessage"
+								rowKey="#{item.id}"
+								selectionText="#{categoryController.current.parent.name}"
+								dataSource="#{categoryLazyDataModel}" itemLabel="#{item.name}"
+								selection="#{categoryController.current.parent}"
+								filterValue="#{categoryLazyDataModel.nameFilter.value}"
+								toolTip="#{labels.CategoryParentTitle}" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
 			</p:column>
 		</p:row>
-
 		<p:row>
-			<p:column>
-				<p:outputLabel id="categoryParentLabel" styleClass="field-label"
-					value="#{labels.CategoryParentLabel}" for="categoryParentDropDown" />
-			</p:column>
-			<p:column>
-				<t:dropDown styleClass="field-value" id="categoryParentDropDown"
-					labelId="categoryLabel" messageId="categoryDropDownMessage"
-					rowKey="#{item.id}"
-					selectionText="#{categoryController.current.parent.name}"
-					dataSource="#{categoryLazyDataModel}" itemLabel="#{item.name}"
-					selection="#{categoryController.current.parent}"
-					filterValue="#{categoryLazyDataModel.nameFilter.value}"
-					toolTip="#{labels.CategoryParentTitle}" />
+			<p:column colspan="2">
+				<p:fileUpload id="fileUpload"
+					fileUploadListener="#{categoryController.uploadPhoto}"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="1024000"
+					styleClass="field-value" label="#{labels.ChoosePhotoLabel}"
+					uploadLabel="#{labels.UploadPhotoLabel}"
+					cancelLabel="#{labels.Cancel}" update="graphicImage" />
 			</p:column>
 		</p:row>
 	</p:panelGrid>

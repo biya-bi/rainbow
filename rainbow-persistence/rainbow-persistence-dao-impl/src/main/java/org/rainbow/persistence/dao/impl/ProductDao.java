@@ -1,10 +1,14 @@
 package org.rainbow.persistence.dao.impl;
 
+import java.util.logging.Logger;
+
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
 import org.rainbow.persistence.dao.impl.exceptions.DuplicateProductCodeException;
 import org.rainbow.persistence.dao.impl.exceptions.DuplicateProductNameException;
+import org.rainbow.shopping.cart.model.File;
 import org.rainbow.shopping.cart.model.Product;
 
 @Pageable(attributeName = "id")
@@ -46,6 +50,28 @@ public class ProductDao extends Dao<Product> {
 			break;
 		default:
 			break;
+		}
+	}
+
+	@Override
+	public void update(Product entity) throws Exception {
+		super.update(entity);
+		if (entity.getPhoto() != null) {
+			boolean photoExists = false;
+			if (entity.getPhoto().getId() != null) {
+				try {
+					File persistentPhoto = em.getReference(File.class, entity.getPhoto().getId());
+					if (persistentPhoto != null && persistentPhoto.getId().equals(entity.getPhoto().getId()))
+						photoExists = true;
+				} catch (EntityNotFoundException e) {
+					Logger.getLogger(this.getClass().getName()).warning(entity.getPhoto() + " was not found.");
+					System.out.println(entity.getPhoto() + " was not found.");
+				}
+			}
+			if (!photoExists)
+				em.persist(entity.getPhoto());
+			else
+				em.merge(entity.getPhoto());
 		}
 	}
 }

@@ -2,14 +2,16 @@ package org.rainbow.shopping.cart.model;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -25,9 +27,9 @@ public class Product extends Trackable<Long> {
 	private String code;
 	private String name;
 	private double price;
-	private byte[] image;
 	private Category category;
 	private String description;
+	private File photo;
 
 	public Product() {
 	}
@@ -73,16 +75,6 @@ public class Product extends Trackable<Long> {
 		this.price = price;
 	}
 
-	@Lob
-	@Column(length = Integer.MAX_VALUE, nullable = true)
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
-
 	@ManyToOne
 	@NotNull
 	@JoinColumn(nullable = false)
@@ -101,6 +93,16 @@ public class Product extends Trackable<Long> {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@JoinTable(name = "Products_Photos", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "PHOTO_ID"))
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	public File getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(File photo) {
+		this.photo = photo;
 	}
 
 }

@@ -66,4 +66,9 @@ public abstract class Identifiable<T extends Serializable> implements Serializab
 		final Identifiable<?> other = (Identifiable<?>) obj;
 		return Objects.equals(this.getId(), other.getId());
 	}
+
+	@Override
+	public String toString() {
+		return this.getClass().getName() + "[ id=" + getId() + " ]";
+	}
 }

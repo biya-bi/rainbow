@@ -130,11 +130,19 @@
 			<artifactId>weld-se</artifactId>
 			<version>${weld.version}</version>
 		</dependency>
+
+		<!-- Dependencies required for file upload by primefaces. -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-instrument</artifactId>
-			<version>${springframework.version}</version>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>${commons.fileupload.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons.io.version}</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<finalName>rainbow-shopping-cart-ui-web</finalName>
@@ -170,6 +178,8 @@
 		<classmate.version>1.3.3</classmate.version>
 		<eclipselink.version>2.6.2</eclipselink.version>
 		<weld.version>2.0.1.Final</weld.version>
+		<commons.fileupload.version>1.3.1</commons.fileupload.version>
+		<commons.io.version>2.4</commons.io.version>
 	</properties>
 	<parent>
 		<groupId>org.rainbow</groupId>

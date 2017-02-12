@@ -56,7 +56,6 @@ public class Service<T> implements IService<T> {
 
 	@Override
 	public long count(SearchOptions options) throws Exception {
-		// TODO Auto-generated method stub
 		return dao.count(options);
 	}
 }

@@ -7,6 +7,7 @@ package org.rainbow.ui.web.controller;
 
 import static org.rainbow.shopping.cart.ui.web.utilities.ResourceBundles.CRUD_MESSAGES;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,9 +16,14 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.rainbow.persistence.dao.impl.exceptions.DuplicateCategoryNameException;
 import org.rainbow.service.api.IService;
 import org.rainbow.shopping.cart.model.Category;
+import org.rainbow.shopping.cart.model.File;
+import org.rainbow.shopping.cart.ui.web.utilities.BytesToImageConverter;
 import org.rainbow.shopping.cart.ui.web.utilities.CrudNotificationInfo;
 import org.rainbow.shopping.cart.ui.web.utilities.JsfUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,10 +48,13 @@ public class CategoryController extends TrackableController<Category> {
 	@Qualifier("categoryService")
 	private IService<Category> service;
 
+	@Inject
+	private BytesToImageConverter bytesToImageConverter;
+
 	private static final String DUPLICATE_CATEGORY_NAME_ERROR_KEY = "DuplicateCategoryName";
 
 	private Category parent;
-	
+
 	public CategoryController() {
 		super(Category.class);
 	}
@@ -74,6 +83,22 @@ public class CategoryController extends TrackableController<Category> {
 	public void setParent(Category parent) {
 		this.parent = parent;
 	}
-	
-	
+
+	public void uploadPhoto(FileUploadEvent event) {
+		if (this.getCurrent() != null) {
+			if (this.getCurrent().getPhoto() == null)
+				this.getCurrent().setPhoto(new File());
+			File photo = this.getCurrent().getPhoto();
+			photo.setFileName(event.getFile().getFileName());
+			photo.setFileContent(event.getFile().getContents());
+			photo.setFileContentType(event.getFile().getContentType());
+			photo.setFileSize(event.getFile().getSize());
+		}
+	}
+
+	public StreamedContent getPhoto() throws IOException {
+		if (this.getCurrent() == null || this.getCurrent().getPhoto() == null)
+			return new DefaultStreamedContent();
+		return bytesToImageConverter.getImage(this.getCurrent().getPhoto());
+	}
 }
