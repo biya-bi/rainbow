@@ -16,10 +16,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
+
 /**
  *
  * @author Biya-Bi
  */
+@Component
 @Named
 @ViewScoped
 public class NavigationController implements Serializable {
@@ -33,9 +36,7 @@ public class NavigationController implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		// Cookie[] cookies = ((HttpServletRequest)
-		// FacesContext.getCurrentInstance().getExternalContext().getRequest()).getCookies();
-
+	
 		FacesContext instance = FacesContext.getCurrentInstance();
 		if (instance != null) {
 			ExternalContext context = instance.getExternalContext();

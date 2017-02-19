@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.FileUploadEvent;
@@ -26,6 +25,7 @@ import org.rainbow.shopping.cart.model.Photo;
 import org.rainbow.shopping.cart.ui.web.utilities.BytesToImageConverter;
 import org.rainbow.shopping.cart.ui.web.utilities.CrudNotificationInfo;
 import org.rainbow.shopping.cart.ui.web.utilities.JsfUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -44,11 +44,11 @@ public class CategoryController extends TrackableController<Category> {
 	 */
 	private static final long serialVersionUID = -7800239219356574364L;
 
-	@Inject
+	@Autowired
 	@Qualifier("categoryService")
 	private IService<Category> service;
 
-	@Inject
+	@Autowired
 	private BytesToImageConverter bytesToImageConverter;
 
 	private static final String DUPLICATE_CATEGORY_NAME_ERROR_KEY = "DuplicateCategoryName";

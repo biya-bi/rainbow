@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.DragDropEvent;
@@ -19,6 +18,7 @@ import org.rainbow.shopping.cart.model.OrderDetail;
 import org.rainbow.shopping.cart.model.OrderStatus;
 import org.rainbow.shopping.cart.model.Product;
 import org.rainbow.shopping.cart.ui.web.model.CartLine;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -34,11 +34,11 @@ public class StoreController implements Serializable {
 
 	private static final Logger _log = Logger.getLogger(StoreController.class.getName());
 
-	@Inject
+	@Autowired
 	@Qualifier("categoryService")
 	private IService<Category> categoryService;
 
-	@Inject
+	@Autowired
 	@Qualifier("orderService")
 	private IService<Order> orderService;
 

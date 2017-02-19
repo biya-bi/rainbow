@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta http-equiv="pragma" content="no-cache" />
+			<meta http-equiv="cache-control" content="no-cache" />
+			<meta http-equiv="expires" content="0" />
+		</f:facet>
+
+		<ui:insert name="head" />
+		<f:facet name="last">
+			<h:outputStylesheet name="css/styles.css" />
+			<h:outputScript name="js/jsfcrud.js" />
+		</f:facet>
+		<title>#{labels.ApplicationName}</title>
+	</h:head>
+
+	<h:body>
+		<p:layout fullPage="true">
+			<p:layoutUnit position="center">
+				<div id="menubar">
+					<ui:insert name="menubars">
+						<h:form>
+							<p:menubar>
+								<p:menuitem value="#{labels.DashboardLabel}" ajax="false"
+									actionListener="#{navigationController.setSelectedUrl('/WEB-INF/pages/home.xhtml')}"
+									icon="ui-icon-home" />
+								<p:submenu label="#{labels.StoreManagementLabel}">
+									<p:menuitem value="#{labels.ListProductsTitle}" ajax="false"
+										actionListener="#{navigationController.setSelectedUrl('/WEB-INF/pages/products/list.xhtml')}" />
+									<p:menuitem value="#{labels.ListCategoriesTitle}" ajax="false"
+										actionListener="#{navigationController.setSelectedUrl('/WEB-INF/pages/categories/list.xhtml')}" />
+									<p:menuitem value="#{labels.ListDiscountsTitle}" ajax="false"
+										actionListener="#{navigationController.setSelectedUrl('/WEB-INF/pages/discounts/list.xhtml')}" />
+								</p:submenu>
+								<p:submenu label="#{labels.OrderManagementLabel}">
+									<p:menuitem value="#{labels.ProcessOrderLabel}" />
+								</p:submenu>
+								<p:menuitem value="#{labels.LogoutLabel}" />
+							</p:menubar>
+						</h:form>
+					</ui:insert>
+				</div>
+				<p:panel style="min-height: 200px;">
+					<ui:insert name="bodyContent" />
+				</p:panel>
+			</p:layoutUnit>
+		</p:layout>
+	</h:body>
+
+</f:view>
+</html>

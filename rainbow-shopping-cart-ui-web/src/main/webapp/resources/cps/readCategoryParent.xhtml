@@ -13,8 +13,8 @@
 	<p:panelGrid columns="2"
 		rendered="#{categoryController.parent != null}">
 		<p:panelGrid>
-			<p:graphicImage id="graphicImage" value="#{categoryController.parentPhoto}"
-				styleClass="photo-style" />
+			<p:graphicImage id="graphicImage"
+				value="#{categoryController.parentPhoto}" styleClass="photo-style" />
 		</p:panelGrid>
 		<p:panelGrid columns="2">
 			<p:outputLabel styleClass="field-label"
@@ -35,6 +35,7 @@
 					target="#{categoryController.parent}" />
 			</p:commandLink>
 		</p:panelGrid>
+	</p:panelGrid>
 </composite:implementation>
 </html>
 

@@ -3,7 +3,6 @@ package org.rainbow.shopping.cart.ui.web.controller;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.model.DefaultStreamedContent;
@@ -13,6 +12,7 @@ import org.rainbow.shopping.cart.model.Category;
 import org.rainbow.shopping.cart.model.Photo;
 import org.rainbow.shopping.cart.model.Product;
 import org.rainbow.shopping.cart.ui.web.utilities.BytesToImageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -21,15 +21,15 @@ import org.springframework.stereotype.Component;
 @RequestScoped
 public class PhotoController {
 
-	@Inject
+	@Autowired
 	@Qualifier("productService")
 	private IService<Product> productService;
 
-	@Inject
+	@Autowired
 	@Qualifier("categoryService")
 	private IService<Category> categoryService;
 
-	@Inject
+	@Autowired
 	private BytesToImageConverter bytesToImageConverter;
 
 	private StreamedContent getPhoto(String paramName) throws NumberFormatException, Exception {

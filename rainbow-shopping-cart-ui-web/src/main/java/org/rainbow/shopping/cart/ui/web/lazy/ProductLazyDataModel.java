@@ -11,7 +11,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.faces.bean.RequestScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
@@ -21,6 +20,7 @@ import org.rainbow.persistence.dao.SingleValuedFilter;
 import org.rainbow.service.api.IService;
 import org.rainbow.shopping.cart.model.Product;
 import org.rainbow.shopping.cart.ui.web.utilities.DefaultComparator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +38,7 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 	 */
 	private static final long serialVersionUID = 239573269282240813L;
 
-	@Inject
+	@Autowired
 	@Qualifier("productService")
 	private IService<Product> service;
 

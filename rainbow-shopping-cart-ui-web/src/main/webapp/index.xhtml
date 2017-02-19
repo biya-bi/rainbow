@@ -1,25 +1,16 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-<h:head>
-	<title>#{labels.ApplicationName}</title>
-	<h:outputScript name="js/jsfcrud.js" />
-</h:head>
 
+<ui:composition template="templates/admin_layout.xhtml">
 
-<h:body>
+	<ui:define name="bodyContent">
+		<h:panelGroup layout="block">
+			<ui:include src="#{navigationController.selectedUrl}" />
+		</h:panelGroup>
+	</ui:define>
 
-	<ui:composition template="templates/administration_layout.xhtml">
+</ui:composition>
 
-		<ui:define name="bodyContent">
-			<h:panelGroup layout="block">
-				<ui:include src="#{navigationController.selectedUrl}" />
-			</h:panelGroup>
-		</ui:define>
-
-	</ui:composition>
-
-</h:body>
 </html>
