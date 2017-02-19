@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<p:dialog id="bulkRemoveFromCartDialog" widgetVar="bulkRemoveFromCartDialog"
+	modal="false" resizable="false"
+	header="#{labels.SetQuantityToRemoveFromCartTitle}">
+	<h:form id="bulkRemoveFromCartForm">
+		<p:panelGrid styleClass="ui-panelgrid-blank"
+			rendered="#{storeController.bulkCartLine != null and storeController.bulkCartLine.product != null}">
+			<p:commandButton validateClient="true"
+				actionListener="#{storeController.bulkRemoveFromCart}"
+				value="#{labels.RemoveFromCartLabel}" update=":centerForm:dropArea"
+				oncomplete="if (!args.validationFailed) handleSubmit(args,'bulkRemoveFromCartDialog');" />
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.ProductNameLabel}" />
+				</p:column>
+				<p:column>
+					<p:outputLabel styleClass="field-value" id="name"
+						value="#{storeController.bulkCartLine.product.name}"
+						title="#{labels.ProductNameTitle}" />
+				</p:column>
+				<p:column />
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.ProductPriceLabel}" />
+				</p:column>
+				<p:column>
+					<p:outputLabel styleClass="field-value" id="price"
+						value="#{storeController.bulkCartLine.product.price}"
+						title="#{labels.ProductPriceTitle}">
+						<f:convertNumber currencySymbol="$" type="currency" />
+					</p:outputLabel>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.QuantityLabel}" for="quantity" />
+				</p:column>
+				<p:column>
+					<p:inputText required="true" styleClass="field-value" id="quantity"
+						value="#{storeController.bulkCartLine.quantity}"
+						title="#{labels.BulkRemoveFromCartQuantityTitle}"
+						update=":bulkAddToCartForm:subTotal">
+						<p:clientValidator event="keyup" />
+						<f:validateLongRange minimum="1" />
+					</p:inputText>
+				</p:column>
+				<p:column>
+					<p:message for="quantity" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel id="categoryLabel" styleClass="field-label"
+						value="#{labels.ProductCategoryLabel}" />
+				</p:column>
+				<p:column>
+					<p:outputLabel styleClass="field-value"
+						title="#{labels.ProductCategoryTitle}"
+						value="#{storeController.bulkCartLine.product.category.name}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.ProductDescriptionLabel}" />
+				</p:column>
+				<p:column>
+					<p:outputLabel styleClass="field-value" id="description"
+						value="#{storeController.bulkCartLine.product.description}"
+						title="#{labels.ProductDescriptionTitle}" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</h:form>
+</p:dialog>
+</html>
+

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.rainbow.ui.web.controller;
+package org.rainbow.shopping.cart.ui.web.controller;
 
 import static org.rainbow.shopping.cart.ui.web.utilities.ResourceBundles.CRUD_MESSAGES;
 
@@ -19,11 +19,10 @@ import javax.inject.Named;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.rainbow.persistence.dao.impl.exceptions.DuplicateProductCodeException;
-import org.rainbow.persistence.dao.impl.exceptions.DuplicateProductNameException;
+import org.rainbow.persistence.dao.impl.exceptions.DuplicateCategoryNameException;
 import org.rainbow.service.api.IService;
-import org.rainbow.shopping.cart.model.File;
-import org.rainbow.shopping.cart.model.Product;
+import org.rainbow.shopping.cart.model.Category;
+import org.rainbow.shopping.cart.model.Photo;
 import org.rainbow.shopping.cart.ui.web.utilities.BytesToImageConverter;
 import org.rainbow.shopping.cart.ui.web.utilities.CrudNotificationInfo;
 import org.rainbow.shopping.cart.ui.web.utilities.JsfUtil;
@@ -37,57 +36,59 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-@CrudNotificationInfo(createdMessageKey = "ProductCreated", updatedMessageKey = "ProductUpdated", deletedMessageKey = "ProductDeleted")
-public class ProductController extends TrackableController<Product> {
+@CrudNotificationInfo(createdMessageKey = "CategoryCreated", updatedMessageKey = "CategoryUpdated", deletedMessageKey = "CategoryDeleted")
+public class CategoryController extends TrackableController<Category> {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1423310559956400949L;
+	private static final long serialVersionUID = -7800239219356574364L;
 
 	@Inject
-	@Qualifier("productService")
-	private IService<Product> service;
+	@Qualifier("categoryService")
+	private IService<Category> service;
 
 	@Inject
 	private BytesToImageConverter bytesToImageConverter;
 
-	private static final String DUPLICATE_PRODUCT_NUMBER_ERROR_KEY = "DuplicateProductCode";
-	private static final String DUPLICATE_PRODUCT_NAME_ERROR_KEY = "DuplicateProductName";
+	private static final String DUPLICATE_CATEGORY_NAME_ERROR_KEY = "DuplicateCategoryName";
 
-	public ProductController() {
-		super(Product.class);
+	private Category parent;
+
+	public CategoryController() {
+		super(Category.class);
 	}
 
 	@Override
-	protected IService<Product> getService() {
+	protected IService<Category> getService() {
 		return service;
 	}
 
 	@Override
 	protected boolean handle(Throwable throwable) {
-		if (throwable instanceof DuplicateProductCodeException) {
+		if (throwable instanceof DuplicateCategoryNameException) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
-			DuplicateProductCodeException e = (DuplicateProductCodeException) throwable;
-			JsfUtil.addErrorMessage(
-					String.format(ResourceBundle.getBundle(CRUD_MESSAGES).getString(DUPLICATE_PRODUCT_NUMBER_ERROR_KEY),
-							e.getCode()));
-			return true;
-		} else if (throwable instanceof DuplicateProductNameException) {
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
-			DuplicateProductNameException e = (DuplicateProductNameException) throwable;
+			DuplicateCategoryNameException e = (DuplicateCategoryNameException) throwable;
 			JsfUtil.addErrorMessage(String.format(
-					ResourceBundle.getBundle(CRUD_MESSAGES).getString(DUPLICATE_PRODUCT_NAME_ERROR_KEY), e.getName()));
+					ResourceBundle.getBundle(CRUD_MESSAGES).getString(DUPLICATE_CATEGORY_NAME_ERROR_KEY), e.getName()));
 			return true;
 		}
 		return super.handle(throwable);
 	}
 
+	public Category getParent() {
+		return parent;
+	}
+
+	public void setParent(Category parent) {
+		this.parent = parent;
+	}
+
 	public void uploadPhoto(FileUploadEvent event) {
 		if (this.getCurrent() != null) {
 			if (this.getCurrent().getPhoto() == null)
-				this.getCurrent().setPhoto(new File());
-			File photo = this.getCurrent().getPhoto();
+				this.getCurrent().setPhoto(new Photo());
+			Photo photo = this.getCurrent().getPhoto();
 			photo.setFileName(event.getFile().getFileName());
 			photo.setFileContent(event.getFile().getContents());
 			photo.setFileContentType(event.getFile().getContentType());
@@ -99,5 +100,12 @@ public class ProductController extends TrackableController<Product> {
 		if (this.getCurrent() == null || this.getCurrent().getPhoto() == null)
 			return new DefaultStreamedContent();
 		return bytesToImageConverter.getImage(this.getCurrent().getPhoto());
+	}
+
+	public StreamedContent getParentPhoto() throws IOException {
+		if (this.getCurrent() == null || this.getCurrent().getParent() == null
+				|| this.getCurrent().getParent().getPhoto() == null)
+			return new DefaultStreamedContent();
+		return bytesToImageConverter.getImage(this.getCurrent().getParent().getPhoto());
 	}
 }

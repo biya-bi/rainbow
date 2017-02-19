@@ -3,6 +3,7 @@ package org.rainbow.shopping.cart.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,18 +24,22 @@ public class Order extends Trackable<Long> {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1113933775141589254L;
-
+	private static final long serialVersionUID = 9051757464615686775L;
 	private Date orderDate;
 	private long orderNumber;
 	private double amount;
 	private OrderStatus status;
 	private List<OrderDetail> details;
 
-	private String customerName;
-	private String customerAddress;
-	private String customerEmail;
-	private String customerPhone;
+	private String lastName;
+	private String firstName;
+	private String address;
+	private String email;
+	private String phone;
+	private String street;
+	private String postalCode;
+	private String city;
+	private String info;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,7 +64,7 @@ public class Order extends Trackable<Long> {
 		this.orderDate = orderDate;
 	}
 
-	@Column(nullable = false, unique = true)
+	@Column(name = "ORDER_NUMBER", nullable = false/* , unique = true */)
 	public long getOrderNumber() {
 		return orderNumber;
 	}
@@ -86,7 +91,7 @@ public class Order extends Trackable<Long> {
 		this.status = status;
 	}
 
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "order", cascade = { CascadeType.ALL })
 	public List<OrderDetail> getDetails() {
 		return details;
 	}
@@ -95,40 +100,84 @@ public class Order extends Trackable<Long> {
 		this.details = details;
 	}
 
+	@NotNull
+	@Column(name = "LAST_NAME", length = 255, nullable = false)
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	@Column(name = "FIRST_NAME")
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
 	@Column(length = 255, nullable = false)
-	public String getCustomerName() {
-		return customerName;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-
-	@Column(length = 255, nullable = false)
-	public String getCustomerAddress() {
-		return customerAddress;
-	}
-
-	public void setCustomerAddress(String customerAddress) {
-		this.customerAddress = customerAddress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	@Column(length = 128, nullable = false)
-	public String getCustomerEmail() {
-		return customerEmail;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setCustomerEmail(String customerEmail) {
-		this.customerEmail = customerEmail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Column(length = 128, nullable = false)
-	public String getCustomerPhone() {
-		return customerPhone;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setCustomerPhone(String customerPhone) {
-		this.customerPhone = customerPhone;
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	@Column(name = "POSTAL_CODE")
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	@Column(columnDefinition = "TEXT")
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 }

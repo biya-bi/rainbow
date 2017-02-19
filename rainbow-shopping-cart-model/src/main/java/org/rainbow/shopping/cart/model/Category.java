@@ -30,7 +30,7 @@ public class Category extends Trackable<Long> {
 	private Category parent;
 	private List<Product> products;
 	private List<Category> children;
-	private File photo;
+	private Photo photo;
 
 	public Category() {
 	}
@@ -85,11 +85,11 @@ public class Category extends Trackable<Long> {
 
 	@JoinTable(name = "Categories_Photos", joinColumns = @JoinColumn(name = "CATEGORY_ID"), inverseJoinColumns = @JoinColumn(name = "PHOTO_ID"))
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
-	public File getPhoto() {
+	public Photo getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(File photo) {
+	public void setPhoto(Photo photo) {
 		this.photo = photo;
 	}
 }

@@ -23,6 +23,12 @@
 		</constructor-arg>
 	</bean>
 
+	<bean id="orderService" class="org.rainbow.service.api.impl.OrderService">
+		<constructor-arg>
+			<bean class="org.rainbow.persistence.dao.impl.OrderDao" />
+		</constructor-arg>
+	</bean>
+
 	<bean id="dataSource"
 		class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
 		<property name="url"

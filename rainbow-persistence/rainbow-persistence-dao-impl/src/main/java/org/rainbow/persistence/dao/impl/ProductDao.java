@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import org.rainbow.persistence.dao.impl.exceptions.DuplicateProductCodeException;
 import org.rainbow.persistence.dao.impl.exceptions.DuplicateProductNameException;
-import org.rainbow.shopping.cart.model.File;
+import org.rainbow.shopping.cart.model.Photo;
 import org.rainbow.shopping.cart.model.Product;
 
 @Pageable(attributeName = "id")
@@ -60,7 +60,7 @@ public class ProductDao extends Dao<Product> {
 			boolean photoExists = false;
 			if (entity.getPhoto().getId() != null) {
 				try {
-					File persistentPhoto = em.getReference(File.class, entity.getPhoto().getId());
+					Photo persistentPhoto = em.getReference(Photo.class, entity.getPhoto().getId());
 					if (persistentPhoto != null && persistentPhoto.getId().equals(entity.getPhoto().getId()))
 						photoExists = true;
 				} catch (EntityNotFoundException e) {

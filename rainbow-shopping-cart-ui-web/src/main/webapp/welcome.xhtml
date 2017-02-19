@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="templates/store_layout.xhtml">
+
+	<ui:define name="head">
+		<h:outputScript>
+        function handleDrop(event, ui) {
+        var droppedCar = ui.draggable;
+        droppedCar.fadeOut('fast');
+        }
+    </h:outputScript>
+
+	</ui:define>
+
+	<ui:define name="leftPan">
+
+		<h:form>
+			<p:dataGrid value="#{categoryLazyDataModel}" var="item"
+				style="border: none;" stickyHeader="false" selectionMode="single"
+				lazy="true" paginator="true"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"
+				scrollable="true" rows="20" rowsPerPageTemplate="20,40,60,80,100">
+				<p:commandLink style="a:link { text-decoration:none; }"
+					update=":centerForm:itemContiner"
+					actionListener="#{storeController.populateProductsForCategory(item)}">
+					<p:panel>
+						<p:outputLabel value="#{item.name}" />
+						<br />
+						<p:graphicImage value="#{photoController.categoryPhoto}"
+							styleClass="photo-style">
+							<f:param name="categoryId" value="#{item.id}" />
+						</p:graphicImage>
+					</p:panel>
+				</p:commandLink>
+			</p:dataGrid>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="bodyContent">
+		<h:form id="centerForm">
+			<p:fieldset id="itemContiner">
+				<p:outputLabel value="#{msg.SelectCategoryMessage}"
+					rendered="#{empty storeController.products}"
+					style="font-size:24px;" />
+
+				<p:dataGrid id="availableProducts" var="item"
+					value="#{storeController.products}" columns="3"
+					rendered="#{not empty storeController.products}">
+
+					<p:column>
+
+						<p:panel id="pnl" header="#{item.name}" style="text-align:center;">
+
+							<h:panelGrid columns="1" styleClass="panelgrid-center">
+								<p:graphicImage value="#{photoController.productPhoto}"
+									styleClass="photo-style">
+									<f:param name="productId" value="#{item.id}" />
+								</p:graphicImage>
+
+								<p:outputLabel value="#{item.price}">
+									<f:convertNumber currencySymbol="$" type="currency" />
+								</p:outputLabel>
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
+								styleClass="panelgrid-center">
+								<p:commandButton icon="ui-icon-plus"
+									value="#{labels.AddToCartLabel}"
+									style="border-bottom-right-radius: 0;border-top-right-radius: 0;margin-right: -1px;"
+									update=":centerForm:dropArea"
+									action="#{storeController.addToCart(item)}">
+									<p:ajax update=":centerForm:dropArea" />
+								</p:commandButton>
+
+								<p:commandButton process="@this"
+									actionListener="#{storeController.initBulkCartLine(item)}"
+									style="border-bottom-left-radius: 0;border-top-left-radius: 0;margin-left: -1px;"
+									icon="ui-icon-gear" update=":bulkAddToCartForm"
+									oncomplete="showDialog('bulkAddToCartDialog')"
+									title="#{labels.SetQuantityToAddToCartTitle}" />
+
+
+							</h:panelGrid>
+
+						</p:panel>
+
+						<p:draggable for="pnl" revert="true" handle=".ui-panel-titlebar"
+							stack=".ui-panel" />
+
+					</p:column>
+
+				</p:dataGrid>
+			</p:fieldset>
+
+			<p:fieldset id="selectedProducts" style="margin-top:20px">
+
+				<p:outputPanel id="dropArea">
+					<p:outputLabel value="#{msg.ShoppingCartEmptyMessage}"
+						rendered="#{empty storeController.cartLines}"
+						style="font-size:24px;" />
+
+					<p:commandButton value="#{labels.CheckoutLabel}" id="checkBtn"
+						rendered="#{not empty storeController.cartLines}" />
+					<p:overlayPanel id="checkoutNow" for="checkBtn" hideEffect="fade"
+						widgetVar="$checkoutNow">
+						<h:form>
+							<p:wizard flowListener="#{storeController.onFlowProcess}">
+								<p:tab id="personal" title="#{labels.PersonalTitle}">
+									<p:panel header="#{labels.PersonalDetailsTitle}">
+										<h:panelGrid columns="3" columnClasses="label, value"
+											styleClass="grid">
+											<p:outputLabel value="#{labels.FirstNameLabel}"
+												for="firstName" />
+											<p:inputText id="firstName" required="true"
+												label="#{labels.FirstNameTitle}"
+												value="#{storeController.order.firstName}">
+												<p:clientValidator event="keyup" />
+											</p:inputText>
+											<p:message for="firstName" />
+											<p:outputLabel value="#{labels.LastNameLabel}" for="lastName" />
+											<p:inputText id="lastName" required="true"
+												label="#{labels.LastNameTitle}"
+												value="#{storeController.order.lastName}">
+												<p:clientValidator event="keyup" />
+											</p:inputText>
+											<p:message for="lastName" />
+											<p:outputLabel value="#{labels.SkipToLastLabel}" />
+											<h:selectBooleanCheckbox value="#{storeController.skip}" />
+										</h:panelGrid>
+									</p:panel>
+								</p:tab>
+
+								<p:tab id="address" title="#{labels.AddressTitle}">
+									<p:panel header="#{labels.AddressDetailsTitle}">
+
+										<h:panelGrid columns="2" columnClasses="label, value">
+											<p:outputLabel value="#{labels.AddressLabel}" />
+											<p:inputText value="#{storeController.order.address}" />
+
+											<p:outputLabel value="#{labels.StreetLabel}" />
+											<p:inputText value="#{storeController.order.street}" />
+
+											<p:outputLabel value="#{labels.PostalCodeLabel}" />
+											<p:inputText value="#{storeController.order.postalCode}" />
+
+											<p:outputLabel value="#{labels.CityLabel}" />
+											<p:inputText value="#{storeController.order.city}" />
+
+											<p:outputLabel value="#{labels.SkipToLastLabel}" />
+											<h:selectBooleanCheckbox value="#{storeController.skip}" />
+										</h:panelGrid>
+									</p:panel>
+								</p:tab>
+
+								<p:tab id="contact" title="#{labels.ContactTitle}">
+									<p:panel header="#{labels.ContactInformationTitle}">
+										<h:panelGrid columns="3" columnClasses="label, value">
+											<p:outputLabel value="#{labels.EmailLabel}" for="email" />
+											<p:inputText id="email" required="true"
+												label="#{labels.EmailTitle}"
+												value="#{storeController.order.email}">
+												<p:clientValidator event="keyup" />
+											</p:inputText>
+											<p:message for="email" />
+											<p:outputLabel value="#{labels.PhoneLabel}" for="phone" />
+											<p:inputText id="phone"
+												value="#{storeController.order.phone}" />
+											<p:message for="phone" />
+											<p:outputLabel value="#{labels.AdditionalInformationLabel}"
+												for="additionalInfo" />
+											<p:inputTextarea id="additionalInfo"
+												value="#{storeController.order.info}" />
+											<p:message for="additionalInfo" />
+										</h:panelGrid>
+									</p:panel>
+								</p:tab>
+
+								<p:tab id="confirm" title="#{labels.ConfirmationTitle}">
+									<p:panel header="Confirmation">
+
+										<h:panelGrid id="confirmation" columns="6">
+											<p:outputLabel value="#{labels.FirstNameLabel}" />
+											<p:outputLabel value="#{storeController.order.firstName}" />
+
+											<p:outputLabel value="#{labels.LastNameLabel}" />
+											<p:outputLabel value="#{storeController.order.lastName}" />
+
+											<p:outputLabel value="#{labels.StreetLabel}" />
+											<p:outputLabel value="#{storeController.order.street}" />
+
+											<p:outputLabel value="#{labels.PostalCodeLabel}" />
+											<p:outputLabel value="#{storeController.order.postalCode}" />
+
+											<p:outputLabel value="#{labels.CityLabel}" />
+											<p:outputLabel value="#{storeController.order.city}" />
+
+											<p:outputLabel value="#{labels.EmailLabel}" />
+											<p:outputLabel value="#{storeController.order.email}" />
+
+											<p:outputLabel value="#{labels.PhoneLabel}" />
+											<p:outputLabel value="#{storeController.order.phone}" />
+
+											<p:outputLabel value="#{labels.AdditionalInformationLabel}" />
+											<p:outputLabel value="#{storeController.order.info}" />
+
+											<p:outputLabel />
+											<p:outputLabel />
+										</h:panelGrid>
+
+										<p:commandButton value="#{labels.SubmitLabel}"
+											actionListener="#{storeController.checkoutOrder}"
+											oncomplete="PF('$checkoutNow').hide();"
+											update=":centerForm:dropArea" />
+										<p:commandButton value="#{labels.CancelLabel}"
+											oncomplete="PF('$checkoutNow').hide();" />
+
+									</p:panel>
+								</p:tab>
+
+							</p:wizard>
+
+						</h:form>
+					</p:overlayPanel>
+					<p:dataTable var="line" value="#{storeController.cartLines}"
+						rendered="#{not empty storeController.cartLines}">
+
+						<p:column headerText="#{labels.ProductTitle}">
+							<p:outputLabel value="#{line.product.name}" />
+						</p:column>
+						<p:column headerText="#{labels.QuantityTitle}">
+							<p:outputLabel value="#{line.quantity}">
+								<f:convertNumber />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="#{labels.PriceTitle}">
+							<p:outputLabel value="#{line.product.price}">
+								<f:convertNumber currencySymbol="$" type="currency" />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="#{labels.SubTotalTitle}">
+							<p:outputLabel value="#{line.subTotal}">
+								<f:convertNumber currencySymbol="$" type="currency" />
+							</p:outputLabel>
+						</p:column>
+						<p:column resizable="false" toggleable="false">
+
+							<p:commandButton icon="ui-icon-minus"
+								title="#{labels.RemoveFromCartLabel}"
+								style="margin: 0 2px; max-width: 20px; max-height: 20px;"
+								update=":centerForm:dropArea"
+								action="#{storeController.removeFromCart(line.product)}">
+								<p:ajax update=":centerForm:dropArea" />
+							</p:commandButton>
+							<p:commandButton process="@this"
+								title="#{labels.SetQuantityToRemoveFromCartTitle}"
+								actionListener="#{storeController.initBulkCartLine(line.product)}"
+								style="margin: 0; max-width: 20px; max-height: 20px;"
+								icon="ui-icon-gear" update=":bulkRemoveFromCartForm"
+								oncomplete="showDialog('bulkRemoveFromCartDialog')" />
+
+						</p:column>
+						<p:columnGroup type="footer">
+							<p:row>
+								<p:column colspan="3" footerText="#{labels.TotalLabel}"
+									style="text-align:right" />
+								<p:column>
+									<f:facet name="footer">
+										<p:outputLabel value="#{storeController.cartTotal}">
+											<f:convertNumber currencySymbol="$" type="currency" />
+										</p:outputLabel>
+									</f:facet>
+								</p:column>
+								<p:column />
+							</p:row>
+						</p:columnGroup>
+					</p:dataTable>
+				</p:outputPanel>
+
+			</p:fieldset>
+
+			<p:droppable for="selectedProducts" tolerance="touch"
+				activeStyleClass="ui-state-highlight" datasource="availableProducts"
+				onDrop="handleDrop">
+				<p:ajax listener="#{storeController.onProductDrop}"
+					update="dropArea :centerForm:availableProducts" />
+			</p:droppable>
+		</h:form>
+		<ui:include src="/WEB-INF/pages/cart/add.xhtml" />
+		<ui:include src="/WEB-INF/pages/cart/remove.xhtml" />
+	</ui:define>
+</ui:composition>
+</html>

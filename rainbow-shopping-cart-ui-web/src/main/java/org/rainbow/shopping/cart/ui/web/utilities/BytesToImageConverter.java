@@ -8,13 +8,13 @@ import javax.faces.event.PhaseId;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.rainbow.shopping.cart.model.File;
+import org.rainbow.shopping.cart.model.Photo;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BytesToImageConverter {
 
-	public StreamedContent getImage(File photo) throws IOException {
+	public StreamedContent getImage(Photo photo) throws IOException {
 		if (photo == null || photo.getFileContent() == null || photo.getFileContentType() == null
 				|| FacesContext.getCurrentInstance().getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
 			return new DefaultStreamedContent();

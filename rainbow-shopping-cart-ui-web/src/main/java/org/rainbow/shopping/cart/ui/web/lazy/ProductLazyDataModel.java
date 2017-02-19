@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.rainbow.shopping.cart.ui.web.data;
+package org.rainbow.shopping.cart.ui.web.lazy;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -179,5 +179,4 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 			}
 		}
 	}
-
 }

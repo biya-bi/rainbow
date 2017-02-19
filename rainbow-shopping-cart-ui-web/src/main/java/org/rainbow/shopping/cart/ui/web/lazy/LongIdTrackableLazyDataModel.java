@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.rainbow.shopping.cart.ui.web.data;
+package org.rainbow.shopping.cart.ui.web.lazy;
 
 import org.rainbow.shopping.cart.model.Trackable;
 
@@ -12,15 +12,15 @@ import org.rainbow.shopping.cart.model.Trackable;
  * @author Biya-Bi
  * @param <TModel>
  */
-public abstract class IntegerIdTrackableLazyDataModel<TModel extends Trackable<?>> extends TrackableLazyDataModel<TModel, Integer> {
+public abstract class LongIdTrackableLazyDataModel<TModel extends Trackable<?>> extends TrackableLazyDataModel<TModel, Long> {
 
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 8524247059960772349L;
+	private static final long serialVersionUID = -8681932785449074563L;
 
 	@Override
-    protected Integer toModelId(String rowKey) {
-        return Integer.valueOf(rowKey);
+    protected Long toModelId(String rowKey) {
+        return Long.valueOf(rowKey);
     }
 }

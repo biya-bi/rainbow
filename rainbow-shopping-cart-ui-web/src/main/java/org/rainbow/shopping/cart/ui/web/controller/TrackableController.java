@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.rainbow.ui.web.controller;
+package org.rainbow.shopping.cart.ui.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;

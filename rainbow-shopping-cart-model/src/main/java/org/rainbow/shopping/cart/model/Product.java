@@ -29,7 +29,7 @@ public class Product extends Trackable<Long> {
 	private double price;
 	private Category category;
 	private String description;
-	private File photo;
+	private Photo photo;
 
 	public Product() {
 	}
@@ -97,11 +97,11 @@ public class Product extends Trackable<Long> {
 
 	@JoinTable(name = "Products_Photos", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "PHOTO_ID"))
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
-	public File getPhoto() {
+	public Photo getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(File photo) {
+	public void setPhoto(Photo photo) {
 		this.photo = photo;
 	}
 

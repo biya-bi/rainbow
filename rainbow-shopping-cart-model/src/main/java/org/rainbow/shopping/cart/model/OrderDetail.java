@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "Order_Details")
@@ -21,7 +22,7 @@ public class OrderDetail extends Trackable<Long> {
 	private static final long serialVersionUID = 9078319944416714611L;
 	private Order order;
 	private Product product;
-	private int quanity;
+	private int quantity;
 	private double price;
 	private double amount;
 
@@ -57,16 +58,17 @@ public class OrderDetail extends Trackable<Long> {
 		this.product = product;
 	}
 
-	@Column(name = "Quanity", nullable = false)
-	public int getQuanity() {
-		return quanity;
+	@Column(nullable = false)
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setQuanity(int quanity) {
-		this.quanity = quanity;
+	public void setQuantity(int quanity) {
+		this.quantity = quanity;
 	}
 
-	@Column(name = "Price", nullable = false)
+	@Column(nullable = false)
+	@Min(0)
 	public double getPrice() {
 		return price;
 	}
@@ -75,7 +77,8 @@ public class OrderDetail extends Trackable<Long> {
 		this.price = price;
 	}
 
-	@Column(name = "Amount", nullable = false)
+	@Column(nullable = false)
+	@Min(0)
 	public double getAmount() {
 		return amount;
 	}

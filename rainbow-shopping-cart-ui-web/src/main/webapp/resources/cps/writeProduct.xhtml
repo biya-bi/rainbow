@@ -3,7 +3,8 @@
 	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
-	xmlns:t="http://shopping.cart.rainbow.org/ui">
+	xmlns:t="http://shopping.cart.rainbow.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <composite:interface>
 </composite:interface>
@@ -123,7 +124,7 @@
 					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="1024000"
 					styleClass="field-value" label="#{labels.ChoosePhotoLabel}"
 					uploadLabel="#{labels.UploadPhotoLabel}"
-					cancelLabel="#{labels.Cancel}" update="graphicImage" />
+					cancelLabel="#{labels.CancelLabel}" update="graphicImage" />
 			</p:column>
 		</p:row>
 	</p:panelGrid>
