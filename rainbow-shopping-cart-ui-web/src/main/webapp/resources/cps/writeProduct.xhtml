@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
 	xmlns:p="http://primefaces.org/ui"
@@ -10,7 +10,7 @@
 </composite:interface>
 
 <composite:implementation>
-	<p:panelGrid rendered="#{productController.current != null}">
+	<p:panelGrid rendered="#{productController.current != null}" styleClass="ui-panelgrid-blank">
 		<p:row>
 			<p:column>
 				<p:panelGrid>
@@ -94,7 +94,7 @@
 						</p:column>
 						<p:column>
 							<cps:quickCreateButton
-								actionListener="#{categoryController.prepareCreate()}"
+								actionListener="#{categoryController.prepareCreate}"
 								update=":categoryCreate:form"
 								dialogWidgetVar="categoryCreateDialog"
 								title="#{labels.CreateCategoryTitle}" />

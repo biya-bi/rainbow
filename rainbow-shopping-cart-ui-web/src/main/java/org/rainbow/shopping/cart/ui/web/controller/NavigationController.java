@@ -36,7 +36,7 @@ public class NavigationController implements Serializable {
 
 	@PostConstruct
 	private void init() {
-	
+
 		FacesContext instance = FacesContext.getCurrentInstance();
 		if (instance != null) {
 			ExternalContext context = instance.getExternalContext();
@@ -66,8 +66,11 @@ public class NavigationController implements Serializable {
 		return selectedUrl;
 	}
 
-	public void setSelectedUrl(String selectedUrl) throws IOException {
+	public void setSelectedUrl(String selectedUrl) {
 		this.selectedUrl = selectedUrl;
+	}
+
+	public void processSelectedUrl() throws IOException {
 
 		if (this.selectedUrl != null) {
 

@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-<ui:composition template="templates/store_layout.xhtml">
+<ui:composition template="templates/store_template.xhtml">
 
 	<ui:define name="head">
 		<h:outputScript>
@@ -27,7 +27,9 @@
 				scrollable="true" rows="20" rowsPerPageTemplate="20,40,60,80,100">
 				<p:commandLink style="a:link { text-decoration:none; }"
 					update=":centerForm:itemContiner"
-					actionListener="#{storeController.populateProductsForCategory(item)}">
+					action="#{storeController.getProductsForCategory}">
+					<f:setPropertyActionListener value="#{item}"
+						target="#{storeController.selectedCategory}" />
 					<p:panel>
 						<p:outputLabel value="#{item.name}" />
 						<br />
@@ -73,17 +75,21 @@
 									value="#{labels.AddToCartLabel}"
 									style="border-bottom-right-radius: 0;border-top-right-radius: 0;margin-right: -1px;"
 									update=":centerForm:dropArea"
-									action="#{storeController.addToCart(item)}">
+									action="#{storeController.addToCart}">
 									<p:ajax update=":centerForm:dropArea" />
+									<f:setPropertyActionListener value="#{item}"
+										target="#{storeController.selectedProduct}" />
 								</p:commandButton>
 
 								<p:commandButton process="@this"
-									actionListener="#{storeController.initBulkCartLine(item)}"
+									action="#{storeController.initBulkCartLine}"
 									style="border-bottom-left-radius: 0;border-top-left-radius: 0;margin-left: -1px;"
 									icon="ui-icon-gear" update=":bulkAddToCartForm"
 									oncomplete="showDialog('bulkAddToCartDialog')"
-									title="#{labels.SetQuantityToAddToCartTitle}" />
-
+									title="#{labels.SetQuantityToAddToCartTitle}">
+									<f:setPropertyActionListener value="#{item}"
+										target="#{storeController.selectedProduct}" />
+								</p:commandButton>
 
 							</h:panelGrid>
 
@@ -181,7 +187,7 @@
 								</p:tab>
 
 								<p:tab id="confirm" title="#{labels.ConfirmationTitle}">
-									<p:panel header="Confirmation">
+									<p:panel header="#{labels.ConfirmationTitle}">
 
 										<h:panelGrid id="confirmation" columns="6">
 											<p:outputLabel value="#{labels.FirstNameLabel}" />
@@ -213,7 +219,7 @@
 										</h:panelGrid>
 
 										<p:commandButton value="#{labels.SubmitLabel}"
-											actionListener="#{storeController.checkoutOrder}"
+											action="#{storeController.checkoutOrder}"
 											oncomplete="PF('$checkoutNow').hide();"
 											update=":centerForm:dropArea" />
 										<p:commandButton value="#{labels.CancelLabel}"
@@ -253,15 +259,20 @@
 								title="#{labels.RemoveFromCartLabel}"
 								style="margin: 0 2px; max-width: 20px; max-height: 20px;"
 								update=":centerForm:dropArea"
-								action="#{storeController.removeFromCart(line.product)}">
+								action="#{storeController.removeFromCart}">
 								<p:ajax update=":centerForm:dropArea" />
+								<f:setPropertyActionListener value="#{line.product}"
+									target="#{storeController.selectedProduct}" />
 							</p:commandButton>
 							<p:commandButton process="@this"
 								title="#{labels.SetQuantityToRemoveFromCartTitle}"
-								actionListener="#{storeController.initBulkCartLine(line.product)}"
+								action="#{storeController.initBulkCartLine}"
 								style="margin: 0; max-width: 20px; max-height: 20px;"
 								icon="ui-icon-gear" update=":bulkRemoveFromCartForm"
-								oncomplete="showDialog('bulkRemoveFromCartDialog')" />
+								oncomplete="showDialog('bulkRemoveFromCartDialog')">
+								<f:setPropertyActionListener value="#{line.product}"
+									target="#{storeController.selectedProduct}" />
+							</p:commandButton>
 
 						</p:column>
 						<p:columnGroup type="footer">

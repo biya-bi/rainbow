@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
 	xmlns:p="http://primefaces.org/ui"
@@ -11,7 +10,7 @@
 
 <composite:implementation>
 	<p:panelGrid columns="2"
-		rendered="#{productController.current != null}">
+		rendered="#{productController.current != null}" styleClass="ui-panelgrid-blank">
 		<p:panelGrid>
 			<p:graphicImage id="graphicImage" value="#{productController.photo}"
 				styleClass="photo-style" />

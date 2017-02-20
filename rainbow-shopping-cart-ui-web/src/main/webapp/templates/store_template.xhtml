@@ -6,6 +6,18 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 <f:view contentType="text/html">
+
+	<f:loadBundle basename="org.rainbow.shopping.cart.ui.web.Labels"
+		var="labels" />
+	<f:loadBundle
+		basename="org.rainbow.shopping.cart.ui.web.ValidationMessages"
+		var="valMsg" />
+	<f:loadBundle basename="org.rainbow.shopping.cart.ui.web.Messages"
+		var="msg" />
+	<f:loadBundle
+		basename="org.rainbow.shopping.cart.ui.web.SecurityMessages"
+		var="secMsg" />
+		
 	<h:head>
 		<f:facet name="first">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

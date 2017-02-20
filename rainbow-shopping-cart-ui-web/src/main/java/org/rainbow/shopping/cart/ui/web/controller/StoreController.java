@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import org.primefaces.event.DragDropEvent;
@@ -21,10 +20,11 @@ import org.rainbow.shopping.cart.ui.web.model.CartLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 @Component
 @Named
-@SessionScoped
+@SessionScope
 public class StoreController implements Serializable {
 
 	/**
@@ -58,16 +58,36 @@ public class StoreController implements Serializable {
 
 	private CartLine bulkCartLine = new CartLine();
 
+	private Category selectedCategory;
+
+	private Product selectedProduct;
+	
 	public List<Product> getProducts() {
 		return products;
 	}
 
-	public void populateProductsForCategory(Category category) throws Exception {
-		this.products = categoryService.findById(category.getId()).getProducts();
+	public Category getSelectedCategory() {
+		return selectedCategory;
 	}
 
-	public void addToCart(Product product) {
-		adjustCart(product, CartOperation.ADD, 1);
+	public void setSelectedCategory(Category selectedCategory) {
+		this.selectedCategory = selectedCategory;
+	}
+
+	public void getProductsForCategory() throws Exception {
+		this.products = categoryService.findById(selectedCategory.getId()).getProducts();
+	}
+
+	public Product getSelectedProduct() {
+		return selectedProduct;
+	}
+
+	public void setSelectedProduct(Product selectedProduct) {
+		this.selectedProduct = selectedProduct;
+	}
+
+	public void addToCart() {
+		adjustCart(selectedProduct, CartOperation.ADD, 1);
 	}
 
 	public void onProductDrop(DragDropEvent ddEvent) {
@@ -116,8 +136,8 @@ public class StoreController implements Serializable {
 		cartLine.setQuantity(newQuantity);
 	}
 
-	public void removeFromCart(Product product) {
-		adjustCart(product, CartOperation.REMOVE, 1);
+	public void removeFromCart() {
+		adjustCart(selectedProduct, CartOperation.REMOVE, 1);
 	}
 
 	public double getCartTotal() {
@@ -179,9 +199,9 @@ public class StoreController implements Serializable {
 		}
 	}
 
-	public void initBulkCartLine(Product product) {
+	public void initBulkCartLine() {
 		bulkCartLine = new CartLine();
-		bulkCartLine.setProduct(product);
+		bulkCartLine.setProduct(selectedProduct);
 	}
 
 	public List<CartLine> getCartLines() {

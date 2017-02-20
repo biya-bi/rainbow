@@ -6,28 +6,11 @@
 
 	<!-- JSF and Spring are integrated -->
 	<application>
-<!-- 		<message-bundle>resources.application</message-bundle> -->
+		<!-- <message-bundle>resources.application</message-bundle> -->
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 		<!-- <locale-config> -->
 		<!-- <default-locale>en</default-locale> -->
 		<!-- </locale-config> -->
-
-		<resource-bundle>
-			<base-name>org.rainbow.shopping.cart.ui.web.Labels</base-name>
-			<var>labels</var>
-		</resource-bundle>
-		<resource-bundle>
-			<base-name>org.rainbow.shopping.cart.ui.web.ValidationMessages</base-name>
-			<var>valMsg</var>
-		</resource-bundle>
-		<resource-bundle>
-			<base-name>org.rainbow.shopping.cart.ui.web.Messages</base-name>
-			<var>msg</var>
-		</resource-bundle>
-		<resource-bundle>
-			<base-name>org.rainbow.shopping.cart.ui.web.SecurityMessages</base-name>
-			<var>secMsg</var>
-		</resource-bundle>
 	</application>
 
 </faces-config>

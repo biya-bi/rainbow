@@ -1,6 +1,6 @@
 package org.rainbow.shopping.cart.ui.web.controller;
 
-import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 import javax.inject.Named;

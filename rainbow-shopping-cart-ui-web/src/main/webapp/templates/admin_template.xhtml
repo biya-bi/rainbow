@@ -6,6 +6,18 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <f:view contentType="text/html">
+
+	<f:loadBundle basename="org.rainbow.shopping.cart.ui.web.Labels"
+		var="labels" />
+	<f:loadBundle
+		basename="org.rainbow.shopping.cart.ui.web.ValidationMessages"
+		var="valMsg" />
+	<f:loadBundle basename="org.rainbow.shopping.cart.ui.web.Messages"
+		var="msg" />
+	<f:loadBundle
+		basename="org.rainbow.shopping.cart.ui.web.SecurityMessages"
+		var="secMsg" />
+
 	<h:head>
 		<f:facet name="first">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -30,15 +42,27 @@
 						<h:form>
 							<p:menubar>
 								<p:menuitem value="#{labels.DashboardLabel}" ajax="false"
-									actionListener="#{navigationController.setSelectedUrl('/WEB-INF/pages/home.xhtml')}"
-									icon="ui-icon-home" />
+									action="#{navigationController.processSelectedUrl}"
+									icon="ui-icon-home">
+									<f:setPropertyActionListener value="/WEB-INF/pages/home.xhtml"
+										target="#{navigationController.selectedUrl}" />
+								</p:menuitem>
 								<p:submenu label="#{labels.StoreManagementLabel}">
 									<p:menuitem value="#{labels.ListProductsTitle}" ajax="false"
-										actionListener="#{navigationController.setSelectedUrl('/WEB-INF/pages/products/list.xhtml')}" />
+										action="#{navigationController.processSelectedUrl}">
+												<f:setPropertyActionListener value="/WEB-INF/pages/products/list.xhtml"
+										target="#{navigationController.selectedUrl}" />
+										</p:menuitem>
 									<p:menuitem value="#{labels.ListCategoriesTitle}" ajax="false"
-										actionListener="#{navigationController.setSelectedUrl('/WEB-INF/pages/categories/list.xhtml')}" />
+										action="#{navigationController.processSelectedUrl}">
+									<f:setPropertyActionListener value="/WEB-INF/pages/categories/list.xhtml"
+										target="#{navigationController.selectedUrl}" />
+										</p:menuitem>
 									<p:menuitem value="#{labels.ListDiscountsTitle}" ajax="false"
-										actionListener="#{navigationController.setSelectedUrl('/WEB-INF/pages/discounts/list.xhtml')}" />
+										action="#{navigationController.processSelectedUrl}">
+												<f:setPropertyActionListener value="/WEB-INF/pages/discounts/list.xhtml"
+										target="#{navigationController.selectedUrl}" />
+										</p:menuitem>
 								</p:submenu>
 								<p:submenu label="#{labels.OrderManagementLabel}">
 									<p:menuitem value="#{labels.ProcessOrderLabel}" />
