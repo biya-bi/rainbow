@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14848529975217" configfile="/rainbow-shopping-cart-ui-web/src/main/webapp/WEB-INF/faces-config.xml"/>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14848529975217" configfile="/rainbow-shopping-cart-ui-web/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="pages/home/home.xhtml" x="338" y="178" id="pf14875940427360" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14875940427362 pf14881025752088" path="/pages/home/home.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="122" y="562" id="pf14875940427363" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14881025752089" path="/admin.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/unsecure/unsecured.xhtml" x="554" y="178" id="pf14875940427374" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf14875940427362" path="/pages/unsecure/unsecured.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Login as admin" x="338" y="562" id="pf14876272108777" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf148810257520810" inlinks="pf14881025752089" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/secure/secured.xhtml" x="554" y="562" id="pf148810257520811" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf14881025752088 pf148810257520810" path="/pages/secure/secured.xhtml"/>
+  <links id="pf14875940427362" target="pf14875940427374" source="pf14875940427360" outcome="UnSecured" redirect="true" fromaction="#{navigator.navigateTo}"/>
+  <links id="pf14881025752088" target="pf148810257520811" source="pf14875940427360" outcome="Secured" redirect="true" fromaction="#{navigator.navigateTo}"/>
+  <links id="pf14881025752089" target="pf14876272108777" source="pf14875940427363" outcome="loggedout" redirect="true" fromaction="#{authenticationController.logout}"/>
+  <links id="pf148810257520810" target="pf148810257520811" source="pf14876272108777" outcome="admin" redirect="true" fromaction="#{authenticationController.login}"/>
+</pageflow:Pageflow>

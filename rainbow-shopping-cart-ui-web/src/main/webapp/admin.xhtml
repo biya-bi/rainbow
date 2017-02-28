@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="templates/admin_template.xhtml">
+
+	<ui:define name="bodyContent">
+		<h:panelGroup layout="block">
+			<ui:include src="#{navigationController.selectedUrl}" />
+		</h:panelGroup>
+	</ui:define>
+
+</ui:composition>
+
+</html>

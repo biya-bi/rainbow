@@ -9,213 +9,264 @@ and open the template in the editor.
 */
 /*Navigatio bar styles*/
 ul#list-nav {
-    list-style:none;
-    margin:20px;
-    padding:0;
-    width:100%;
+	list-style: none;
+	margin: 20px;
+	padding: 0;
+	width: 100%;
 }
 
 ul#list-nav li {
-    display:inline
+	display: inline
 }
 
 ul#list-nav li a {
-    text-decoration:none;
-    padding:5px 0;
-    width:100px;
-    background:#485e49;
-    color:#eee;
-    float:left;
-    text-align:center;
-    border-left:1px solid #fff;
+	text-decoration: none;
+	padding: 5px 0;
+	width: 100px;
+	background: #485e49;
+	color: #eee;
+	float: left;
+	text-align: center;
+	border-left: 1px solid #fff;
 }
 
 ul#list-nav li a:hover {
-    background:#a2b3a1;
-    color:#000
+	background: #a2b3a1;
+	color: #000
 }
 
-.ui-panelgrid .ui-panelgrid-cell { 
-    border: none; 
-    border-style: hidden;
+.ui-panelgrid .ui-panelgrid-cell {
+	border: none;
+	border-style: hidden;
 }
 
 .field-label {
-    align-content: stretch; 
-    float: right;
+	align-content: stretch;
+	float: right;
 }
 
-.field-value  {
-    width: 100%;
-    float: left;
+.field-value {
+	width: 100%;
+	float: left;
 }
 
 .error {
-    color: #c00;
+	color: #c00;
 }
 
 .error-italic {
-    color: #c00;
-    font-style: italic;
+	color: #c00;
+	font-style: italic;
 }
 
 .login-panel {
-    text-align: center;
-    margin-left: 30%;
-    margin-right: 30%;
-    margin-top: 14%;
-    /*    position: fixed;*/
-    margin-bottom: 10%;
+	text-align: center;
+	margin-left: 30%;
+	margin-right: 30%;
+	margin-top: 14%;
+	/*    position: fixed;*/
+	margin-bottom: 10%;
 }
 
 .login-panelgrid {
-    text-align: center;
-    margin-left: 33.3%;
-    margin-right: 33.3%;
-    margin-top: 14%;
-    margin-bottom: 14%;
-    width: 33.3%;
-    position: relative;
+	text-align: center;
+	margin-left: 33.3%;
+	margin-right: 33.3%;
+	margin-top: 14%;
+	margin-bottom: 14%;
+	width: 33.3%;
+	position: relative;
 }
 
 .login-background {
-    text-align: center;
-    height: 90%;
-    width: 100%;
+	text-align: center;
+	height: 90%;
+	width: 100%;
 }
 
 .application-name-label {
-    display: block;
-    font-size: 2em;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
-    margin-right: 0%;
-    font-weight: bold;
-    text-align: right;
-    font-family: Arial;
+	display: block;
+	font-size: 2em;
+	margin-top: 0.67em;
+	margin-bottom: 0.67em;
+	margin-right: 0%;
+	font-weight: bold;
+	text-align: right;
+	font-family: Arial;
 }
 
 .welcome-panelgrid {
-    text-align: center;
-    margin-left: 33.3%;
-    margin-right: 33.3%;
-    margin-top: 20%;
-    margin-bottom: -0px;
-    position: relative;
-    width: 33.3%;
+	text-align: center;
+	margin-left: 33.3%;
+	margin-right: 33.3%;
+	margin-top: 20%;
+	margin-bottom: -0px;
+	position: relative;
+	width: 33.3%;
 }
 
 .client-name-label {
-    display: block;
-    font-style:  italic;
+	display: block;
+	font-style: italic;
 }
 
 .all-rights-reserved-label {
-    text-align: right;
-    display: block;
-    margin-right: 0%;
-    font-style:  italic;
+	text-align: right;
+	display: block;
+	margin-right: 0%;
+	font-style: italic;
 }
 
-div.menu{
-    text-align: center;
+div.menu {
+	text-align: center;
 }
+
 .menu div.ui-menubar {
-    text-align: center;
+	text-align: center;
 }
-.menu .ui-menu-list{
-    /*    width:100%;*/
-    display: inline-flex;
-}
-div.menu>ul.ui-menu-list>li>a{
-    /*    width: 100%;*/
 
+.menu .ui-menu-list {
+	/*    width:100%;*/
+	display: inline-flex;
 }
-div.menu>ul.ui-menu-list>li{
-    /*    width: 100%;*/
-    text-align: left;
+
+div.menu>ul.ui-menu-list>li>a {
+	/*    width: 100%;*/
+	
 }
-.ui-menuitem-text{
-    float: none!important;
+
+div.menu>ul.ui-menu-list>li {
+	/*    width: 100%;*/
+	text-align: left;
+}
+
+.ui-menuitem-text {
+	float: none !important;
 }
 
 .title-panelgrid-label {
-    display: block;
-    font-size: 2em;
-    margin-right: 0%;
-    font-weight: bold;
-    text-align: right;
-    font-family: Arial;
-    width: 100%;
+	display: block;
+	font-size: 2em;
+	margin-right: 0%;
+	font-weight: bold;
+	text-align: right;
+	font-family: Arial;
+	width: 100%;
 }
 
-.banner-panelgrid{
-    background-color: #fff;
-    width: 100%;
+.banner-panelgrid {
+	background-color: #fff;
+	width: 100%;
 }
 
-.footer-panelgrid{
-    width: 100%;
+.footer-panelgrid {
+	width: 100%;
 }
 
 .reset-password-panelgrid {
-    text-align: center;
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 10%;
-    margin-bottom: 10%;
-    background-color: #fff;
-    width: 50%;
-    position: relative;
-    border-top: 2px solid #000;
-    border-bottom: 10px solid #fff;
+	text-align: center;
+	margin-left: 25%;
+	margin-right: 25%;
+	margin-top: 10%;
+	margin-bottom: 10%;
+	background-color: #fff;
+	width: 50%;
+	position: relative;
+	border-top: 2px solid #000;
+	border-bottom: 10px solid #fff;
 }
-.user-account-panelgrid-font{
-    font-size: 0.75em;
+
+.authenticated-user-panelgrid-font {
+	font-size: 0.75em;
 }
-.user-account-panelgrid{
-    font-size: 0.75em;
+
+.authenticated-user-panelgrid {
+	text-align: right;
+	font-size: 0.75em;
+	width: 100%;
 }
-.error-panelgrid{
-    background-color:  #fff;
-    width: 100%;
+
+.welcome-column {
+	width: 100%;
+	text-align: right;
+}
+
+.user-name-column {
+	width: auto;
+	text-align: left;
+	font-weight: bold;
+}
+
+.account-separator-column {
+	width: auto;
+	text-align: left;
+}
+
+.logout-column {
+	width: auto;
+	text-align: left;
+}
+
+.login-column {
+	width: 100%;
+	text-align: right;
+}
+
+.register-column {
+	width: auto;
+	text-align: left;
+}
+
+.store-front-column {
+	width: auto;
+	text-align: left;
+}
+
+.administration-column {
+	width: auto;
+	text-align: left;
+}
+
+.error-panelgrid {
+	background-color: #fff;
+	width: 100%;
 }
 
 .change-password-panelgrid {
-    text-align: center;
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 10%;
-    margin-bottom: 10%;
-    background-color: #fff;
-    width: 50%;
-    position: relative;
-    border-top: 2px solid #000;
-    border-bottom: 10px solid #fff;
+	text-align: center;
+	margin-left: 25%;
+	margin-right: 25%;
+	margin-top: 10%;
+	margin-bottom: 10%;
+	background-color: #fff;
+	width: 50%;
+	position: relative;
+	border-top: 2px solid #000;
+	border-bottom: 10px solid #fff;
 }
 
-.noScrolllayoutUnit .ui-layout-unit-content{
-    overflow: hidden;
-    border: none;
+.noScrolllayoutUnit .ui-layout-unit-content {
+	overflow: hidden;
+	border: none;
 }
 
-.footer-panelgrid{
-    font-size: 0.75em;
-    font-style: italic;
+.footer-panelgrid {
+	font-size: 0.75em;
+	font-style: italic;
 }
 
 .vertical-align {
-        margin-top: 20%;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
+	margin-top: 20%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
 }
 
-.photo-style{
+.photo-style {
 	width: 200px;
 	height: 150px;
 }
 
 .panelgrid-center {
-    margin: 0 auto;
+	margin: 0 auto;
 }

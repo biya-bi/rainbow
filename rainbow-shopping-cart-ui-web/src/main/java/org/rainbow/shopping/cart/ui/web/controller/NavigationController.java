@@ -58,11 +58,9 @@ public class NavigationController implements Serializable {
 	}
 
 	public String getSelectedUrl() {
-
 		if (selectedUrl == null) {
-			selectedUrl = "/WEB-INF/pages/home.xhtml";
+			selectedUrl = "/WEB-INF/pages/dashboard.xhtml";
 		}
-
 		return selectedUrl;
 	}
 

@@ -37,9 +37,28 @@
 	<h:body>
 		<p:layout fullPage="true">
 			<p:layoutUnit position="center">
+				<div>
+					<h:form>
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
+						<h:panelGrid styleClass="authenticated-user-panelgrid" columns="6"
+							columnClasses="welcome-column,user-name-column,account-separator-column,logout-column,account-separator-column,store-front-column"
+							rendered="#{request.userPrincipal != null}">
+							<p:outputLabel value="#{labels.WelcomeLabel}" />
+							<p:outputLabel value="#{request.userPrincipal.name}" />
+							<p:outputLabel value="#{labels.AccountSeparator}" />
+							<p:commandLink value="#{labels.LogoutLabel}"
+								action="#{authenticationController.logout}" />
+							<p:outputLabel value="#{labels.AccountSeparator}" />
+							<p:commandLink value="#{labels.StoreLabel}" action="index?faces-redirect=true" />
+						</h:panelGrid>
+					</h:form>
+				</div>
 				<div id="menubar">
 					<ui:insert name="menubars">
 						<h:form>
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
 							<p:menubar>
 								<p:menuitem value="#{labels.DashboardLabel}" ajax="false"
 									action="#{navigationController.processSelectedUrl}"
@@ -50,24 +69,26 @@
 								<p:submenu label="#{labels.StoreManagementLabel}">
 									<p:menuitem value="#{labels.ListProductsTitle}" ajax="false"
 										action="#{navigationController.processSelectedUrl}">
-												<f:setPropertyActionListener value="/WEB-INF/pages/products/list.xhtml"
-										target="#{navigationController.selectedUrl}" />
-										</p:menuitem>
+										<f:setPropertyActionListener
+											value="/WEB-INF/pages/products/list.xhtml"
+											target="#{navigationController.selectedUrl}" />
+									</p:menuitem>
 									<p:menuitem value="#{labels.ListCategoriesTitle}" ajax="false"
 										action="#{navigationController.processSelectedUrl}">
-									<f:setPropertyActionListener value="/WEB-INF/pages/categories/list.xhtml"
-										target="#{navigationController.selectedUrl}" />
-										</p:menuitem>
+										<f:setPropertyActionListener
+											value="/WEB-INF/pages/categories/list.xhtml"
+											target="#{navigationController.selectedUrl}" />
+									</p:menuitem>
 									<p:menuitem value="#{labels.ListDiscountsTitle}" ajax="false"
 										action="#{navigationController.processSelectedUrl}">
-												<f:setPropertyActionListener value="/WEB-INF/pages/discounts/list.xhtml"
-										target="#{navigationController.selectedUrl}" />
-										</p:menuitem>
+										<f:setPropertyActionListener
+											value="/WEB-INF/pages/discounts/list.xhtml"
+											target="#{navigationController.selectedUrl}" />
+									</p:menuitem>
 								</p:submenu>
 								<p:submenu label="#{labels.OrderManagementLabel}">
 									<p:menuitem value="#{labels.ProcessOrderLabel}" />
 								</p:submenu>
-								<p:menuitem value="#{labels.LogoutLabel}" />
 							</p:menubar>
 						</h:form>
 					</ui:insert>

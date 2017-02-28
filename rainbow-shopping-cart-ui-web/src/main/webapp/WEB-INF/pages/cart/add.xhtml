@@ -9,6 +9,10 @@
 	modal="false" resizable="false"
 	header="#{labels.SetQuantityToAddToCartTitle}">
 	<h:form id="bulkAddToCartForm">
+
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+
 		<p:panelGrid styleClass="ui-panelgrid-blank"
 			rendered="#{storeController.bulkCartLine != null and storeController.bulkCartLine.product != null}">
 			<p:commandButton validateClient="true"

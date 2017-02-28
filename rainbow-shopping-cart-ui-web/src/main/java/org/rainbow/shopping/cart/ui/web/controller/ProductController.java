@@ -100,4 +100,5 @@ public class ProductController extends TrackableController<Product> {
 			return new DefaultStreamedContent();
 		return bytesToImageConverter.getImage(this.getCurrent().getPhoto());
 	}
+
 }

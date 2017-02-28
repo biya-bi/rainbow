@@ -90,8 +90,12 @@
 
 <composite:implementation>
 	<h:form id="form">
+
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+
 		<h:outputScript name="js/jsfcrud.js" />
-		
+
 		<h:panelGrid styleClass="title-panelgrid-label">
 			<p:outputLabel value="#{cc.attrs.title}" />
 		</h:panelGrid>

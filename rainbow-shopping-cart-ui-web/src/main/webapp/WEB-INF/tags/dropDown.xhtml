@@ -98,6 +98,11 @@
 			widgetVar="#{id}DropDownOverlayPanel" dynamic="false" my="left top"
 			at="left bottom">
 			<h:form id="#{id}DropDownForm">
+
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
+
+
 				<p:panelGrid columns="2">
 					<p:inputText value="#{filterValue}"
 						onkeyup="PF('#{id}DropDownDataTable').filter()">

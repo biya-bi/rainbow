@@ -5,10 +5,14 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-<p:dialog id="bulkRemoveFromCartDialog" widgetVar="bulkRemoveFromCartDialog"
-	modal="false" resizable="false"
+<p:dialog id="bulkRemoveFromCartDialog"
+	widgetVar="bulkRemoveFromCartDialog" modal="false" resizable="false"
 	header="#{labels.SetQuantityToRemoveFromCartTitle}">
 	<h:form id="bulkRemoveFromCartForm">
+
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+
 		<p:panelGrid styleClass="ui-panelgrid-blank"
 			rendered="#{storeController.bulkCartLine != null and storeController.bulkCartLine.product != null}">
 			<p:commandButton validateClient="true"
