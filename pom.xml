@@ -8,8 +8,7 @@
 	<modules>
 		<module>rainbow-service</module>
 		<module>rainbow-persistence</module>
-		<module>rainbow-shopping-cart-ui-web</module>
-		<module>rainbow-shopping-cart-model</module>
+		<module>rainbow-shopping-cart</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
