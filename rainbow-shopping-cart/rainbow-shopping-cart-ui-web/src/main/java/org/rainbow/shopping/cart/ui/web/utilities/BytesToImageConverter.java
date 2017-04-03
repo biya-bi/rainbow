@@ -8,7 +8,7 @@ import javax.faces.event.PhaseId;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.rainbow.shopping.cart.model.Photo;
+import org.rainbow.shopping.cart.core.entities.Photo;
 import org.springframework.stereotype.Component;
 
 @Component

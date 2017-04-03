@@ -2,7 +2,7 @@ package org.rainbow.shopping.cart.ui.web.model;
 
 import javax.validation.constraints.Min;
 
-import org.rainbow.shopping.cart.model.Product;
+import org.rainbow.shopping.cart.core.entities.Product;
 
 public class CartLine {
 

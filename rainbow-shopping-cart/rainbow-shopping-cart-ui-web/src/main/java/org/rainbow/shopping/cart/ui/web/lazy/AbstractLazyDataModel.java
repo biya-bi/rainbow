@@ -5,23 +5,24 @@
  */
 package org.rainbow.shopping.cart.ui.web.lazy;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.IService;
+import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchOptions;
+import org.rainbow.core.service.Service;
 import org.rainbow.shopping.cart.ui.web.utilities.BeanUtilities;
 
 /**
  *
  * @author Biya-Bi
- * @param <TModel>
- * @param <TId>
+ * @param <TEntity>
+ * @param <TKey>
  */
-public abstract class AbstractLazyDataModel<TModel, TId> extends LazyDataModel<TModel> {
+public abstract class AbstractLazyDataModel<TEntity, TKey extends Serializable> extends LazyDataModel<TEntity> {
 
 	/**
 	 * 
@@ -33,12 +34,12 @@ public abstract class AbstractLazyDataModel<TModel, TId> extends LazyDataModel<T
 		options = new SearchOptions();
 	}
 
-	protected abstract IService<TModel> getService();
+	protected abstract Service<TEntity, TKey, SearchOptions> getService();
 
-	protected abstract TId toModelId(String rowKey);
+	protected abstract TKey toModelId(String rowKey);
 
 	@Override
-	public TModel getRowData(String rowKey) {
+	public TEntity getRowData(String rowKey) {
 		try {
 			return getService().findById(toModelId(rowKey));
 		} catch (Exception e) {
@@ -47,7 +48,7 @@ public abstract class AbstractLazyDataModel<TModel, TId> extends LazyDataModel<T
 	}
 
 	@Override
-	public Object getRowKey(TModel object) {
+	public Object getRowKey(TEntity object) {
 		return BeanUtilities.getProperty(object, "id");
 	}
 
@@ -56,7 +57,7 @@ public abstract class AbstractLazyDataModel<TModel, TId> extends LazyDataModel<T
 	}
 
 	@Override
-	public List<TModel> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+	public List<TEntity> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 			Map<String, Object> filters) {
 
 		int pageIndex = pageSize == 0 ? 0 : first / pageSize;
@@ -65,8 +66,8 @@ public abstract class AbstractLazyDataModel<TModel, TId> extends LazyDataModel<T
 		options.setPageSize(pageSize);
 		options.setFilters(getFilters());
 
-		IService<TModel> service = getService();
-		List<TModel> result;
+		Service<TEntity, TKey, SearchOptions> service = getService();
+		List<TEntity> result;
 		try {
 			result = service.find(options);
 			setRowCount((int) service.count(options));
@@ -79,6 +80,6 @@ public abstract class AbstractLazyDataModel<TModel, TId> extends LazyDataModel<T
 		return result;
 	}
 
-	protected void sort(String sortField, SortOrder sortOrder, List<TModel> list) {
+	protected void sort(String sortField, SortOrder sortOrder, List<TEntity> list) {
 	}
 }

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+				http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-4.3.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+	<context:component-scan base-package="org.rainbow" />
+	<context:annotation-config />
+	<tx:annotation-driven transaction-manager="rainbowSecurityTransactionManager" />
+
+	<bean id="dataSource" class="${jdbc.driverClassName}">
+		<property name="url" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<bean id="persistenceUnitManager"
+		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:META-INF/persistence.xml</value>
+			</list>
+		</property>
+		<property name="dataSources">
+			<map>
+				<entry key="dataSource" value-ref="dataSource" />
+			</map>
+		</property>
+		<property name="defaultDataSource" ref="dataSource" />
+	</bean>
+
+	<bean
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
+		id="passwordEncoder">
+		<constructor-arg name="strength" value="16" />
+	</bean>
+
+	<bean id="groupDao" class="org.rainbow.security.core.persistence.dao.GroupDao" />
+
+	<bean id="groupService" class="org.rainbow.security.core.service.GroupService">
+		<constructor-arg name="dao" ref="groupDao" />
+	</bean>
+
+	<bean id="authorityDao" class="org.rainbow.security.core.persistence.dao.AuthorityDao" />
+
+	<bean id="authorityService" class="org.rainbow.security.core.service.AuthorityService">
+		<constructor-arg name="dao" ref="authorityDao" />
+	</bean>
+
+	<bean id="applicationService" class="org.rainbow.security.core.service.ApplicationService">
+		<constructor-arg name="dao">
+			<bean class="org.rainbow.security.core.persistence.dao.ApplicationDao">
+				<constructor-arg name="userDao" ref="userDao" />
+				<constructor-arg name="groupDao" ref="groupDao" />
+				<constructor-arg name="authorityDao" ref="authorityDao" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="groupAuthorityService"
+		class="org.rainbow.security.core.service.GroupAuthorityServiceImpl">
+		<constructor-arg name="dao">
+			<bean
+				class="org.rainbow.security.core.persistence.dao.GroupAuthorityDaoImpl" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="userGroupService" class="org.rainbow.security.core.service.UserGroupServiceImpl">
+		<constructor-arg name="dao">
+			<bean class="org.rainbow.security.core.persistence.dao.UserGroupDaoImpl" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="jdbcUserDetailsService" class="org.rainbow.security.core.jdbc.JdbcUserDetailsService">
+		<constructor-arg name="applicationName" value="Test Application" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="enableAuthorities" value="false" />
+		<property name="enableGroups" value="true" />
+	</bean>
+
+	<bean id="jdbcUserDetailsService1" class="org.rainbow.security.core.jdbc.JdbcUserDetailsService">
+		<constructor-arg name="applicationName" value="Test Application 1" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="enableAuthorities" value="false" />
+		<property name="enableGroups" value="true" />
+	</bean>
+
+	<bean id="jdbcUserDetailsServiceWithMissingApplication" class="org.rainbow.security.core.jdbc.JdbcUserDetailsService">
+		<constructor-arg name="applicationName" value="Missing Application" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="enableAuthorities" value="false" />
+		<property name="enableGroups" value="true" />
+	</bean>
+
+	<bean id="usernamePasswordAuthenticationProvider"
+		class="org.rainbow.security.core.authentication.UsernamePasswordAuthenticationProvider">
+		<constructor-arg name="applicationName" value="Test Application" />
+		<constructor-arg name="userDetailsService" ref="jdbcUserDetailsService" />
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="passwordAttemptUpdater">
+			<bean class="org.rainbow.security.core.jdbc.PasswordAttemptUpdaterImpl">
+				<constructor-arg name="applicationName" value="Test Application" />
+				<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+				<property name="dataSource" ref="dataSource" />
+			</bean>
+		</constructor-arg>
+		
+		<property name="hideUserNotFoundExceptions" value="false" />
+	</bean>
+
+	<bean id="usernamePasswordAuthenticationProvider1"
+		class="org.rainbow.security.core.authentication.UsernamePasswordAuthenticationProvider">
+		<constructor-arg name="applicationName" value="Test Application 1" />
+		<constructor-arg name="userDetailsService" ref="jdbcUserDetailsService1" />
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="passwordAttemptUpdater">
+			<bean class="org.rainbow.security.core.jdbc.PasswordAttemptUpdaterImpl">
+				<constructor-arg name="applicationName" value="Test Application 1" />
+				<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+				<property name="dataSource" ref="dataSource" />
+			</bean>
+		</constructor-arg>
+		<property name="hideUserNotFoundExceptions" value="false" />
+	</bean>
+
+	<bean id="usernamePasswordAuthenticationProviderWithMissingApplication"
+		class="org.rainbow.security.core.authentication.UsernamePasswordAuthenticationProvider">
+		<constructor-arg name="applicationName" value="Missing Application" />
+		<constructor-arg name="userDetailsService"
+			ref="jdbcUserDetailsServiceWithMissingApplication" />
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="passwordAttemptUpdater">
+			<bean class="org.rainbow.security.core.jdbc.PasswordAttemptUpdaterImpl">
+				<constructor-arg name="applicationName" value="Missing Application" />
+				<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+				<property name="dataSource" ref="dataSource" />
+			</bean>
+		</constructor-arg>
+		<property name="hideUserNotFoundExceptions" value="false" />
+	</bean>
+
+	<bean id="userDao" class="org.rainbow.security.core.persistence.dao.UserDao">
+		<constructor-arg name="applicationName" value="Test Application" />
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="authenticationManager" ref="authenticationManager" />
+	</bean>
+
+	<bean id="userDao1" class="org.rainbow.security.core.persistence.dao.UserDao">
+		<constructor-arg name="applicationName" value="Test Application 1" />
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="authenticationManager" ref="authenticationManager1" />
+	</bean>
+
+	<bean id="userDaoWithMissingApplication" class="org.rainbow.security.core.persistence.dao.UserDao">
+		<constructor-arg name="applicationName" value="Missing Application" />
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="authenticationManager"
+			ref="authenticationManagerWithMissingApplication" />
+	</bean>
+
+	<bean id="userService" class="org.rainbow.security.core.service.UserServiceImpl">
+		<constructor-arg name="dao" ref="userDao" />
+	</bean>
+
+	<bean id="userService1" class="org.rainbow.security.core.service.UserServiceImpl">
+		<constructor-arg name="dao" ref="userDao1" />
+	</bean>
+
+	<bean id="userServiceWithMissingApplication" class="org.rainbow.security.core.service.UserServiceImpl">
+		<constructor-arg name="dao" ref="userDaoWithMissingApplication" />
+	</bean>
+
+	<bean id="rainbowSecurityEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="RainbowSecurityPersistenceUnit" />
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>org.rainbow</value>
+			</list>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="eclipselink.logging.level" value="ALL" />
+				<entry key="javax.persistence.schema-generation.database.action"
+					value="drop-and-create" />
+				<entry key="eclipselink.weaving" value="false" />
+			</map>
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="true" />
+				<property name="databasePlatform"
+					value="org.eclipse.persistence.platform.database.MySQLPlatform" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="rainbowSecurityTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="rainbowSecurityEntityManagerFactory" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<security:authentication-manager id="authenticationManager">
+		<security:authentication-provider
+			ref="usernamePasswordAuthenticationProvider" />
+	</security:authentication-manager>
+
+	<security:authentication-manager id="authenticationManager1">
+		<security:authentication-provider
+			ref="usernamePasswordAuthenticationProvider1" />
+	</security:authentication-manager>
+
+	<security:authentication-manager
+		id="authenticationManagerWithMissingApplication">
+		<security:authentication-provider
+			ref="usernamePasswordAuthenticationProviderWithMissingApplication" />
+	</security:authentication-manager>
+
+	<bean id="sensitiveUserDetailsEncrypter"
+		class="org.rainbow.security.core.jdbc.SensitiveUserDetailsEncrypter"
+		init-method="encrypt" depends-on="dataSource">
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="applicationName" value="Test Application" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="META-INF/application.properties" />
+	</bean>
+</beans>

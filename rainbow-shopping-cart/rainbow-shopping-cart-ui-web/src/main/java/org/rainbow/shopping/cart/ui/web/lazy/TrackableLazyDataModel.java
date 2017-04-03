@@ -5,6 +5,7 @@
  */
 package org.rainbow.shopping.cart.ui.web.lazy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,19 +13,19 @@ import java.util.Date;
 import java.util.List;
 
 import org.primefaces.model.SortOrder;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SingleValuedFilter;
-import org.rainbow.shopping.cart.model.Trackable;
+import org.rainbow.core.entities.Trackable;
+import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.RelationalOperator;
+import org.rainbow.core.persistence.SingleValuedFilter;
 import org.rainbow.shopping.cart.ui.web.utilities.DefaultComparator;
 
 /**
  *
  * @author Biya-Bi
- * @param <TModel>
- * @param <TId>
+ * @param <TEntity>
+ * @param <TKey>
  */
-public abstract class TrackableLazyDataModel<TModel extends Trackable<?>, TId> extends AbstractLazyDataModel<TModel, TId> {
+public abstract class TrackableLazyDataModel<TEntity extends Trackable<?>, TKey extends Serializable> extends AbstractLazyDataModel<TEntity, TKey> {
 
     /**
 	 * 
@@ -84,15 +85,15 @@ public abstract class TrackableLazyDataModel<TModel extends Trackable<?>, TId> e
     }
 
     @Override
-    protected void sort(String sortField, SortOrder sortOrder, List<TModel> list) {
+    protected void sort(String sortField, SortOrder sortOrder, List<TEntity> list) {
         final SortOrder order = sortOrder;
         if (null != sortField) {
             switch (sortField) {
                 case CREATOR_FILTER: {
                     final Comparator<String> comparator = DefaultComparator.<String>getInstance();
-                    Collections.sort(list, new Comparator<TModel>() {
+                    Collections.sort(list, new Comparator<TEntity>() {
                         @Override
-                        public int compare(TModel one, TModel other) {
+                        public int compare(TEntity one, TEntity other) {
                             int result = comparator.compare(one.getCreator(), other.getCreator());
                             if (order == SortOrder.DESCENDING) {
                                 return -result;
@@ -104,9 +105,9 @@ public abstract class TrackableLazyDataModel<TModel extends Trackable<?>, TId> e
                 }
                 case UPDATER_FILTER: {
                     final Comparator<String> comparator = DefaultComparator.<String>getInstance();
-                    Collections.sort(list, new Comparator<TModel>() {
+                    Collections.sort(list, new Comparator<TEntity>() {
                         @Override
-                        public int compare(TModel one, TModel other) {
+                        public int compare(TEntity one, TEntity other) {
                             int result = comparator.compare(one.getUpdater(), other.getUpdater());
                             if (order == SortOrder.DESCENDING) {
                                 return -result;
@@ -119,9 +120,9 @@ public abstract class TrackableLazyDataModel<TModel extends Trackable<?>, TId> e
 
                 case CREATION_DATE_FILTER: {
                     final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
-                    Collections.sort(list, new Comparator<TModel>() {
+                    Collections.sort(list, new Comparator<TEntity>() {
                         @Override
-                        public int compare(TModel one, TModel other) {
+                        public int compare(TEntity one, TEntity other) {
                             int result = comparator.compare(one.getCreationDate(), other.getCreationDate());
                             if (order == SortOrder.DESCENDING) {
                                 return -result;
@@ -133,9 +134,9 @@ public abstract class TrackableLazyDataModel<TModel extends Trackable<?>, TId> e
                 }
                 case LAST_UPDATE_DATE_FILTER: {
                     final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
-                    Collections.sort(list, new Comparator<TModel>() {
+                    Collections.sort(list, new Comparator<TEntity>() {
                         @Override
-                        public int compare(TModel one, TModel other) {
+                        public int compare(TEntity one, TEntity other) {
                             int result = comparator.compare(one.getLastUpdateDate(), other.getLastUpdateDate());
                             if (order == SortOrder.DESCENDING) {
                                 return -result;

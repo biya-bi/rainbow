@@ -5,6 +5,7 @@
  */
 package org.rainbow.shopping.cart.ui.web.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +13,15 @@ import javax.annotation.PostConstruct;
 
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
-import org.rainbow.shopping.cart.model.Trackable;
+import org.rainbow.core.entities.Trackable;
 import org.rainbow.shopping.cart.ui.web.bean.SessionBean;
 
 /**
  *
  * @author Biya-Bi
- * @param <T>
+ * @param <TEntity>
  */
-public abstract class TrackableController<T extends Trackable<?>> extends Controller<T> {
+public abstract class TrackableController<TEntity extends Trackable<?>, TKey extends Serializable, TSearchOptions> extends Controller<TEntity,TKey,TSearchOptions> {
 
     /**
 	 * 
@@ -46,7 +47,7 @@ public abstract class TrackableController<T extends Trackable<?>> extends Contro
 
     @Override
     public void create() throws Exception {
-        T current = this.getCurrent();
+        TEntity current = this.getCurrent();
         String username = getUserName();
         current.setCreator(username);
         current.setUpdater(username);
@@ -55,7 +56,7 @@ public abstract class TrackableController<T extends Trackable<?>> extends Contro
 
     @Override
     public void edit() throws Exception {
-        T current = this.getCurrent();
+        TEntity current = this.getCurrent();
         String username = getUserName();
         current.setUpdater(username);
         super.edit();
@@ -63,7 +64,7 @@ public abstract class TrackableController<T extends Trackable<?>> extends Contro
 
     @Override
     public void delete() throws Exception {
-        T current = this.getCurrent();
+        TEntity current = this.getCurrent();
         String username = getUserName();
         current.setUpdater(username);
         super.delete();

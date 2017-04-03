@@ -18,10 +18,11 @@ import javax.inject.Named;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.rainbow.service.IService;
-import org.rainbow.shopping.cart.model.Category;
-import org.rainbow.shopping.cart.model.Photo;
-import org.rainbow.shopping.cart.persistence.exceptions.DuplicateCategoryNameException;
+import org.rainbow.core.persistence.SearchOptions;
+import org.rainbow.core.service.Service;
+import org.rainbow.shopping.cart.core.entities.Category;
+import org.rainbow.shopping.cart.core.entities.Photo;
+import org.rainbow.shopping.cart.core.persistence.exceptions.DuplicateCategoryNameException;
 import org.rainbow.shopping.cart.ui.web.utilities.BytesToImageConverter;
 import org.rainbow.shopping.cart.ui.web.utilities.CrudNotificationInfo;
 import org.rainbow.shopping.cart.ui.web.utilities.JsfUtil;
@@ -37,7 +38,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "CategoryCreated", updatedMessageKey = "CategoryUpdated", deletedMessageKey = "CategoryDeleted")
-public class CategoryController extends TrackableController<Category> {
+public class CategoryController extends TrackableController<Category,Long, SearchOptions> {
 
 	/**
 	 * 
@@ -46,7 +47,7 @@ public class CategoryController extends TrackableController<Category> {
 
 	@Autowired
 	@Qualifier("categoryService")
-	private IService<Category> service;
+	private Service<Category, Long, SearchOptions> service;
 
 	@Autowired
 	private BytesToImageConverter bytesToImageConverter;
@@ -60,7 +61,7 @@ public class CategoryController extends TrackableController<Category> {
 	}
 
 	@Override
-	protected IService<Category> getService() {
+	protected Service<Category,Long,SearchOptions> getService() {
 		return service;
 	}
 

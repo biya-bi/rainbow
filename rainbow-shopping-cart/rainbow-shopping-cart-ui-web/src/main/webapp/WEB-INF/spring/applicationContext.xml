@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 				http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 				http://www.springframework.org/schema/tx
@@ -14,91 +14,72 @@ http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 	<context:component-scan base-package="org.rainbow" />
 	<context:annotation-config />
 
-	<bean id="productService" class="org.rainbow.shopping.cart.service.ProductService">
+	<bean id="productService" class="org.rainbow.shopping.cart.core.service.ProductService">
 		<constructor-arg>
-			<bean class="org.rainbow.shopping.cart.persistence.dao.ProductDao" />
+			<bean class="org.rainbow.shopping.cart.core.persistence.dao.ProductDao" />
 		</constructor-arg>
 	</bean>
 
-	<bean id="categoryService" class="org.rainbow.shopping.cart.service.CategoryService">
+	<bean id="categoryService" class="org.rainbow.shopping.cart.core.service.CategoryService">
 		<constructor-arg>
-			<bean class="org.rainbow.shopping.cart.persistence.dao.CategoryDao" />
+			<bean class="org.rainbow.shopping.cart.core.persistence.dao.CategoryDao" />
 		</constructor-arg>
 	</bean>
 
-	<bean id="orderService" class="org.rainbow.shopping.cart.service.OrderService">
+	<bean id="orderService" class="org.rainbow.shopping.cart.core.service.OrderService">
 		<constructor-arg>
-			<bean class="org.rainbow.shopping.cart.persistence.dao.OrderDao" />
+			<bean class="org.rainbow.shopping.cart.core.persistence.dao.OrderDao" />
 		</constructor-arg>
 	</bean>
 
-	<bean id="dataSource"
-		class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
-		<property name="url"
-			value="jdbc:mysql://localhost:3306/rainbow_shopping_cart" />
-		<property name="user" value="root" />
-		<property name="password" value="Passw0rd" />
+
+	<bean id="userDao" class="org.rainbow.security.core.persistence.dao.UserDao">
+		<constructor-arg name="applicationName" value="${application.name}" />
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="authenticationManager" ref="authenticationManager" />
 	</bean>
 
-	<bean
-		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	<bean id="groupDao" class="org.rainbow.security.core.persistence.dao.GroupDao" />
 
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<!-- <property name="persistenceProviderClass" -->
-		<!-- value="org.hibernate.jpa.HibernatePersistenceProvider" /> -->
-		<!-- <property name="persistenceProviderClass" -->
-		<!-- value="org.eclipse.persistence.jpa.PersistenceProvider" /> -->
-		<property name="packagesToScan">
-			<list>
-				<value>org.rainbow</value>
-			</list>
-		</property>
-		<property name="jpaPropertyMap">
-			<map>
-				<entry key="eclipselink.logging.level" value="ALL" />
-				<entry key="javax.persistence.schema-generation.database.action"
-					value="drop-and-create" />
-				<entry key="eclipselink.weaving" value="false" />
-			</map>
-		</property>
-		<!-- <property name="loadTimeWeaver"> -->
-		<!-- <bean -->
-		<!-- class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver" 
-			/> -->
-		<!-- </property> -->
-		<property name="jpaVendorAdapter">
-			<bean
-				class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
-				<property name="showSql" value="true" />
-				<property name="generateDdl" value="true" />
-				<property name="databasePlatform"
-					value="org.eclipse.persistence.platform.database.MySQLPlatform" />
+	<bean id="authorityDao" class="org.rainbow.security.core.persistence.dao.AuthorityDao" />
+
+	<bean id="userService" class="org.rainbow.security.core.service.UserServiceImpl">
+		<constructor-arg name="dao" ref="userDao" />
+	</bean>
+
+	<bean id="applicationService" class="org.rainbow.security.core.service.ApplicationService">
+		<constructor-arg name="dao">
+			<bean class="org.rainbow.security.core.persistence.dao.ApplicationDao">
+				<constructor-arg name="userDao" ref="userDao" />
+				<constructor-arg name="groupDao" ref="groupDao" />
+				<constructor-arg name="authorityDao" ref="authorityDao" />
 			</bean>
-		</property>
+		</constructor-arg>
 	</bean>
 
-	<!-- Enable the configuration of transactional behavior based on annotations -->
-
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	<bean id="groupService" class="org.rainbow.security.core.service.GroupService">
+		<constructor-arg name="dao" ref="groupDao" />
 	</bean>
-	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="userGroupService" class="org.rainbow.security.core.service.UserGroupServiceImpl">
+		<constructor-arg name="dao">
+			<bean class="org.rainbow.security.core.persistence.dao.UserGroupDaoImpl" />
+		</constructor-arg>
+	</bean>
 
 	<bean id="loginBean" name="loginBean"
 		class="org.rainbow.shopping.cart.ui.web.controller.AuthenticationController"
 		scope="prototype">
 		<property name="authenticationManager" ref="authenticationManager" />
 		<property name="rememberMeServices" ref="rememberMeServices" />
-		<property name="userDetailsService" ref="customjdbcUserService" />
+		<property name="userDetailsService" ref="jdbcUserDetailsService" />
 	</bean>
 
 	<bean id="rememberMeServices"
 		class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
 		<constructor-arg name="key"
 			value="rainbow-shopping-cart-remember-me" />
-		<constructor-arg name="userDetailsService" ref="customjdbcUserService" />
+		<constructor-arg name="userDetailsService" ref="jdbcUserDetailsService" />
 		<property name="alwaysRemember" value="true" />
 		<property name="tokenValiditySeconds" value="1800" />
 	</bean>
@@ -115,84 +96,146 @@ http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 		<constructor-arg name="rememberMeServices" ref="rememberMeServices" />
 	</bean>
 
-	<bean id="customjdbcUserService"
-		class="org.rainbow.shopping.cart.ui.web.security.jdbc.CustomJdbcDaoImpl">
-		<property name="dataSource" ref="securityDataSource" />
+	<bean id="jdbcUserDetailsService" class="org.rainbow.security.core.jdbc.JdbcUserDetailsService">
+		<constructor-arg name="applicationName" value="${application.name}" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
 		<property name="enableAuthorities" value="false" />
 		<property name="enableGroups" value="true" />
-		<property name="usersByUsernameQuery">
-			<value>
-				SELECT USER_NAME,
-				PASSWORD, ENABLED FROM
-				USERS WHERE
-				USER_NAME =
-				?
-			</value>
-		</property>
-		<property name="authoritiesByUsernameQuery">
-			<value>
-				SELECT
-				USER_NAME,ROLE_NAME from
-				ROLES where USER_NAME = ?
-			</value>
-		</property>
-		<property name="groupAuthoritiesByUsernameQuery">
-			<value>
-				SELECT
-				g.GROUP_ID,
-				g.GROUP_NAME,
-				ga.AUTHORITY
-				FROM
-				GROUPS g,
-				GROUP_AUTHORITIES ga,
-				GROUP_MEMBERS gm,
-				USERS u
-				WHERE
-				u.USER_NAME =
-				? AND
-				gm.USER_ID =
-				u.ID AND
-				gm.GROUP_ID =
-				g.GROUP_ID AND
-				ga.GROUP_ID =
-				g.GROUP_ID
-			</value>
-		</property>
 	</bean>
 
-
-	<bean id="securityDataSource"
-		class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
-		<property name="url"
-			value="jdbc:mysql://localhost:3306/rainbow_shopping_cart_security" />
-		<property name="user" value="root" />
-		<property name="password" value="Passw0rd" />
+	<bean id="usernamePasswordAuthenticationProvider"
+		class="org.rainbow.security.core.authentication.UsernamePasswordAuthenticationProvider">
+		<constructor-arg name="applicationName" value="${application.name}" />
+		<constructor-arg name="userDetailsService" ref="jdbcUserDetailsService" />
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="passwordAttemptUpdater">
+			<bean class="org.rainbow.security.core.jdbc.PasswordAttemptUpdaterImpl">
+				<constructor-arg name="applicationName" value="${application.name}" />
+				<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+				<property name="dataSource" ref="rainbowSecurityDataSource" />
+			</bean>
+		</constructor-arg>
+		<property name="hideUserNotFoundExceptions" value="false" />
 	</bean>
 
-	<bean
-		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
-		id="passwordEncoder">
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<constructor-arg name="strength" value="16" />
 	</bean>
 
-	<bean id="databasePasswordEncrypter"
-		class="org.rainbow.shopping.cart.ui.web.security.jdbc.DbPasswordEncrypter"
-		init-method="encryptDBPassword" depends-on="securityDataSource">
-		<property name="passwordEncoder" ref="passwordEncoder" />
-		<property name="dataSource" ref="securityDataSource" />
-		<property name="selectQuery">
-			<value>SELECT USER_NAME,
-				PASSWORD, ENCRYPTED FROM
-				USERS WHERE
-				(ENCRYPTED='NO' ||
-				ENCRYPTED IS NULL)
-			</value>
+	<bean id="sensitiveUserDetailsEncrypter"
+		class="org.rainbow.security.core.jdbc.SensitiveUserDetailsEncrypter"
+		init-method="encrypt" depends-on="rainbowSecurityDataSource">
+		<constructor-arg name="passwordEncoder" ref="passwordEncoder" />
+		<constructor-arg name="applicationName" value="${application.name}" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
+	</bean>
+
+	<bean id="dataSource" class="${rainbow.shopping.cart.jdbc.driverClassName}">
+		<property name="url" value="${rainbow.shopping.cart.jdbc.url}" />
+		<property name="user" value="${rainbow.shopping.cart.jdbc.user}" />
+		<property name="password" value="${rainbow.shopping.cart.jdbc.password}" />
+	</bean>
+
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<bean id="rainbowSecurityDataSource" class="${rainbow.security.jdbc.driverClassName}">
+		<property name="url" value="${rainbow.security.jdbc.url}" />
+		<property name="user" value="${rainbow.security.jdbc.user}" />
+		<property name="password" value="${rainbow.security.jdbc.password}" />
+	</bean>
+
+	<bean id="persistenceUnitManager"
+		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:META-INF/shoppingCartPersistence.xml</value>
+				<value>classpath*:META-INF/securityPersistence.xml</value>
+			</list>
 		</property>
-		<property name="updateQuery">
-			<value>UPDATE USERS SET PASSWORD = ?, ENCRYPTED='YES'
-				WHERE USER_NAME=
-				?
-			</value>
+		<property name="dataSources">
+			<map>
+				<entry key="dataSource" value-ref="dataSource" />
+				<entry key="rainbowSecurityDataSource" value-ref="rainbowSecurityDataSource" />
+			</map>
 		</property>
+		<property name="defaultPersistenceUnitRootLocation" value="classpath:" />
+	</bean>
+
+	<bean id="rainbowShoppingCartEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="RainbowShoppingCartPersistenceUnit" />
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>org.rainbow</value>
+			</list>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="eclipselink.logging.level" value="ALL" />
+				<entry key="javax.persistence.schema-generation.database.action"
+					value="drop-and-create" />
+				<entry key="eclipselink.weaving" value="false" />
+			</map>
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="true" />
+				<property name="databasePlatform"
+					value="org.eclipse.persistence.platform.database.MySQLPlatform" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="rainbowSecurityEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="RainbowSecurityPersistenceUnit" />
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>org.rainbow</value>
+			</list>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="eclipselink.logging.level" value="ALL" />
+				<entry key="javax.persistence.schema-generation.database.action"
+					value="drop-and-create" />
+				<entry key="eclipselink.weaving" value="false" />
+			</map>
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="true" />
+				<property name="databasePlatform"
+					value="org.eclipse.persistence.platform.database.MySQLPlatform" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Enable the configuration of transactional behavior based on annotations -->
+
+	<bean id="rainbowShoppingCartTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="rainbowShoppingCartEntityManagerFactory" />
+	</bean>
+
+	<bean id="rainbowSecurityTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="rainbowSecurityEntityManagerFactory" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="rainbowSecurityTransactionManager" />
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="WEB-INF/application.properties" />
 	</bean>
 </beans>

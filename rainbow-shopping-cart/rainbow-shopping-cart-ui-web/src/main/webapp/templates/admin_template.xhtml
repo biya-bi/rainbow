@@ -42,15 +42,16 @@
 						<input type="hidden" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
 						<h:panelGrid styleClass="authenticated-user-panelgrid" columns="6"
-							columnClasses="welcome-column,user-name-column,account-separator-column,logout-column,account-separator-column,store-front-column"
+							columnClasses="welcome-column,user-name-column,account-separator-column,store-front-column,account-separator-column,logout-column"
 							rendered="#{request.userPrincipal != null}">
 							<p:outputLabel value="#{labels.WelcomeLabel}" />
 							<p:outputLabel value="#{request.userPrincipal.name}" />
 							<p:outputLabel value="#{labels.AccountSeparator}" />
+							<p:commandLink value="#{labels.StoreLabel}"
+								action="index?faces-redirect=true" />
+							<p:outputLabel value="#{labels.AccountSeparator}" />
 							<p:commandLink value="#{labels.LogoutLabel}"
 								action="#{authenticationController.logout}" />
-							<p:outputLabel value="#{labels.AccountSeparator}" />
-							<p:commandLink value="#{labels.StoreLabel}" action="index?faces-redirect=true" />
 						</h:panelGrid>
 					</h:form>
 				</div>

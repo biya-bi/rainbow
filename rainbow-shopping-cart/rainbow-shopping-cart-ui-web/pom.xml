@@ -86,17 +86,6 @@
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces.version}</version>
 		</dependency>
-		<!-- Hibernate dependencies -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.hibernate</groupId> -->
-		<!-- <artifactId>hibernate-core</artifactId> -->
-		<!-- <version>${hibernate.version}</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.hibernate</groupId> -->
-		<!-- <artifactId>hibernate-entitymanager</artifactId> -->
-		<!-- <version>${hibernate.version}</version> -->
-		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.javassist</groupId>
@@ -135,13 +124,8 @@
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>persistence</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<artifactId>rainbow-shopping-cart-core</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
@@ -167,6 +151,13 @@
 			<artifactId>spring-faces</artifactId>
 			<version>${spring.faces.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.rainbow.security</groupId>
+			<artifactId>rainbow-security-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>rainbow-shopping-cart-ui-web</finalName>

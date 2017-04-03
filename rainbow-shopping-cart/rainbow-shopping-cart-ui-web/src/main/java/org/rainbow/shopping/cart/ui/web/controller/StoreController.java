@@ -10,12 +10,13 @@ import javax.inject.Named;
 
 import org.primefaces.event.DragDropEvent;
 import org.primefaces.event.FlowEvent;
-import org.rainbow.service.IService;
-import org.rainbow.shopping.cart.model.Category;
-import org.rainbow.shopping.cart.model.Order;
-import org.rainbow.shopping.cart.model.OrderDetail;
-import org.rainbow.shopping.cart.model.OrderStatus;
-import org.rainbow.shopping.cart.model.Product;
+import org.rainbow.core.persistence.SearchOptions;
+import org.rainbow.core.service.Service;
+import org.rainbow.shopping.cart.core.entities.Category;
+import org.rainbow.shopping.cart.core.entities.Order;
+import org.rainbow.shopping.cart.core.entities.OrderDetail;
+import org.rainbow.shopping.cart.core.entities.OrderStatus;
+import org.rainbow.shopping.cart.core.entities.Product;
 import org.rainbow.shopping.cart.ui.web.model.CartLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,11 +37,11 @@ public class StoreController implements Serializable {
 
 	@Autowired
 	@Qualifier("categoryService")
-	private IService<Category> categoryService;
+	private Service<Category, Long, SearchOptions> categoryService;
 
 	@Autowired
 	@Qualifier("orderService")
-	private IService<Order> orderService;
+	private Service<Order, Long, SearchOptions> orderService;
 
 	private List<Product> products = new ArrayList<>();
 
@@ -61,7 +62,7 @@ public class StoreController implements Serializable {
 	private Category selectedCategory;
 
 	private Product selectedProduct;
-	
+
 	public List<Product> getProducts() {
 		return products;
 	}

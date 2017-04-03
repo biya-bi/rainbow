@@ -48,23 +48,39 @@
 							rendered="#{request.userPrincipal == null}">
 							<p:commandLink value="#{labels.LoginLabel}" action="login" />
 							<p:outputLabel value="#{labels.AccountSeparator}" />
-							<p:commandLink value="#{labels.RegisterLabel}" />
+							<p:commandLink value="#{labels.SignupLabel}" action="signup"
+								actionListener="#{userController.init}" />
 						</h:panelGrid>
 
-						<h:panelGrid styleClass="authenticated-user-panelgrid" columns="6"
-							columnClasses="welcome-column,user-name-column,account-separator-column,logout-column,account-separator-column,administration-column"
-							rendered="#{request.userPrincipal != null}">
-							<p:outputLabel value="#{labels.WelcomeLabel}" />
-							<p:outputLabel value="#{request.userPrincipal.name}" />
-							<p:outputLabel value="#{labels.AccountSeparator}" />
-							<p:commandLink value="#{labels.LogoutLabel}"
-								action="#{authenticationController.logout}" />
-							<p:outputLabel value="#{labels.AccountSeparator}" />
-							<sec:authorize access="hasRole('ROLE_STORE_ADMIN')">
+						<sec:authorize access="hasRole('ROLE_STORE_ADMIN')">
+							<h:panelGrid styleClass="authenticated-user-panelgrid"
+								columns="6"
+								columnClasses="welcome-column,user-name-column,account-separator-column,administration-column,account-separator-column,logout-column"
+								rendered="#{request.userPrincipal != null}">
+								<p:outputLabel value="#{labels.WelcomeLabel}" />
+								<p:outputLabel value="#{request.userPrincipal.name}" />
+								<p:outputLabel value="#{labels.AccountSeparator}" />
 								<p:commandLink value="#{labels.AdministrationLabel}"
 									action="admin?faces-redirect=true" />
-							</sec:authorize>
-						</h:panelGrid>
+								<p:outputLabel value="#{labels.AccountSeparator}" />
+								<p:commandLink value="#{labels.LogoutLabel}"
+									action="#{authenticationController.logout}" />
+							</h:panelGrid>
+						</sec:authorize>
+
+
+						<sec:authorize access="!hasRole('ROLE_STORE_ADMIN')">
+							<h:panelGrid styleClass="authenticated-user-panelgrid"
+								columns="6"
+								columnClasses="welcome-column,user-name-column,account-separator-column,logout-column"
+								rendered="#{request.userPrincipal != null}">
+								<p:outputLabel value="#{labels.WelcomeLabel}" />
+								<p:outputLabel value="#{request.userPrincipal.name}" />
+								<p:outputLabel value="#{labels.AccountSeparator}" />
+								<p:commandLink value="#{labels.LogoutLabel}"
+									action="#{authenticationController.logout}" />
+							</h:panelGrid>
+						</sec:authorize>
 					</h:form>
 				</div>
 			</p:layoutUnit>

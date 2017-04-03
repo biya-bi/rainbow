@@ -1,0 +1,10 @@
+insert into applications(ID,NAME,DESCRIPTION,creation_date,last_update_date,version) VALUES (5001,'Test Application','This application is used for testing.',current_timestamp(),current_timestamp(),1);
+insert into password_policies(MAXIMUM_INVALID_PASSWORD_ATTEMPTS, MAXIMUM_PASSWORD_AGE, MAXIMUM_PASSWORD_LENGTH, MINIMUM_SPECIAL_CHARACTERS, MINIMUM_PASSWORD_AGE, MINIMUM_PASSWORD_LENGTH, PASSWORD_ATTEMPT_WINDOW, PASSWORD_HISTORY_LENGTH, APPLICATION_ID,MINIMUM_LOWERCASE_CHARACTERS,MINIMUM_UPPERCASE_CHARACTERS,MINIMUM_NUMERIC) VALUES (5, 30, 25, 1, 0, 7, 10, 10, 5001,1,1,1);
+insert into token_policies(APPLICATION_ID,MAXIMUM_AGE) VALUES (5001,30);
+insert into users(ID,LAST_ACTIVITY_DATE,USER_NAME,APPLICATION_ID,CREATION_DATE,LAST_UPDATE_DATE,VERSION) VALUES (5001, '1754-01-01', 'sampleUser1', 5001,current_timestamp(),current_timestamp(),1);
+insert into memberships(ENABLED,CREATION_DATE,DESCRIPTION,FAILED_PWD_QUES_ANS_ATMPT_CNT,FAILED_PWD_ANS_ATPT_WIN_START,FAILED_PWD_ATMPT_CNT,FAILED_PWD_ATMPT_WIN_START,LAST_LOCK_OUT_DATE,LAST_LOGIN_DATE,LAST_PWD_CHANGE_DATE,LOCKED_OUT,PASSWORD,PASSWORD_QUESTION,PASSWORD_QUESTION_ANSWER,USER_ID,APPLICATION_ID,ENCRYPTED) VALUES (1, current_timestamp(), 'Description of membership', 0, '1754-01-01', 0, '1754-01-01', '1754-01-01', current_timestamp(), current_timestamp(), 0, 'admin', 'Mother name', 'Nondo Lydienne', 5001, 5001,0);
+insert into groups(ID,NAME,DESCRIPTION,APPLICATION_ID,creation_date,last_update_date,version) VALUES (5001,'Group 1','Group description',5001,current_timestamp(),current_timestamp(),1);
+insert into authorities(ID,NAME,DESCRIPTION,APPLICATION_ID,creation_date,last_update_date,version) VALUES (5001,'Authority 1','Authority description',5001,current_timestamp(),current_timestamp(),1);
+insert into group_authorities(GROUP_ID,AUTHORITY_ID) VALUES (5001,5001);
+insert into group_users(USER_ID,GROUP_ID) VALUES (5001,5001);
+commit;

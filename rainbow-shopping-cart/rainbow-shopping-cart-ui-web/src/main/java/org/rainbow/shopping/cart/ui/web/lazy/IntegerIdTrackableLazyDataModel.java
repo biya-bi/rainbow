@@ -5,7 +5,7 @@
  */
 package org.rainbow.shopping.cart.ui.web.lazy;
 
-import org.rainbow.shopping.cart.model.Trackable;
+import org.rainbow.core.entities.Trackable;
 
 /**
  *

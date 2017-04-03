@@ -19,10 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,11 +56,14 @@ public class AuthenticationController {
 	private RememberMeServices rememberMeServices;
 
 	@Autowired
-	@Qualifier("customjdbcUserService")
+	@Qualifier("jdbcUserDetailsService")
 	private UserDetailsService userDetailsService;
 
 	private static final String AUTHENTICATION_FAILED_KEY = "AuthenticationFailed";
 	private static final String INVALID_CREDENTIALS_KEY = "InvalidCredentials";
+	private static final String CREDENTIALS_EXPIRED_KEY = "UserCredentialsExpiredPersonal";
+	private static final String USER_LOCKED_OUT_KEY = "UserLockedOutPersonal";
+	private static final String USER_DISABLED_KEY = "UserDisabledPersonal";
 
 	private boolean hasRole(String role) {
 		@SuppressWarnings("unchecked")
@@ -104,9 +110,18 @@ public class AuthenticationController {
 				return "admin";
 			else
 				return "web_user";
-		} catch (AuthenticationException e) {
+		} catch (BadCredentialsException e) {
 			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, null, e);
 			msg = ResourceBundle.getBundle(SECURITY_MESSAGES).getString(INVALID_CREDENTIALS_KEY);
+		} catch (LockedException e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, null, e);
+			msg = ResourceBundle.getBundle(SECURITY_MESSAGES).getString(USER_LOCKED_OUT_KEY);
+		} catch (DisabledException e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, null, e);
+			msg = ResourceBundle.getBundle(SECURITY_MESSAGES).getString(USER_DISABLED_KEY);
+		} catch (CredentialsExpiredException e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, null, e);
+			msg = ResourceBundle.getBundle(SECURITY_MESSAGES).getString(CREDENTIALS_EXPIRED_KEY);
 		}
 		if (msg != null) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, msg,

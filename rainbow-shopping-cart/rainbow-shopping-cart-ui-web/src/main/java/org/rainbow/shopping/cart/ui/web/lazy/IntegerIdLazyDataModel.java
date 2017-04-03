@@ -8,9 +8,9 @@ package org.rainbow.shopping.cart.ui.web.lazy;
 /**
  *
  * @author Biya-Bi
- * @param <TModel>
+ * @param <TEntity>
  */
-public abstract class IntegerIdLazyDataModel<TModel> extends AbstractLazyDataModel<TModel, Integer> {
+public abstract class IntegerIdLazyDataModel<TEntity> extends AbstractLazyDataModel<TEntity, Integer> {
 
     /**
 	 * 

@@ -7,10 +7,11 @@ import javax.inject.Named;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.rainbow.service.IService;
-import org.rainbow.shopping.cart.model.Category;
-import org.rainbow.shopping.cart.model.Photo;
-import org.rainbow.shopping.cart.model.Product;
+import org.rainbow.core.persistence.SearchOptions;
+import org.rainbow.core.service.Service;
+import org.rainbow.shopping.cart.core.entities.Category;
+import org.rainbow.shopping.cart.core.entities.Photo;
+import org.rainbow.shopping.cart.core.entities.Product;
 import org.rainbow.shopping.cart.ui.web.utilities.BytesToImageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,11 +24,11 @@ public class PhotoController {
 
 	@Autowired
 	@Qualifier("productService")
-	private IService<Product> productService;
+	private Service<Product, Long, SearchOptions> productService;
 
 	@Autowired
 	@Qualifier("categoryService")
-	private IService<Category> categoryService;
+	private Service<Category, Long, SearchOptions> categoryService;
 
 	@Autowired
 	private BytesToImageConverter bytesToImageConverter;

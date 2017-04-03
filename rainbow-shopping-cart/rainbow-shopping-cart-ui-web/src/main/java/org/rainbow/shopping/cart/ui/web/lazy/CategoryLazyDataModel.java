@@ -14,11 +14,12 @@ import javax.faces.bean.RequestScoped;
 import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SingleValuedFilter;
-import org.rainbow.service.IService;
-import org.rainbow.shopping.cart.model.Category;
+import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.RelationalOperator;
+import org.rainbow.core.persistence.SearchOptions;
+import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.service.Service;
+import org.rainbow.shopping.cart.core.entities.Category;
 import org.rainbow.shopping.cart.ui.web.utilities.DefaultComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,7 +41,7 @@ public class CategoryLazyDataModel extends LongIdTrackableLazyDataModel<Category
 
 	@Autowired
 	@Qualifier("categoryService")
-	private IService<Category> service;
+	private Service<Category, Long, SearchOptions> service;
 
 	private static final String NAME_FILTER = "name";
 	private static final String PARENT_NAME_FILTER = "parent.name";
@@ -61,7 +62,7 @@ public class CategoryLazyDataModel extends LongIdTrackableLazyDataModel<Category
 	}
 
 	@Override
-	protected IService<Category> getService() {
+	protected Service<Category, Long, SearchOptions> getService() {
 		return service;
 	}
 

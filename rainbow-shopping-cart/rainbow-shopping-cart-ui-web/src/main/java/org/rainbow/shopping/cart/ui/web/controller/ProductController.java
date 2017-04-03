@@ -18,11 +18,12 @@ import javax.inject.Named;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import org.rainbow.service.IService;
-import org.rainbow.shopping.cart.model.Photo;
-import org.rainbow.shopping.cart.model.Product;
-import org.rainbow.shopping.cart.persistence.exceptions.DuplicateProductCodeException;
-import org.rainbow.shopping.cart.persistence.exceptions.DuplicateProductNameException;
+import org.rainbow.core.persistence.SearchOptions;
+import org.rainbow.core.service.Service;
+import org.rainbow.shopping.cart.core.entities.Photo;
+import org.rainbow.shopping.cart.core.entities.Product;
+import org.rainbow.shopping.cart.core.persistence.exceptions.DuplicateProductCodeException;
+import org.rainbow.shopping.cart.core.persistence.exceptions.DuplicateProductNameException;
 import org.rainbow.shopping.cart.ui.web.utilities.BytesToImageConverter;
 import org.rainbow.shopping.cart.ui.web.utilities.CrudNotificationInfo;
 import org.rainbow.shopping.cart.ui.web.utilities.JsfUtil;
@@ -38,7 +39,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "ProductCreated", updatedMessageKey = "ProductUpdated", deletedMessageKey = "ProductDeleted")
-public class ProductController extends TrackableController<Product> {
+public class ProductController extends TrackableController<Product, Long, SearchOptions> {
 
 	/**
 	 * 
@@ -47,7 +48,7 @@ public class ProductController extends TrackableController<Product> {
 
 	@Autowired
 	@Qualifier("productService")
-	private IService<Product> service;
+	private Service<Product, Long, SearchOptions> service;
 
 	@Autowired
 	private BytesToImageConverter bytesToImageConverter;
@@ -60,7 +61,7 @@ public class ProductController extends TrackableController<Product> {
 	}
 
 	@Override
-	protected IService<Product> getService() {
+	protected Service<Product, Long, SearchOptions> getService() {
 		return service;
 	}
 

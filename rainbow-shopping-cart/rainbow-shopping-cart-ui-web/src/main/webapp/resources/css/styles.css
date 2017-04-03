@@ -181,14 +181,14 @@ div.menu>ul.ui-menu-list>li {
 }
 
 .authenticated-user-panelgrid {
-	text-align: right;
+	text-align: left;
 	font-size: 0.75em;
 	width: 100%;
 }
 
 .welcome-column {
-	width: 100%;
-	text-align: right;
+	width: auto;
+	text-align: left;
 }
 
 .user-name-column {
@@ -203,17 +203,17 @@ div.menu>ul.ui-menu-list>li {
 }
 
 .logout-column {
-	width: auto;
+	width: 100%;
 	text-align: left;
 }
 
 .login-column {
-	width: 100%;
-	text-align: right;
+	width: auto;
+	text-align: left;
 }
 
 .register-column {
-	width: auto;
+	width: 100%;
 	text-align: left;
 }
 

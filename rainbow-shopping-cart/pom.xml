@@ -10,10 +10,8 @@
 	<packaging>pom</packaging>
 	<name>rainbow-shopping-cart</name>
 	<modules>
-		<module>rainbow-shopping-cart-model</module>
-		<module>rainbow-shopping-cart-persistence</module>
+		<module>rainbow-shopping-cart-core</module>
 		<module>rainbow-shopping-cart-ui-web</module>
-		<module>rainbow-shopping-cart-service</module>
 	</modules>
 	<groupId>org.rainbow.shopping.cart</groupId>
 </project>

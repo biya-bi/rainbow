@@ -5,14 +5,14 @@
  */
 package org.rainbow.shopping.cart.ui.web.lazy;
 
-import org.rainbow.shopping.cart.model.Trackable;
+import org.rainbow.core.entities.Trackable;
 
 /**
  *
  * @author Biya-Bi
- * @param <TModel>
+ * @param <TEntity>
  */
-public abstract class LongIdTrackableLazyDataModel<TModel extends Trackable<?>> extends TrackableLazyDataModel<TModel, Long> {
+public abstract class LongIdTrackableLazyDataModel<TEntity extends Trackable<?>> extends TrackableLazyDataModel<TEntity, Long> {
 
     /**
 	 * 
