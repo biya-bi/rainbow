@@ -326,7 +326,7 @@ public class ApplicationServiceTest {
 	}
 
 	@Test
-	public void find_NameDoesnotExistAndOperatorIsDoesNotContain_ReturnNoApplication() throws Exception {
+	public void find_NameDoesnotExistAndOperatorIsDoesNotContain_ReturnAllApplication() throws Exception {
 		SearchOptions criteria = new SearchOptions();
 		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");

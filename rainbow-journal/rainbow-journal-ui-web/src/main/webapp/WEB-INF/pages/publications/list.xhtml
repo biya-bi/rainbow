@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:body>
+	<cps:trackableDataGrid id="publicationList"
+		title="#{labels.ListPublicationsTitle}"
+		dataSource="#{publicationLazyDataModel}"
+		selectedItem="#{publicationController.current}"
+		selectedValue="#{item.id}"
+		createActionListener="#{publicationController.prepareCreate}"
+		createDialog="publicationCreateDialog"
+		createUpdate=":publicationCreate:form"
+		editDialog="publicationEditDialog" editUpdate=":publicationEdit:form"
+		detailsDialog="publicationDetailsDialog"
+		detailsUpdate=":publicationDetails:form"
+		deleteDialog="publicationDeleteDialog"
+		deleteUpdate=":publicationDelete:form"
+		columnToggleListener="#{publicationController.onToggle}"
+		creatorFilterValue="#{publicationLazyDataModel.creatorFilter.value}"
+		creatorFilterOperator="#{publicationLazyDataModel.creatorFilter.operator}"
+		updaterFilterValue="#{publicationLazyDataModel.updaterFilter.value}"
+		updaterFilterOperator="#{publicationLazyDataModel.updaterFilter.operator}"
+		creationDateFilterValue="#{publicationLazyDataModel.creationDateFilter.value}"
+		creationDateFilterOperator="#{publicationLazyDataModel.creationDateFilter.operator}"
+		lastUpdateDateFilterValue="#{publicationLazyDataModel.lastUpdateDateFilter.value}"
+		lastUpdateDateFilterOperator="#{publicationLazyDataModel.lastUpdateDateFilter.operator}"
+		creatorColumnVisible="#{publicationController.auditColumnsStates[4]}"
+		updaterColumnVisible="#{publicationController.auditColumnsStates[5]}"
+		creationDateColumnVisible="#{publicationController.auditColumnsStates[6]}"
+		lastUpdateDateColumnVisible="#{publicationController.auditColumnsStates[7]}">
+
+		<p:column headerText="#{labels.PublicationJournalTitle}"
+			filterBy="#{item.parent.name}" sortBy="#{item.journal.name}"
+			filterValue="#{publicationLazyDataModel.journalNameFilter.value}">
+
+			<p:commandLink update=":publicationDetails:form"
+				value="#{item.journal.name}"
+				oncomplete="PF('journalDetailsDialog').show()">
+				<f:setPropertyActionListener value="#{item.journal}"
+					target="#{journalController.current}" />
+			</p:commandLink>
+
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="publicationList:form:dataTable"
+					selectedValue="#{publicationLazyDataModel.journalNameFilter.operator}"
+					changeWidgetVar="publicationListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.PublicationPublisherTitle}"
+			filterBy="#{item.parent.name}"
+			sortBy="#{item.publisherProfile.userName}"
+			filterValue="#{publicationLazyDataModel.publisherUserNameFilter.value}">
+
+			<p:outputLabel value="#{item.publisherProfile.userName}" />
+
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="publicationList:form:dataTable"
+					selectedValue="#{publicationLazyDataModel.publisherUserNameFilter.operator}"
+					changeWidgetVar="publicationListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.PublicationDateTitle}"
+			filterBy="#{item.name}" sortBy="#{item.publicationDate}"
+			filterValue="#{publicationLazyDataModel.publicationDateFilter.value}">
+
+			<f:facet name="filter">
+				<p:calendar navigator="true">
+					<p:ajax event="dateSelect" update="@this"
+						oncomplete="PF('publicationListDataTable').filter()" />
+				</p:calendar>
+			</f:facet>
+
+			<h:outputText value="#{item.publicationDate}">
+				<f:convertDateTime dateStyle="short" />
+			</h:outputText>
+			<f:facet name="footer">
+				<cps:comparableFilterSelectOneMenu
+					changeUpdate="publicationList:form:dataTable"
+					selectedValue="#{publicationLazyDataModel.publicationDateFilter.operator}"
+					changeWidgetVar="publicationListDataTable" />
+			</f:facet>
+		</p:column>
+	</cps:trackableDataGrid>
+
+	<ui:include src="/WEB-INF/pages/publications/create.xhtml" />
+	<ui:include src="/WEB-INF/pages/publications/edit.xhtml" />
+	<ui:include src="/WEB-INF/pages/publications/details.xhtml" />
+	<ui:include src="/WEB-INF/pages/publications/delete.xhtml" />
+	<ui:include src="/WEB-INF/pages/journals/details.xhtml" />
+	<ui:include src="/WEB-INF/pages/quickCreate/create_journal.xhtml" />
+
+</h:body>
+</html>
+

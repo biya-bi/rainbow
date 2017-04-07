@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+<composite:interface>
+	<composite:attribute name="title" />
+	<composite:attribute name="dataSource" />
+	<composite:attribute name="selectedItem" />
+	<composite:attribute name="selectedValue" />
+
+	<composite:attribute name="createUpdate" />
+	<composite:attribute name="editUpdate" />
+	<composite:attribute name="detailsUpdate" />
+	<composite:attribute name="deleteUpdate" />
+
+	<composite:attribute name="createDialog" default=" " />
+	<composite:attribute name="editDialog" default=" " />
+	<composite:attribute name="detailsDialog" default=" " />
+	<composite:attribute name="deleteDialog" default=" " />
+
+	<composite:attribute name="createActionListener"
+		method-signature="java.lang.String action()" default=" " />
+	<composite:attribute name="createLabel" default="#{labels.CreateLabel}" />
+	<composite:attribute name="editActionListener"
+		method-signature="java.lang.String action()" required="false"
+		default=" " />
+	<composite:attribute name="editLabel" default="#{labels.EditLabel}" />
+	<composite:attribute name="deleteActionListener"
+		method-signature="java.lang.String action()" required="false"
+		default=" " />
+	<composite:attribute name="deleteLabel" default="#{labels.DeleteLabel}" />
+	<composite:attribute name="detailsActionListener"
+		method-signature="java.lang.String action()" required="false"
+		default=" " />
+	<composite:attribute name="detailsLabel"
+		default="#{labels.DetailsLabel}" />
+
+	<composite:attribute name="selectionUpdate" />
+
+	<composite:facet name="preHeader" />
+	<composite:facet name="postHeader" />
+	<composite:facet name="preFooter" />
+	<composite:facet name="postFooter" />
+
+	<composite:attribute name="showCreateButton" default="true"
+		type="java.lang.Boolean" />
+	<composite:attribute name="showEditButton" default="true"
+		type="java.lang.Boolean" />
+	<composite:attribute name="showDetailsButton" default="true"
+		type="java.lang.Boolean" />
+	<composite:attribute name="showDeleteButton" default="true"
+		type="java.lang.Boolean" />
+
+	<composite:attribute name="disableCreateButton" default="false"
+		type="java.lang.Boolean" />
+	<composite:attribute name="disableEditButton" default="false"
+		type="java.lang.Boolean" />
+	<composite:attribute name="disableDetailsButton" default="false"
+		type="java.lang.Boolean" />
+	<composite:attribute name="disableDeleteButton" default="false"
+		type="java.lang.Boolean" />
+
+	<composite:attribute name="columnToggleListener"
+		method-signature="void action(org.primefaces.event.ToggleEvent)"
+		required="false" default=" " />
+
+	<composite:attribute name="creatorFilterValue" />
+	<composite:attribute name="creatorFilterOperator" />
+	<composite:attribute name="updaterFilterValue" />
+	<composite:attribute name="updaterFilterOperator" />
+	<composite:attribute name="creationDateFilterValue" />
+	<composite:attribute name="creationDateFilterOperator" />
+	<composite:attribute name="lastUpdateDateFilterValue" />
+	<composite:attribute name="lastUpdateDateFilterOperator" />
+
+	<composite:attribute name="creatorColumnVisible" default="false"
+		type="java.lang.Boolean" />
+	<composite:attribute name="updaterColumnVisible" default="false"
+		type="java.lang.Boolean" />
+	<composite:attribute name="creationDateColumnVisible" default="false"
+		type="java.lang.Boolean" />
+	<composite:attribute name="lastUpdateDateColumnVisible" default="false"
+		type="java.lang.Boolean" />
+
+</composite:interface>
+
+<composite:implementation>
+	<h:form id="form">
+
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+
+		<h:outputScript name="js/jsfcrud.js" />
+
+		<h:panelGrid styleClass="title-panelgrid-label">
+			<p:outputLabel value="#{cc.attrs.title}" />
+		</h:panelGrid>
+
+		<p:growl sticky="true" showDetail="false" autoUpdate="true"
+			globalOnly="true" severity="info" />
+
+
+		<p:dataTable id="dataTable" widgetVar="#{cc.id}DataTable"
+			value="#{cc.attrs.dataSource}" selection="#{cc.attrs.selectedItem}"
+			rowKey="#{cc.attrs.selectedValue}" stickyHeader="false"
+			selectionMode="single" lazy="true" paginator="true"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"
+			scrollable="true" rows="20" rowsPerPageTemplate="20,40,60,80,100"
+			var="item" rowIndexVar="rowIndex">
+
+
+			<f:facet name="header">
+
+				<p:commandButton id="headerTogglerButton" type="button"
+					value="#{labels.ColumnsLabel}" style="float:right"
+					icon="ui-icon-calculator" />
+				<p:columnToggler id="headerColumnToggler" datasource="dataTable"
+					trigger="headerTogglerButton">
+					<p:ajax event="toggle" update="footerColumnToggler"
+						listener="#{cc.attrs.columnToggleListener}" />
+				</p:columnToggler>
+
+				<composite:renderFacet name="preHeader" />
+
+				<p:commandButton id="headerCreateButton" icon="ui-icon-plus"
+					value="#{cc.attrs.createLabel}" update="#{cc.attrs.createUpdate}"
+					oncomplete="hideDialog('#{cc.attrs.editDialog}');hideDialog('#{cc.attrs.detailsDialog}');hideDialog('#{cc.attrs.deleteDialog}');showDialog('#{cc.attrs.createDialog}')"
+					actionListener="#{cc.attrs.createActionListener}"
+					rendered="#{cc.attrs.showCreateButton}"
+					disabled="#{cc.attrs.disableCreateButton}" />
+
+				<composite:renderFacet name="postHeader" />
+
+			</f:facet>
+
+			<p:ajax event="rowSelect"
+				update="headerCreateButton footerCreateButton #{cc.attrs.selectionUpdate}" />
+			<p:ajax event="rowUnselect"
+				update="headerCreateButton footerCreateButton #{cc.attrs.selectionUpdate}" />
+
+			<composite:insertChildren />
+
+			<p:column visible="#{cc.attrs.creatorColumnVisible}"
+				headerText="#{labels.CreatedByTitle}" filterBy="#{item.creator}"
+				sortBy="#{item.creator}"
+				filterValue="#{cc.attrs.creatorFilterValue}">
+				<h:outputText value="#{item.creator}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="#{cc.id}:form:dataTable"
+						selectedValue="#{cc.attrs.creatorFilterOperator}"
+						changeWidgetVar="#{cc.id}DataTable" />
+				</f:facet>
+			</p:column>
+
+
+			<p:column visible="#{cc.attrs.updaterColumnVisible}"
+				headerText="#{labels.UpdatedByTitle}" filterBy="#{item.updater}"
+				sortBy="#{item.updater}"
+				filterValue="#{cc.attrs.updaterFilterValue}">
+				<h:outputText value="#{item.updater}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="#{cc.id}:form:dataTable"
+						selectedValue="#{cc.attrs.updaterFilterOperator}"
+						changeWidgetVar="#{cc.id}DataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column visible="#{cc.attrs.creationDateColumnVisible}"
+				headerText="#{labels.CreationDateTitle}"
+				filterBy="#{item.creationDate}" sortBy="#{item.creationDate}"
+				filterValue="#{cc.attrs.creationDateFilterValue}">
+				<f:facet name="filter">
+					<p:calendar navigator="true">
+						<p:ajax event="dateSelect" update="@this"
+							oncomplete="PF('#{cc.id}DataTable').filter()" />
+					</p:calendar>
+				</f:facet>
+				<f:facet name="footer">
+					<cps:comparableFilterSelectOneMenu
+						changeUpdate="#{cc.id}:form:dataTable"
+						selectedValue="#{cc.attrs.creationDateFilterOperator}"
+						changeWidgetVar="#{cc.id}DataTable" />
+				</f:facet>
+				<h:outputText value="#{item.creationDate}">
+					<f:convertDateTime dateStyle="short" timeStyle="short" type="both" />
+				</h:outputText>
+			</p:column>
+
+			<p:column visible="#{cc.attrs.lastUpdateDateColumnVisible}"
+				headerText="#{labels.LastUpdateDateTitle}"
+				filterBy="#{item.lastUpdateDate}" sortBy="#{item.lastUpdateDate}"
+				filterValue="#{cc.attrs.lastUpdateDateFilterValue}">
+				<f:facet name="filter">
+					<p:calendar navigator="true">
+						<p:ajax event="dateSelect" update="@this"
+							oncomplete="PF('#{cc.id}DataTable').filter()" />
+					</p:calendar>
+				</f:facet>
+				<f:facet name="footer">
+					<cps:comparableFilterSelectOneMenu
+						changeUpdate="#{cc.id}:form:dataTable"
+						selectedValue="#{cc.attrs.lastUpdateDateFilterOperator}"
+						changeWidgetVar="#{cc.id}DataTable" />
+				</f:facet>
+				<h:outputText value="#{item.lastUpdateDate}">
+					<f:convertDateTime dateStyle="short" timeStyle="short" type="both" />
+				</h:outputText>
+			</p:column>
+
+			<p:column resizable="false" toggleable="false">
+				<p:commandButton
+					style="margin: 0 2px; max-width: 20px; max-height: 20px;"
+					icon="ui-icon-search" title="#{cc.attrs.detailsLabel}"
+					update="#{cc.attrs.detailsUpdate}"
+					oncomplete="hideDialog('#{cc.attrs.createDialog}');hideDialog('#{cc.attrs.editDialog}');hideDialog('#{cc.attrs.deleteDialog}');PF('#{cc.id}DataTable').unselectAllRows();PF('#{cc.id}DataTable').selectRow(#{rowIndex});showDialog('#{cc.attrs.detailsDialog}')"
+					actionListener="#{cc.attrs.detailsActionListener}">
+					<f:setPropertyActionListener target="#{cc.attrs.selectedItem}"
+						value="#{item}" />
+				</p:commandButton>
+				<p:commandButton
+					style="margin: 0; max-width: 20px; max-height: 20px;"
+					icon="ui-icon-pencil" title="#{cc.attrs.editLabel}"
+					update="#{cc.attrs.editUpdate}"
+					oncomplete="hideDialog('#{cc.attrs.createDialog}');hideDialog('#{cc.attrs.detailsDialog}');hideDialog('#{cc.attrs.deleteDialog}');PF('#{cc.id}DataTable').unselectAllRows();PF('#{cc.id}DataTable').selectRow(#{rowIndex});showDialog('#{cc.attrs.editDialog}')"
+					actionListener="#{cc.attrs.editActionListener}">
+					<f:setPropertyActionListener target="#{cc.attrs.selectedItem}"
+						value="#{item}" />
+				</p:commandButton>
+				<p:commandButton
+					style="margin: 0 2px; max-width: 20px; max-height: 20px;"
+					icon="ui-icon-trash" title="#{cc.attrs.deleteLabel}"
+					update="#{cc.attrs.deleteUpdate}"
+					oncomplete="hideDialog('#{cc.attrs.createDialog}');hideDialog('#{cc.attrs.editDialog}');hideDialog('#{cc.attrs.detailsDialog}');PF('#{cc.id}DataTable').unselectAllRows();PF('#{cc.id}DataTable').selectRow(#{rowIndex});showDialog('#{cc.attrs.deleteDialog}')"
+					actionListener="#{cc.attrs.deleteActionListener}">
+					<f:setPropertyActionListener target="#{cc.attrs.selectedItem}"
+						value="#{item}" />
+				</p:commandButton>
+			</p:column>
+
+
+			<f:facet name="footer">
+				<p:commandButton update="headerColumnToggler"
+					id="footerTogglerButton" type="button"
+					value="#{labels.ColumnsLabel}" style="float:right"
+					icon="ui-icon-calculator" />
+				<p:columnToggler id="footerColumnToggler" datasource="dataTable"
+					trigger="footerTogglerButton">
+					<p:ajax event="toggle" update="headerColumnToggler"
+						listener="#{cc.attrs.columnToggleListener}" />
+				</p:columnToggler>
+
+				<composite:renderFacet name="preFooter" />
+
+				<p:commandButton id="footerCreateButton" icon="ui-icon-plus"
+					value="#{cc.attrs.createLabel}" update="#{cc.attrs.createUpdate}"
+					oncomplete="hideDialog('#{cc.attrs.editDialog}');hideDialog('#{cc.attrs.detailsDialog}');hideDialog('#{cc.attrs.deleteDialog}');showDialog('#{cc.attrs.createDialog}')"
+					actionListener="#{cc.attrs.createActionListener}"
+					rendered="#{cc.attrs.showCreateButton}"
+					disabled="#{cc.attrs.disableCreateButton}" />
+
+				<composite:renderFacet name="postFooter" />
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+</composite:implementation>
+
+</html>
+

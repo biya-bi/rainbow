@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+	<p:panelGrid columns="2"
+		rendered="#{journalController.current != null}"
+		styleClass="ui-panelgrid-blank">
+		<p:panelGrid>
+			<p:graphicImage id="graphicImage" value="#{journalController.photo}"
+				styleClass="photo-style" />
+		</p:panelGrid>
+		<p:panelGrid columns="2">
+			<p:outputLabel styleClass="field-label"
+				value="#{labels.JournalNameLabel}" for="name" />
+			<h:outputText styleClass="field-value" id="name"
+				value="#{journalController.current.name}"
+				title="#{labels.JournalNameTitle}" />
+
+			<p:outputLabel id="ownerProfileUserNameLabel"
+				styleClass="field-label" value="#{labels.JournalOwnerLabel}" />
+			<h:outputText styleClass="field-value" id="ownerProfileUserName"
+				value="#{journalController.current.ownerProfile.userName}"
+				title="#{labels.JournalOwnerTitle}" />
+			<p:outputLabel styleClass="field-label"
+				value="#{labels.JournalActiveLabel}" />
+			<p:selectBooleanCheckbox styleClass="field-value" id="active"
+				value="#{journalController.current.active}"
+				title="#{labels.JournalActiveTitle}" disabled="true" />
+			<p:outputLabel styleClass="field-label"
+				value="#{labels.JournalTagLabel}" />
+			<h:outputText styleClass="field-value" id="tag"
+				value="#{journalController.current.tag}"
+				title="#{labels.JournalTagTitle}" />
+			<p:outputLabel styleClass="field-label"
+				value="#{labels.JournalDescriptionLabel}" />
+			<h:outputText styleClass="field-value" id="description"
+				value="#{journalController.current.description}"
+				title="#{labels.JournalDescriptionTitle}" />
+		</p:panelGrid>
+	</p:panelGrid>
+</composite:implementation>
+</html>
+

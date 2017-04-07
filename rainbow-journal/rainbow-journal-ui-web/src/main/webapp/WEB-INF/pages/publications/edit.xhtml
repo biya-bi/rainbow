@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+    <cps:submitForm id="publicationEdit"
+                    title="#{labels.EditPublicationTitle}"           
+                    submitActionListener="#{publicationController.edit}"
+                    update="publicationList:form:dataTable">
+
+        <cps:writePublication/>
+
+    </cps:submitForm>
+
+
+</html>

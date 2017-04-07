@@ -1,6 +1,4 @@
-/rainbow-persistence/rainbow-persistence-dao/target/
-/rainbow-persistence/rainbow-persistence-dao-impl/target/
-/rainbow-service/rainbow-service-api/target/
-/rainbow-service/rainbow-service-api-impl/target/
-/rainbow-shopping-cart-model/target/
-/rainbow-shopping-cart-ui-web/target/
+/rainbow-security/target/
+/rainbow-core/target/
+/rainbow-shopping-cart/target/
+/rainbow-journal/target/

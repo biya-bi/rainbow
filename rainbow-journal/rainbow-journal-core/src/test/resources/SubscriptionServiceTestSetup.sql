@@ -1,0 +1,17 @@
+insert into profiles(id,user_name,first_name,last_name,creation_date,last_update_date,version) values (4001,'sample_user1','Sample','User1',current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (4001,'ACIMED',4001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (4002,'Acta Anaesthesiologica Scandinavica',4001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (4003,'Acta Oto-Laryngologica',4001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (4004,'Acta Orthopaedica et Traumatologica Turcica',4001,1,current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4001,4001,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4002,4003,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4003,4002,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4004,4002,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4005,4002,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4006,4004,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4007,4001,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4008,4001,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4009,4001,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4010,4001,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into subscriptions(id,journal_id,subscriber_profile_id,subscription_date,creation_date,last_update_date,version) values (4011,4001,4001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+commit;

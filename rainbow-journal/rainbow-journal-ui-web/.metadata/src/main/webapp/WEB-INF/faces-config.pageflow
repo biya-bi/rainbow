@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14848529975217" configfile="/rainbow-journal-ui-web/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="pages/home/home.xhtml" x="122" y="178" id="pf14875940427360" referenceLink="//@navigationRule.1/@fromViewId|" path="/pages/home/home.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Logout as admin" x="338" y="744" id="pf14875940427363" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf14910060451430" inlinks="pf14910060451431" path="/admin.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/unsecure/unsecured.xhtml" x="122" y="562" id="pf14875940427374" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" path="/pages/unsecure/unsecured.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Login as admin" x="122" y="946" id="pf14876272108777" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14910060451431 pf14910060451432" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/secure/secured.xhtml" x="122" y="1330" id="pf148810257520811" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" path="/pages/secure/secured.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Logout as web user" x="554" y="946" id="pf14910060451433" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" outlinks="pf14910060451434" inlinks="pf14910060451430 pf14910060451432 pf14910060451434 pf14910076027628" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Store user self registration" id="pf14910076027629" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf14910076027628" path="/signup.xhtml"/>
+  <links id="pf14910060451430" target="pf14910060451433" source="pf14875940427363" outcome="loggedout" redirect="true" fromaction="#{authenticationController.logout}"/>
+  <links id="pf14910060451431" target="pf14875940427363" source="pf14876272108777" outcome="admin" redirect="true" fromaction="#{authenticationController.login}"/>
+  <links id="pf14910060451432" target="pf14910060451433" source="pf14876272108777" outcome="web_user" redirect="true" fromaction="#{authenticationController.login}"/>
+  <links id="pf14910060451434" target="pf14910060451433" source="pf14910060451433" outcome="loggedout" redirect="true" fromaction="#{authenticationController.logout}">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+  <links id="pf14910076027628" target="pf14910060451433" source="pf14910076027629" outcome="success" redirect="true" fromaction="#{userController.signup}"/>
+</pageflow:Pageflow>

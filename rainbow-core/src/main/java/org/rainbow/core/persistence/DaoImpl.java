@@ -421,8 +421,8 @@ public abstract class DaoImpl<TEntity extends Object, TKey extends Serializable>
 				if (value == null)
 					continue;
 				if (value instanceof String && !((String) value).isEmpty())
-					expressions.add(
-							cb.not(cb.like(cb.upper(getPath(filter, rt)), cb.parameter(String.class, parameterName))));
+					expressions
+							.add(cb.notLike(cb.upper(getPath(filter, rt)), cb.parameter(String.class, parameterName)));
 				break;
 			}
 			case IS_BETWEEN: {

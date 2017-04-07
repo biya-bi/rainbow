@@ -1,0 +1,13 @@
+insert into profiles(id,user_name,first_name,last_name,creation_date,last_update_date,version) values (2001,'sample_user1','Sample','User1',current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2001,'ACIMED',2001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2002,'Acta Anaesthesiologica Scandinavica',2001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2003,'Acta Médica Portuguesa',2001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2004,'Acta Neurologica Scandinavica',2001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2005,'Acta Orthopaedica et Traumatologica Turcica',2001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2006,'Acta Oto-Laryngologica',2001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2007,'Acta Paediatrica',2001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2008,'Acta Psychiatrica Scandinavica',2001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2009,'Acta Radiologica',2001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2010,'Advances in Therapy',2001,1,current_timestamp(),current_timestamp(),1);
+insert into journals(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (2011,'African Journal of Paediatric Surgery',2001,1,current_timestamp(),current_timestamp(),1);
+commit;

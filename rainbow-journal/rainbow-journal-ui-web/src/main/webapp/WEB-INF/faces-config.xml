@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	<!-- JSF and Spring are integrated -->
+	<application>
+		<!-- <message-bundle>resources.application</message-bundle> -->
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<!-- <locale-config> -->
+		<!-- <default-locale>en</default-locale> -->
+		<!-- </locale-config> -->
+
+	</application>
+
+
+	<navigation-rule>
+		<display-name>Logout as admin</display-name>
+		<from-view-id>/admin.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{authenticationController.logout}</from-action>
+			<from-outcome>loggedout</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>Login as admin</display-name>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{authenticationController.login}</from-action>
+			<from-outcome>admin</from-outcome>
+			<to-view-id>/admin.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>Login as web user</display-name>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{authenticationController.login}</from-action>
+			<from-outcome>web_user</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>Logout as web user</display-name>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{authenticationController.logout}</from-action>
+			<from-outcome>loggedout</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>Store user self registration</display-name>
+		<from-view-id>/signup.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{userController.signup}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	   <converter>
+            <description>A converter for boolean</description>
+            <converter-id>javax.faces.convert.BooleanConverter</converter-id>
+            <converter-class>
+                javax.faces.convert.BooleanConverter
+            </converter-class>
+        </converter>
+</faces-config>

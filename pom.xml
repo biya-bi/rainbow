@@ -6,6 +6,7 @@
 		<module>rainbow-core</module>
 		<module>rainbow-security</module>
 		<module>rainbow-shopping-cart</module>
+		<module>rainbow-journal</module>
 	</modules>
 	<groupId>org.rainbow</groupId>
 	<artifactId>rainbow</artifactId>

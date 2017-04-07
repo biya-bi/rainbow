@@ -69,7 +69,6 @@ public class ProductDao extends DaoImpl<Product, Long> {
 						photoExists = true;
 				} catch (EntityNotFoundException e) {
 					Logger.getLogger(this.getClass().getName()).warning(entity.getPhoto() + " was not found.");
-					System.out.println(entity.getPhoto() + " was not found.");
 				}
 			}
 			if (!photoExists)

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+	<p:panelGrid columns="2"
+		rendered="#{categoryController.parent != null}" styleClass="ui-panelgrid-blank">
+		<p:panelGrid>
+			<p:graphicImage id="graphicImage"
+				value="#{categoryController.parentPhoto}" styleClass="photo-style" />
+		</p:panelGrid>
+		<p:panelGrid columns="2">
+			<p:outputLabel styleClass="field-label"
+				value="#{labels.CategoryNameLabel}" for="name" />
+			<h:outputText styleClass="field-value" id="name"
+				value="#{categoryController.parent.name}"
+				title="#{labels.CategoryNameTitle}" />
+
+			<p:outputLabel id="categoryParentLabel" styleClass="field-label"
+				value="#{labels.CategoryParentLabel}" />
+			<p:commandLink title="#{labels.CategoryParentTitle}"
+				styleClass="field-value" immediate="true"
+				value="#{categoryController.parent.parent.name}"
+				update=":categoryParentDetails:form"
+				oncomplete="PF('categoryParentDetailsDialog').show()">
+				<f:setPropertyActionListener
+					value="#{categoryController.parent.parent}"
+					target="#{categoryController.parent}" />
+			</p:commandLink>
+		</p:panelGrid>
+	</p:panelGrid>
+</composite:implementation>
+</html>
+
