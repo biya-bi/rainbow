@@ -17,12 +17,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.rainbow.core.entities.Trackable;
 
 @Entity
-@Table(name = "Subscriptions")
+@Table(name = "Subscriptions", uniqueConstraints = @UniqueConstraint(columnNames = { "JOURNAL_ID",
+		"SUBSCRIBER_PROFILE_ID" }))
 @Access(value = AccessType.PROPERTY)
 public class Subscription extends Trackable<Long> {
 	/**
@@ -35,6 +37,20 @@ public class Subscription extends Trackable<Long> {
 	private Profile subscriberProfile;
 
 	public Subscription() {
+	}
+
+	public Subscription(Long id) {
+		super(id);
+	}
+
+	public Subscription(String description, Date subscriptionDate, Journal journal, Profile subscriberProfile,
+			String creator, String updater, Date creationDate, Date lastUpdateDate, long version, Long id) {
+		super(creator, updater, creationDate, lastUpdateDate, version, id);
+
+		this.description = description;
+		this.subscriptionDate = subscriptionDate;
+		this.journal = journal;
+		this.subscriberProfile = subscriberProfile;
 	}
 
 	@Id

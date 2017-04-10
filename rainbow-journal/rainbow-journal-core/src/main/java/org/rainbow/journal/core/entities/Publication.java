@@ -42,6 +42,20 @@ public class Publication extends Trackable<Long> {
 	public Publication() {
 	}
 
+	public Publication(Long id) {
+		super(id);
+	}
+
+	public Publication(String description, File file, Date publicationDate, Journal journal, Profile publisherProfile,
+			String creator, String updater, Date creationDate, Date lastUpdateDate, long version, Long id) {
+		super(creator, updater, creationDate, lastUpdateDate, version, id);
+		this.description = description;
+		this.file = file;
+		this.publicationDate = publicationDate;
+		this.journal = journal;
+		this.publisherProfile = publisherProfile;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Override

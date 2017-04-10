@@ -13,18 +13,10 @@
 		rendered="#{publicationController.current != null}"
 		styleClass="ui-panelgrid-blank">
 		<p:panelGrid>
-			<p:graphicImage id="graphicImage"
-				value="#{publicationController.file}" styleClass="photo-style" />
+			<p:media value="#{publicationController.file}" player="pdf"
+				styleClass="photo-style" />
 		</p:panelGrid>
 		<p:panelGrid columns="2">
-			<p:outputLabel styleClass="field-label"
-				value="#{labels.PublicationDateLabel}" for="publicationDate" />
-			<h:outputText styleClass="field-value" id="publicationDate"
-				value="#{publicationController.current.publicationDate}"
-				title="#{labels.PublicationDateTitle}">
-				<f:convertDateTime dateStyle="short" />
-			</h:outputText>
-
 			<p:outputLabel id="publicationJournalLabel" styleClass="field-label"
 				value="#{labels.PublicationJournalLabel}" />
 			<p:commandLink title="#{labels.PublicationJournalTitle}"
@@ -36,6 +28,19 @@
 					value="#{publicationController.current.journal}"
 					target="#{journalController.current}" />
 			</p:commandLink>
+			<p:outputLabel styleClass="field-label"
+				value="#{labels.PublicationDateLabel}" for="publicationDate" />
+			<h:outputText styleClass="field-value" id="publicationDate"
+				value="#{publicationController.current.publicationDate}"
+				title="#{labels.PublicationDateTitle}">
+				<f:convertDateTime dateStyle="short" />
+			</h:outputText>
+
+			<p:outputLabel styleClass="field-label"
+				value="#{labels.PublicationDescriptionLabel}" />
+			<h:outputText styleClass="field-value" id="description"
+				value="#{publicationController.current.description}"
+				title="#{labels.PublicationDescriptionTitle}" />
 		</p:panelGrid>
 	</p:panelGrid>
 </composite:implementation>

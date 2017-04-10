@@ -27,6 +27,7 @@ import org.rainbow.core.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.core.service.Service;
 import org.rainbow.journal.core.entities.Journal;
 import org.rainbow.journal.core.entities.Profile;
+import org.rainbow.journal.core.persistence.exceptions.DuplicateJournalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -622,4 +623,31 @@ public class JournalServiceTest {
 		Assert.assertEquals(result1.size(), result.size());
 	}
 
+	@Test(expected = DuplicateJournalException.class)
+	public void create_NameAlreadyExists_ThrowDuplicateJournalException() throws Exception {
+		Journal expected = new Journal();
+		expected.setId(null);
+		expected.setName("ACIMED");
+		expected.setOwnerProfile(em.getReference(Profile.class, 2001L));
+
+		try {
+			journalService.create(expected);
+		} catch (DuplicateJournalException e) {
+			Assert.assertEquals(expected.getName(), e.getName());
+			throw e;
+		}
+	}
+
+	@Test(expected = DuplicateJournalException.class)
+	public void update_NameAlreadyExists_ThrowDuplicateJournalException() throws Exception {
+		Journal expected = em.getReference(Journal.class, 2003L);
+		expected.setName("Acta Anaesthesiologica Scandinavica");
+
+		try {
+			journalService.update(expected);
+		} catch (DuplicateJournalException e) {
+			Assert.assertEquals(expected.getName(), e.getName());
+			throw e;
+		}
+	}
 }

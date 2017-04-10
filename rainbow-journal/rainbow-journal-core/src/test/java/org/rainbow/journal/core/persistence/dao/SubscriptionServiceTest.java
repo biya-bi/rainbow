@@ -28,6 +28,7 @@ import org.rainbow.core.service.Service;
 import org.rainbow.journal.core.entities.Journal;
 import org.rainbow.journal.core.entities.Profile;
 import org.rainbow.journal.core.entities.Subscription;
+import org.rainbow.journal.core.persistence.exceptions.DuplicateSubscriptionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -66,7 +67,7 @@ public class SubscriptionServiceTest {
 		Subscription expected = new Subscription();
 		expected.setId(null);
 		expected.setJournal(em.getReference(Journal.class, 4001L));
-		expected.setSubscriberProfile(em.getReference(Profile.class, 4001L));
+		expected.setSubscriberProfile(em.getReference(Profile.class, 4002L));
 
 		subscriptionService.create(expected);
 
@@ -641,4 +642,36 @@ public class SubscriptionServiceTest {
 		Assert.assertEquals(result1.size(), result.size());
 	}
 
+	@Test(expected = DuplicateSubscriptionException.class)
+	public void create_UserAlreadySubscribedToJournal_ThrowDuplicateSubscriptionException() throws Exception {
+		Subscription expected = new Subscription();
+		expected.setId(null);
+		expected.setJournal(em.getReference(Journal.class, 4001L));
+		expected.setSubscriberProfile(em.getReference(Profile.class, 4001L));
+
+		try {
+			subscriptionService.create(expected);
+		} catch (DuplicateSubscriptionException e) {
+			Assert.assertEquals("sample_user1", e.getSubscriberUserName());
+			Assert.assertEquals("ACIMED", e.getJournalName());
+			throw e;
+		}
+
+	}
+
+	@Test(expected = DuplicateSubscriptionException.class)
+	public void update_UserAlreadySubscribedToJournal_ThrowDuplicateSubscriptionException() throws Exception {
+		Subscription expected = em.getReference(Subscription.class, 4003L);
+		expected.setSubscriptionDate(new Date());
+		expected.setSubscriberProfile(new Profile(4007L));
+
+		try {
+			subscriptionService.update(expected);
+		} catch (DuplicateSubscriptionException e) {
+			Assert.assertEquals("sample_user7", e.getSubscriberUserName());
+			Assert.assertEquals("Acta Anaesthesiologica Scandinavica", e.getJournalName());
+			throw e;
+		}
+
+	}
 }

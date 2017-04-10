@@ -12,6 +12,6 @@ package org.rainbow.security.core.service;
 public class MySqlDatabase extends Database {
 
     public MySqlDatabase() {
-        super("jdbc:mysql://localhost:3306/rainbow_security_dev", "root", "Passw0rd", "com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource");
+        super("jdbc:mysql://localhost:3306/rainbow_security_dev", "root", "Passw0rd", "com.mysql.jdbc.Driver");
     }
 }

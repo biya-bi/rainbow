@@ -25,7 +25,7 @@ public class ProfileHelper {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		if (authentication == null)
-			throw new IllegalStateException("A profile can only be searched after authentication.");
+			throw new IllegalStateException("A profile can only be searched after for an authenticated.");
 
 		String userName = authentication.getName();
 

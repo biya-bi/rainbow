@@ -21,8 +21,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.rainbow.core.entities.Trackable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Profiles")
@@ -37,8 +40,9 @@ public class Profile extends Trackable<Long> {
 	private String userName;
 	private String firstName;
 	private String lastName;
-	private Date birthdate;
+	private Date birthDate;
 	private String description;
+	private String email;
 	private File photo;
 	private Collection<Publication> publications;
 	private Collection<Journal> journals;
@@ -96,12 +100,12 @@ public class Profile extends Trackable<Long> {
 
 	@Column(name = "BIRTH_DATE")
 	@Temporal(TemporalType.DATE)
-	public Date getBirthdate() {
-		return birthdate;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
+	public void setBirthDate(Date birthdate) {
+		this.birthDate = birthdate;
 	}
 
 	@Column(columnDefinition = "TEXT")
@@ -111,6 +115,14 @@ public class Profile extends Trackable<Long> {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@JoinTable(name = "Profiles_Photos", joinColumns = @JoinColumn(name = "PROFILE_ID"), inverseJoinColumns = @JoinColumn(name = "PHOTO_ID"))
@@ -123,6 +135,8 @@ public class Profile extends Trackable<Long> {
 		this.photo = photo;
 	}
 
+	@XmlTransient
+	@JsonIgnore
 	@OneToMany(mappedBy = "publisherProfile")
 	public Collection<Publication> getPublications() {
 		return publications;
@@ -132,6 +146,8 @@ public class Profile extends Trackable<Long> {
 		this.publications = publications;
 	}
 
+	@XmlTransient
+	@JsonIgnore
 	@OneToMany(mappedBy = "ownerProfile")
 	public Collection<Journal> getJournals() {
 		return journals;

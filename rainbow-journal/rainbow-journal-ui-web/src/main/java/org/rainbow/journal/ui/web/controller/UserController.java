@@ -7,7 +7,6 @@ package org.rainbow.journal.ui.web.controller;
 
 import static org.rainbow.journal.ui.web.utilities.ResourceBundles.CRUD_MESSAGES;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -22,6 +21,7 @@ import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
 import org.rainbow.core.persistence.SingleValuedFilter;
 import org.rainbow.core.service.Service;
+import org.rainbow.journal.core.entities.Profile;
 import org.rainbow.journal.ui.web.utilities.JsfUtil;
 import org.rainbow.security.core.entities.Application;
 import org.rainbow.security.core.entities.Group;
@@ -73,10 +73,16 @@ public class UserController extends TrackableController<User, Long, SearchOption
 
 	@Value("${application.name}")
 	private String applicationName;
-	
-	@Value("${default.store.web.user.group.name}")
-	private String defaultStoreWebUserGroupName;
-	
+
+	@Value("${default.journal.web.user.group.name}")
+	private String defaultJournalWebUserGroupName;
+
+	@Autowired
+	@Qualifier("profileService")
+	private Service<Profile, Long, SearchOptions> profileService;
+
+	private final Profile profile = new Profile();
+
 	private static final String DUPLICATE_USER_NAME_ERROR_KEY = "DuplicateUserName";
 
 	public UserController() {
@@ -129,36 +135,50 @@ public class UserController extends TrackableController<User, Long, SearchOption
 		SecurityContextHolder.getContext().setAuthentication(authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(current.getUserName(), password)));
 
+		profile.setUserName(current.getUserName());
+		profile.setEmail(current.getMembership().getEmail());
+		profile.setCreator(current.getUserName());
+		profile.setUpdater(current.getUserName());
+
+		profileService.create(profile);
+
 		return "success";
 	}
 
 	private Application getApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.EQUAL);
-		filter.setValue(applicationName);
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		SearchOptions options = new SearchOptions();
+
+		SingleValuedFilter<String> nameFilter = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
+				applicationName);
+
+		options.setFilters(Arrays.asList(new Filter<?>[] { nameFilter }));
+
+		List<Application> result = applicationService.find(options);
 		if (result != null && result.size() == 1)
 			return result.get(0);
-		return null;
+		throw new IllegalStateException(String.format("No application with name '%s' was found.", applicationName));
 	}
 
 	private Group getGroup() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.EQUAL);
-		filter.setValue(defaultStoreWebUserGroupName);
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Group> result = groupService.find(criteria);
+		SearchOptions options = new SearchOptions();
+
+		SingleValuedFilter<String> groupNameFilter = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
+				defaultJournalWebUserGroupName);
+		SingleValuedFilter<String> applicationNameFilter = new SingleValuedFilter<>("application.name",
+				RelationalOperator.EQUAL, applicationName);
+
+		options.setFilters(Arrays.asList(new Filter<?>[] { groupNameFilter, applicationNameFilter }));
+
+		List<Group> result = groupService.find(options);
 		if (result != null && result.size() == 1)
 			return result.get(0);
-		return null;
+		throw new IllegalStateException(
+				String.format("No group with name '%s' has been found in the application with name '%s'.",
+						defaultJournalWebUserGroupName, applicationName));
 	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
 }

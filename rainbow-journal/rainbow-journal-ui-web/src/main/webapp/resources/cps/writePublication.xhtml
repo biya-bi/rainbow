@@ -14,32 +14,13 @@
 		<p:row>
 			<p:column>
 				<p:panelGrid>
-					<p:graphicImage id="graphicImage"
-						value="#{publicationController.file}" styleClass="photo-style" />
+					<p:media id="fileMedia" value="#{publicationController.file}"
+						player="pdf" styleClass="photo-style" />
 				</p:panelGrid>
 			</p:column>
 			<p:column>
 				<p:panelGrid>
-					<p:row>
-						<p:column>
-							<p:outputLabel styleClass="field-label"
-								value="#{labels.PublicationDateLabel}" for="publicationDate" />
-						</p:column>
-						<p:column>
-							<p:calendar styleClass="field-value" id="publicationDate"
-								value="#{publicationController.current.publicationDate}"
-								title="#{labels.PublicationDateTitle}" required="true"
-								requiredMessage="#{valMsg.PublicationDateRequired}">
-								<p:ajax event="dateSelect" />
-								<p:clientValidator event="dateSelect" />
-								<p:clientValidator event="change" />
-							</p:calendar>
-						</p:column>
-						<p:column />
-						<p:column>
-							<p:message for="publicationDate" />
-						</p:column>
-					</p:row>
+
 
 					<p:row>
 						<p:column>
@@ -63,6 +44,39 @@
 							<p:message for="publicationJournalDropDown" />
 						</p:column>
 					</p:row>
+
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.PublicationDateLabel}" for="publicationDate" />
+						</p:column>
+						<p:column>
+							<p:calendar styleClass="field-value" id="publicationDate"
+								value="#{publicationController.current.publicationDate}"
+								title="#{labels.PublicationDateTitle}" required="true"
+								requiredMessage="#{valMsg.PublicationDateRequired}">
+								<p:ajax event="dateSelect" />
+								<p:clientValidator event="dateSelect" />
+								<p:clientValidator event="change" />
+							</p:calendar>
+						</p:column>
+						<p:column />
+						<p:column>
+							<p:message for="publicationDate" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.PublicationDescriptionLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputTextarea styleClass="field-value" id="description"
+								value="#{publicationController.current.description}"
+								title="#{labels.PublicationDescriptionTitle}" />
+						</p:column>
+					</p:row>
 				</p:panelGrid>
 			</p:column>
 		</p:row>
@@ -73,7 +87,7 @@
 					allowTypes="/(\.|\/)(pdf)$/" sizeLimit="10240000"
 					styleClass="field-value" label="#{labels.ChooseFileLabel}"
 					uploadLabel="#{labels.UploadFileLabel}"
-					cancelLabel="#{labels.CancelLabel}" update="graphicImage" />
+					cancelLabel="#{labels.CancelLabel}" update="fileMedia" />
 			</p:column>
 		</p:row>
 	</p:panelGrid>

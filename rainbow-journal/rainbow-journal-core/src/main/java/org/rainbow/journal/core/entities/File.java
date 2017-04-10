@@ -1,5 +1,7 @@
 package org.rainbow.journal.core.entities;
 
+import java.util.Date;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Basic;
@@ -33,8 +35,21 @@ public class File extends Trackable<Long> {
 	public File() {
 	}
 
+	public File(Long id) {
+		super(id);
+	}
+
 	public File(String fileName, byte[] fileContent, String fileContentType, Long fileSize) {
 		super();
+		this.fileName = fileName;
+		this.fileContent = fileContent;
+		this.fileContentType = fileContentType;
+		this.fileSize = fileSize;
+	}
+
+	public File(String fileName, byte[] fileContent, String fileContentType, Long fileSize, String creator,
+			String updater, Date creationDate, Date lastUpdateDate, long version, Long id) {
+		super(creator, updater, creationDate, lastUpdateDate, version, id);
 		this.fileName = fileName;
 		this.fileContent = fileContent;
 		this.fileContentType = fileContentType;

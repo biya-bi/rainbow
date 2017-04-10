@@ -12,7 +12,7 @@ import javax.ejb.ApplicationException;
  * @author Biya-Bi
  */
 @ApplicationException(rollback = true)
-public class RainbowJournalException extends Exception {
+public class RainbowJournalException extends RuntimeException {
 
     /**
 	 * 

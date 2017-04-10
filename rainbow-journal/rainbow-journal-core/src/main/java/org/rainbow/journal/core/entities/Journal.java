@@ -1,6 +1,7 @@
 package org.rainbow.journal.core.entities;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -18,8 +19,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.rainbow.core.entities.Trackable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Journals")
@@ -45,6 +49,19 @@ public class Journal extends Trackable<Long> {
 		super(id);
 	}
 
+	public Journal(String name, String description, File photo, String tag, boolean active, Profile ownerProfile,
+			String creator, String updater, Date creationDate, Date lastUpdateDate, long version, Long id) {
+
+		super(creator, updater, creationDate, lastUpdateDate, version, id);
+
+		this.name = name;
+		this.description = description;
+		this.photo = photo;
+		this.tag = tag;
+		this.active = active;
+		this.ownerProfile = ownerProfile;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Override
@@ -58,7 +75,7 @@ public class Journal extends Trackable<Long> {
 	}
 
 	@NotNull
-	@Column(length = 255, nullable = false)
+	@Column(length = 255, nullable = false, unique = true)
 	public String getName() {
 		return name;
 	}
@@ -104,6 +121,8 @@ public class Journal extends Trackable<Long> {
 		this.active = active;
 	}
 
+	@XmlTransient
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "journal", orphanRemoval = true)
 	public Collection<Publication> getPublications() {
 		return publications;

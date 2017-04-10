@@ -62,6 +62,42 @@ public class EntityManagerHelper {
 		return tq.getSingleResult() > 0;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <TEntity, TValue> boolean isDuplicate(Class<TEntity> entityClass, Map<String, Object> pathValuePairs,
+			String idAttributeName, Object id) {
+		if (pathValuePairs == null || pathValuePairs.isEmpty())
+			throw new IllegalArgumentException("pathValuePairs map can neither be null nor empty.");
+
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		Root<TEntity> rt = cq.from(entityClass);
+		cq.select(cb.count(rt));
+
+		Expression<Boolean>[] expressions = new Expression[pathValuePairs.size()];
+
+		Object value;
+		int i = 0;
+		for (String path : pathValuePairs.keySet()) {
+			value = pathValuePairs.get(path);
+			if (value instanceof String) {
+				expressions[i++] = cb.equal(cb.upper(getPath(path, rt)), ((String) value).toUpperCase());
+			} else {
+				expressions[i++] = cb.equal(getPath(path, rt), value);
+			}
+		}
+
+		Predicate p1 = null;
+		if (id != null) {
+			p1 = cb.notEqual(rt.get(idAttributeName), id);
+		}
+
+		Expression<Boolean> p = p1 == null ? and(cb, expressions) : cb.and(and(cb, expressions), p1);
+
+		cq.where(p);
+		TypedQuery<Long> tq = em.createQuery(cq);
+		return tq.getSingleResult() > 0;
+	}
+
 	@SuppressWarnings("rawtypes")
 	private <T, U> Path getPath(String path, Root<T> rt) {
 		String[] parts = path.split(Pattern.quote("."));

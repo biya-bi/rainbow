@@ -26,7 +26,7 @@ import org.rainbow.core.persistence.SingleValuedFilter;
 import org.rainbow.core.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.core.service.Service;
 import org.rainbow.journal.core.entities.Profile;
-import org.rainbow.journal.core.persistence.exceptions.DuplicateProfileUserNameException;
+import org.rainbow.journal.core.persistence.exceptions.DuplicateProfileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -74,15 +74,15 @@ public class ProfileServiceTest {
 		Assert.assertNotNull(expected.getId());
 	}
 
-	@Test(expected = DuplicateProfileUserNameException.class)
-	public void create_UserNameAlreadyExists_ThrowDuplicateProfileUserNameException() throws Exception {
+	@Test(expected = DuplicateProfileException.class)
+	public void create_UserNameAlreadyExists_ThrowDuplicateProfileException() throws Exception {
 		Profile profile = new Profile();
 		profile.setUserName("sample_user1");
 		profile.setLastName("User1");
 
 		try {
 			profileService.create(profile);
-		} catch (DuplicateProfileUserNameException e) {
+		} catch (DuplicateProfileException e) {
 			Assert.assertEquals(profile.getUserName(), e.getUserName());
 			throw e;
 		}
@@ -122,14 +122,14 @@ public class ProfileServiceTest {
 		Assert.assertEquals(expected.getLastName(), actual.getLastName());
 	}
 
-	@Test(expected = DuplicateProfileUserNameException.class)
-	public void update_UserNameAlreadyExists_ThrowDuplicateProfileUserNameException() throws Exception {
+	@Test(expected = DuplicateProfileException.class)
+	public void update_UserNameAlreadyExists_ThrowDuplicateProfileException() throws Exception {
 		Profile profile = em.getReference(Profile.class, 1004L);
 		profile.setUserName("sample_user1");
 
 		try {
 			profileService.update(profile);
-		} catch (DuplicateProfileUserNameException e) {
+		} catch (DuplicateProfileException e) {
 			Assert.assertEquals(profile.getUserName(), e.getUserName());
 			throw e;
 		}

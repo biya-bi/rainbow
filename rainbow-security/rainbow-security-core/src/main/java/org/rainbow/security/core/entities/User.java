@@ -112,7 +112,7 @@ public class User extends Trackable<Long> {
 		this.lastActivityDate = lastActivityDate;
 	}
 
-	@ManyToMany(mappedBy = "users", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@ManyToMany(mappedBy = "users")
 	@XmlTransient
 	public List<Group> getGroups() {
 		return groups;

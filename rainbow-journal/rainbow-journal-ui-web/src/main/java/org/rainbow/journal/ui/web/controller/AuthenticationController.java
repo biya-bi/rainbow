@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -58,6 +59,9 @@ public class AuthenticationController {
 	@Autowired
 	@Qualifier("jdbcUserDetailsService")
 	private UserDetailsService userDetailsService;
+
+	@Value("${journal.admin.authority.name}")
+	private String journalAdminAuthorityName;
 
 	private static final String AUTHENTICATION_FAILED_KEY = "AuthenticationFailed";
 	private static final String INVALID_CREDENTIALS_KEY = "InvalidCredentials";
@@ -106,7 +110,7 @@ public class AuthenticationController {
 			}
 			SecurityContextHolder.getContext().setAuthentication(result);
 
-			if (hasRole("ROLE_STORE_ADMIN"))
+			if (hasRole(journalAdminAuthorityName))
 				return "admin";
 			else
 				return "web_user";

@@ -44,9 +44,9 @@
 						<h:panelGrid styleClass="authenticated-user-panelgrid" columns="3"
 							columnClasses="login-column,account-separator-column,register-column"
 							rendered="#{request.userPrincipal == null}">
-							<p:commandLink value="#{labels.LoginLabel}" action="login" />
+							<p:commandLink value="#{labels.LoginLabel}" action="login?faces-redirect=true" />
 							<p:outputLabel value="#{labels.AccountSeparator}" />
-							<p:commandLink value="#{labels.SignupLabel}" action="signup"
+							<p:commandLink value="#{labels.SignupLabel}" action="signup?faces-redirect=true"
 								actionListener="#{userController.init}" />
 						</h:panelGrid>
 

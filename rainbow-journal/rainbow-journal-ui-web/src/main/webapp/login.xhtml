@@ -74,7 +74,7 @@
 								action="#{authenticationController.login}" value="#{labels.LoginLabel}"
 								icon="ui-icon-power" />
 							<p:commandButton value="#{labels.CancelLabel}"
-								action="index" styleClass="loginPanelBtn"
+								action="index?faces-redirect=true" styleClass="loginPanelBtn"
 								immediate="true" update="loginFormId"/>
 						</p:panelGrid>
 					</p:column>

@@ -12,6 +12,6 @@ package org.rainbow.journal.core.persistence.dao;
 public class MySqlDatabase extends Database {
 
     public MySqlDatabase() {
-        super("jdbc:mysql://localhost:3306/rainbow_journal", "root", "Passw0rd", "com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource");
+        super("jdbc:mysql://localhost:3306/rainbow_journal_dev", "root", "Passw0rd", "com.mysql.jdbc.Driver");
     }
 }

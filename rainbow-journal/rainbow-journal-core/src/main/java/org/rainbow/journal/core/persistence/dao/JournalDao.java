@@ -12,6 +12,7 @@ import org.rainbow.core.persistence.UpdateOperation;
 import org.rainbow.journal.core.entities.File;
 import org.rainbow.journal.core.entities.Journal;
 import org.rainbow.journal.core.entities.Profile;
+import org.rainbow.journal.core.persistence.exceptions.DuplicateJournalException;
 import org.rainbow.journal.core.utilities.EntityManagerHelper;
 import org.rainbow.journal.core.utilities.PersistenceSettings;
 
@@ -34,11 +35,17 @@ public class JournalDao extends DaoImpl<Journal, Long> {
 	protected void validate(Journal journal, UpdateOperation operation) {
 		EntityManagerHelper helper = new EntityManagerHelper(em);
 		Profile persistentProfile;
+		Long journalId;
 		switch (operation) {
 		case CREATE:
+			journalId = null;
 		case UPDATE:
+			journalId = journal.getId();
 			persistentProfile = helper.getReference(Profile.class, journal.getOwnerProfile().getId());
 			journal.setOwnerProfile(persistentProfile);
+			if (helper.isDuplicate(Journal.class, journal.getName(), "name", "id", journalId)) {
+				throw new DuplicateJournalException(journal.getName());
+			}
 			break;
 		case DELETE:
 			break;

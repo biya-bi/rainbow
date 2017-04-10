@@ -1,0 +1,48 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+				http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+http://www.springframework.org/schema/security 
+http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="usernamePasswordAuthenticationProvider" />
+	</authentication-manager>
+
+	<http entry-point-ref="restBasicAuthenticationEntryPoint">
+
+		<csrf disabled="true" />
+		<http-basic />
+
+		<intercept-url pattern="/api/journals/**" access="permitAll"
+			method="GET" />
+		<intercept-url pattern="/api/publications/**" access="permitAll"
+			method="GET" />
+		<intercept-url pattern="/api/subscriptions/subscribe/**"
+			access="isAuthenticated()" method="POST" />
+		<intercept-url pattern="/api/subscriptions/unsubscribe/**"
+			access="isAuthenticated()" method="DELETE" />
+		<intercept-url pattern="/api/users/signup/**" access="permitAll"
+			method="POST" />
+		<intercept-url pattern="/api/users/profileId/**" access="isAuthenticated()"
+			method="GET" />
+		<intercept-url pattern="/api/journals/**" access="hasRole('ROLE_JOURNAL_ADMIN')" />
+		<intercept-url pattern="/api/publications/**" access="hasRole('ROLE_JOURNAL_ADMIN')" />
+		<intercept-url pattern="/api/subscriptions/**" access="hasRole('ROLE_JOURNAL_ADMIN')" />
+
+		<custom-filter ref="usernamePasswordAuthenticationFilter"
+			position="FORM_LOGIN_FILTER" />
+
+		<logout />
+	</http>
+
+	<beans:bean id="usernamePasswordAuthenticationFilter"
+		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="authenticationSuccessHandler"
+			ref="savedRequestAwareAuthenticationSuccessHandler" />
+	</beans:bean>
+
+	<beans:bean id="savedRequestAwareAuthenticationSuccessHandler"
+		class="org.rainbow.journal.server.security.authentication.SavedRequestAwareAuthenticationSuccessHandler" />
+</beans:beans>

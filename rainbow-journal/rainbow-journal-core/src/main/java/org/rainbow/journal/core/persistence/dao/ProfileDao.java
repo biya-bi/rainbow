@@ -11,7 +11,7 @@ import org.rainbow.core.persistence.Pageable;
 import org.rainbow.core.persistence.UpdateOperation;
 import org.rainbow.journal.core.entities.File;
 import org.rainbow.journal.core.entities.Profile;
-import org.rainbow.journal.core.persistence.exceptions.DuplicateProfileUserNameException;
+import org.rainbow.journal.core.persistence.exceptions.DuplicateProfileException;
 import org.rainbow.journal.core.utilities.PersistenceSettings;
 
 @Pageable(attributeName = "id")
@@ -30,16 +30,16 @@ public class ProfileDao extends DaoImpl<Profile, Long> {
 	}
 
 	@Override
-	protected void validate(Profile profile, UpdateOperation operation) throws DuplicateProfileUserNameException {
+	protected void validate(Profile profile, UpdateOperation operation) throws DuplicateProfileException {
 		switch (operation) {
 		case CREATE:
 			if (exists(profile.getUserName(), "userName", null, null)) {
-				throw new DuplicateProfileUserNameException(profile.getUserName());
+				throw new DuplicateProfileException(profile.getUserName());
 			}
 			break;
 		case UPDATE:
 			if (exists(profile.getUserName(), "userName", "id", profile.getId())) {
-				throw new DuplicateProfileUserNameException(profile.getUserName());
+				throw new DuplicateProfileException(profile.getUserName());
 			}
 		case DELETE:
 			break;

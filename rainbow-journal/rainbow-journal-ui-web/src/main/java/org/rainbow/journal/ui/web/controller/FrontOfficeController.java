@@ -149,7 +149,6 @@ public class FrontOfficeController implements Serializable {
 			throw new IllegalStateException(
 					String.format("No subscription to the journal '%s' for the user '%s' has been found.",
 							selectedJournal.getName(), userName));
-
 	}
 
 }

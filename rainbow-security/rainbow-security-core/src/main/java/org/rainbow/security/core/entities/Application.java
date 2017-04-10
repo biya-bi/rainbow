@@ -93,7 +93,7 @@ public class Application extends Trackable<Long> {
 	}
 
 	@XmlTransient
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "application")
+	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "application")
 	public List<User> getUsers() {
 		return users;
 	}

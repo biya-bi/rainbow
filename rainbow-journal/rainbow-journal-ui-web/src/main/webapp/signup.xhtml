@@ -8,10 +8,8 @@
 </h:head>
 <f:view contentType="text/html">
 
-	<f:loadBundle basename="org.rainbow.journal.ui.web.Labels"
-		var="labels" />
-	<f:loadBundle
-		basename="org.rainbow.journal.ui.web.ValidationMessages"
+	<f:loadBundle basename="org.rainbow.journal.ui.web.Labels" var="labels" />
+	<f:loadBundle basename="org.rainbow.journal.ui.web.ValidationMessages"
 		var="valMsg" />
 	<h:body>
 		<h:outputStylesheet name="css/styles.css" />
@@ -29,7 +27,8 @@
 							icon="ui-icon-disk" action="#{userController.signup}"
 							value="#{labels.SubmitLabel}" />
 						<p:commandButton id="headerCancelButton" icon="ui-icon-close"
-							value="#{labels.CancelLabel}" immediate="true" action="index" />
+							value="#{labels.CancelLabel}" immediate="true"
+							action="index?faces-redirect=true" />
 					</p:panelGrid>
 				</f:facet>
 				<f:facet name="footer">
@@ -39,7 +38,8 @@
 							icon="ui-icon-disk" action="#{userController.signup}"
 							value="#{labels.SubmitLabel}" />
 						<p:commandButton id="footerCancelButton" icon="ui-icon-close"
-							value="#{labels.CancelLabel}" immediate="true" action="index" />
+							value="#{labels.CancelLabel}" immediate="true"
+							action="index?faces-redirect=true" />
 					</p:panelGrid>
 				</f:facet>
 				  <p:messages id="messages" autoUpdate="true" />
@@ -110,12 +110,22 @@
 					<p:row>
 						<p:column>
 							<p:outputLabel styleClass="field-label"
-								value="#{labels.EmailLabel}" />
+								value="#{labels.EmailLabel}" for="email" />
 						</p:column>
 						<p:column>
 							<p:inputText styleClass="field-value" id="email"
 								value="#{userController.current.membership.email}"
-								title="#{labels.EmailTitle}" />
+								title="#{labels.EmailTitle}" required="true"
+								requiredMessage="#{valMsg.EmailRequired}">
+
+								<p:clientValidator event="keyup" />
+								<p:ajax event="keyup" />
+
+							</p:inputText>
+						</p:column>
+						<p:column />
+						<p:column>
+							<p:message for="email" />
 						</p:column>
 					</p:row>
 					<p:row>
@@ -146,7 +156,7 @@
 							<p:message for="passwordQuestion" />
 						</p:column>
 					</p:row>
-					<p:row rendered="#{not cc.attrs.hidePasswords}">
+					<p:row>
 						<p:column>
 							<p:outputLabel styleClass="field-label"
 								value="#{labels.PasswordQuestionAnswerLabel}"
@@ -171,7 +181,7 @@
 							<p:message for="passwordQuestionAnswer" id="passwordAnswerError" />
 						</p:column>
 					</p:row>
-					<p:row rendered="#{not cc.attrs.hidePasswords}">
+					<p:row>
 						<p:column>
 							<p:outputLabel styleClass="field-label"
 								value="#{labels.ConfirmPasswordQuestionAnswerLabel}"
@@ -179,7 +189,8 @@
 						</p:column>
 						<p:column>
 							<p:password styleClass="field-value"
-								id="confirmPasswordQuestionAnswer" label="Password 2"
+								id="confirmPasswordQuestionAnswer"
+								label="#{labels.ConfirmPasswordTitle}"
 								title="#{labels.ConfirmPasswordQuestionAnswerTitle}">
 								<p:clientValidator event="keyup" />
 								<p:ajax event="keyup"
@@ -195,6 +206,54 @@
 						</p:column>
 					</p:row>
 
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.LastNameLabel}" for="lastName" />
+						</p:column>
+						<p:column>
+							<p:inputText styleClass="field-value" id="lastName"
+								value="#{userController.profile.lastName}"
+								title="#{labels.LastNameTitle}" required="true"
+								requiredMessage="#{valMsg.LastNameRequired}">
+								<p:clientValidator event="keyup" />
+							</p:inputText>
+						</p:column>
+						<p:column />
+						<p:column>
+							<p:message for="lastName" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.FirstNameLabel}" for="firstName" />
+						</p:column>
+						<p:column>
+							<p:inputText styleClass="field-value" id="firstName"
+								value="#{userController.profile.firstName}"
+								title="#{labels.FirstNameTitle}">
+								<p:clientValidator event="keyup" />
+							</p:inputText>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.BirthDateLabel}" for="birthDate" />
+						</p:column>
+						<p:column>
+							<p:calendar styleClass="field-value" id="birthDate"
+								value="#{userController.profile.birthDate}"
+								title="#{labels.BirthDateTitle}">
+								<p:ajax event="dateSelect" />
+								<p:clientValidator event="dateSelect" />
+								<p:clientValidator event="change" />
+							</p:calendar>
+						</p:column>
+					</p:row>
 				</p:panelGrid>
 			</p:panelGrid>
 		</h:form>

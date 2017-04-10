@@ -110,21 +110,25 @@ http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 		<property name="dataSource" ref="rainbowSecurityDataSource" />
 	</bean>
 
-	<bean id="dataSource" class="${rainbow.journal.jdbc.driverClassName}">
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${rainbow.journal.jdbc.driverClassName}" />
 		<property name="url" value="${rainbow.journal.jdbc.url}" />
-		<property name="user" value="${rainbow.journal.jdbc.user}" />
+		<property name="username" value="${rainbow.journal.jdbc.user}" />
 		<property name="password" value="${rainbow.journal.jdbc.password}" />
 	</bean>
 
-	<bean
-		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-
-	<bean id="rainbowSecurityDataSource" class="${rainbow.security.jdbc.driverClassName}">
+	<bean id="rainbowSecurityDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${rainbow.security.jdbc.driverClassName}" />
 		<property name="url" value="${rainbow.security.jdbc.url}" />
-		<property name="user" value="${rainbow.security.jdbc.user}" />
+		<property name="username" value="${rainbow.security.jdbc.user}" />
 		<property name="password" value="${rainbow.security.jdbc.password}" />
 	</bean>
-
+	
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+		
 	<bean id="persistenceUnitManager"
 		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
 		<property name="persistenceXmlLocations">
