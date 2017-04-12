@@ -1,5 +1,6 @@
 package org.rainbow.journal.core.persistence.dao;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ import javax.persistence.PersistenceContext;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rainbow.core.persistence.Filter;
@@ -43,10 +43,11 @@ public class JournalServiceTest {
 	@PersistenceContext
 	private EntityManager em;
 
-	private static MySqlDatabase DATABASE = new MySqlDatabase();
+	private static MySqlDatabase DATABASE;
 
-	@BeforeClass
-	public static void setUpClass() throws SQLException, IOException {
+	@Autowired
+	public void initializeDatabase(MySqlDatabase mySqlDatabase) throws FileNotFoundException, SQLException, IOException {
+		DATABASE = mySqlDatabase;
 		DATABASE.execute("src/test/resources/Cleanup.sql");
 		DATABASE.execute("src/test/resources/JournalServiceTestSetup.sql");
 	}

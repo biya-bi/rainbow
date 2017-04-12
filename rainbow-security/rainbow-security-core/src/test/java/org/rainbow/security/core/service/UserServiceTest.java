@@ -1,5 +1,6 @@
 package org.rainbow.security.core.service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -13,7 +14,6 @@ import javax.persistence.PersistenceContext;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rainbow.security.core.entities.Application;
@@ -69,13 +69,15 @@ public class UserServiceTest {
 	@Qualifier("authenticationManager1")
 	private AuthenticationManager authenticationManager1;
 
-	private static final MySqlDatabase DATABASE = new MySqlDatabase();
-
 	private final String testApplicationName = "Test Application";
 	private final String missingApplicationName = "Missing Application";
 
-	@BeforeClass
-	public static void setUpClass() throws SQLException, IOException {
+	private static MySqlDatabase DATABASE;
+
+	@Autowired
+	public void initializeDatabase(MySqlDatabase mySqlDatabase)
+			throws FileNotFoundException, SQLException, IOException {
+		DATABASE = mySqlDatabase;
 		DATABASE.execute("src/test/resources/Cleanup.sql");
 		DATABASE.execute("src/test/resources/UserServiceTestSetup.sql");
 	}

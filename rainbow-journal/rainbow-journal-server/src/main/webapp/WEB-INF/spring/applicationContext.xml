@@ -17,7 +17,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 	<context:annotation-config />
 
 	<mvc:annotation-driven />
-	<mvc:default-servlet-handler/>
+	<mvc:default-servlet-handler />
 
 	<bean id="userDao" class="org.rainbow.security.core.persistence.dao.UserDao">
 		<constructor-arg name="applicationName" value="${application.name}" />
@@ -236,10 +236,16 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 			<bean class="org.rainbow.journal.core.persistence.dao.ProfileDao" />
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="subscriptionService" class="org.rainbow.journal.core.service.SubscriptionService">
 		<constructor-arg>
 			<bean class="org.rainbow.journal.core.persistence.dao.SubscriptionDao" />
 		</constructor-arg>
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/pages/" />
+		<property name="suffix" value=".html" />
 	</bean>
 </beans>

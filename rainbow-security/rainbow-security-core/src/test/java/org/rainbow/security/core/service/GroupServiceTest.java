@@ -1,5 +1,6 @@
 package org.rainbow.security.core.service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -10,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rainbow.core.persistence.SearchOptions;
@@ -35,12 +35,14 @@ public class GroupServiceTest {
 	@PersistenceContext
 	private EntityManager em;
 
-	private static final MySqlDatabase DATABASE = new MySqlDatabase();
-
 	private final Application application = new Application(4001L, "Test Application");
+	
+	private static MySqlDatabase DATABASE;
 
-	@BeforeClass
-	public static void setUpClass() throws SQLException, IOException {
+	@Autowired
+	public void initializeDatabase(MySqlDatabase mySqlDatabase)
+			throws FileNotFoundException, SQLException, IOException {
+		DATABASE = mySqlDatabase;
 		DATABASE.execute("src/test/resources/Cleanup.sql");
 		DATABASE.execute("src/test/resources/GroupServiceTestSetup.sql");
 	}

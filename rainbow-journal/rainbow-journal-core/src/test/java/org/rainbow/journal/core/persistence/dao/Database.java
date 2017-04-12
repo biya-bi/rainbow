@@ -21,105 +21,55 @@ import java.util.logging.Logger;
  *
  * @author Biya-Bi
  */
-public class Database {
+public abstract class Database {
 
 	private static final Logger LOGGER = Logger.getLogger(Database.class.getName());
-
-	private String url;
-	private String user;
-	private String password;
-	private String driverClassName;
-
-	public Database() {
-		super();
-	}
-
-	public Database(String url, String user, String password, String driverClassName) {
-		if (url == null)
-			throw new IllegalArgumentException("The url cannot be null.");
-		if (user == null)
-			throw new IllegalArgumentException("The user cannot be null.");
-		if (password == null)
-			throw new IllegalArgumentException("The password cannot be null.");
-		if (driverClassName == null)
-			throw new IllegalArgumentException("The driverClassName cannot be null.");
-		this.url = url;
-		this.user = user;
-		this.password = password;
-		this.driverClassName = driverClassName;
-		loadDriver();
-	}
+	private boolean driverLoaded;
 
 	private void loadDriver() {
-		if (driverClassName == null)
+		if (driverLoaded)
+			return;
+		if (this.getDriverClassName() == null)
 			throw new IllegalStateException("The driverClassName cannot be null.");
 		try {
-			LOGGER.log(Level.INFO, String.format("*** Loading driver: '%s'", driverClassName));
+			LOGGER.log(Level.INFO, String.format("*** Loading driver: '%s'", this.getDriverClassName()));
 			try {
-				Class.forName(driverClassName).newInstance();
-				LOGGER.log(Level.INFO, String.format("*** '%s' driver loaded", driverClassName));
+				Class.forName(this.getDriverClassName()).newInstance();
+				LOGGER.log(Level.INFO, String.format("*** '%s' driver loaded", this.getDriverClassName()));
+				driverLoaded = true;
 			} catch (InstantiationException | IllegalAccessException ex) {
 				LOGGER.log(Level.SEVERE,
-						String.format("*** An error occured while loading the driver: '%s'", driverClassName), ex);
+						String.format("*** An error occured while loading the driver: '%s'", this.getDriverClassName()),
+						ex);
 			}
 		} catch (ClassNotFoundException ex) {
 			LOGGER.log(Level.SEVERE,
-					String.format("*** An error occured while loading the driver: '%s'", driverClassName), ex);
+					String.format("*** An error occured while loading the driver: '%s'", this.getDriverClassName()),
+					ex);
 		}
 
 	}
 
-	public String getUrl() {
-		return url;
-	}
+	public abstract String getUrl();
 
-	public void setUrl(String url) {
-		if (url == null)
-			throw new IllegalArgumentException("The url cannot be null.");
-		this.url = url;
-	}
+	public abstract String getUser();
 
-	public String getUser() {
-		return user;
-	}
+	public abstract String getPassword();
 
-	public void setUser(String user) {
-		if (user == null)
-			throw new IllegalArgumentException("The user cannot be null.");
-		this.user = user;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		if (password == null)
-			throw new IllegalArgumentException("The password cannot be null.");
-		this.password = password;
-	}
-
-	public String getDriverClassName() {
-		return driverClassName;
-	}
-
-	public void setDriverClassName(String driverName) {
-		if (driverClassName == null)
-			throw new IllegalArgumentException("The driverClassName cannot be null.");
-		this.driverClassName = driverName;
-	}
+	public abstract String getDriverClassName();
 
 	public Connection getConnection() throws SQLException {
-		if (url == null)
+		if (this.getUrl() == null)
 			throw new IllegalStateException("The url cannot be null.");
-		if (user == null)
+		if (this.getUser() == null)
 			throw new IllegalStateException("The user cannot be null.");
-		if (password == null)
+		if (this.getPassword() == null)
 			throw new IllegalStateException("The password cannot be null.");
-		return DriverManager.getConnection(url, user, password);
+		return DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPassword());
 	}
 
 	public void execute(String sqlFilePath) throws SQLException, FileNotFoundException, IOException {
+		loadDriver();
 		StringBuilder stringBuilder = new StringBuilder();
 		File file = new File(sqlFilePath);
 

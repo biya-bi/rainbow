@@ -1,9 +1,14 @@
 delete from subscriptions;
+delete from publications_files;
 delete from publications;
+delete from journals_photos;
 delete from journals;
+delete from profiles_photos;
 delete from profiles;
+delete from files;
 alter table subscriptions auto_increment=1;
 alter table publications auto_increment=1;
 alter table journals auto_increment=1;
 alter table profiles auto_increment=1;
+alter table files auto_increment=1;
 commit;

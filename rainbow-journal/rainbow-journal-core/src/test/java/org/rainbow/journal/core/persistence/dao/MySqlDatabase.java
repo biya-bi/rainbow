@@ -5,13 +5,46 @@
  */
 package org.rainbow.journal.core.persistence.dao;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 /**
  *
  * @author Biya-Bi
  */
+@Component
 public class MySqlDatabase extends Database {
 
-    public MySqlDatabase() {
-        super("jdbc:mysql://localhost:3306/rainbow_journal_dev", "root", "Passw0rd", "com.mysql.jdbc.Driver");
-    }
+	@Value("${jdbc.driverClassName}")
+	private String driverClassName;
+
+	@Value("${jdbc.url}")
+	private String url;
+
+	@Value("${jdbc.user}")
+	private String user;
+
+	@Value("${jdbc.password}")
+	private String password;
+
+	@Override
+	public String getDriverClassName() {
+		return this.driverClassName;
+	}
+
+	@Override
+	public String getUrl() {
+		return url;
+	}
+
+	@Override
+	public String getUser() {
+		return user;
+	}
+
+	@Override
+	public String getPassword() {
+		return password;
+	}
+
 }
