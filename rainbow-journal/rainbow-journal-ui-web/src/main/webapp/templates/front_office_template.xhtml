@@ -42,10 +42,10 @@
 						<input type="hidden" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
 						<h:panelGrid styleClass="authenticated-user-panelgrid" columns="3"
-							columnClasses="login-column,account-separator-column,register-column"
+							columnClasses="login-column,vertical-separator-column,register-column"
 							rendered="#{request.userPrincipal == null}">
 							<p:commandLink value="#{labels.LoginLabel}" action="login?faces-redirect=true" />
-							<p:outputLabel value="#{labels.AccountSeparator}" />
+							<p:outputLabel value="#{labels.VerticalSeparator}" />
 							<p:commandLink value="#{labels.SignupLabel}" action="signup?faces-redirect=true"
 								actionListener="#{userController.init}" />
 						</h:panelGrid>
@@ -53,17 +53,17 @@
 						<sec:authorize access="hasRole('ROLE_JOURNAL_ADMIN')">
 							<h:panelGrid styleClass="authenticated-user-panelgrid"
 								columns="8"
-								columnClasses="welcome-column,user-name-column,account-separator-column,administration-column,account-separator-column,my-subscriptions-column,account-separator-column,logout-column"
+								columnClasses="welcome-column,user-name-column,vertical-separator-column,administration-column,vertical-separator-column,my-subscriptions-column,vertical-separator-column,logout-column"
 								rendered="#{request.userPrincipal != null}">
 								<p:outputLabel value="#{labels.WelcomeLabel}" />
 								<p:outputLabel value="#{request.userPrincipal.name}" />
-								<p:outputLabel value="#{labels.AccountSeparator}" />
+								<p:outputLabel value="#{labels.VerticalSeparator}" />
 								<p:commandLink value="#{labels.AdministrationLabel}"
 									action="admin?faces-redirect=true" />
-								<p:outputLabel value="#{labels.AccountSeparator}" />
+								<p:outputLabel value="#{labels.VerticalSeparator}" />
 								<p:commandLink value="#{labels.MySubscriptionsLabel}"
 									action="user_subscriptions?faces-redirect=true" />
-								<p:outputLabel value="#{labels.AccountSeparator}" />
+								<p:outputLabel value="#{labels.VerticalSeparator}" />
 								<p:commandLink value="#{labels.LogoutLabel}"
 									action="#{authenticationController.logout}" />
 							</h:panelGrid>
@@ -73,24 +73,20 @@
 						<sec:authorize access="!hasRole('ROLE_JOURNAL_ADMIN')">
 							<h:panelGrid styleClass="authenticated-user-panelgrid"
 								columns="6"
-								columnClasses="welcome-column,user-name-column,account-separator-column,my-subscriptions-column,account-separator-column,logout-column"
+								columnClasses="welcome-column,user-name-column,vertical-separator-column,my-subscriptions-column,vertical-separator-column,logout-column"
 								rendered="#{request.userPrincipal != null}">
 								<p:outputLabel value="#{labels.WelcomeLabel}" />
 								<p:outputLabel value="#{request.userPrincipal.name}" />
-								<p:outputLabel value="#{labels.AccountSeparator}" />
+								<p:outputLabel value="#{labels.VerticalSeparator}" />
 								<p:commandLink value="#{labels.MySubscriptionsLabel}"
 									action="user_subscriptions?faces-redirect=true" />
-								<p:outputLabel value="#{labels.AccountSeparator}" />
+								<p:outputLabel value="#{labels.VerticalSeparator}" />
 								<p:commandLink value="#{labels.LogoutLabel}"
 									action="#{authenticationController.logout}" />
 							</h:panelGrid>
 						</sec:authorize>
 					</h:form>
 				</div>
-			</p:layoutUnit>
-			<p:layoutUnit position="west" collapsible="true" resizable="true"
-				closable="true">
-				<ui:insert name="leftPan" />
 			</p:layoutUnit>
 			<p:layoutUnit position="center">
 				<ui:insert name="bodyContent" />

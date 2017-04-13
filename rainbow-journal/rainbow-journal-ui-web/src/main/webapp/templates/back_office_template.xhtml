@@ -41,14 +41,14 @@
 						<input type="hidden" name="${_csrf.parameterName}"
 							value="${_csrf.token}" />
 						<h:panelGrid styleClass="authenticated-user-panelgrid" columns="6"
-							columnClasses="welcome-column,user-name-column,account-separator-column,store-front-column,account-separator-column,logout-column"
+							columnClasses="welcome-column,user-name-column,vertical-separator-column,store-front-column,vertical-separator-column,logout-column"
 							rendered="#{request.userPrincipal != null}">
 							<p:outputLabel value="#{labels.WelcomeLabel}" />
 							<p:outputLabel value="#{request.userPrincipal.name}" />
-							<p:outputLabel value="#{labels.AccountSeparator}" />
+							<p:outputLabel value="#{labels.VerticalSeparator}" />
 							<p:commandLink value="#{labels.FrontOfficeLabel}"
 								action="index?faces-redirect=true" />
-							<p:outputLabel value="#{labels.AccountSeparator}" />
+							<p:outputLabel value="#{labels.VerticalSeparator}" />
 							<p:commandLink value="#{labels.LogoutLabel}"
 								action="#{authenticationController.logout}" />
 						</h:panelGrid>

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import org.rainbow.core.persistence.Filter;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Named
-@ViewScoped
+@SessionScoped
 public class FrontOfficeController implements Serializable {
 
 	/**

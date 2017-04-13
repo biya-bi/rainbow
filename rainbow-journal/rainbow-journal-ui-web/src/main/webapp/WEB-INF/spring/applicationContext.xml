@@ -125,10 +125,10 @@ http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 		<property name="username" value="${rainbow.security.jdbc.user}" />
 		<property name="password" value="${rainbow.security.jdbc.password}" />
 	</bean>
-	
+
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-		
+
 	<bean id="persistenceUnitManager"
 		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
 		<property name="persistenceXmlLocations">
@@ -160,8 +160,13 @@ http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 			<map>
 				<entry key="eclipselink.logging.level" value="ALL" />
 				<entry key="javax.persistence.schema-generation.database.action"
-					value="drop-and-create" />
+					value="none" />
 				<entry key="eclipselink.weaving" value="false" />
+				<entry key="eclipselink.logging.parameters" value="true" />
+				<entry key="javax.persistence.jdbc.driver" value="${rainbow.journal.jdbc.driverClassName}" />
+				<entry key="javax.persistence.jdbc.user" value="${rainbow.journal.jdbc.user}" />
+				<entry key="javax.persistence.jdbc.password" value="${rainbow.journal.jdbc.password}" />
+				<entry key="javax.persistence.jdbc.url" value="${rainbow.journal.jdbc.url}" />
 			</map>
 		</property>
 		<property name="jpaVendorAdapter">
@@ -191,6 +196,11 @@ http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 				<entry key="javax.persistence.schema-generation.database.action"
 					value="drop-and-create" />
 				<entry key="eclipselink.weaving" value="false" />
+				<entry key="eclipselink.logging.parameters" value="true" />
+				<entry key="javax.persistence.jdbc.driver" value="${rainbow.security.jdbc.driverClassName}" />
+				<entry key="javax.persistence.jdbc.user" value="${rainbow.security.jdbc.user}" />
+				<entry key="javax.persistence.jdbc.password" value="${rainbow.security.jdbc.password}" />
+				<entry key="javax.persistence.jdbc.url" value="${rainbow.security.jdbc.url}" />
 			</map>
 		</property>
 		<property name="jpaVendorAdapter">

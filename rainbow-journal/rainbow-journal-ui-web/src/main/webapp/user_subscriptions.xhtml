@@ -8,7 +8,7 @@
 
 <ui:composition template="/templates/user_subscriptions_template.xhtml">
 
-	<ui:define name="leftPan">
+	<ui:define name="bodyContent">
 
 		<h:form>
 
@@ -21,76 +21,33 @@
 				stickyHeader="false" selectionMode="single">
 
 				<p:panel>
-					<p:commandLink style="a:link { text-decoration:none; }"
-						update=":centerForm:itemContiner"
-						action="#{frontOfficeController.getPublicationsForJournal}">
-						<f:setPropertyActionListener value="#{item.journal}"
-							target="#{frontOfficeController.selectedJournal}" />
+					<p:panelGrid columns="1">
 						<p:outputLabel value="#{item.journal.name}" />
-						<br />
 						<p:graphicImage value="#{fileController.journalPhoto}"
 							styleClass="photo-style">
 							<f:param name="journalId" value="#{item.journal.id}" />
 						</p:graphicImage>
-					</p:commandLink>
+					</p:panelGrid>
 					<br />
-					<p:commandButton value="#{labels.UnsubscribeLabel}"
-						rendered="#{request.userPrincipal != null}"
-						action="#{frontOfficeController.unsubscribe}"
-						update="journalDataGrid">
-						<f:setPropertyActionListener value="#{item.journal}"
-							target="#{frontOfficeController.selectedJournal}" />
-					</p:commandButton>
+					<p:panelGrid columns="3">
+						<p:commandButton value="#{labels.UnsubscribeLabel}"
+							rendered="#{request.userPrincipal != null}"
+							action="#{frontOfficeController.unsubscribe}"
+							update="journalDataGrid">
+							<f:setPropertyActionListener value="#{item.journal}"
+								target="#{frontOfficeController.selectedJournal}" />
+						</p:commandButton>
+						<p:outputLabel value="#{labels.VerticalSeparator}"
+							rendered="#{request.userPrincipal != null}" />
+						<p:commandLink value="#{labels.ViewPublicationsLabel}"
+							action="publications?faces-redirect=true">
+							<f:setPropertyActionListener value="#{item.journal}"
+								target="#{frontOfficeController.selectedJournal}" />
+						</p:commandLink>
+					</p:panelGrid>
 				</p:panel>
 
 			</p:dataGrid>
-
-		</h:form>
-	</ui:define>
-
-	<ui:define name="bodyContent">
-		<h:form id="centerForm">
-
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
-
-			<p:fieldset id="itemContiner" style="border:none">
-				<p:outputLabel value="#{msg.SelectJournalMessage}"
-					rendered="#{empty frontOfficeController.publications}"
-					style="font-size:24px;" />
-
-				<p:outputLabel value="#{frontOfficeController.selectedJournal.name}"
-					rendered="#{not empty frontOfficeController.publications}" />
-
-				<p:accordionPanel id="availablePublications" var="item"
-					value="#{frontOfficeController.publications}" dynamic="true"
-					rendered="#{not empty frontOfficeController.publications}">
-
-					<p:tab>
-						<f:facet name="title">
-							<h:outputText value="#{item.publicationDate}"
-								title="#{labels.PublicationDateTitle}">
-								<f:convertDateTime dateStyle="short" />
-							</h:outputText>
-						</f:facet>
-						<p:panelGrid columns="2">
-
-							<p:outputLabel styleClass="field-label"
-								value="#{labels.PublicationPublisherLabel}" />
-							<h:outputText value="#{item.publisherProfile.userName}" />
-
-						</p:panelGrid>
-
-						<p:media value="#{fileController.publicationFile}" player="pdf"
-							width="100%" height="500">
-							<f:param name="publicationId" value="#{item.id}" />
-						</p:media>
-					</p:tab>
-
-
-				</p:accordionPanel>
-			</p:fieldset>
-
 
 		</h:form>
 	</ui:define>
