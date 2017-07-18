@@ -72,19 +72,19 @@ public class UserServiceTest {
 	private final String testApplicationName = "Test Application";
 	private final String missingApplicationName = "Missing Application";
 
-	private static MySqlDatabase DATABASE;
+	private static MySqlDatabase database;
 
 	@Autowired
 	public void initializeDatabase(MySqlDatabase mySqlDatabase)
 			throws FileNotFoundException, SQLException, IOException {
-		DATABASE = mySqlDatabase;
-		DATABASE.execute("src/test/resources/Cleanup.sql");
-		DATABASE.execute("src/test/resources/UserServiceTestSetup.sql");
+		database = mySqlDatabase;
+		database.execute("src/test/resources/Cleanup.sql");
+		database.execute("src/test/resources/UserServiceTestSetup.sql");
 	}
 
 	@AfterClass
 	public static void cleanUpClass() throws SQLException, IOException {
-		DATABASE.execute("src/test/resources/Cleanup.sql");
+		database.execute("src/test/resources/Cleanup.sql");
 	}
 
 	@After

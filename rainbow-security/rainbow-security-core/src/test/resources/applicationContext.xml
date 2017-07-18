@@ -16,12 +16,14 @@ http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 	<context:annotation-config />
 	<tx:annotation-driven transaction-manager="rainbowSecurityTransactionManager" />
 
-	<bean id="dataSource" class="${jdbc.driverClassName}">
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
-		<property name="user" value="${jdbc.user}" />
+		<property name="username" value="${jdbc.user}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
-
+	
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
@@ -43,7 +45,7 @@ http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 	<bean
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
 		id="passwordEncoder">
-		<constructor-arg name="strength" value="16" />
+		<constructor-arg name="strength" value="4" />
 	</bean>
 
 	<bean id="groupDao" class="org.rainbow.security.core.persistence.dao.GroupDao" />

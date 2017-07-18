@@ -32,6 +32,8 @@ public class SensitiveUserDetailsEncrypterTest {
 
 	private static MySqlDatabase DATABASE;
 
+	private static final String SECURITY_DETAIL_PREFIX = "$2a$04$";
+
 	@Autowired
 	public void initializeDatabase(MySqlDatabase mySqlDatabase)
 			throws FileNotFoundException, SQLException, IOException {
@@ -69,7 +71,7 @@ public class SensitiveUserDetailsEncrypterTest {
 		User user = em.getReference(User.class, 5001L);
 		Membership membership = user.getMembership();
 		Assert.assertTrue(membership.isEncrypted());
-		Assert.assertTrue(membership.getPassword().startsWith("$2a$16$"));
-		Assert.assertTrue(membership.getPasswordQuestionAnswer().startsWith("$2a$16$"));
+		Assert.assertTrue(membership.getPassword().startsWith(SECURITY_DETAIL_PREFIX));
+		Assert.assertTrue(membership.getPasswordQuestionAnswer().startsWith(SECURITY_DETAIL_PREFIX));
 	}
 }
