@@ -1,6 +1,7 @@
 package org.rainbow.core.service;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 public interface Service<TEntity, TKey extends Serializable, TSearchOptions> {
@@ -12,7 +13,7 @@ public interface Service<TEntity, TKey extends Serializable, TSearchOptions> {
 	 * @throws Exception
 	 * 
 	 */
-	public void create(TEntity entity) throws Exception;
+	void create(TEntity entity) throws Exception;
 
 	/**
 	 * Update an entity
@@ -22,7 +23,7 @@ public interface Service<TEntity, TKey extends Serializable, TSearchOptions> {
 	 * @throws Exception
 	 * 
 	 */
-	public void update(TEntity entity) throws Exception;
+	void update(TEntity entity) throws Exception;
 
 	/**
 	 * Delete an entity
@@ -32,7 +33,7 @@ public interface Service<TEntity, TKey extends Serializable, TSearchOptions> {
 	 * @throws Exception
 	 * 
 	 */
-	public void delete(TEntity entity) throws Exception;
+	void delete(TEntity entity) throws Exception;
 
 	/**
 	 * Get an entity by id
@@ -43,7 +44,7 @@ public interface Service<TEntity, TKey extends Serializable, TSearchOptions> {
 	 * @throws Exception
 	 *
 	 */
-	public TEntity findById(TKey id) throws Exception;
+	TEntity findById(TKey id) throws Exception;
 
 	/**
 	 * Get all entities
@@ -51,9 +52,15 @@ public interface Service<TEntity, TKey extends Serializable, TSearchOptions> {
 	 * @throws Exception
 	 *
 	 */
-	public List<TEntity> findAll() throws Exception;
+	List<TEntity> findAll() throws Exception;
 
-	public List<TEntity> find(TSearchOptions options) throws Exception;
+	List<TEntity> find(TSearchOptions options) throws Exception;
 
-	public long count(TSearchOptions options) throws Exception;
+	long count(TSearchOptions options) throws Exception;
+
+	void create(Collection<TEntity> entities) throws Exception;
+
+	void update(Collection<TEntity> entities) throws Exception;
+
+	void delete(Collection<TEntity> entities) throws Exception;
 }

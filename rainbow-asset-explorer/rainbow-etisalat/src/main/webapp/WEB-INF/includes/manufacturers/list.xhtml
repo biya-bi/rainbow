@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<sec:authorize access="hasRole('ROLE_READ_MANUFACTURERS')">
+		<cps:trackableDataGrid id="manufacturerList"
+			title="#{labels.ListManufacturersTitle}"
+			dataSource="#{manufacturerLazyDataModel}"
+			selectedItem="#{manufacturerController.current}"
+			selectedValue="#{item.id}"
+			createActionListener="#{manufacturerController.prepareCreate}"
+			createDialog="manufacturerCreateDialog"
+			createUpdate=":manufacturerCreate:form"
+			editDialog="manufacturerEditDialog"
+			editUpdate=":manufacturerEdit:form"
+			detailsDialog="manufacturerDetailsDialog"
+			detailsUpdate=":manufacturerDetails:form"
+			deleteDialog="manufacturerDeleteDialog"
+			deleteUpdate=":manufacturerDelete:form"
+			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_MANUFACTURERS')}"
+			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_MANUFACTURERS')}"
+			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_MANUFACTURERS')}"
+			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_MANUFACTURERS')}"
+			columnToggleListener="#{manufacturerController.onToggle}"
+			creatorFilterValue="#{manufacturerLazyDataModel.creatorFilter.value}"
+			creatorFilterOperator="#{manufacturerLazyDataModel.creatorFilter.operator}"
+			updaterFilterValue="#{manufacturerLazyDataModel.updaterFilter.value}"
+			updaterFilterOperator="#{manufacturerLazyDataModel.updaterFilter.operator}"
+			creationDateFilterValue="#{manufacturerLazyDataModel.creationDateFilter.value}"
+			creationDateFilterOperator="#{manufacturerLazyDataModel.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{manufacturerLazyDataModel.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{manufacturerLazyDataModel.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{manufacturerController.auditColumnsStates[1]}"
+			updaterColumnVisible="#{manufacturerController.auditColumnsStates[2]}"
+			creationDateColumnVisible="#{manufacturerController.auditColumnsStates[3]}"
+			lastUpdateDateColumnVisible="#{manufacturerController.auditColumnsStates[4]}">
+
+
+			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
+				sortBy="#{item.name}"
+				filterValue="#{manufacturerLazyDataModel.nameFilter.value}">
+				<h:outputText value="#{item.name}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="manufacturerList:form:dataTable"
+						selectedValue="#{manufacturerLazyDataModel.nameFilter.operator}"
+						changeWidgetVar="manufacturerListDataTable" />
+				</f:facet>
+			</p:column>
+
+		</cps:trackableDataGrid>
+
+		<ui:include src="/WEB-INF/includes/manufacturers/create.xhtml" />
+		<ui:include src="/WEB-INF/includes/manufacturers/edit.xhtml" />
+		<ui:include src="/WEB-INF/includes/manufacturers/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/manufacturers/delete.xhtml" />
+	</sec:authorize>
+</h:body>
+</html>
+

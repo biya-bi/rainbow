@@ -5,21 +5,15 @@
  */
 package org.rainbow.security.core.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.core.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.security.core.entities.Application;
 import org.rainbow.security.core.entities.Group;
@@ -29,16 +23,13 @@ import org.rainbow.security.core.persistence.exceptions.AuthorityNotGrantedToGro
 import org.rainbow.security.core.persistence.exceptions.GroupNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
  * @author Biya-Bi
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/applicationContext.xml")
-public class GroupAuthorityServiceTest {
+@DatabaseInitialize("src/test/resources/GroupAuthorityServiceTestSetup.sql")
+public class GroupAuthorityServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("groupAuthorityService")
@@ -48,31 +39,6 @@ public class GroupAuthorityServiceTest {
 	private EntityManager em;
 
 	private final Application application = new Application(3001L, "Test Application");
-
-	private static MySqlDatabase DATABASE;
-
-	@Autowired
-	public void initializeDatabase(MySqlDatabase mySqlDatabase)
-			throws FileNotFoundException, SQLException, IOException {
-		DATABASE = mySqlDatabase;
-		DATABASE.execute("src/test/resources/Cleanup.sql");
-		DATABASE.execute("src/test/resources/GroupAuthorityServiceTestSetup.sql");
-	}
-
-	@AfterClass
-	public static void cleanUpClass() throws SQLException, IOException {
-		DATABASE.execute("src/test/resources/Cleanup.sql");
-	}
-
-	@Before
-	public void setUp() {
-		em.clear();
-	}
-
-	@After
-	public void tearDown() {
-		em.clear();
-	}
 
 	@Test
 	public void grantAuthoritiesToGroups_AuthoritiesNotGrantedToGroups_AuthoritiesGrantedToGroups()

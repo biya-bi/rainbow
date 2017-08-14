@@ -1,0 +1,8 @@
+insert into locale(id,name,language_code,lcid,creation_date,last_update_date,version) values (5001,'English - United States','en','en-us',current_timestamp(),current_timestamp(),1);
+insert into email_template(id,name,subject,content,locale_id,creation_date,last_update_date,version) values (5001,'Email Template 5001','Email Template 5000 Subject','Email Template 5001 Content',5001,current_timestamp(),current_timestamp(),1);
+insert into email_template(id,name,subject,content,locale_id,creation_date,last_update_date,version) values (5002,'Email Template 5002','Email Template 5001 Subject','Email Template 5002 Content',5001,current_timestamp(),current_timestamp(),1);
+insert into email_template(id,name,subject,content,locale_id,creation_date,last_update_date,version) values (5003,'Email Template 5003','Email Template 5002 Subject','Email Template 5003 Content',5001,current_timestamp(),current_timestamp(),1);
+insert into email_template(id,name,subject,content,locale_id,creation_date,last_update_date,version) values (5004,'Email Template 5004','Email Template 5003 Subject','Email Template 5004 Content',5001,current_timestamp(),current_timestamp(),1);
+insert into email_template(id,name,subject,content,locale_id,creation_date,last_update_date,version) values (5005,'Email Template 5005','Email Template 5004 Subject','Email Template 5005 Content',5001,current_timestamp(),current_timestamp(),1);
+insert into email_template(id,name,subject,content,locale_id,creation_date,last_update_date,version) values (5006,'Email Template 5006','Email Template 5005 Subject','Email Template 5006 Content',5001,current_timestamp(),current_timestamp(),1);
+commit;

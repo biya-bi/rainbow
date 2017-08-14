@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite">
+
+    <composite:interface>
+        <composite:attribute name="changeUpdate" />
+        <composite:attribute name="selectedValue" />
+        <composite:attribute name="changeWidgetVar" />
+    </composite:interface>
+
+    <composite:implementation>
+        <p:selectOneMenu value="#{cc.attrs.selectedValue}" onchange="PF('#{cc.attrs.changeWidgetVar}').filter()">
+            <p:ajax event="change" update="#{cc.attrs.changeUpdate}"  />
+            <f:selectItem itemLabel="#{labels.All}" itemValue="#{null}" />
+            <f:selectItem itemLabel="#{labels.Equal}" itemValue="EQUAL" />
+            <f:selectItem itemLabel="#{labels.NotEqual}" itemValue="NOT_EQUAL" />
+            <f:selectItem itemLabel="#{labels.LessThan}" itemValue="LESS_THAN" />
+            <f:selectItem itemLabel="#{labels.LessThanOrEqual}" itemValue="LESS_THAN_OR_EQUAL" />
+            <f:selectItem itemLabel="#{labels.GreaterThan}" itemValue="GREATER_THAN" />
+            <f:selectItem itemLabel="#{labels.GreaterThanOrEqual}" itemValue="GREATER_THAN_OR_EQUAL" />
+            <f:selectItem itemLabel="#{labels.IsEmpty}" itemValue="IS_EMPTY" />
+            <f:selectItem itemLabel="#{labels.IsNotEmpty}" itemValue="IS_NOT_EMPTY" />
+        </p:selectOneMenu>
+    </composite:implementation>
+
+</html>
+

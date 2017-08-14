@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<p:dialog id="deliverShippingOrderDialog"
+	widgetVar="deliverShippingOrderDialog" modal="false" resizable="false"
+	header="#{labels.DeliverShippingOrderTitle}">
+	<h:form id="deliverShippingOrderForm">
+		<h:panelGroup id="panelGroup">
+			<p:panelGrid columns="1"
+				rendered="#{shippingOrderController.current != null}">
+				<f:facet name="header">
+					<p:panelGrid columns="2" style="text-align: left;"
+						styleClass="ui-panelgrid-blank">
+						<p:commandButton value="#{labels.Save}" icon="ui-icon-disk"
+							action="#{shippingOrderController.deliver}" validateClient="true"
+							update="panelGroup,:shippingOrderList:form"
+							oncomplete="handleSubmit(args,'deliverShippingOrderDialog');" />
+						<p:commandButton value="#{labels.Cancel}" icon="ui-icon-close"
+							onclick="PF('deliverShippingOrderDialog').hide()"
+							immediate="true" />
+					</p:panelGrid>
+				</f:facet>
+				<p:dataTable style="width: 700px" id="details" widgetVar="details"
+					var="detail" value="#{shippingOrderController.receivedDetails}">
+					<f:facet name="header">
+						<p:commandButton
+							actionListener="#{shippingOrderController.prepareDetail}"
+							icon="ui-icon-plus"
+							oncomplete="PF('addShippingOrderReceivedDetailDialog').show()"
+							update=":addShippingOrderReceivedDetailForm" />
+					</f:facet>
+
+					<p:column headerText="#{labels.ProductTitle}"
+						sortBy="#{detail.product.name}" filterBy="#{detail.product.name}"
+						filterMatchMode="contains">
+						<h:outputText value="#{detail.product.name}" />
+					</p:column>
+
+					<p:column headerText="#{labels.ReceivedQuantityTitle}"
+						sortBy="#{detail.receivedQuantity}"
+						filterBy="#{detail.receivedQuantity}" filterMatchMode="contains">
+						<h:outputText value="#{detail.receivedQuantity}" />
+					</p:column>
+
+					<p:column style="width:32px">
+						<p:commandLink style="display: inline-block"
+							update=":editShippingOrderReceivedDetailForm"
+							oncomplete="PF('editShippingOrderReceivedDetailDialog').show()">
+							<h:outputText styleClass="ui-icon ui-icon-pencil" />
+							<f:setPropertyActionListener value="#{detail}"
+								target="#{shippingOrderController.detail}" />
+						</p:commandLink>
+						<p:commandLink style="display: inline-block"
+							action="#{shippingOrderController.removeReceivedDetail}"
+							update=":deliverShippingOrderForm:details">
+							<h:outputText styleClass="ui-icon ui-icon-close" />
+							<f:setPropertyActionListener value="#{detail}"
+								target="#{shippingOrderController.detail}" />
+						</p:commandLink>
+
+					</p:column>
+				</p:dataTable>
+			</p:panelGrid>
+		</h:panelGroup>
+	</h:form>
+</p:dialog>
+
+
+</html>

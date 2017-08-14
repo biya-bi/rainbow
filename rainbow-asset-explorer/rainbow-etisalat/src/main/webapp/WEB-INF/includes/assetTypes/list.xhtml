@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<sec:authorize access="hasRole('ROLE_READ_ASSET_TYPES')">
+		<cps:trackableDataGrid id="assetTypeList"
+			title="#{labels.ListAssetTypesTitle}"
+			dataSource="#{assetTypeLazyDataModel}"
+			selectedItem="#{assetTypeController.current}"
+			selectedValue="#{item.id}"
+			createActionListener="#{assetTypeController.prepareCreate}"
+			createDialog="assetTypeCreateDialog"
+			createUpdate=":assetTypeCreate:form" editDialog="assetTypeEditDialog"
+			editUpdate=":assetTypeEdit:form"
+			detailsDialog="assetTypeDetailsDialog"
+			detailsUpdate=":assetTypeDetails:form"
+			deleteDialog="assetTypeDeleteDialog"
+			deleteUpdate=":assetTypeDelete:form"
+			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_ASSET_TYPES')}"
+			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_ASSET_TYPES')}"
+			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_ASSET_TYPES')}"
+			columnToggleListener="#{assetTypeController.onToggle}"
+			creatorFilterValue="#{assetTypeLazyDataModel.creatorFilter.value}"
+			creatorFilterOperator="#{assetTypeLazyDataModel.creatorFilter.operator}"
+			updaterFilterValue="#{assetTypeLazyDataModel.updaterFilter.value}"
+			updaterFilterOperator="#{assetTypeLazyDataModel.updaterFilter.operator}"
+			creationDateFilterValue="#{assetTypeLazyDataModel.creationDateFilter.value}"
+			creationDateFilterOperator="#{assetTypeLazyDataModel.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{assetTypeLazyDataModel.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{assetTypeLazyDataModel.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{assetTypeController.auditColumnsStates[1]}"
+			updaterColumnVisible="#{assetTypeController.auditColumnsStates[2]}"
+			creationDateColumnVisible="#{assetTypeController.auditColumnsStates[3]}"
+			lastUpdateDateColumnVisible="#{assetTypeController.auditColumnsStates[4]}">
+
+
+			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
+				sortBy="#{item.name}"
+				filterValue="#{assetTypeLazyDataModel.nameFilter.value}">
+				<h:outputText value="#{item.name}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="assetTypeList:form:dataTable"
+						selectedValue="#{assetTypeLazyDataModel.nameFilter.operator}"
+						changeWidgetVar="assetTypeListDataTable" />
+				</f:facet>
+			</p:column>
+
+		</cps:trackableDataGrid>
+
+		<ui:include src="/WEB-INF/includes/assetTypes/create.xhtml" />
+		<ui:include src="/WEB-INF/includes/assetTypes/edit.xhtml" />
+		<ui:include src="/WEB-INF/includes/assetTypes/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/assetTypes/delete.xhtml" />
+	</sec:authorize>
+</h:body>
+</html>
+

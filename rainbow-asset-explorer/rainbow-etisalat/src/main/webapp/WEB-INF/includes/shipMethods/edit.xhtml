@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+    <cps:submitForm id="shipMethodEdit"
+                    title="#{labels.EditShipMethodTitle}"           
+                    submitActionListener="#{shipMethodController.edit}"
+                    update="shipMethodList:form:dataTable">
+
+        <p:panelGrid rendered="#{shipMethodController.current != null}">
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
+                </p:column>
+                <p:column>
+                    <p:inputText styleClass="field-value" id="name" value="#{shipMethodController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                        <p:clientValidator event="keyup" />
+                    </p:inputText>
+                </p:column>
+                <p:column>    
+                    <p:message for="name"/>  
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>  
+                    <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
+                </p:column>
+                <p:column>   
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{shipMethodController.current.description}" title="#{labels.DescriptionTitle}"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+        
+    </cps:submitForm>
+
+
+</html>

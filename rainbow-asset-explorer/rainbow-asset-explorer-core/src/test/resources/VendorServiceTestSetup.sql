@@ -1,0 +1,11 @@
+insert into business_entity(id,dtype,creation_date,last_update_date,version) values (17001,'Vendor',current_timestamp(),current_timestamp(),1);
+insert into vendor(id,account_number,name,is_active,purchasing_url) values (17001,'VDR-17001','Vendor 17001',1,'www.optimum.org');
+insert into business_entity(id,dtype,creation_date,last_update_date,version) values (17002,'Vendor',current_timestamp(),current_timestamp(),1);
+insert into vendor(id,account_number,name,is_active,purchasing_url) values (17002,'VDR-17002','Vendor 17002',1,'www.optimum.org');
+insert into business_entity(id,dtype,creation_date,last_update_date,version) values (17003,'Vendor',current_timestamp(),current_timestamp(),1);
+insert into vendor(id,account_number,name,is_active,purchasing_url) values (17003,'VDR-17003','Vendor 17003',1,'www.optimum.org');
+insert into business_entity(id,dtype,creation_date,last_update_date,version) values (17004,'Vendor',current_timestamp(),current_timestamp(),1);
+insert into vendor(id,account_number,name,is_active,purchasing_url) values (17004,'VDR-17004','Vendor 17004',1,'www.optimum.org');
+insert into business_entity(id,dtype,creation_date,last_update_date,version) values (17005,'Vendor',current_timestamp(),current_timestamp(),1);
+insert into vendor(id,account_number,name,is_active,purchasing_url) values (17005,'VDR-17005','Vendor 17005',1,'www.optimum.org');
+commit;

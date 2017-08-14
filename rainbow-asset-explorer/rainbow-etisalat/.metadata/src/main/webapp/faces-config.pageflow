@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15011825645131" configfile="/rainbow-etisalat/src/main/webapp/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="Logout as admin" x="338" y="178" id="pf15011838189852" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15011838189853" path="/admin.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="554" y="380" id="pf15011838189855" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf15011838189853" path="/index.xhtml"/>
+  <links id="pf15011838189853" target="pf15011838189855" source="pf15011838189852" outcome="loggedout" redirect="true" fromaction="#{authenticationController.logout}"/>
+</pageflow:Pageflow>

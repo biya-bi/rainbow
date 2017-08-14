@@ -1,0 +1,128 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<c:set var="id" value="#{not empty id ? id : 'dropDown'}" />
+	<c:set var="required" value="#{not empty required and required}" />
+	<c:set var="requiredMessage"
+		value="#{not empty requiredMessage? requiredMessage:'A value must be specified'}" />
+	<c:set var="itemLabel" value="#{not empty itemLabel?itemLabel:''}" />
+	<c:set var="toolTip" value="#{not empty toolTip?toolTip:''}" />
+	<c:set var="styleClass" value="#{not empty styleClass?styleClass:''}" />
+	<c:set var="selectionText"
+		value="#{not empty selectionText?selectionText:''}" />
+	<c:set var="labelId" value="#{not empty labelId ? labelId : 'labelId'}" />
+	<c:set var="messageId"
+		value="#{not empty messageId ? messageId : 'messageId'}" />
+	<c:set var="onchange" value="#{not empty onchange?onchange:''}" />
+	<c:set var="updateId"
+		value="#{not empty updateId ? updateId : 'updateId'}" />
+
+	<c:if test="#{!facesContext.postback}">
+		<c:set var="dataSource"
+			value="#{not empty dataSource?dataSource:null}" />
+		<c:set var="selection" value="#{not empty selection?selection:null}" />
+		<c:set var="filterValue"
+			value="#{not empty filterValue?filterValue:''}" />
+	</c:if>
+
+	<style type="text/css">
+.ui-dropdown {
+	border-collapse: collapse;
+}
+
+.ui-dropdown tbody tr td {
+	padding: 0;
+	margin: 0;
+	border-color: transparent;
+}
+
+.ui-dropdown tbody tr td button {
+	width: 100%;
+	height: 31px;
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	margin-left: 10px;
+}
+
+.ui-dropdown tbody tr td input {
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+	margin: 0;
+	width: 100%;
+}
+
+.column1 {
+	width: auto;
+	margin: 0;
+}
+
+.column2 {
+	width: 20px;
+	max-width: 20px;
+	margin: 0;
+}
+</style>
+	<div>
+		<h:panelGrid columns="2" columnClasses="column1,column2"
+			cellpadding="0" cellspacing="0"
+			styleClass="#{styleClass} ui-dropdown">
+			<h:panelGrid id="#{id}DropDownPanelGrid" columns="2"
+				columnClasses="column1,column2" cellpadding="0" cellspacing="0">
+				<p:inputText
+					onclick="PF('#{id}DropDownOverlayPanel').hide();PF('#{id}DropDownOverlayPanel').show();PF('#{id}DropDownOverlayPanel').loadContents();"
+					widgetVar="#{id}" id="#{id}" value="#{selectionText}"
+					readonly="true" title="#{toolTip}" required="#{required}"
+					requiredMessage="#{requiredMessage}">
+					<p:clientValidator />
+					<p:ajax event="click"
+						update="#{id}DropDownForm:#{id}DropDownDataTable" />
+				</p:inputText>
+				<p:commandButton
+					style="max-width: 20px;border-top-right-radius: 0;border-bottom-right-radius: 0;"
+					icon="ui-icon-triangle-1-s" immediate="true"
+					onclick="PF('#{id}DropDownOverlayPanel').hide();PF('#{id}DropDownOverlayPanel').show();PF('#{id}DropDownOverlayPanel').loadContents();"
+					update="#{id}DropDownForm:#{id}DropDownDataTable" />
+			</h:panelGrid>
+			<p:commandButton style="max-width: 20px;" icon="ui-icon-close"
+				immediate="true"
+				update="@([id$=#{id}]),@([id$=#{labelId}]),@([id$=#{messageId}]),@([id$=#{updateId}])"
+				oncomplete="PF('#{id}DropDownDataTable').unselectAllRows();">
+				<f:setPropertyActionListener value="#{null}" target="#{selection}" />
+			</p:commandButton>
+		</h:panelGrid>
+		<p:overlayPanel for="#{id}DropDownPanelGrid"
+			widgetVar="#{id}DropDownOverlayPanel" dynamic="false" my="left top"
+			at="left bottom">
+			<h:form id="#{id}DropDownForm">
+				<p:panelGrid columns="2">
+					<p:inputText value="#{filterValue}"
+						onkeyup="PF('#{id}DropDownDataTable').filter()">
+						<p:ajax event="keyup" update="@([id$=#{id}DropDownDataTable])" />
+					</p:inputText>
+					<h:outputText styleClass="ui-icon ui-icon-search" />
+				</p:panelGrid>
+				<p:dataTable style="max-width: 400px" id="#{id}DropDownDataTable"
+					widgetVar="#{id}DropDownDataTable" var="item" scrollable="true"
+					scrollHeight="150" scrollRows="20" rows="20" lazy="true"
+					liveScroll="true" selectionMode="single" selection="#{selection}"
+					value="#{dataSource}" rowKey="#{rowKey}">
+					<p:ajax event="rowSelect"
+						update="@([id$=#{id}]),@([id$=#{labelId}]),@([id$=#{messageId}]),@([id$=#{updateId}])"
+						oncomplete="PF('#{id}DropDownOverlayPanel').hide();" />
+					<p:ajax event="rowUnselect"
+						update="@([id$=#{id}]),@([id$=#{labelId}]),@([id$=#{updateId}])" />
+					<p:column>
+						<h:outputText value="#{itemLabel}" />
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</p:overlayPanel>
+	</div>
+</ui:composition>
+
+

@@ -7,7 +7,10 @@ import org.rainbow.security.core.persistence.exceptions.InvalidPasswordException
 import org.rainbow.security.core.persistence.exceptions.MinimumPasswordAgeViolationException;
 import org.rainbow.security.core.persistence.exceptions.PasswordHistoryException;
 import org.rainbow.security.core.persistence.exceptions.WrongPasswordQuestionAnswerException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public interface UserManager extends Dao<User, Long, SearchOptions> {
 
@@ -41,15 +44,20 @@ public interface UserManager extends Dao<User, Long, SearchOptions> {
 	void changePassword(String oldPassword, String newPassword) throws AuthenticationException,
 			InvalidPasswordException, PasswordHistoryException, MinimumPasswordAgeViolationException;
 
-	String resetPassword(String passwordQuestionAnswer)
-			throws AuthenticationException, WrongPasswordQuestionAnswerException;
-
 	void changePasswordQuestionAndAnswer(String password, String newPasswordQuestion, String newPasswordQuestionAnswer)
 			throws AuthenticationException;
-
-	void unlock(String userName) throws AuthenticationException;
 
 	void delete(String userName) throws AuthenticationException;
 
 	boolean passwordExpired(String userName) throws AuthenticationException;
+
+	boolean userExists(String userName);
+
+	String getSecurityQuestion(String userName) throws UsernameNotFoundException;
+
+	void resetPassword(String userName, String newPassword, String question, String answer)
+			throws InvalidPasswordException, LockedException, DisabledException, WrongPasswordQuestionAnswerException;
+
+	void unlock(String userName, String question, String answer)
+			throws UsernameNotFoundException, DisabledException, WrongPasswordQuestionAnswerException;
 }

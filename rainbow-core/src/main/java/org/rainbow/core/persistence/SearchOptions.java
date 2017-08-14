@@ -5,6 +5,7 @@
  */
 package org.rainbow.core.persistence;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,9 +14,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Biya-Bi
  */
 @XmlRootElement
-public class SearchOptions {
+public class SearchOptions implements Serializable {
 
-    private Integer pageIndex;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7777437712976039176L;
+	private Integer pageIndex;
     private Integer pageSize;
     private List<Filter<?>> filters;
 

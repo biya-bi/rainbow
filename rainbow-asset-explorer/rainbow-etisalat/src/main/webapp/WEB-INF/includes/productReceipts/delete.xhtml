@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+    <cps:submitForm id="productReceiptDelete"
+                    title="#{labels.DeleteProductReceiptTitle}"           
+                    submitActionListener="#{productReceiptController.delete}"
+                    update="productReceiptList:form:dataTable"
+                    submitLabel="#{labels.Delete}"
+                    submitIcon="ui-icon-trash">
+        <h3>#{labels.DeleteProductReceiptQuestion}</h3>
+
+        <cps:readProductReceipt/>
+        
+    </cps:submitForm>
+
+
+</html>

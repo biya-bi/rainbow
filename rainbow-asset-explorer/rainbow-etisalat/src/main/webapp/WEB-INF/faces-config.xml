@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	<application>
+		<!-- JSF and Spring are integrated -->
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+
+		<resource-bundle>
+            <base-name>org.rainbow.asset.explorer.faces.Labels</base-name>
+            <var>labels</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>org.rainbow.asset.explorer.faces.ValidationMessages</base-name>
+            <var>valMsg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>org.rainbow.asset.explorer.faces.Messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>org.rainbow.asset.explorer.faces.SecurityMessages</base-name>
+            <var>secMsg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>org.rainbow.asset.explorer.faces.Client</base-name>
+            <var>c</var>
+        </resource-bundle>
+ 
+	</application>
+
+<converter>
+        <description>A converter for integer</description>
+        <converter-id>javax.faces.convert.IntegerConverter</converter-id>
+        <converter-class>
+            javax.faces.convert.IntegerConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <description>A converter for short</description>
+        <converter-id>javax.faces.convert.ShortConverter</converter-id>
+        <converter-class>
+            javax.faces.convert.ShortConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <description>A converter for boolean</description>
+        <converter-id>javax.faces.convert.BooleanConverter</converter-id>
+        <converter-class>
+            javax.faces.convert.BooleanConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.AddressTypeConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.AddressTypeConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.AlertCategoryConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.AlertCategoryConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.AlertTypeConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.AlertTypeConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.AssetStateConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.AssetStateConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.DepreciationMethodConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.DepreciationMethodConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.DocumentTypeConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.DocumentTypeConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.EmailTypeConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.EmailTypeConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.FaxTypeConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.FaxTypeConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.ManufacturerBusinessImpactConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.ManufacturerBusinessImpactConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.PhoneTypeConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.PhoneTypeConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.PurchaseOrderStatusConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.PurchaseOrderStatusConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.ShippingOrderStatusConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.ShippingOrderStatusConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <converter-id>org.rainbow.asset.explorer.faces.converters.SiteStatusConverter</converter-id>
+        <converter-class>
+            org.rainbow.asset.explorer.faces.converters.SiteStatusConverter
+        </converter-class>
+    </converter>
+
+	<navigation-rule>
+		<display-name>Login</display-name>
+		<from-view-id>/security/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{authenticationController.login}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>Logout</display-name>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{authenticationController.logout}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>Change Password</display-name>
+		<from-view-id>/security/changePassword.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{changePasswordController.changePassword}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>Reset Password - Supply User Name</display-name>
+		<from-view-id>/security/resetPassword/supplyUserName.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{resetPasswordController.checkUser}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/resetPassword/supplyPasswordQuestionAnswer.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>Reset Password - Answer Security Question</display-name>
+		<from-view-id>/security/resetPassword/supplyPasswordQuestionAnswer.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{resetPasswordController.resetPassword}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/resetPassword/resetPasswordSuccessful.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>Unlock User - Supply User Name</display-name>
+		<from-view-id>/security/unlockUser/supplyUserName.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{unlockUserController.checkUser}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/unlockUser/supplyPasswordQuestionAnswer.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>Unlock User - Answer Security Question</display-name>
+		<from-view-id>/security/unlockUser/supplyPasswordQuestionAnswer.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{unlockUserController.unlockUser}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/unlockUser/unlockUserSuccessful.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	 <factory>
+        <exception-handler-factory>org.rainbow.asset.explorer.faces.handlers.DefaultExceptionHandlerFactory</exception-handler-factory>
+    </factory> 
+</faces-config>

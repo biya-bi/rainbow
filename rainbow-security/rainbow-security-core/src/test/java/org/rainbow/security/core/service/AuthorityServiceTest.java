@@ -5,19 +5,13 @@
  */
 package org.rainbow.security.core.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.core.persistence.SearchOptions;
 import org.rainbow.core.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.core.service.Service;
@@ -26,16 +20,13 @@ import org.rainbow.security.core.entities.Authority;
 import org.rainbow.security.core.persistence.exceptions.DuplicateAuthorityNameException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
  * @author Biya-Bi
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/applicationContext.xml")
-public class AuthorityServiceTest {
+@DatabaseInitialize("src/test/resources/AuthorityServiceTestSetup.sql")
+public class AuthorityServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("authorityService")
@@ -45,26 +36,6 @@ public class AuthorityServiceTest {
 	private EntityManager em;
 
 	private final Application application = new Application(2001L, "Test Application");
-
-	private static MySqlDatabase DATABASE;
-
-	@Autowired
-	public void initializeDatabase(MySqlDatabase mySqlDatabase)
-			throws FileNotFoundException, SQLException, IOException {
-		DATABASE = mySqlDatabase;
-		DATABASE.execute("src/test/resources/Cleanup.sql");
-		DATABASE.execute("src/test/resources/AuthorityServiceTestSetup.sql");
-	}
-
-	@AfterClass
-	public static void cleanUpClass() throws SQLException, IOException {
-		DATABASE.execute("src/test/resources/Cleanup.sql");
-	}
-
-	@After
-	public void tearDown() {
-		em.clear();
-	}
 
 	@Test
 	public void create_AuthorityIsValid_AuthorityCreated() throws Exception {

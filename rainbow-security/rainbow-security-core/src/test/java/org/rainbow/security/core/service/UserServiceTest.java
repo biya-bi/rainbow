@@ -1,8 +1,5 @@
 package org.rainbow.security.core.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -11,11 +8,9 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.security.core.entities.Application;
 import org.rainbow.security.core.entities.Membership;
 import org.rainbow.security.core.entities.User;
@@ -39,12 +34,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/applicationContext.xml")
-public class UserServiceTest {
+/**
+ * 
+ * @author Biya-Bi
+ *
+ */
+@DatabaseInitialize("src/test/resources/UserServiceTestSetup.sql")
+public class UserServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("userService")
@@ -71,27 +68,6 @@ public class UserServiceTest {
 
 	private final String testApplicationName = "Test Application";
 	private final String missingApplicationName = "Missing Application";
-
-	private static MySqlDatabase database;
-
-	@Autowired
-	public void initializeDatabase(MySqlDatabase mySqlDatabase)
-			throws FileNotFoundException, SQLException, IOException {
-		database = mySqlDatabase;
-		database.execute("src/test/resources/Cleanup.sql");
-		database.execute("src/test/resources/UserServiceTestSetup.sql");
-	}
-
-	@AfterClass
-	public static void cleanUpClass() throws SQLException, IOException {
-		database.execute("src/test/resources/Cleanup.sql");
-	}
-
-	@After
-	public void tearDown() {
-		SecurityContextHolder.clearContext();
-		em.clear();
-	}
 
 	@Test
 	public void create_UserIsValid_UserCreated() throws Exception {
@@ -417,36 +393,31 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void resetPassword_PasswordQuestionAnswerIsCorrect_PasswordChanged()
-			throws ApplicationNotFoundException, WrongPasswordQuestionAnswerException, UserNotFoundException {
+	public void resetPassword_PasswordQuestionAnswerIsCorrect_PasswordChanged() {
 		final String userName = "sampleUser9";
-		final String oldPassword = "P@$$w0rd";
-		final String passwordQuestionAnswer = "Nondo Lydienne";
+		final String newPassword = "@Ne39assmrd";
+		final String question = "Mother name";
+		final String answer = "Nondo Lydienne";
 
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,
-				oldPassword);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		final String newPassword = userService.resetPassword(passwordQuestionAnswer);
+		userService.resetPassword(userName, newPassword, question, answer);
 
 		// Now, we verify that the user can authenticate with the new password
 		SecurityContextHolder.clearContext();
-		authentication = new UsernamePasswordAuthenticationToken(userName, newPassword);
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,
+				newPassword);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		authenticationManager.authenticate(authentication);
 	}
 
 	@Test(expected = WrongPasswordQuestionAnswerException.class)
-	public void resetPassword_PasswordQuestionAnswerIsWrong_ThrowWrongPasswordQuestionAnswerException()
-			throws UserNotFoundException, ApplicationNotFoundException, WrongPasswordQuestionAnswerException {
+	public void resetPassword_PasswordQuestionAnswerIsWrong_ThrowWrongPasswordQuestionAnswerException() {
 		final String userName = "sampleUser10";
-		final String password = "P@$$w0rd";
-		final String passwordQuestionAnswer = "Wrong Password Answer";
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,
-				password);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		final String newPassword = "@Ne39assmrd";
+		final String question = "Mother name";
+		final String answer = "Wrong Password Answer";
+
 		try {
-			userService.resetPassword(passwordQuestionAnswer);
+			userService.resetPassword(userName, newPassword, question, answer);
 		} catch (WrongPasswordQuestionAnswerException e) {
 			Assert.assertEquals(userName, e.getUserName());
 			Assert.assertEquals(testApplicationName, e.getApplicationName());
@@ -455,32 +426,24 @@ public class UserServiceTest {
 	}
 
 	@Test(expected = LockedException.class)
-	public void resetPassword_UserIsLockedOut_ThrowLockedException()
-			throws WrongPasswordQuestionAnswerException, UserNotFoundException, ApplicationNotFoundException {
+	public void resetPassword_UserIsLockedOut_ThrowLockedException() {
 		final String userName = "sampleUser11";
-		final String password = "P@$$w0rd";
-		final String passwordQuestionAnswer = "Nondo Lydienne";
+		final String newPassword = "@Ne39assmrd";
+		final String question = "Mother name";
+		final String answer = "Nondo Lydienne";
 
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,
-				password);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		userService.resetPassword(passwordQuestionAnswer);
+		userService.resetPassword(userName, newPassword, question, answer);
 	}
 
-	@Test(expected = MembershipNotFoundException.class)
-	public void resetPassword_UserDoesNotExist_ThrowMembershipNotFoundException()
-			throws WrongPasswordQuestionAnswerException, ApplicationNotFoundException, UserNotFoundException {
+	@Test(expected = UsernameNotFoundException.class)
+	public void resetPassword_UserDoesNotExist_ThrowUsernameNotFoundException() {
 		final String userName = "missingUser";
-		final String password = "P@$$w0rd";
-		final String passwordQuestionAnswer = "Nondo Lydienne";
-
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,
-				password);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		final String newPassword = "@Ne39assmrd";
+		final String question = "Mother name";
+		final String answer = "Nondo Lydienne";
 
 		try {
-			userService.resetPassword(passwordQuestionAnswer);
+			userService.resetPassword(userName, newPassword, question, answer);
 		} catch (MembershipNotFoundException e) {
 			Assert.assertEquals(userName, e.getUserName());
 			Assert.assertEquals(testApplicationName, e.getApplicationName());
@@ -489,17 +452,14 @@ public class UserServiceTest {
 	}
 
 	@Test(expected = ApplicationNotFoundException.class)
-	public void resetPassword_ApplicationDoesNotExist_ThrowApplicationNotFoundException()
-			throws WrongPasswordQuestionAnswerException, UserNotFoundException, ApplicationNotFoundException {
+	public void resetPassword_ApplicationDoesNotExist_ThrowApplicationNotFoundException() {
 		final String userName = "sampleUser20";
-		final String password = "P@$$w0rd";
-		final String passwordQuestionAnswer = "Nondo Lydienne";
+		final String newPassword = "@Ne39assmrd";
+		final String question = "Mother name";
+		final String answer = "Nondo Lydienne";
 
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,
-				password);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
 		try {
-			userServiceWithMissingApplication.resetPassword(passwordQuestionAnswer);
+			userServiceWithMissingApplication.resetPassword(userName, newPassword, question, answer);
 		} catch (ApplicationNotFoundException e) {
 			Assert.assertEquals(missingApplicationName, e.getApplicationName());
 			throw e;
@@ -507,18 +467,15 @@ public class UserServiceTest {
 	}
 
 	@Test(expected = LockedException.class)
-	public void resetPassword_WrongPasswordQuestionAnswerIsAttemptedMultipleTimes_ThrowLockedException()
-			throws UserNotFoundException, ApplicationNotFoundException {
+	public void resetPassword_WrongPasswordQuestionAnswerIsAttemptedMultipleTimes_ThrowLockedException() {
 		final String userName = "sampleUser12";
-		final String password = "P@$$w0rd";
-		final String passwordQuestionAnswer = "Wrong Password Answer";
+		final String newPassword = "@Ne39assmrd";
+		final String question = "Mother name";
+		final String answer = "Wrong Password Answer";
 
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,
-				password);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
 		for (int i = 0; i < 6; i++) {
 			try {
-				userService.resetPassword(passwordQuestionAnswer);
+				userService.resetPassword(userName, newPassword, question, answer);
 			} catch (WrongPasswordQuestionAnswerException e) {
 				Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
 			}
@@ -530,18 +487,19 @@ public class UserServiceTest {
 			throws ApplicationNotFoundException, WrongPasswordQuestionAnswerException, UserNotFoundNameException {
 		final String userName = "sampleUser14";
 		final String password = "P@$$w0rd";
-		final String newPasswordQuestion = "New Password Question";
-		final String newPasswordQuestionAnswer = "New Password Answer";
+		final String newQuestion = "New Password Question";
+		final String newAnswer = "New Password Answer";
+		final String newPassword = "@New9assm0rd";
 
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,
 				password);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		// First, we change the password question and answer.
-		userService.changePasswordQuestionAndAnswer(password, newPasswordQuestion, newPasswordQuestionAnswer);
+		// First, we change the security question and answer.
+		userService.changePasswordQuestionAndAnswer(password, newQuestion, newAnswer);
 		// Next we want to make sure that the user's password can be reset using
-		// the new password question answer.
-		final String newPassword = userService.resetPassword(newPasswordQuestionAnswer);
+		// the new question and answer.
+		userService.resetPassword(userName, newPassword, newQuestion, newAnswer);
 
 		SecurityContextHolder.clearContext();
 		authentication = new UsernamePasswordAuthenticationToken(userName, newPassword);
@@ -638,9 +596,11 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void unlock_UserIsLockedOut_UserUnlocked() throws ApplicationNotFoundException, UserNotFoundNameException {
+	public void unlock_UserIsLockedOut_UserUnlocked() {
 		final String userName = "sampleUser19";
 		final String password = "P@$$w0rd";
+		final String question = "Mother name";
+		final String answer = "Nondo Lydienne";
 		boolean wasLockedOut = false;
 
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,
@@ -652,19 +612,20 @@ public class UserServiceTest {
 			wasLockedOut = true;
 		}
 
-		userService.unlock(userName);
-
 		Assert.assertTrue(wasLockedOut);
+
+		userService.unlock(userName, question, answer);
 
 		authenticationManager.authenticate(authentication);
 	}
 
-	@Test(expected = MembershipNotFoundException.class)
-	public void unlock_UserDoesNotExist_ThrowMembershipNotFoundException()
-			throws ApplicationNotFoundException, UserNotFoundNameException {
-		final String userName = "missinUser";
+	@Test(expected = UsernameNotFoundException.class)
+	public void unlock_UserDoesNotExist_ThrowUsernameNotFoundException() {
+		final String userName = "missingUser";
+		final String question = "Mother name";
+		final String answer = "Nondo Lydienne";
 		try {
-			userService.unlock(userName);
+			userService.unlock(userName, question, answer);
 		} catch (MembershipNotFoundException e) {
 			Assert.assertEquals(userName, e.getUserName());
 			Assert.assertEquals(testApplicationName, e.getApplicationName());
@@ -673,13 +634,14 @@ public class UserServiceTest {
 	}
 
 	@Test(expected = ApplicationNotFoundException.class)
-	public void unlock_ApplicationDoesNotExist_ThrowApplicationNotFoundException()
-			throws UserNotFoundNameException, ApplicationNotFoundException {
+	public void unlock_ApplicationDoesNotExist_ThrowApplicationNotFoundException() {
 		final String userName = "sampleUser21";
 		final String missingApplicationName = "Missing Application";
+		final String question = "Mother name";
+		final String answer = "Nondo Lydienne";
 
 		try {
-			userServiceWithMissingApplication.unlock(userName);
+			userServiceWithMissingApplication.unlock(userName, question, answer);
 		} catch (ApplicationNotFoundException e) {
 			Assert.assertEquals(missingApplicationName, e.getApplicationName());
 			throw e;

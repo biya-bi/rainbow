@@ -37,7 +37,6 @@ import org.rainbow.security.core.persistence.exceptions.UserNotFoundNameExceptio
 import org.rainbow.security.core.persistence.exceptions.WrongPasswordQuestionAnswerException;
 import org.rainbow.security.core.utilities.DateHelper;
 import org.rainbow.security.core.utilities.EntityManagerHelper;
-import org.rainbow.security.core.utilities.PasswordGenerator;
 import org.rainbow.security.core.utilities.PersistenceSettings;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -354,15 +353,15 @@ public class UserDao extends DaoImpl<User, Long> implements UserManager {
 			throw new IllegalArgumentException("The newPassword argument cannot be null.");
 		}
 
-		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-		if (currentUser == null) {
+		if (authentication == null) {
 			// This would indicate bad coding somewhere
 			throw new AccessDeniedException(
-					"Can't change password as no Authentication object found in context " + "for current user.");
+					"The password cannot be changed as no authentication object was found in context for the current user.");
 		}
 
-		String userName = currentUser.getName();
+		String userName = authentication.getName();
 
 		em.clear();
 
@@ -394,7 +393,6 @@ public class UserDao extends DaoImpl<User, Long> implements UserManager {
 		List<PasswordHistory> passwordHistories = getPasswordHistories(userName, applicationName);
 		if (passwordHistories != null) {
 			for (PasswordHistory passwordHistory : passwordHistories) {
-
 				if (passwordEncoder.matches(newPassword, passwordHistory.getPassword())) {
 					throw new PasswordHistoryException(passwordHistoryLength);
 				}
@@ -402,7 +400,7 @@ public class UserDao extends DaoImpl<User, Long> implements UserManager {
 		}
 		setPassword(membership, newPassword, new Date(), passwordHistories, passwordHistoryLength);
 
-		SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(currentUser, newPassword));
+		SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(authentication, newPassword));
 	}
 
 	protected Authentication createNewAuthentication(Authentication currentAuth, String newPassword) {
@@ -415,26 +413,34 @@ public class UserDao extends DaoImpl<User, Long> implements UserManager {
 	}
 
 	@Override
-	public String resetPassword(String passwordQuestionAnswer)
-			throws AuthenticationException, WrongPasswordQuestionAnswerException {
-		if (passwordQuestionAnswer == null) {
-			throw new IllegalArgumentException("The passwordQuestionAnswer argument cannot be null.");
+	public void resetPassword(String userName, String newPassword, String question, String answer)
+			throws InvalidPasswordException, LockedException, DisabledException, WrongPasswordQuestionAnswerException {
+		if (userName == null) {
+			throw new IllegalArgumentException("The userName argument cannot be null.");
+		}
+		if (newPassword == null) {
+			throw new IllegalArgumentException("The newPassword argument cannot be null.");
+		}
+		if (question == null) {
+			throw new IllegalArgumentException("The question argument cannot be null.");
+		}
+		if (answer == null) {
+			throw new IllegalArgumentException("The answer argument cannot be null.");
 		}
 
-		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		final EntityManagerHelper helper = new EntityManagerHelper(em);
 
-		if (currentUser == null) {
-			// This would indicate bad coding somewhere
-			throw new AccessDeniedException(
-					"Can't reset password as no Authentication object found in context " + "for current user.");
-		}
-
-		String userName = currentUser.getName();
-
-		Application application = new EntityManagerHelper(em).find(Application.class, "name", applicationName);
+		Application application = helper.find(Application.class, "name", applicationName);
 		if (application == null) {
 			throw new ApplicationNotFoundException(applicationName);
 		}
+		if (!userExists(userName))
+			throw constructUsernameNotFoundException(userName);
+
+		PasswordPolicy passwordPolicy = application.getPasswordPolicy();
+
+		if (!isValidPassword(newPassword, passwordPolicy))
+			throw new InvalidPasswordException();
 
 		Membership membership = getMembership(userName, applicationName);
 		if (membership == null) {
@@ -451,31 +457,31 @@ public class UserDao extends DaoImpl<User, Long> implements UserManager {
 					userName, applicationName));
 		}
 
-		String hashedPasswordQuestionAnswer = passwordEncoder.encode(passwordQuestionAnswer.toUpperCase());
+		String hashedPasswordQuestionAnswer = passwordEncoder.encode(answer.toUpperCase());
 
 		updatePasswordQuestionAnswerAttempt(membership, hashedPasswordQuestionAnswer);
 
-		if (!passwordEncoder.matches(passwordQuestionAnswer.toUpperCase(), membership.getPasswordQuestionAnswer())) {
+		if (!passwordEncoder.matches(answer.toUpperCase(), membership.getPasswordQuestionAnswer())) {
 			throw new WrongPasswordQuestionAnswerException(userName, applicationName);
 		}
 
-		// Since we could get a membership for this user name and this
-		// application, it means the application's password
-		// policies can be used to reset the password.
-		PasswordPolicy passwordPolicy = application.getPasswordPolicy();
-
-		PasswordGenerator passwordGenerator = new PasswordGenerator(passwordPolicy.getMinimumPasswordLength(),
-				passwordPolicy.getMaximumPasswordLength(), passwordPolicy.getMinimumSpecialCharacters(),
-				passwordPolicy.getMinimumLowercaseCharacters(), passwordPolicy.getMinimumUppercaseCharacters(),
-				passwordPolicy.getMinimumNumeric());
-		String newPassword = passwordGenerator.generate();
+		// PasswordGenerator passwordGenerator = new
+		// PasswordGenerator(passwordPolicy.getMinimumPasswordLength(),
+		// passwordPolicy.getMaximumPasswordLength(),
+		// passwordPolicy.getMinimumSpecialCharacters(),
+		// passwordPolicy.getMinimumLowercaseCharacters(),
+		// passwordPolicy.getMinimumUppercaseCharacters(),
+		// passwordPolicy.getMinimumNumeric());
+		// String generatedPassword = passwordGenerator.generate();
 
 		setPassword(membership, newPassword, new Date(), getPasswordHistories(userName, applicationName),
 				passwordPolicy.getPasswordHistoryLength());
 
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		if (currentUser == null) {
+			currentUser = new UsernamePasswordAuthenticationToken(userName, newPassword);
+		}
 		SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(currentUser, newPassword));
-
-		return newPassword;
 	}
 
 	private void updatePasswordQuestionAnswerAttempt(Membership membership, String passwordQuestionAnswer) {
@@ -549,19 +555,39 @@ public class UserDao extends DaoImpl<User, Long> implements UserManager {
 	}
 
 	@Override
-	public void unlock(String userName) throws ApplicationNotFoundException {
+	public void unlock(String userName, String question, String answer)
+			throws UsernameNotFoundException, DisabledException, WrongPasswordQuestionAnswerException {
+		// TODO: Unlocking a user should take as parameters, the user name, the
+		// security question, the answer provided for the security question.
 		if (userName == null) {
 			throw new IllegalArgumentException("The userName argument cannot be null.");
 		}
 
-		if (!new EntityManagerHelper(em).exists(Application.class, "name", applicationName)) {
+		final EntityManagerHelper helper = new EntityManagerHelper(em);
+		if (!helper.exists(Application.class, "name", applicationName)) {
 			throw new ApplicationNotFoundException(applicationName);
 		}
+
+		if (!userExists(userName, applicationName, helper))
+			throw constructUsernameNotFoundException(userName);
 
 		Membership membership = getMembership(userName, applicationName);
 
 		if (membership == null) {
 			throw new MembershipNotFoundException(userName, applicationName);
+		}
+
+		if (!membership.isEnabled()) {
+			throw new DisabledException(String.format("The user '%s' has been disabled in the application '%s'.",
+					userName, applicationName));
+		}
+
+		String hashedPasswordQuestionAnswer = passwordEncoder.encode(answer.toUpperCase());
+
+		updatePasswordQuestionAnswerAttempt(membership, hashedPasswordQuestionAnswer);
+
+		if (!passwordEncoder.matches(answer.toUpperCase(), membership.getPasswordQuestionAnswer())) {
+			throw new WrongPasswordQuestionAnswerException(userName, applicationName);
 		}
 
 		membership.setFailedPasswordAnswerAttemptWindowStart(FIRST_JAN_1754);
@@ -677,5 +703,39 @@ public class UserDao extends DaoImpl<User, Long> implements UserManager {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public boolean userExists(String userName) {
+		return userExists(userName, applicationName, new EntityManagerHelper(em));
+	}
+
+	@Override
+	public String getSecurityQuestion(String userName) throws UsernameNotFoundException {
+		// TODO: Come here later. In a future implementation, there will be many
+		// security questions for each user. Each question will have its own
+		// answer. This method will return the list of all questions. The
+		// service method returning a security question will consist of randomly
+		// choosing a security question from the list of questions. If the list
+		// is empty, throw an exception.
+		if (userName == null) {
+			throw new IllegalArgumentException("The userName argument cannot be null.");
+		}
+		if (!userExists(userName, applicationName, new EntityManagerHelper(em))) {
+			throw constructUsernameNotFoundException(userName);
+		}
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Tuple> cq = cb.createTupleQuery();
+		Root<Membership> rt = cq.from(Membership.class);
+		cq.select(cb.tuple(rt.get("passwordQuestion")));
+		Predicate p1 = cb.equal(cb.upper(rt.join("user").get("userName")), userName.toUpperCase());
+		Predicate p2 = cb.equal(cb.upper(rt.join("application").get("name")), applicationName.toUpperCase());
+		cq.where(cb.and(p1, p2));
+		TypedQuery<Tuple> tq = em.createQuery(cq);
+		List<Tuple> tuples = tq.getResultList();
+		if (!tuples.isEmpty()) {
+			return (String) tuples.get(0).get(0);
+		}
+		return null;
 	}
 }

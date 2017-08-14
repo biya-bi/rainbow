@@ -1,8 +1,5 @@
 package org.rainbow.security.core.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,11 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.core.persistence.Filter;
 import org.rainbow.core.persistence.ListValuedFilter;
 import org.rainbow.core.persistence.RangeValuedFilter;
@@ -31,38 +26,16 @@ import org.rainbow.security.core.entities.TokenPolicy;
 import org.rainbow.security.core.persistence.exceptions.DuplicateApplicationNameException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/applicationContext.xml")
-public class ApplicationServiceTest {
+@DatabaseInitialize("src/test/resources/ApplicationServiceTestSetup.sql")
+public class ApplicationServiceTest extends AbstractServiceTest {
+
 	@Autowired
 	@Qualifier("applicationService")
 	private Service<Application, Long, SearchOptions> applicationService;
 
 	@PersistenceContext
 	private EntityManager em;
-
-	private static MySqlDatabase DATABASE;
-
-	@Autowired
-	public void initializeDatabase(MySqlDatabase mySqlDatabase)
-			throws FileNotFoundException, SQLException, IOException {
-		DATABASE = mySqlDatabase;
-		DATABASE.execute("src/test/resources/Cleanup.sql");
-		DATABASE.execute("src/test/resources/ApplicationServiceTestSetup.sql");
-	}
-
-	@AfterClass
-	public static void cleanUpClass() throws SQLException, IOException {
-		DATABASE.execute("src/test/resources/Cleanup.sql");
-	}
-
-	@After
-	public void tearDown() {
-		em.clear();
-	}
 
 	@Test
 	public void create_ApplicationIsValid_ApplicationCreated() throws Exception {

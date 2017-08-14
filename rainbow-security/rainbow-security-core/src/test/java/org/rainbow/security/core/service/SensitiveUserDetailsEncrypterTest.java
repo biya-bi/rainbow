@@ -1,28 +1,23 @@
 package org.rainbow.security.core.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.security.core.entities.Membership;
 import org.rainbow.security.core.entities.User;
 import org.rainbow.security.core.jdbc.SensitiveUserDetailsEncrypter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/applicationContext.xml")
-public class SensitiveUserDetailsEncrypterTest {
+/**
+ * 
+ * @author Biya-Bi
+ *
+ */
+@DatabaseInitialize("src/test/resources/SensitiveUserDetailsEncrypterTestSetup.sql")
+public class SensitiveUserDetailsEncrypterTest extends AbstractServiceTest {
 
 	@PersistenceContext
 	private EntityManager em;
@@ -30,27 +25,7 @@ public class SensitiveUserDetailsEncrypterTest {
 	@Autowired
 	private SensitiveUserDetailsEncrypter sensitiveUserDetailsEncrypter;
 
-	private static MySqlDatabase DATABASE;
-
 	private static final String SECURITY_DETAIL_PREFIX = "$2a$04$";
-
-	@Autowired
-	public void initializeDatabase(MySqlDatabase mySqlDatabase)
-			throws FileNotFoundException, SQLException, IOException {
-		DATABASE = mySqlDatabase;
-		DATABASE.execute("src/test/resources/Cleanup.sql");
-		DATABASE.execute("src/test/resources/SensitiveUserDetailsEncrypterTestSetup.sql");
-	}
-
-	@AfterClass
-	public static void cleanUpClass() throws SQLException, IOException {
-		DATABASE.execute("src/test/resources/Cleanup.sql");
-	}
-
-	@After
-	public void tearDown() {
-		SecurityContextHolder.clearContext();
-	}
 
 	@Test
 	public void encrypt_UserSensitiveDetailsWereInsertedInTheDbInClearText_UserSensitiveDetailsEncrypted() {

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+    <cps:submitForm id="assetTypeDelete"
+                    title="#{labels.DeleteAssetTypeTitle}"           
+                    submitActionListener="#{assetTypeController.delete}"
+                    update="assetTypeList:form:dataTable"
+                    submitLabel="#{labels.Delete}"
+                    submitIcon="ui-icon-trash">
+        <h3>#{labels.DeleteAssetTypeQuestion}</h3>
+
+        <cps:readAssetType/>
+
+    </cps:submitForm>
+</html>

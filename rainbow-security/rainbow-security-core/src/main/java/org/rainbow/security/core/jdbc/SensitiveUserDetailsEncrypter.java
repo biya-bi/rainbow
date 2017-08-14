@@ -45,14 +45,15 @@ public class SensitiveUserDetailsEncrypter extends JdbcDaoSupport {
 			public void processRow(ResultSet rs) throws SQLException {
 				final String username = rs.getString("USER_NAME");
 				final String encryptedPassword = passwordEncoder.encode(rs.getString("PASSWORD"));
-				final String encryptedPasswordQuestionAnswer = passwordEncoder
-						.encode(rs.getString("PASSWORD_QUESTION_ANSWER"));
+				final String securityQuestioAnswer = rs.getString("PASSWORD_QUESTION_ANSWER");
+				final String encryptedSecurityQuestionAnswer = passwordEncoder
+						.encode(securityQuestioAnswer != null ? securityQuestioAnswer.toUpperCase() : "");
 				getJdbcTemplate().update(new PreparedStatementCreator() {
 					@Override
 					public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 						PreparedStatement preparedStatement = con.prepareStatement(getUpdateQuery());
 						preparedStatement.setString(1, encryptedPassword);
-						preparedStatement.setString(2, encryptedPasswordQuestionAnswer);
+						preparedStatement.setString(2, encryptedSecurityQuestionAnswer);
 						preparedStatement.setString(3, username);
 						preparedStatement.setString(4, applicationName);
 						return preparedStatement;

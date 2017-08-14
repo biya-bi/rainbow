@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+    <cps:submitForm id="vendorDelete"
+                    title="#{labels.DeleteVendorTitle}"           
+                    submitActionListener="#{vendorController.delete}"
+                    update="vendorList:form:dataTable"
+                    submitLabel="#{labels.Delete}"
+                    submitIcon="ui-icon-trash">
+        <h3>#{labels.DeleteVendorQuestion}</h3>
+
+        <cps:readVendor/>
+        
+    </cps:submitForm>
+</html>

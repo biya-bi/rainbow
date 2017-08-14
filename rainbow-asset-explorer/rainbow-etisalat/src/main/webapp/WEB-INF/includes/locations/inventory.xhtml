@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <p:dialog id="inventoryDialog" widgetVar="inventoryDialog" modal="false" resizable="false" appendTo="@(content)" header="#{locationController.current.name} #{labels.LocationInventoryNameSuffix}">
+        <h:form id="inventoryForm">
+            <h:panelGroup id="panelGroup" rendered="#{inventoryLazyDataModel.location!=null}">
+                <p:dataTable id="inventoryList"
+                             widgetVar="inventoryDataTable"
+                             value="#{inventoryLazyDataModel}"
+                             stickyHeader="false"
+                             lazy="true" 
+                             paginator="true"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"
+                             scrollable="true" 
+                             rows="20" 
+                             rowsPerPageTemplate="20,40,60,80,100" 
+                             var="item">
+
+                    <p:column  headerText="#{labels.ProductNumberTitle}" filterBy="#{item.key.number}" sortBy="#{item.key.number}" filterValue="#{inventoryLazyDataModel.number}">
+                        <h:outputText value="#{item.key.number}" />
+                    </p:column>
+
+                    <p:column headerText="#{labels.ProductNameTitle}" filterBy="#{item.key.name}" sortBy="#{item.key.name}" filterValue="#{inventoryLazyDataModel.name}">
+                        <h:outputText value="#{item.key.name}" />
+                    </p:column>
+
+                    <p:column headerText="#{labels.QuantityTitle}" sortBy="#{item.value}">
+                        <h:outputText value="#{item.value}" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</html>

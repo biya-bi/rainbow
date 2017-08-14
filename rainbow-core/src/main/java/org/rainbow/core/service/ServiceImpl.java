@@ -1,6 +1,7 @@
 package org.rainbow.core.service;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import org.rainbow.core.persistence.Dao;
@@ -57,5 +58,20 @@ public class ServiceImpl<TEntity, TKey extends Serializable, TSearchOptions>
 	@Override
 	public long count(TSearchOptions options) throws Exception {
 		return dao.count(options);
+	}
+
+	@Override
+	public void create(Collection<TEntity> entities) throws Exception {
+		dao.create(entities);
+	}
+
+	@Override
+	public void update(Collection<TEntity> entities) throws Exception {
+		dao.update(entities);
+	}
+
+	@Override
+	public void delete(Collection<TEntity> entities) throws Exception {
+		dao.delete(entities);
 	}
 }

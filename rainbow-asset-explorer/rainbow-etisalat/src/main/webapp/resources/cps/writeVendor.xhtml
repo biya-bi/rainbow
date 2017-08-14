@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:panelGrid rendered="#{vendorController.current != null}">
+            <p:panelGrid>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel styleClass="field-label" value="#{labels.AccountNumberLabel}" for="accountNumber" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText styleClass="field-value" id="accountNumber" value="#{vendorController.current.accountNumber}" title="#{labels.AccountNumberTitle}" required="true" requiredMessage="#{valMsg.AccountNumberRequired}">
+                            <p:clientValidator event="keyup" />
+                        </p:inputText>
+                    </p:column>
+                    <p:column>    
+                        <p:message for="accountNumber"/>  
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText styleClass="field-value" id="name" value="#{vendorController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                            <p:clientValidator event="keyup" />
+                        </p:inputText>
+                    </p:column>
+                    <p:column>    
+                        <p:message for="name"/>  
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>  
+                        <p:outputLabel styleClass="field-label" value="#{labels.PurchasingUrlLabel}"/> 
+                    </p:column>
+                    <p:column>   
+                        <p:inputText styleClass="field-value" id="purchasingUrl" value="#{vendorController.current.purchasingUrl}" title="#{labels.PurchasingUrlTitle}"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>  
+                        <p:outputLabel styleClass="field-label" value="#{labels.ActiveLabel}"/> 
+                    </p:column>
+                    <p:column>   
+                        <p:selectBooleanCheckbox styleClass="field-value" value="#{vendorController.current.active}"/> 
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:panelGrid>
+                <p:row>
+                    <p:column colspan="3">
+                        <p:tabView>
+                            <p:tab title="#{labels.AddressesTitle}">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorController.current.addresses}" var="address">
+                                    <p:tab>
+                                        <f:facet name="title">
+                                            <p:outputLabel value="#{address.addressType}">
+                                                <f:converter converterId="org.rainbow.asset.explorer.faces.converters.AddressTypeConverter" />
+                                            </p:outputLabel>
+                                        </f:facet>
+                                        <p:panelGrid columns="2">
+                                            <p:outputLabel value="#{labels.Line1Label}"/>
+                                            <p:inputTextarea value="#{address.line1}" title="#{labels.Line1Title}"/>
+                                            <p:outputLabel value="#{labels.Line2Label}" title="#{labels.Line2Title}"/>
+                                            <p:inputTextarea value="#{address.line2}"/>
+                                        </p:panelGrid>
+                                    </p:tab>
+                                </p:accordionPanel>
+                            </p:tab>
+                            <p:tab title="#{labels.PhonesTitle}">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorController.current.phones}" var="phone">
+                                    <p:tab>
+                                        <f:facet name="title">
+                                            <p:outputLabel value="#{phone.phoneType}">
+                                                <f:converter converterId="org.rainbow.asset.explorer.faces.converters.PhoneTypeConverter" />
+                                            </p:outputLabel>
+                                        </f:facet>
+                                        <p:panelGrid columns="2">
+                                            <p:outputLabel value="#{labels.PhoneLabel}"/>
+                                            <p:inputText value="#{phone.line}" title="#{labels.PhoneTitle}"/>
+                                        </p:panelGrid>
+                                    </p:tab>
+                                </p:accordionPanel>
+                            </p:tab>
+                            <p:tab title="#{labels.FaxesTitle}">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorController.current.faxes}" var="fax">
+                                    <p:tab>
+                                        <f:facet name="title">
+                                            <p:outputLabel value="#{fax.faxType}">
+                                                <f:converter converterId="org.rainbow.asset.explorer.faces.converters.FaxTypeConverter" />
+                                            </p:outputLabel>
+                                        </f:facet>
+                                        <p:panelGrid columns="2">
+                                            <p:outputLabel value="#{labels.FaxLabel}"/>
+                                            <p:inputText value="#{fax.line}" title="#{labels.FaxTitle}"/>
+                                        </p:panelGrid>
+                                    </p:tab>
+                                </p:accordionPanel>
+                            </p:tab>
+                            <p:tab title="#{labels.EmailsTitle}">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorController.current.emails}" var="email">
+                                    <p:tab>
+                                        <f:facet name="title">
+                                            <p:outputLabel value="#{email.emailType}">
+                                                <f:converter converterId="org.rainbow.asset.explorer.faces.converters.EmailTypeConverter" />
+                                            </p:outputLabel>
+                                        </f:facet>
+                                        <p:panelGrid columns="2">
+                                            <p:outputLabel value="#{labels.EmailLabel}"/>
+                                            <p:inputText value="#{email.line}" title="#{labels.EmailTitle}"/>
+                                        </p:panelGrid>
+                                    </p:tab>
+                                </p:accordionPanel>
+                            </p:tab>
+                        </p:tabView>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </p:panelGrid>
+    </composite:implementation>
+</html>
+

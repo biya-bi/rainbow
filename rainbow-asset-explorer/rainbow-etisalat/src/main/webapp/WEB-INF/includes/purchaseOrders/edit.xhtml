@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:t="http://asset.explorer.rainbow.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<cps:submitForm id="purchaseOrderEdit"
+	title="#{labels.EditPurchaseOrderTitle}"
+	submitActionListener="#{purchaseOrderController.edit}"
+	update="purchaseOrderList:form:dataTable">
+
+	<p:panelGrid rendered="#{purchaseOrderController.current != null}">
+		<p:panelGrid>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.ReferenceNumberLabel}" for="referenceNumber" />
+				</p:column>
+				<p:column>
+					<p:inputText styleClass="field-value" id="referenceNumber"
+						value="#{purchaseOrderController.current.referenceNumber}"
+						title="#{labels.ReferenceNumberTitle}" required="true"
+						requiredMessage="#{valMsg.ReferenceNumberRequired}">
+						<p:clientValidator event="keyup" />
+					</p:inputText>
+				</p:column>
+				<p:column>
+					<p:message for="referenceNumber" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel id="vendorLabel" styleClass="field-label"
+						value="#{labels.VendorLabel}" for="vendorDropDown" />
+				</p:column>
+				<p:column>
+					<t:dropDown styleClass="field-value" id="vendorDropDown"
+						labelId="vendorLabel" messageId="vendorDropDownMessage"
+						rowKey="#{item.id}"
+						selectionText="#{purchaseOrderController.current.vendor.name}"
+						dataSource="#{vendorLazyDataModel}" itemLabel="#{item.name}"
+						selection="#{purchaseOrderController.current.vendor}"
+						filterValue="#{vendorLazyDataModel.nameFilter.value}"
+						required="true" requiredMessage="#{valMsg.VendorRequired}"
+						toolTip="#{labels.VendorTitle}" />
+				</p:column>
+				<p:column>
+					<p:message id="vendorDropDownMessage" for="vendorDropDown" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel id="shipMethodLabel" styleClass="field-label"
+						value="#{labels.ShipMethodLabel}" for="shipMethodDropDown" />
+				</p:column>
+				<p:column>
+					<t:dropDown styleClass="field-value" id="shipMethodDropDown"
+						labelId="shipMethodLabel" messageId="shipMethodDropDownMessage"
+						rowKey="#{item.id}"
+						selectionText="#{purchaseOrderController.current.shipMethod.name}"
+						dataSource="#{shipMethodLazyDataModel}" itemLabel="#{item.name}"
+						selection="#{purchaseOrderController.current.shipMethod}"
+						filterValue="#{shipMethodLazyDataModel.nameFilter.value}"
+						toolTip="#{labels.ShipMethodTitle}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel id="locationLabel" styleClass="field-label"
+						value="#{labels.LocationLabel}" for="locationDropDown" />
+				</p:column>
+				<p:column>
+					<t:dropDown styleClass="field-value" id="locationDropDown"
+						labelId="locationLabel" messageId="locationDropDownMessage"
+						rowKey="#{item.id}"
+						selectionText="#{purchaseOrderController.current.location.name}"
+						dataSource="#{locationLazyDataModel}" itemLabel="#{item.name}"
+						selection="#{purchaseOrderController.current.location}"
+						filterValue="#{locationLazyDataModel.nameFilter.value}"
+						toolTip="#{labels.LocationTitle}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.FreightLabel}" for="freight" />
+				</p:column>
+				<p:column>
+					<p:inputText styleClass="field-value" id="freight"
+						value="#{purchaseOrderController.current.freight}"
+						title="#{labels.FreightTitle}" required="true"
+						requiredMessage="#{valMsg.FreightRequired}">
+						<p:clientValidator event="keyup" />
+					</p:inputText>
+				</p:column>
+				<p:column>
+					<p:message for="freight" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.TaxAmountLabel}" for="taxAmount" />
+				</p:column>
+				<p:column>
+					<p:inputText styleClass="field-value" id="taxAmount"
+						value="#{purchaseOrderController.current.taxAmount}"
+						title="#{labels.TaxAmountTitle}" required="true"
+						requiredMessage="#{valMsg.TaxAmountRequired}">
+						<p:clientValidator event="keyup" />
+					</p:inputText>
+				</p:column>
+				<p:column>
+					<p:message for="taxAmount" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.ShipDateLabel}" for="shipDate" />
+				</p:column>
+				<p:column>
+					<p:calendar styleClass="field-value" id="shipDate"
+						value="#{purchaseOrderController.current.shipDate}"
+						title="#{labels.ShipDateTitle}">
+						<p:ajax event="dateSelect" />
+						<p:clientValidator event="shipDate" />
+					</p:calendar>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.StatusLabel}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{purchaseOrderController.current.status}">
+						<f:converter
+							converterId="org.rainbow.asset.explorer.faces.converters.PurchaseOrderStatusConverter" />
+					</h:outputText>
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<p:panel>
+			<f:facet name="header">
+                    #{labels.PurchaseOrderDetailsTitle}
+                </f:facet>
+			<p:dataTable style="width: 700px" id="details" widgetVar="details"
+				var="detail" value="#{purchaseOrderController.current.details}">
+				<f:facet name="header">
+					<p:commandButton
+						actionListener="#{purchaseOrderController.prepareDetail}"
+						icon="ui-icon-plus"
+						oncomplete="PF('addPurchaseOrderDetailDialog').show()"
+						update=":addPurchaseOrderDetailForm" />
+				</f:facet>
+
+				<p:column headerText="#{labels.ProductTitle}"
+					sortBy="#{detail.product.name}" filterBy="#{detail.product.name}"
+					filterMatchMode="contains">
+					<h:outputText value="#{detail.product.name}" />
+				</p:column>
+
+				<p:column headerText="#{labels.OrderedQuantityTitle}"
+					sortBy="#{detail.orderedQuantity}"
+					filterBy="#{detail.orderedQuantity}" filterMatchMode="contains">
+					<h:outputText value="#{detail.orderedQuantity}" />
+				</p:column>
+
+				<p:column headerText="#{labels.UnitPriceTitle}"
+					sortBy="#{detail.unitPrice}" filterBy="#{detail.unitPrice}"
+					filterMatchMode="contains">
+					<h:outputText value="#{detail.unitPrice}" />
+				</p:column>
+
+				<p:column headerText="#{labels.DueDateTitle}"
+					sortBy="#{detail.dueDate}">
+					<h:outputText value="#{detail.dueDate}">
+						<f:convertDateTime dateStyle="short" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="width:32px">
+					<p:commandLink style="display: inline-block"
+						update=":purchaseOrderEdit:form:details,:editPurchaseOrderDetailForm"
+						oncomplete="PF('editPurchaseOrderDetailDialog').show()">
+						<h:outputText styleClass="ui-icon ui-icon-pencil" />
+						<f:setPropertyActionListener value="#{detail}"
+							target="#{purchaseOrderController.detail}" />
+					</p:commandLink>
+					<p:commandLink style="display: inline-block"
+						action="#{purchaseOrderController.removeDetail}"
+						update=":purchaseOrderEdit:form:details">
+						<h:outputText styleClass="ui-icon ui-icon-close" />
+						<f:setPropertyActionListener value="#{detail}"
+							target="#{purchaseOrderController.detail}" />
+					</p:commandLink>
+
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</p:panelGrid>
+</cps:submitForm>
+
+
+</html>

@@ -12,9 +12,6 @@
         <dependent-module archiveName="rainbow-core-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-core/rainbow-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="rainbow-security-core-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-core/rainbow-security-core">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="java-output-path" value="/jsf-spring-integration/target/classes"/>
         <property name="context-root" value="rainbow-journal-ui-web"/>
     </wb-module>

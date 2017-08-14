@@ -1,0 +1,253 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="org.rainbow" />
+	<context:annotation-config />
+	<tx:annotation-driven transaction-manager="rainbowAssetExplorerTransactionManager" />
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<bean id="persistenceUnitManager"
+		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:META-INF/persistence.xml</value>
+			</list>
+		</property>
+		<property name="dataSources">
+			<map>
+				<entry key="dataSource" value-ref="dataSource" />
+			</map>
+		</property>
+		<property name="defaultDataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="rainbowAssetExplorerEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="RainbowAssetExplorerPersistenceUnit" />
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>org.rainbow</value>
+			</list>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="eclipselink.logging.level" value="ALL" />
+				<entry key="javax.persistence.schema-generation.database.action"
+					value="none" />
+				<entry key="eclipselink.weaving" value="false" />
+			</map>
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="true" />
+				<property name="databasePlatform"
+					value="org.eclipse.persistence.platform.database.MySQLPlatform" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="rainbowAssetExplorerTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="rainbowAssetExplorerEntityManagerFactory" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="META-INF/application.properties" />
+	</bean>
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host">
+			<value>${mail.smtp.host.name}</value>
+		</property>
+		<property name="port">
+			<value>${mail.smtp.host.port}</value>
+		</property>
+		<property name="username">
+			<value>${mail.smtp.username}</value>
+		</property>
+		<property name="password">
+			<value>${mail.smtp.password}</value>
+		</property>
+		<property name="javaMailProperties">
+			<props>
+				<!-- Use SMTP transport protocol -->
+				<prop key="mail.transport.protocol">smtp</prop>
+				<!-- Use SMTP-AUTH to authenticate to SMTP server -->
+				<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+				<!-- Use TLS to encrypt communication with SMTP server -->
+				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+				<prop key="mail.debug">${mail.debug}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="schedulerFactoryBean"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="configLocation" value="classpath:quartz.properties" />
+		<property name="waitForJobsToCompleteOnShutdown" value="true" />
+		<property name="schedulerContextAsMap">
+			<map>
+				<entry key="entityManagerFactory" value-ref="rainbowAssetExplorerEntityManagerFactory" />
+				<entry key="mailSender" value-ref="mailSender" />
+				<entry key="applicationName" value="${application.name}" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="alertScheduler"
+		class="org.rainbow.asset.explorer.core.scheduling.AlertSchedulerImpl" />
+
+	<bean id="alertDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.AlertDaoImpl" />
+
+	<bean id="assetDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.AssetDaoImpl" />
+
+	<bean id="assetTypeDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.AssetTypeDaoImpl" />
+
+	<bean id="emailRecipientDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.EmailRecipientDaoImpl" />
+
+	<bean id="emailTemplateDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.EmailTemplateDaoImpl" />
+
+	<bean id="inventoryManager"
+		class="org.rainbow.asset.explorer.core.persistence.dao.InventoryManagerImpl" />
+
+	<bean id="localeDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.LocaleDaoImpl" />
+
+	<bean id="locationDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.LocationDaoImpl" />
+
+	<bean id="manufacturerDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.ManufacturerDaoImpl" />
+
+	<bean id="productDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.ProductDaoImpl" />
+
+	<bean id="productIssueDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.ProductIssueDaoImpl" />
+
+	<bean id="productReceiptDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.ProductReceiptDaoImpl" />
+
+	<bean id="purchaseOrderDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.PurchaseOrderDaoImpl" />
+
+	<bean id="shipMethodDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.ShipMethodDaoImpl" />
+
+	<bean id="shippingOrderDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.ShippingOrderDaoImpl" />
+
+	<bean id="siteDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.SiteDaoImpl" />
+
+	<bean id="vendorDao"
+		class="org.rainbow.asset.explorer.core.persistence.dao.VendorDaoImpl" />
+
+	<bean id="alertService"
+		class="org.rainbow.asset.explorer.core.service.AlertServiceImpl">
+		<constructor-arg name="dao" ref="alertDao" />
+	</bean>
+
+	<bean id="assetService"
+		class="org.rainbow.asset.explorer.core.service.AssetServiceImpl">
+		<constructor-arg name="dao" ref="assetDao" />
+	</bean>
+
+	<bean id="assetTypeService"
+		class="org.rainbow.asset.explorer.core.service.AssetTypeServiceImpl">
+		<constructor-arg name="dao" ref="assetTypeDao" />
+	</bean>
+
+	<bean id="emailRecipientService"
+		class="org.rainbow.asset.explorer.core.service.EmailRecipientServiceImpl">
+		<constructor-arg name="dao" ref="emailRecipientDao" />
+	</bean>
+
+	<bean id="emailTemplateService"
+		class="org.rainbow.asset.explorer.core.service.EmailTemplateServiceImpl">
+		<constructor-arg name="dao" ref="emailTemplateDao" />
+	</bean>
+
+	<bean id="localeService"
+		class="org.rainbow.asset.explorer.core.service.LocaleServiceImpl">
+		<constructor-arg name="dao" ref="localeDao" />
+	</bean>
+
+	<bean id="locationService"
+		class="org.rainbow.asset.explorer.core.service.LocationServiceImpl">
+		<constructor-arg name="dao" ref="locationDao" />
+	</bean>
+
+	<bean id="manufacturerService"
+		class="org.rainbow.asset.explorer.core.service.ManufacturerServiceImpl">
+		<constructor-arg name="dao" ref="manufacturerDao" />
+	</bean>
+
+	<bean id="productIssueService"
+		class="org.rainbow.asset.explorer.core.service.ProductIssueServiceImpl">
+		<constructor-arg name="dao" ref="productIssueDao" />
+	</bean>
+
+	<bean id="productReceiptService"
+		class="org.rainbow.asset.explorer.core.service.ProductReceiptServiceImpl">
+		<constructor-arg name="dao" ref="productReceiptDao" />
+	</bean>
+
+	<bean id="productService"
+		class="org.rainbow.asset.explorer.core.service.ProductServiceImpl">
+		<constructor-arg name="dao" ref="productDao" />
+	</bean>
+
+	<bean id="purchaseOrderService"
+		class="org.rainbow.asset.explorer.core.service.PurchaseOrderServiceImpl">
+		<constructor-arg name="dao" ref="purchaseOrderDao" />
+	</bean>
+
+	<bean id="shipMethodService"
+		class="org.rainbow.asset.explorer.core.service.ShipMethodServiceImpl">
+		<constructor-arg name="dao" ref="shipMethodDao" />
+	</bean>
+
+	<bean id="shippingOrderService"
+		class="org.rainbow.asset.explorer.core.service.ShippingOrderServiceImpl">
+		<constructor-arg name="dao" ref="shippingOrderDao" />
+	</bean>
+
+	<bean id="siteService" class="org.rainbow.asset.explorer.core.service.SiteServiceImpl">
+		<constructor-arg name="dao" ref="siteDao" />
+	</bean>
+
+	<bean id="vendorService"
+		class="org.rainbow.asset.explorer.core.service.VendorServiceImpl">
+		<constructor-arg name="dao" ref="vendorDao" />
+	</bean>
+</beans>

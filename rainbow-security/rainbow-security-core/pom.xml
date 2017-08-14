@@ -4,7 +4,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.rainbow.security</groupId>
+		<groupId>org.rainbow</groupId>
 		<artifactId>rainbow-security</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -17,6 +17,7 @@
 		<spring.security.version>4.2.1.RELEASE</spring.security.version>
 		<eclipselink.version>2.6.2</eclipselink.version>
 		<mysql.version>5.1.23</mysql.version>
+		<maven.surefire.plugin.version>2.20</maven.surefire.plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -27,7 +28,7 @@
 		<dependency>
 			<groupId>org.rainbow</groupId>
 			<artifactId>rainbow-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
@@ -88,5 +89,27 @@
 			<version>${eclipselink.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.rainbow</groupId>
+			<artifactId>rainbow-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin.version}</version>
+				<configuration>
+					<includes>
+						<include>org/rainbow/security/core/service/ServiceTestSuite.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

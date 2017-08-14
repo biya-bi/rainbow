@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:t="http://asset.explorer.rainbow.org/ui"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:panelGrid rendered="#{siteDocumentController.current != null}">
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.FileNameLabel}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText styleClass="field-value" id="fileName" value="#{siteDocumentController.current.fileName}" title="#{labels.FileNameTitle}"/>
+                </p:column>
+                <p:column/>
+                <p:column>
+                    <p:commandButton icon="ui-icon-document" value="#{labels.BrowseLabel}" oncomplete="PF('siteDocumentDialog').show()"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.DocumentTypeLabel}" for="documentType" />
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu styleClass="field-value" id="documentType" value="#{siteDocumentController.current.documentType}" title="#{labels.DocumentTypeTitle}" required="true" requiredMessage="#{valMsg.DocumentTypeRequired}">
+                        <p:clientValidator event="change" />
+                        <f:selectItem itemLabel="" itemValue="#{null}"/>
+                        <f:selectItem itemLabel="#{labels.DocumentTypeLegal}" itemValue="LEGAL_DOCUMENT"/>
+                        <f:selectItem itemLabel="#{labels.DocumentTypeFinancial}" itemValue="FINANCIAL_DOCUMENT"/>
+                        <f:selectItem itemLabel="#{labels.DocumentTypeWarranty}" itemValue="WARRANTY"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column/>
+                <p:column>    
+                    <p:message for="documentType"/>  
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column> 
+                    <p:outputLabel id="siteLabel" styleClass="field-label" value="#{labels.SiteLabel}" for="siteDropDown"/>
+                </p:column>
+                <p:column>    
+                    <t:dropDown styleClass="field-value"
+                                id="siteDropDown"
+                                labelId="siteLabel"
+                                messageId="siteDropDownMessage"
+                                rowKey="#{item.id}"
+                                selectionText="#{siteDocumentController.current.site.name}"
+                                dataSource="#{siteLazyDataModel}" 
+                                itemLabel="#{item.name}"
+                                selection="#{siteDocumentController.current.site}"
+                                filterValue="#{siteLazyDataModel.nameFilter.value}"
+                                required="true"
+                                requiredMessage="#{valMsg.SiteRequired}"
+                                toolTip="#{labels.SiteTitle}"/>
+                </p:column>
+                <p:column>
+                    <cps:quickCreateButton actionListener="#{siteController.prepareCreate}" update=":siteCreate:form" dialogWidgetVar="siteCreateDialog" title="#{labels.CreateSiteTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_SITES')}"/>
+                </p:column>
+                <p:column>
+                    <p:message id="siteDropDownMessage" for="siteDropDown"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>  
+                    <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
+                </p:column>
+                <p:column>   
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{siteDocumentController.current.description}" title="#{labels.DescriptionTitle}"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </composite:implementation>
+</html>
+

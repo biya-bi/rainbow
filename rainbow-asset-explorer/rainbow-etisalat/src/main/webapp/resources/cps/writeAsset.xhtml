@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:t="http://asset.explorer.rainbow.org/ui"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:sec="http://www.springframework.org/security/tags">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:panelGrid rendered="#{assetController.current != null}">
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
+                </p:column>
+                <p:column>
+                    <p:inputText styleClass="field-value" id="name" value="#{assetController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                        <p:clientValidator event="keyup" />
+                    </p:inputText>
+                </p:column>
+                <p:column>    
+                    <p:message for="name"/>  
+                </p:column>
+
+                <p:column/>
+
+                <p:column> 
+                    <p:outputLabel id="productLabel" styleClass="field-label" value="#{labels.ProductLabel}" for="productDropDown"/>
+                </p:column>
+                <p:column>    
+                    <t:dropDown styleClass="field-value"
+                                id="productDropDown"
+                                labelId="productLabel"
+                                messageId="productDropDownMessage"
+                                rowKey="#{item.id}"
+                                selectionText="#{assetController.current.product.name}"
+                                dataSource="#{productLazyDataModel}" 
+                                itemLabel="#{item.name}"
+                                selection="#{assetController.current.product}"
+                                filterValue="#{productLazyDataModel.nameFilter.value}"
+                                required="true"
+                                requiredMessage="#{valMsg.ProductRequired}"
+                                toolTip="#{labels.ProductTitle}"/>
+                </p:column>
+                <p:column>
+                    <cps:quickCreateButton actionListener="#{productController.prepareCreate}" update=":productCreate:form" dialogWidgetVar="productCreateDialog" title="#{labels.CreateProductTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_PRODUCTS')}"/>
+                </p:column>
+                <p:column>
+                    <p:message id="productDropDownMessage" for="productDropDown"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.BusinessImpactLabel}" />
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu styleClass="field-value" value="#{assetController.current.manufacturerBusinessImpact}" title="#{labels.BusinessImpactTitle}">
+                        <f:selectItem itemValue="#{null}"/>
+                        <f:selectItem itemLabel="#{labels.ManufacturerBusinessImpactHigh}" itemValue="HIGH" />
+                        <f:selectItem itemLabel="#{labels.ManufacturerBusinessImpactLow}" itemValue="LOW" />
+                        <f:selectItem itemLabel="#{labels.ManufacturerBusinessImpactMedium}" itemValue="MEDIUM" />
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column/>
+
+                <p:column/>
+
+                <p:column>  
+                    <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
+                </p:column>
+                <p:column>   
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{assetController.current.description}" title="#{labels.DescriptionTitle}"/>
+                </p:column>
+                <p:column/>
+                <p:column/>
+            </p:row>
+
+            <p:row>
+                <p:column colspan="9">
+                    <p:separator style="width:100%;" />
+                </p:column>
+            </p:row>
+
+            <p:row>
+                <p:column> 
+                    <p:outputLabel id="vendorLabel" styleClass="field-label" value="#{labels.VendorLabel}" for="vendorDropDown"/>
+                </p:column>
+                <p:column>    
+                    <t:dropDown styleClass="field-value"
+                                id="vendorDropDown"
+                                labelId="vendorLabel"
+                                messageId="vendorDropDownMessage"
+                                rowKey="#{item.id}"
+                                selectionText="#{assetController.current.vendor.name}"
+                                dataSource="#{vendorLazyDataModel}" 
+                                itemLabel="#{item.name}"
+                                selection="#{assetController.current.vendor}"
+                                filterValue="#{vendorLazyDataModel.nameFilter.value}"
+                                toolTip="#{labels.VendorTitle}"/>
+                </p:column>
+                <p:column>
+                    <cps:quickCreateButton actionListener="#{vendorController.prepareCreate}" update=":vendorCreate:form" dialogWidgetVar="vendorCreateDialog" title="#{labels.CreateVendorTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_VENDORS')}"/>
+                </p:column>
+
+                <p:column/>
+
+                <p:column> 
+                    <p:outputLabel id="currencyLabel" styleClass="field-label" value="#{labels.PurchaseCurrencyLabel}" for="currencyDropDown"/>
+                </p:column>
+                <p:column>    
+                    <t:dropDown styleClass="field-value"
+                                id="currencyDropDown"
+                                labelId="currencyLabel"
+                                messageId="currencyDropDownMessage"
+                                rowKey="#{item.id}"
+                                selectionText="#{assetController.current.purchaseCurrency.name}"
+                                dataSource="#{currencyLazyDataModel}" 
+                                itemLabel="#{item.name}"
+                                selection="#{assetController.current.purchaseCurrency}"
+                                filterValue="#{currencyLazyDataModel.nameFilter.value}"
+                                toolTip="#{labels.PurchaseCurrencyTitle}"/>
+                </p:column>
+                <p:column>
+                    <p:message id="currencyDropDownMessage" for="currencyDropDown"/>
+                </p:column>
+                <p:column/>
+            </p:row>
+
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.AssetTagLabel}" />
+                </p:column>
+                <p:column>
+                    <p:inputText styleClass="field-value" id="assetTag" value="#{assetController.current.tag}" title="#{labels.AssetTagTitle}">
+                        <p:clientValidator event="keyup" />
+                    </p:inputText>
+                </p:column>
+                <p:column/>
+
+                <p:column/>
+
+                <p:column>  
+                    <p:outputLabel id="purchaseCostLabel" styleClass="field-label" value="#{labels.PurchaseCostLabel}" for="purchaseCost"/> 
+                </p:column>
+                <p:column> 
+                    <p:inputText styleClass="field-value" id="purchaseCost" value="#{assetController.current.purchaseCost}" title="#{labels.PurchaseCostTitle}" converterMessage="#{valMsg.PurchaseCostMustBeANumber}" validatorMessage="#{valMsg.PurchaseCostOutOfRange}">
+                        <p:clientValidator event="keyup" />
+                    </p:inputText>
+                </p:column>
+                <p:column>
+                    <p:message for="purchaseCost"/>
+                </p:column>
+                <p:column/>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.SerialNumberLabel}" for="serialNumber" />
+                </p:column>
+                <p:column>
+                    <p:inputText styleClass="field-value" id="serialNumber" value="#{assetController.current.serialNumber}" title="#{labels.SerialNumberTitle}" required="true" requiredMessage="#{valMsg.SerialNumberRequired}">
+                        <p:clientValidator event="keyup" />
+                    </p:inputText>
+                </p:column>
+                <p:column>    
+                    <p:message for="serialNumber"/>  
+                </p:column>
+                <p:column/>
+
+                <p:column>  
+                    <p:outputLabel styleClass="field-label" value="#{labels.AcquisitionDateLabel}"/> 
+                </p:column>
+                <p:column> 
+                    <p:calendar id="acquisitionDate" styleClass="field-value" value="#{assetController.current.acquisitionDate}" title="#{labels.AcquisitionDateTitle}">
+                        <p:clientValidator event="change"/>
+                        <p:clientValidator event="dateSelect"/>
+                        <p:ajax event="dateSelect" />
+                    </p:calendar>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.BarcodeLabel}" />
+                </p:column>
+                <p:column>
+                    <p:inputText styleClass="field-value" id="barCode" value="#{assetController.current.barCode}" title="#{labels.BarcodeTitle}">
+                        <p:clientValidator event="keyup" />
+                    </p:inputText>
+                </p:column>
+                <p:column/>
+
+                <p:column/>
+
+                <p:column>  
+                    <p:outputLabel styleClass="field-label" value="#{labels.ExpiryDateLabel}"/> 
+                </p:column>
+                <p:column> 
+                    <p:calendar id="expiryDate" styleClass="field-value" value="#{assetController.current.expiryDate}" title="#{labels.ExpiryDateTitle}">
+                        <p:clientValidator event="change"/>
+                        <p:clientValidator event="dateSelect"/>
+                        <p:ajax event="dateSelect" />
+                    </p:calendar>
+                </p:column>
+                <p:column/>
+                <p:column/>
+            </p:row>
+            <p:row>
+                <p:column/>
+                <p:column/>
+                <p:column/>
+
+                <p:column/>
+                <p:column>  
+                    <p:outputLabel styleClass="field-label" value="#{labels.WarrantyExpiryDateLabel}"/> 
+                </p:column>
+                <p:column> 
+                    <p:calendar id="warrantyExpiryDate" styleClass="field-value" value="#{assetController.current.warrantyExpiryDate}" title="#{labels.WarrantyExpiryDateTitle}">
+                        <p:clientValidator event="change"/>
+                        <p:clientValidator event="dateSelect"/>
+                        <p:ajax event="dateSelect" />
+                    </p:calendar>
+                </p:column>
+            </p:row>
+
+            <p:row>
+                <p:column colspan="9">
+                    <p:separator style="width:100%;" />
+                </p:column>
+            </p:row>
+            
+            <p:row>
+                <p:column> 
+                    <p:outputLabel id="siteLabel" styleClass="field-label" value="#{labels.SiteLabel}" for="siteDropDown"/>
+                </p:column>
+                <p:column>    
+                    <t:dropDown styleClass="field-value"
+                                id="siteDropDown"
+                                labelId="siteLabel"
+                                messageId="siteDropDownMessage"
+                                rowKey="#{item.id}"
+                                selectionText="#{assetController.current.site.name}"
+                                dataSource="#{siteLazyDataModel}" 
+                                itemLabel="#{item.name}"
+                                selection="#{assetController.current.site}"
+                                filterValue="#{siteLazyDataModel.nameFilter.value}"
+                                toolTip="#{labels.SiteTitle}"/>
+                </p:column>
+                <p:column>
+                    <cps:quickCreateButton actionListener="#{siteController.prepareCreate}" update=":siteCreate:form" dialogWidgetVar="siteCreateDialog" title="#{labels.CreateSiteTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_SITES')}"/>
+                </p:column>
+
+                <p:column/>
+
+                <p:column> 
+                    <p:outputLabel id="assetTypeLabel" styleClass="field-label" value="#{labels.AssetTypeLabel}" for="assetTypeDropDown"/>
+                </p:column>
+                <p:column>    
+                    <t:dropDown styleClass="field-value"
+                                id="assetTypeDropDown"
+                                labelId="assetTypeLabel"
+                                messageId="assetTypeDropDownMessage"
+                                rowKey="#{item.id}"
+                                selectionText="#{assetController.current.assetType.name}"
+                                dataSource="#{assetTypeLazyDataModel}" 
+                                itemLabel="#{item.name}"
+                                selection="#{assetController.current.assetType}"
+                                filterValue="#{assetTypeLazyDataModel.nameFilter.value}"
+                                toolTip="#{labels.AssetTypeTitle}"/>
+                </p:column>
+                <p:column>
+                    <cps:quickCreateButton actionListener="#{assetTypeController.prepareCreate}" update=":assetTypeCreate:form" dialogWidgetVar="assetTypeCreateDialog" title="#{labels.CreateAssetTypeTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_ASSET_TYPES')}"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.AssetStateLabel}" />
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu styleClass="field-value" value="#{assetController.current.state}" title="#{labels.AssetStateTitle}">
+                        <f:selectItem itemValue="#{null}"/>
+                        <f:selectItem itemLabel="#{labels.AssetStateInStore}" itemValue="IN_STORE" />
+                        <f:selectItem itemLabel="#{labels.AssetStateInUse}" itemValue="IN_USE" />
+                        <f:selectItem itemLabel="#{labels.AssetStateInRepair}" itemValue="IN_REPAIR" />
+                        <f:selectItem itemLabel="#{labels.AssetStateExpired}" itemValue="EXPIRED" />
+                        <f:selectItem itemLabel="#{labels.AssetStateDisposed}" itemValue="DISPOSED" />
+                    </p:selectOneMenu>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.DepreciationMethodLabel}" />
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu styleClass="field-value" value="#{assetController.current.depreciationMethod}" title="#{DepreciationMethodTitle}">
+                        <f:selectItem itemValue="#{null}"/>
+                        <f:selectItem itemLabel="#{labels.DepreciationMethodStraightLine}" itemValue="STRAIGHT_LINE" />
+                        <f:selectItem itemLabel="#{labels.DepreciationMethodDecliningBalance}" itemValue="DECLINING_BALANCE" />
+                        <f:selectItem itemLabel="#{labels.DepreciationMethodSumOfYearDigit}" itemValue="SUM_OF_YEAR_DIGIT" />
+                    </p:selectOneMenu>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </composite:implementation>
+</html>
+

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<sec:authorize access="hasRole('ROLE_READ_SITES')">
+		<cps:trackableDataGrid id="siteList" title="#{labels.ListSitesTitle}"
+			dataSource="#{siteLazyDataModel}"
+			selectedItem="#{siteController.current}" selectedValue="#{item.id}"
+			createActionListener="#{siteController.prepareCreate}"
+			createDialog="siteCreateDialog" createUpdate=":siteCreate:form"
+			editDialog="siteEditDialog" editUpdate=":siteEdit:form"
+			detailsDialog="siteDetailsDialog" detailsUpdate=":siteDetails:form"
+			deleteDialog="siteDeleteDialog" deleteUpdate=":siteDelete:form"
+			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_SITES')}"
+			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_SITES')}"
+			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_SITES')}"
+			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_SITES')}"
+			selectionUpdate=":siteList:headerImportButton,:siteList:footerImportButton,:siteList:headerSiteAssetsButton"
+			columnToggleListener="#{siteController.onToggle}"
+			creatorFilterValue="#{siteLazyDataModel.creatorFilter.value}"
+			creatorFilterOperator="#{siteLazyDataModel.creatorFilter.operator}"
+			updaterFilterValue="#{siteLazyDataModel.updaterFilter.value}"
+			updaterFilterOperator="#{siteLazyDataModel.updaterFilter.operator}"
+			creationDateFilterValue="#{siteLazyDataModel.creationDateFilter.value}"
+			creationDateFilterOperator="#{siteLazyDataModel.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{siteLazyDataModel.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{siteLazyDataModel.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{siteController.auditColumnsStates[1]}"
+			updaterColumnVisible="#{siteController.auditColumnsStates[2]}"
+			creationDateColumnVisible="#{siteController.auditColumnsStates[3]}"
+			lastUpdateDateColumnVisible="#{siteController.auditColumnsStates[4]}">
+
+
+			<f:facet name="postHeader">
+				<p:commandButton id="headerImportButton"
+					icon="ui-icon-arrowreturn-1-s" value="#{labels.ImportLabel}"
+					oncomplete="PF('siteBulkCreateDialog').show()"
+					update=":siteBulkCreateDialog"
+					disabled="#{sec:areNotGranted('ROLE_WRITE_SITES')}" />
+				<p:commandButton id="headerSiteAssetsButton" icon="ui-icon-note"
+					value="#{labels.ListAssetsTitle}"
+					oncomplete="PF('siteAssetsDialog').show()"
+					update=":siteAssetsDialog"
+					disabled="#{siteController.current==null or sec:areNotGranted('ROLE_READ_ASSETS')}">
+					<f:setPropertyActionListener value="#{siteController.current.id}"
+						target="#{assetLazyDataModel.siteIdFilter.value}" />
+					<f:setPropertyActionListener value="EQUAL"
+						target="#{assetLazyDataModel.siteIdFilter.operator}" />
+				</p:commandButton>
+			</f:facet>
+
+			<f:facet name="postFooter">
+				<p:commandButton id="footerImportButton"
+					icon="ui-icon-arrowreturn-1-s" value="#{labels.ImportLabel}"
+					oncomplete="PF('siteBulkCreateDialog').show()"
+					update=":siteBulkCreateDialog"
+					disabled="#{sec:areNotGranted('ROLE_WRITE_SITES')}" />
+			</f:facet>
+
+			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
+				sortBy="#{item.name}"
+				filterValue="#{siteLazyDataModel.nameFilter.value}">
+				<h:outputText value="#{item.name}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="siteList:form:dataTable"
+						selectedValue="#{siteLazyDataModel.nameFilter.operator}"
+						changeWidgetVar="siteListDataTable" />
+				</f:facet>
+			</p:column>
+
+		</cps:trackableDataGrid>
+
+		<ui:include src="/WEB-INF/includes/sites/create.xhtml" />
+		<ui:include src="/WEB-INF/includes/sites/edit.xhtml" />
+		<ui:include src="/WEB-INF/includes/sites/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/sites/delete.xhtml" />
+		<ui:include src="/WEB-INF/includes/sites/bulkCreate.xhtml" />
+		<ui:include src="/WEB-INF/includes/sites/assets.xhtml" />
+		<ui:include src="/WEB-INF/includes/assetTypes/details.xhtml" />
+	</sec:authorize>
+</h:body>
+</html>
+

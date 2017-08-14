@@ -1,14 +1,8 @@
 package org.rainbow.security.core.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.security.core.persistence.exceptions.ApplicationNotFoundException;
 import org.rainbow.security.core.persistence.exceptions.MembershipNotFoundException;
 import org.rainbow.security.core.persistence.exceptions.UserNotFoundNameException;
@@ -21,12 +15,14 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/applicationContext.xml")
-public class UsernamePasswordAuthenticationProviderTest {
+/**
+ * 
+ * @author Biya-Bi
+ *
+ */
+@DatabaseInitialize("src/test/resources/UsernamePasswordAuthenticationProviderTestSetup.sql")
+public class UsernamePasswordAuthenticationProviderTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("authenticationManager")
@@ -41,26 +37,6 @@ public class UsernamePasswordAuthenticationProviderTest {
 	private AuthenticationManager authenticationManager1;
 
 	private final String missingApplicationName = "Missing Application";
-
-	private static MySqlDatabase database;
-
-	@Autowired
-	public void initializeDatabase(MySqlDatabase mySqlDatabase)
-			throws FileNotFoundException, SQLException, IOException {
-		database = mySqlDatabase;
-		database.execute("src/test/resources/Cleanup.sql");
-		database.execute("src/test/resources/UsernamePasswordAuthenticationProviderTestSetup.sql");
-	}
-
-	@AfterClass
-	public static void cleanUpClass() throws SQLException, IOException {
-		database.execute("src/test/resources/Cleanup.sql");
-	}
-
-	@After
-	public void tearDown() {
-		SecurityContextHolder.clearContext();
-	}
 
 	@Test
 	public void authenticate_CredentialsAreValid_UserAuthenticated() throws ApplicationNotFoundException {

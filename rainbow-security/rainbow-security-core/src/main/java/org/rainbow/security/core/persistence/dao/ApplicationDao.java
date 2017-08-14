@@ -6,15 +6,15 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.rainbow.core.persistence.DaoImpl;
 import org.rainbow.core.persistence.Dao;
+import org.rainbow.core.persistence.DaoImpl;
 import org.rainbow.core.persistence.Pageable;
 import org.rainbow.core.persistence.SearchOptions;
 import org.rainbow.core.persistence.UpdateOperation;
 import org.rainbow.security.core.entities.Application;
-import org.rainbow.security.core.entities.PasswordPolicy;
 import org.rainbow.security.core.entities.Authority;
 import org.rainbow.security.core.entities.Group;
+import org.rainbow.security.core.entities.PasswordPolicy;
 import org.rainbow.security.core.entities.TokenPolicy;
 import org.rainbow.security.core.entities.User;
 import org.rainbow.security.core.persistence.exceptions.DuplicateApplicationNameException;

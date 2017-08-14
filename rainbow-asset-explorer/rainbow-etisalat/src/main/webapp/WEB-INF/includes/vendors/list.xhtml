@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<sec:authorize access="hasRole('ROLE_READ_VENDORS')">
+		<cps:trackableDataGrid id="vendorList"
+			title="#{labels.ListVendorsTitle}"
+			dataSource="#{vendorLazyDataModel}"
+			selectedItem="#{vendorController.current}" selectedValue="#{item.id}"
+			createActionListener="#{vendorController.prepareCreate}"
+			createDialog="vendorCreateDialog" createUpdate=":vendorCreate:form"
+			editDialog="vendorEditDialog" editUpdate=":vendorEdit:form"
+			detailsDialog="vendorDetailsDialog"
+			detailsUpdate=":vendorDetails:form" deleteDialog="vendorDeleteDialog"
+			deleteUpdate=":vendorDelete:form"
+			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_VENDORS')}"
+			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_VENDORS')}"
+			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_VENDORS')}"
+			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_VENDORS')}"
+			columnToggleListener="#{vendorController.onToggle}"
+			creatorFilterValue="#{vendorLazyDataModel.creatorFilter.value}"
+			creatorFilterOperator="#{vendorLazyDataModel.creatorFilter.operator}"
+			updaterFilterValue="#{vendorLazyDataModel.updaterFilter.value}"
+			updaterFilterOperator="#{vendorLazyDataModel.updaterFilter.operator}"
+			creationDateFilterValue="#{vendorLazyDataModel.creationDateFilter.value}"
+			creationDateFilterOperator="#{vendorLazyDataModel.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{vendorLazyDataModel.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{vendorLazyDataModel.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{vendorController.auditColumnsStates[4]}"
+			updaterColumnVisible="#{vendorController.auditColumnsStates[5]}"
+			creationDateColumnVisible="#{vendorController.auditColumnsStates[6]}"
+			lastUpdateDateColumnVisible="#{vendorController.auditColumnsStates[7]}">
+
+			<p:column headerText="#{labels.AccountNumberTitle}"
+				filterBy="#{item.accountNumber}" sortBy="#{item.accountNumber}"
+				filterValue="#{vendorLazyDataModel.accountNumberFilter.value}">
+				<h:outputText value="#{item.accountNumber}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="vendorList:form:dataTable"
+						selectedValue="#{vendorLazyDataModel.accountNumberFilter.operator}"
+						changeWidgetVar="vendorListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
+				sortBy="#{item.name}"
+				filterValue="#{vendorLazyDataModel.nameFilter.value}">
+				<h:outputText value="#{item.name}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="vendorList:form:dataTable"
+						selectedValue="#{vendorLazyDataModel.nameFilter.operator}"
+						changeWidgetVar="vendorListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.PurchasingUrlTitle}"
+				filterBy="#{item.purchasingUrl}" sortBy="#{item.purchasingUrl}"
+				filterValue="#{vendorLazyDataModel.purchasingUrlFilter.value}">
+				<h:outputText value="#{item.purchasingUrl}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="vendorList:form:dataTable"
+						selectedValue="#{vendorLazyDataModel.purchasingUrlFilter.operator}"
+						changeWidgetVar="vendorListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.ActiveTitle}" sortBy="#{item.active}"
+				filterValue="#{vendorLazyDataModel.activeFilter.value}">
+				<f:facet name="footer">
+					<cps:booleanFilterSelectOneMenu
+						changeUpdate="vendorList:form:dataTable"
+						selectedValue="#{vendorLazyDataModel.activeFilter.value}"
+						changeWidgetVar="vendorListDataTable" />
+				</f:facet>
+				<h:selectBooleanCheckbox disabled="true" readonly="false"
+					value="#{item.active}" />
+			</p:column>
+
+		</cps:trackableDataGrid>
+
+		<ui:include src="/WEB-INF/includes/vendors/create.xhtml" />
+		<ui:include src="/WEB-INF/includes/vendors/edit.xhtml" />
+		<ui:include src="/WEB-INF/includes/vendors/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/vendors/delete.xhtml" />
+	</sec:authorize>
+</h:body>
+</html>
+

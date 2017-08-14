@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<sec:authorize access="hasRole('ROLE_READ_ALERTS')">
+		<cps:trackableDataGrid id="alertList"
+			title="#{labels.ListAlertsTitle}" dataSource="#{alertLazyDataModel}"
+			selectedItem="#{alertController.current}" selectedValue="#{item.id}"
+			createActionListener="#{alertController.prepareCreate}"
+			createDialog="alertCreateDialog" createUpdate=":alertCreate:form"
+			editDialog="alertEditDialog" editUpdate=":alertEdit:form"
+			detailsDialog="alertDetailsDialog" detailsUpdate=":alertDetails:form"
+			deleteDialog="alertDeleteDialog" deleteUpdate=":alertDelete:form"
+			selectionUpdate=":alertList:headerEmailRecipientsButton,:alertList:footerEmailRecipientsButton,:alertList:headerEmailTemplatesButton,:alertList:footerEmailTemplatesButton"
+			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_ALERTS')}"
+			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_ALERTS')}"
+			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_ALERTS')}"
+			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_ALERTS')}"
+			columnToggleListener="#{alertController.onToggle}"
+			creatorFilterValue="#{alertLazyDataModel.creatorFilter.value}"
+			creatorFilterOperator="#{alertLazyDataModel.creatorFilter.operator}"
+			updaterFilterValue="#{alertLazyDataModel.updaterFilter.value}"
+			updaterFilterOperator="#{alertLazyDataModel.updaterFilter.operator}"
+			creationDateFilterValue="#{alertLazyDataModel.creationDateFilter.value}"
+			creationDateFilterOperator="#{alertLazyDataModel.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{alertLazyDataModel.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{alertLazyDataModel.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{alertController.auditColumnsStates[4]}"
+			updaterColumnVisible="#{alertController.auditColumnsStates[5]}"
+			creationDateColumnVisible="#{alertController.auditColumnsStates[6]}"
+			lastUpdateDateColumnVisible="#{alertController.auditColumnsStates[7]}">
+
+			<f:facet name="postHeader">
+				<p:commandButton id="headerEmailRecipientsButton"
+					value="#{labels.ListEmailRecipientsTitle}"
+					update="alertEmailRecipientsDialog,manageAlertEmailRecipientsForm:emailRecipientList"
+					oncomplete="showDialog('alertEmailRecipientsDialog')"
+					disabled="#{alertController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
+				<p:commandButton id="headerEmailTemplatesButton"
+					value="#{labels.ListEmailTemplatesTitle}"
+					update="alertEmailTemplatesDialog,manageAlertEmailTemplatesForm:emailTemplateList"
+					oncomplete="showDialog('alertEmailTemplatesDialog')"
+					disabled="#{alertController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
+			</f:facet>
+			<f:facet name="postFooter">
+				<p:commandButton id="footerEmailRecipientsButton"
+					value="#{labels.ListEmailRecipientsTitle}"
+					update="alertEmailRecipientsDialog,manageAlertEmailRecipientsForm:emailRecipientList"
+					oncomplete="showDialog('alertEmailRecipientsDialog')"
+					disabled="#{alertController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
+				<p:commandButton id="footerEmailTemplatesButton"
+					value="#{labels.ListEmailTemplatesTitle}"
+					update="alertEmailTemplatesDialog,manageAlertEmailTemplatesForm:emailTemplateList"
+					oncomplete="showDialog('alertEmailTemplatesDialog')"
+					disabled="#{alertController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
+			</f:facet>
+
+			<p:column headerText="#{labels.AlertTypeTitle}"
+				sortBy="#{item.alertType}" filterBy="#{item.alertType}"
+				filterValue="#{alertLazyDataModel.alertTypeFilter.value}">
+				<f:facet name="filter">
+					<p:selectOneMenu id="alertTypeFilter"
+						onchange="PF('alertListDataTable').filter()">
+						<f:selectItem itemLabel="#{labels.All}" itemValue="#{null}" />
+						<f:selectItem itemLabel="#{labels.Warning}" itemValue="WARNING" />
+						<f:selectItem itemLabel="#{labels.Recovery}" itemValue="RECOVERY" />
+						<p:ajax event="change" update="alertList:form:dataTable" />
+					</p:selectOneMenu>
+				</f:facet>
+				<h:outputText value="#{item.alertType}">
+					<f:converter
+						converterId="org.rainbow.asset.explorer.faces.converters.AlertTypeConverter" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="#{labels.AlertCategoryTitle}"
+				sortBy="#{item.alertCategory}" filterBy="#{item.alertCategory}"
+				filterValue="#{alertLazyDataModel.alertCategoryFilter.value}">
+				<f:facet name="filter">
+					<p:selectOneMenu id="alertCategoryFilter"
+						onchange="PF('alertListDataTable').filter()">
+						<f:selectItem itemLabel="#{labels.All}" itemValue="#{null}" />
+						<f:selectItem itemLabel="#{labels.StockLevel}"
+							itemValue="STOCK_LEVEL" />
+						<p:ajax event="change" update="alertList:form:dataTable" />
+					</p:selectOneMenu>
+				</f:facet>
+				<h:outputText value="#{item.alertCategory}">
+					<f:converter
+						converterId="org.rainbow.asset.explorer.faces.converters.AlertCategoryConverter" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="#{labels.EnabledTitle}"
+				sortBy="#{item.enabled}"
+				filterValue="#{alertLazyDataModel.enabledFilter.value}">
+				<f:facet name="footer">
+					<cps:booleanFilterSelectOneMenu
+						changeUpdate="alertList:form:dataTable"
+						selectedValue="#{alertLazyDataModel.enabledFilter.value}"
+						changeWidgetVar="alertListDataTable" />
+				</f:facet>
+				<h:selectBooleanCheckbox disabled="true" readonly="false"
+					value="#{item.enabled}" />
+			</p:column>
+			<p:column headerText="#{labels.ImmediateTitle}"
+				sortBy="#{item.immediate}"
+				filterValue="#{alertLazyDataModel.immediateFilter.value}">
+				<f:facet name="footer">
+					<cps:booleanFilterSelectOneMenu
+						changeUpdate="alertList:form:dataTable"
+						selectedValue="#{alertLazyDataModel.immediateFilter.value}"
+						changeWidgetVar="alertListDataTable" />
+				</f:facet>
+				<h:selectBooleanCheckbox disabled="true" readonly="false"
+					value="#{item.immediate}" />
+			</p:column>
+
+		</cps:trackableDataGrid>
+
+		<ui:include src="/WEB-INF/includes/alerts/create.xhtml" />
+		<ui:include src="/WEB-INF/includes/alerts/edit.xhtml" />
+		<ui:include src="/WEB-INF/includes/alerts/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/alerts/delete.xhtml" />
+		<ui:include src="/WEB-INF/includes/alerts/email_recipients.xhtml" />
+		<ui:include
+			src="/WEB-INF/includes/alerts/manage_email_recipients.xhtml" />
+		<ui:include src="/WEB-INF/includes/alerts/email_templates.xhtml" />
+		<ui:include
+			src="/WEB-INF/includes/alerts/manage_email_templates.xhtml" />
+	</sec:authorize>
+</h:body>
+</html>
+
