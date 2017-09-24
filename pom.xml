@@ -7,12 +7,15 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
+		<module>rainbow-api</module>
+		<module>rainbow-impl</module>
+		<module>rainbow-orm</module>
 		<module>rainbow-asset-explorer</module>
 		<module>rainbow-common</module>
-		<module>rainbow-core</module>
-		<module>rainbow-journale</module>
+		<module>rainbow-faces</module>
+<!-- 		<module>rainbow-journal</module> -->
 		<module>rainbow-security</module>
-		<module>rainbow-shopping-cart</module>
+<!-- 		<module>rainbow-shopping-cart</module> -->
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

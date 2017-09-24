@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>rainbow-asset-explorer-orm</artifactId>
+	<packaging>jar</packaging>
+
+	<name>rainbow-asset-explorer-orm</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>org.rainbow</groupId>
+		<artifactId>rainbow-asset-explorer</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<eclipselink.version>2.6.2</eclipselink.version>
+		<javaee.version>7.0</javaee.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version>${eclipselink.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${javaee.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rainbow-orm</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

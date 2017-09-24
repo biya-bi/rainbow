@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.controllers;
 
 import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
@@ -14,12 +9,12 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.core.entities.EmailRecipient;
-import org.rainbow.asset.explorer.core.persistence.exceptions.DuplicateEmailRecipientEmailException;
 import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
-import org.rainbow.asset.explorer.faces.utilities.JsfUtil;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.service.Service;
+import org.rainbow.asset.explorer.orm.entities.EmailRecipient;
+import org.rainbow.asset.explorer.service.exceptions.DuplicateEmailRecipientEmailException;
+import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.persistence.SearchOptions;
+import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -32,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "EmailRecipientCreated", updatedMessageKey = "EmailRecipientUpdated", deletedMessageKey = "EmailRecipientDeleted")
-public class EmailRecipientController extends TrackableController<EmailRecipient, Integer, SearchOptions> {
+public class EmailRecipientController extends AuditableController<EmailRecipient, Integer, SearchOptions> {
 
 	/**
 	 * 
@@ -54,7 +49,7 @@ public class EmailRecipientController extends TrackableController<EmailRecipient
 		if (throwable instanceof DuplicateEmailRecipientEmailException) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
 			DuplicateEmailRecipientEmailException e = (DuplicateEmailRecipientEmailException) throwable;
-			JsfUtil.addErrorMessage(String.format(
+			FacesContextUtil.addErrorMessage(String.format(
 					ResourceBundle.getBundle(CRUD_MESSAGES).getString(DUPLICATE_EMAIL_RECIPIENT_EMAIL_ERROR_KEY),
 					e.getEmail()));
 			return true;

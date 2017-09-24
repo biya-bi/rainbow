@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>rainbow-security-auth-faces</artifactId>
+	<packaging>jar</packaging>
+
+	<name>rainbow-security-auth-faces</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>org.rainbow</groupId>
+		<artifactId>rainbow-security</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<javaee.version>7.0</javaee.version>
+		<spring.framework.version>4.3.5.RELEASE</spring.framework.version>
+		<spring.security.version>4.2.1.RELEASE</spring.security.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${javaee.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Spring Security dependencies -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<!-- Rainbow dependencies -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rainbow-security-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rainbow-faces</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

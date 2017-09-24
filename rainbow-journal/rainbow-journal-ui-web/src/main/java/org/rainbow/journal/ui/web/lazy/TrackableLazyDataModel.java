@@ -13,11 +13,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.primefaces.model.SortOrder;
-import org.rainbow.core.entities.Trackable;
 import org.rainbow.core.persistence.Filter;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SingleValuedFilter;
 import org.rainbow.journal.ui.web.utilities.DefaultComparator;
+import org.rainbow.orm.entities.Trackable;
 
 /**
  *

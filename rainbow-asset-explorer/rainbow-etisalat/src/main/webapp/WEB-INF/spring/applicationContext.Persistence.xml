@@ -1,0 +1,111 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="${rainbow.asset.explorer.jdbc.driverClassName}" />
+		<property name="url" value="${rainbow.asset.explorer.jdbc.url}" />
+		<property name="username" value="${rainbow.asset.explorer.jdbc.user}" />
+		<property name="password" value="${rainbow.asset.explorer.jdbc.password}" />
+	</bean>
+
+	<bean id="rainbowSecurityDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${rainbow.security.jdbc.driverClassName}" />
+		<property name="url" value="${rainbow.security.jdbc.url}" />
+		<property name="username" value="${rainbow.security.jdbc.user}" />
+		<property name="password" value="${rainbow.security.jdbc.password}" />
+	</bean>
+
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<bean id="persistenceUnitManager"
+		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:META-INF/rainbow_asset_explorer_persistence.xml</value>
+				<value>classpath*:META-INF/rainbow_security_persistence.xml</value>
+			</list>
+		</property>
+		<property name="dataSources">
+			<map>
+				<entry key="dataSource" value-ref="dataSource" />
+				<entry key="rainbowSecurityDataSource" value-ref="rainbowSecurityDataSource" />
+			</map>
+		</property>
+		<property name="defaultPersistenceUnitRootLocation" value="classpath:" />
+	</bean>
+
+	<bean id="rainbowAssetExplorerEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="RainbowAssetExplorerPersistenceUnit" />
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>org.rainbow</value>
+			</list>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="eclipselink.logging.level" value="ALL" />
+				<entry key="javax.persistence.schema-generation.database.action"
+					value="none" />
+				<entry key="eclipselink.weaving" value="false" />
+				<entry key="eclipselink.logging.parameters" value="true" />
+				<entry key="javax.persistence.jdbc.driver" value="${rainbow.asset.explorer.jdbc.driverClassName}" />
+				<entry key="javax.persistence.jdbc.user" value="${rainbow.asset.explorer.jdbc.user}" />
+				<entry key="javax.persistence.jdbc.password" value="${rainbow.asset.explorer.jdbc.password}" />
+				<entry key="javax.persistence.jdbc.url" value="${rainbow.asset.explorer.jdbc.url}" />
+			</map>
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="true" />
+				<property name="databasePlatform"
+					value="org.eclipse.persistence.platform.database.MySQLPlatform" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="rainbowSecurityEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="RainbowSecurityPersistenceUnit" />
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>org.rainbow</value>
+			</list>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="eclipselink.logging.level" value="ALL" />
+				<entry key="javax.persistence.schema-generation.database.action"
+					value="drop-and-create" />
+				<entry key="eclipselink.weaving" value="false" />
+				<entry key="eclipselink.logging.parameters" value="true" />
+				<entry key="javax.persistence.jdbc.driver" value="${rainbow.security.jdbc.driverClassName}" />
+				<entry key="javax.persistence.jdbc.user" value="${rainbow.security.jdbc.user}" />
+				<entry key="javax.persistence.jdbc.password" value="${rainbow.security.jdbc.password}" />
+				<entry key="javax.persistence.jdbc.url" value="${rainbow.security.jdbc.url}" />
+			</map>
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="true" />
+				<property name="databasePlatform"
+					value="org.eclipse.persistence.platform.database.MySQLPlatform" />
+			</bean>
+		</property>
+	</bean>
+	
+</beans>

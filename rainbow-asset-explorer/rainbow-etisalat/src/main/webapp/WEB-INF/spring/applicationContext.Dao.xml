@@ -1,0 +1,83 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="alertDao"
+		class="org.rainbow.asset.explorer.persistence.dao.AlertDaoImpl" />
+
+	<bean id="assetDao"
+		class="org.rainbow.asset.explorer.persistence.dao.AssetDaoImpl" />
+
+	<bean id="assetDocumentDao"
+		class="org.rainbow.asset.explorer.persistence.dao.AssetDocumentDaoImpl" />
+
+	<bean id="assetTypeDao"
+		class="org.rainbow.asset.explorer.persistence.dao.AssetTypeDaoImpl" />
+
+	<bean id="currencyDao"
+		class="org.rainbow.asset.explorer.persistence.dao.CurrencyDaoImpl" />
+
+	<bean id="departmentDao"
+		class="org.rainbow.asset.explorer.persistence.dao.DepartmentDaoImpl" />
+
+	<bean id="emailRecipientDao"
+		class="org.rainbow.asset.explorer.persistence.dao.EmailRecipientDaoImpl" />
+
+	<bean id="emailTemplateDao"
+		class="org.rainbow.asset.explorer.persistence.dao.EmailTemplateDaoImpl" />
+
+	<bean id="inventoryManager"
+		class="org.rainbow.asset.explorer.persistence.dao.InventoryManagerImpl">
+		<property name="alertScheduler" ref="alertScheduler" />
+	</bean>
+
+	<bean id="localeDao"
+		class="org.rainbow.asset.explorer.persistence.dao.LocaleDaoImpl" />
+
+	<bean id="locationDao"
+		class="org.rainbow.asset.explorer.persistence.dao.LocationDaoImpl" />
+
+	<bean id="manufacturerDao"
+		class="org.rainbow.asset.explorer.persistence.dao.ManufacturerDaoImpl" />
+
+	<bean id="productDao"
+		class="org.rainbow.asset.explorer.persistence.dao.ProductDaoImpl" />
+
+	<bean id="productIssueDao"
+		class="org.rainbow.asset.explorer.persistence.dao.ProductIssueDaoImpl" />
+
+	<bean id="productReceiptDao"
+		class="org.rainbow.asset.explorer.persistence.dao.ProductReceiptDaoImpl" />
+
+	<bean id="purchaseOrderDao"
+		class="org.rainbow.asset.explorer.persistence.dao.PurchaseOrderDaoImpl" />
+
+	<bean id="shipMethodDao"
+		class="org.rainbow.asset.explorer.persistence.dao.ShipMethodDaoImpl" />
+
+	<bean id="shippingOrderDao"
+		class="org.rainbow.asset.explorer.persistence.dao.ShippingOrderDaoImpl" />
+
+	<bean id="siteDao"
+		class="org.rainbow.asset.explorer.persistence.dao.SiteDaoImpl" />
+
+	<bean id="siteDocumentDao"
+		class="org.rainbow.asset.explorer.persistence.dao.SiteDocumentDaoImpl" />
+
+	<bean id="vendorDao"
+		class="org.rainbow.asset.explorer.persistence.dao.VendorDaoImpl" />
+
+	<bean id="userDao" class="org.rainbow.security.persistence.dao.UserDaoImpl">
+		<property name="passwordEncoder" ref="passwordEncoder" />
+	</bean>
+
+	<bean id="groupDao" class="org.rainbow.security.persistence.dao.GroupDaoImpl" />
+
+	<bean id="authorityDao"
+		class="org.rainbow.security.persistence.dao.AuthorityDaoImpl" />
+
+	<bean id="applicationDao"
+		class="org.rainbow.security.persistence.dao.ApplicationDaoImpl" />
+
+</beans>

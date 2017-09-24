@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.rainbow.core.entities.Trackable;
+import org.rainbow.orm.entities.Trackable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

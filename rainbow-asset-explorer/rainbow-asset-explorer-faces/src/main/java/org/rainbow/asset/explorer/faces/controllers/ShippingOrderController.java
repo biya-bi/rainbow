@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.controllers;
 
 import java.util.ArrayList;
@@ -13,13 +8,12 @@ import java.util.Map;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.core.entities.ShippingOrder;
-import org.rainbow.asset.explorer.core.entities.ShippingOrderDetail;
-import org.rainbow.asset.explorer.core.entities.ShippingOrderDetailId;
-import org.rainbow.asset.explorer.core.entities.ShippingOrderStatus;
-import org.rainbow.asset.explorer.core.service.ShippingOrderService;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.service.Service;
+import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
+import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
+import org.rainbow.asset.explorer.orm.entities.ShippingOrderStatus;
+import org.rainbow.asset.explorer.service.services.ShippingOrderService;
+import org.rainbow.persistence.SearchOptions;
+import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -31,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class ShippingOrderController extends TrackableController<ShippingOrder, Long, SearchOptions> {
+public class ShippingOrderController extends AuditableController<ShippingOrder, Long, SearchOptions> {
 
 	/**
 	 * 
@@ -123,48 +117,19 @@ public class ShippingOrderController extends TrackableController<ShippingOrder, 
 	}
 
 	public void approve() throws Exception {
-		String username = getUserName();
-		ShippingOrder shippingOrder = this.getCurrent();
-		shippingOrder.setUpdater(username);
-		service.approve(shippingOrder);
+		service.approve(this.getCurrent());
 	}
 
 	public void reject() throws Exception {
-		String username = getUserName();
-		ShippingOrder shippingOrder = this.getCurrent();
-		shippingOrder.setUpdater(username);
-		service.reject(shippingOrder);
+		service.reject(this.getCurrent());
 	}
 
 	public void ship() throws Exception {
-		String username = getUserName();
-		ShippingOrder shippingOrder = this.getCurrent();
-		shippingOrder.setUpdater(username);
-		service.transit(shippingOrder);
+		service.transit(this.getCurrent());
 	}
 
 	public void restitute() throws Exception {
-		String username = getUserName();
-		ShippingOrder shippingOrder = this.getCurrent();
-		shippingOrder.setUpdater(username);
-		service.restitute(shippingOrder);
-	}
-
-	private int getDetailId() {
-		List<Integer> detailIds = new ArrayList<>();
-		for (ShippingOrderDetail d : receivedDetails) {
-			Integer detailId = d.getId().getDetailId();
-			if (!detailIds.contains(detailId)) {
-				detailIds.add(detailId);
-			}
-		}
-		int detailId = 0;
-		while (detailId++ < receivedDetails.size()) {
-			if (!detailIds.contains(detailId)) {
-				break;
-			}
-		}
-		return detailId;
+		service.restitute(this.getCurrent());
 	}
 
 	public void addReceivedDetail() {
@@ -172,7 +137,6 @@ public class ShippingOrderController extends TrackableController<ShippingOrder, 
 			if (receivedDetails == null) {
 				receivedDetails = new ArrayList<>();
 			}
-			detail.setId(new ShippingOrderDetailId(this.getCurrent().getId(), getDetailId()));
 			receivedDetails.add(detail);
 		}
 	}
@@ -189,10 +153,8 @@ public class ShippingOrderController extends TrackableController<ShippingOrder, 
 		receivedDetails = new ArrayList<>();
 
 		for (ShippingOrderDetail d : this.getCurrent().getDetails()) {
-			ShippingOrderDetailId shippingOrderDetailId = d.getId();
 			ShippingOrderDetail receivedDetail = new ShippingOrderDetail();
-			receivedDetail.setId(new ShippingOrderDetailId(shippingOrderDetailId.getShippingOrderId(),
-					shippingOrderDetailId.getDetailId()));
+			receivedDetail.setId(d.getId());
 			receivedDetail.setProduct(d.getProduct());
 			receivedDetail.setReceivedQuantity(d.getShippedQuantity());
 			receivedDetails.add(receivedDetail);
@@ -210,10 +172,7 @@ public class ShippingOrderController extends TrackableController<ShippingOrder, 
 						(short) (productByQuantities.get(productId) + receivedDetail.getReceivedQuantity()));
 			}
 		}
-		String username = getUserName();
-		ShippingOrder shippingOrder = this.getCurrent();
-		shippingOrder.setUpdater(username);
-		service.deliver(shippingOrder, productByQuantities);
+		service.deliver(this.getCurrent(), productByQuantities);
 	}
 
 	public void setDetails() throws Exception {

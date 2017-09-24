@@ -1,0 +1,95 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="alertService"
+		class="org.rainbow.asset.explorer.service.services.AlertServiceImpl">
+		<property name="dao" ref="alertDao" />
+		<property name="alertScheduler" ref="alertScheduler" />
+	</bean>
+
+	<bean id="assetService"
+		class="org.rainbow.asset.explorer.service.services.AssetServiceImpl">
+		<property name="dao" ref="assetDao" />
+	</bean>
+
+	<bean id="assetTypeService"
+		class="org.rainbow.asset.explorer.service.services.AssetTypeServiceImpl">
+		<property name="dao" ref="assetTypeDao" />
+	</bean>
+
+	<bean id="emailRecipientService"
+		class="org.rainbow.asset.explorer.service.services.EmailRecipientServiceImpl">
+		<property name="dao" ref="emailRecipientDao" />
+	</bean>
+
+	<bean id="emailTemplateService"
+		class="org.rainbow.asset.explorer.service.services.EmailTemplateServiceImpl">
+		<property name="dao" ref="emailTemplateDao" />
+	</bean>
+
+	<bean id="localeService"
+		class="org.rainbow.asset.explorer.service.services.LocaleServiceImpl">
+		<property name="dao" ref="localeDao" />
+	</bean>
+
+	<bean id="locationService"
+		class="org.rainbow.asset.explorer.service.services.LocationServiceImpl">
+		<property name="dao" ref="locationDao" />
+	</bean>
+
+	<bean id="manufacturerService"
+		class="org.rainbow.asset.explorer.service.services.ManufacturerServiceImpl">
+		<property name="dao" ref="manufacturerDao" />
+	</bean>
+
+	<bean id="productIssueService"
+		class="org.rainbow.asset.explorer.service.services.ProductIssueServiceImpl">
+		<property name="dao" ref="productIssueDao" />
+		<property name="inventoryManager" ref="inventoryManager" />
+	</bean>
+
+	<bean id="productReceiptService"
+		class="org.rainbow.asset.explorer.service.services.ProductReceiptServiceImpl">
+		<property name="dao" ref="productReceiptDao" />
+		<property name="inventoryManager" ref="inventoryManager" />
+		<property name="locationDao" ref="locationDao" />
+	</bean>
+
+	<bean id="productService"
+		class="org.rainbow.asset.explorer.service.services.ProductServiceImpl">
+		<property name="dao" ref="productDao" />
+	</bean>
+
+	<bean id="purchaseOrderService"
+		class="org.rainbow.asset.explorer.service.services.PurchaseOrderServiceImpl">
+		<property name="dao" ref="purchaseOrderDao" />
+		<property name="vendorDao" ref="vendorDao" />
+		<property name="locationDao" ref="locationDao" />
+		<property name="inventoryManager" ref="inventoryManager" />
+	</bean>
+
+	<bean id="shipMethodService"
+		class="org.rainbow.asset.explorer.service.services.ShipMethodServiceImpl">
+		<property name="dao" ref="shipMethodDao" />
+	</bean>
+
+	<bean id="shippingOrderService"
+		class="org.rainbow.asset.explorer.service.services.ShippingOrderServiceImpl">
+		<property name="dao" ref="shippingOrderDao" />
+		<property name="locationDao" ref="locationDao" />
+		<property name="inventoryManager" ref="inventoryManager" />
+	</bean>
+
+	<bean id="siteService"
+		class="org.rainbow.asset.explorer.service.services.SiteServiceImpl">
+		<property name="dao" ref="siteDao" />
+	</bean>
+
+	<bean id="vendorService"
+		class="org.rainbow.asset.explorer.service.services.VendorServiceImpl">
+		<property name="dao" ref="vendorDao" />
+	</bean>
+
+</beans>

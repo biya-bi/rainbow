@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf150123661364211" configfile="/rainbow-etisalat/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="Logout" x="554" y="380" id="pf150123663203615" referenceLink="//@navigationRule.4/@navigationCase.1/@toViewId|" outlinks="pf15026435424412" inlinks="pf15026342480890 pf15026351348802 pf15026432171390 pf15026465485927 pf15027068966460" path="/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="Change Password" id="pf15026342480891" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf15026342480890 pf15026351348802" path="/security/changePassword.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="Login" id="pf15026432171391" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf15026432171390" inlinks="pf15026435424412" path="/security/login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="Reset Password - Supply User Name" id="pf15026456309523" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf15026465485928 pf15026465485927" path="/security/resetPassword/supplyUserName.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="Reset Password - Answer Security Question" id="pf15026465485929" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf15027068966460 pf15027068966461" inlinks="pf15026465485928" path="/security/resetPassword/supplyPasswordQuestionAnswer.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="security/resetPassword/resetPasswordSuccessful.xhtml" id="pf15027068966462" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf15027068966461" path="/security/resetPassword/resetPasswordSuccessful.xhtml"/>
-  <links id="pf15026342480890" target="pf150123663203615" source="pf15026342480891" outcome="success" redirect="true" fromaction="#{changePasswordController.changePassword}"/>
-  <links id="pf15026351348802" target="pf150123663203615" source="pf15026342480891" outcome="cancel" redirect="true"/>
+  <nodes xsi:type="pageflow:PFPage" name="Logout" x="554" y="604" id="pf150123663203615" referenceLink="//@navigationRule.7/@navigationCase.1/@toViewId|" outlinks="pf15026435424412" inlinks="pf15026432171390 pf15048669376090 pf15048669376091 pf15048669376092 pf15048669376093 pf15054665525803 pf15057347127886" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Login" x="122" y="380" id="pf15026432171391" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" outlinks="pf15026432171390 pf15054665264380" inlinks="pf15026435424412" path="/security/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Reset Password - User Name Prompt" x="122" y="806" id="pf15026456309523" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf15048669376091 pf15048669376094" path="/security/reset_password/user_name_prompt.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Reset Password - Recovery Information Prompt" x="338" y="1009" id="pf15026465485929" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf15048669376095 pf15048669376093" inlinks="pf15048669376094" path="/security/reset_password/recovery_information_prompt.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Unlock User - User Name Prompt" x="122" y="1211" id="pf15043419395793" referenceLink="//@navigationRule.5/@fromViewId|" outlinks="pf15048669376090 pf15048669376096" path="/security/unlock_user/user_name_prompt.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Unlock User - Recovery Information Prompt" x="338" y="1414" id="pf15043419395795" referenceLink="//@navigationRule.6/@fromViewId|" outlinks="pf15048669376092 pf150487623825613" inlinks="pf15048669376096" path="/security/unlock_user/recovery_information_prompt.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="security/reset_password/success.xhtml" x="554" y="1009" id="pf15048669376099" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf15048669376095" path="/security/reset_password/success.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="security/unlock_user/success.xhtml" x="554" y="1414" id="pf150487623825614" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" inlinks="pf150487623825613" path="/security/unlock_user/success.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Change Password" x="338" y="178" id="pf15054665264381" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf15054665525803 pf15054667598636" inlinks="pf15054665264380" path="/security/change_password/prompt.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="security/change_password/success.xhtml" x="554" y="178" id="pf15054667598637" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf15054667598636" path="/security/change_password/success.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Reset Recovery Information" id="pf15057347127887" referenceLink="//@navigationRule.7/@fromViewId|" outlinks="pf15057347127886 pf15057350185169" path="/security/recovery_information/prompt.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="security/recovery_information/success.xhtml" id="pf150573501851610" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" inlinks="pf15057350185169" path="/security/recovery_information/success.xhtml"/>
   <links id="pf15026432171390" target="pf150123663203615" source="pf15026432171391" outcome="success" redirect="true" fromaction="#{authenticationController.login}"/>
   <links id="pf15026435424412" target="pf15026432171391" source="pf150123663203615" outcome="success" redirect="true" fromaction="#{authenticationController.logout}"/>
-  <links id="pf15026465485928" target="pf15026465485929" source="pf15026456309523" outcome="success" redirect="true" fromaction="#{resetPasswordController.checkUser}"/>
-  <links id="pf15026465485927" target="pf150123663203615" source="pf15026456309523" outcome="cancel" redirect="true"/>
-  <links id="pf15027068966460" target="pf150123663203615" source="pf15026465485929" outcome="cancel" redirect="true"/>
-  <links id="pf15027068966461" target="pf15027068966462" source="pf15026465485929" outcome="success" redirect="true" fromaction="#{resetPasswordController.resetPassword}"/>
+  <links id="pf15048669376090" target="pf150123663203615" source="pf15043419395793" outcome="cancel" redirect="true"/>
+  <links id="pf15048669376091" target="pf150123663203615" source="pf15026456309523" outcome="cancel" redirect="true"/>
+  <links id="pf15048669376092" target="pf150123663203615" source="pf15043419395795" outcome="cancel" redirect="true"/>
+  <links id="pf15048669376096" target="pf15043419395795" source="pf15043419395793" outcome="success" redirect="true" fromaction="#{unlockUserController.prepare}"/>
+  <links id="pf15048669376095" target="pf15048669376099" source="pf15026465485929" outcome="success" redirect="true" fromaction="#{resetPasswordController.resetPassword}"/>
+  <links id="pf15048669376093" target="pf150123663203615" source="pf15026465485929" outcome="cancel" redirect="true"/>
+  <links id="pf15048669376094" target="pf15026465485929" source="pf15026456309523" outcome="success" redirect="true" fromaction="#{resetPasswordController.prepare}"/>
+  <links id="pf150487623825613" target="pf150487623825614" source="pf15043419395795" outcome="success" redirect="true" fromaction="#{unlockUserController.unlock}"/>
+  <links id="pf15054665264380" target="pf15054665264381" source="pf15026432171391" outcome="credentials_expired" redirect="true" fromaction="#{authenticationController.login}"/>
+  <links id="pf15054665525803" target="pf150123663203615" source="pf15054665264381" outcome="cancel" redirect="true"/>
+  <links id="pf15054667598636" target="pf15054667598637" source="pf15054665264381" outcome="success" redirect="true" fromaction="#{changePasswordController.changePassword}"/>
+  <links id="pf15057347127886" target="pf150123663203615" source="pf15057347127887" outcome="cancel" redirect="true"/>
+  <links id="pf15057350185169" target="pf150573501851610" source="pf15057347127887" outcome="success" redirect="true" fromaction="#{resetRecoveryInformationController.resetRecoveryInformation}"/>
 </pageflow:Pageflow>

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.controllers;
 
 import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
@@ -16,11 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.primefaces.context.RequestContext;
-import org.rainbow.asset.explorer.core.entities.Trackable;
-import org.rainbow.asset.explorer.core.persistence.exceptions.EntityNotFoundException;
 import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
-import org.rainbow.asset.explorer.faces.utilities.JsfUtil;
-import org.rainbow.core.service.Service;
+import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.orm.entities.Trackable;
+import org.rainbow.persistence.exceptions.NonexistentEntityException;
+import org.rainbow.service.Service;
 
 /**
  *
@@ -70,7 +65,7 @@ public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends S
 		try {
 			getService().create(current);
 			this.current = null;
-			JsfUtil.addSuccessMessage(getCudMessage(Operation.CREATE));
+			FacesContextUtil.addSuccessMessage(getCudMessage(Operation.CREATE));
 			RequestContext.getCurrentInstance().addCallbackParam(COMMITTED_FLAG, true);
 		} catch (Throwable e) {
 			RequestContext.getCurrentInstance().addCallbackParam(COMMITTED_FLAG, false);
@@ -84,7 +79,7 @@ public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends S
 		try {
 			getService().update(current);
 			this.current = null;
-			JsfUtil.addSuccessMessage(getCudMessage(Operation.UPDATE));
+			FacesContextUtil.addSuccessMessage(getCudMessage(Operation.UPDATE));
 			RequestContext.getCurrentInstance().addCallbackParam(COMMITTED_FLAG, true);
 		} catch (Throwable e) {
 			RequestContext.getCurrentInstance().addCallbackParam(COMMITTED_FLAG, false);
@@ -98,7 +93,7 @@ public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends S
 		try {
 			getService().delete(current);
 			this.current = null;
-			JsfUtil.addSuccessMessage(getCudMessage(Operation.DELETE));
+			FacesContextUtil.addSuccessMessage(getCudMessage(Operation.DELETE));
 			RequestContext.getCurrentInstance().addCallbackParam(COMMITTED_FLAG, true);
 		} catch (Throwable e) {
 			RequestContext.getCurrentInstance().addCallbackParam(COMMITTED_FLAG, false);
@@ -161,18 +156,18 @@ public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends S
 
 	protected boolean handle(Throwable throwable) {
 		Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
-		EntityNotFoundException enfe = extractException(throwable, EntityNotFoundException.class);
-		if (enfe != null) {
-			JsfUtil.addErrorMessage(
+		 NonexistentEntityException exception = extractException(throwable, NonexistentEntityException.class);
+		if (exception != null) {
+			FacesContextUtil.addErrorMessage(
 					ResourceBundle.getBundle(CRUD_MESSAGES).getString(CRUD_NON_EXISTENT_ENTITY_ACCESSED));
 			return true;
 		}
 		SecurityException se = extractException(throwable, SecurityException.class);
 		if (se != null) {
-			JsfUtil.addErrorMessage(ResourceBundle.getBundle(SECURITY_MESSAGES).getString(AUTHORIZATION_REFUSED));
+			FacesContextUtil.addErrorMessage(ResourceBundle.getBundle(SECURITY_MESSAGES).getString(AUTHORIZATION_REFUSED));
 			return true;
 		}
-		JsfUtil.addErrorMessage(ResourceBundle.getBundle(MESSAGES).getString(UNEXPECTED_ERROR_KEY));
+		FacesContextUtil.addErrorMessage(ResourceBundle.getBundle(MESSAGES).getString(UNEXPECTED_ERROR_KEY));
 		return true;
 	}
 

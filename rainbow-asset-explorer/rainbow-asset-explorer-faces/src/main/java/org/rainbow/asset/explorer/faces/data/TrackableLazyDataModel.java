@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.data;
 
 import java.io.Serializable;
@@ -13,11 +8,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.primefaces.model.SortOrder;
-import org.rainbow.asset.explorer.core.entities.Trackable;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.core.persistence.Filter;
-import org.rainbow.core.persistence.RelationalOperator;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.orm.entities.Trackable;
+import org.rainbow.persistence.Filter;
+import org.rainbow.persistence.RelationalOperator;
+import org.rainbow.persistence.SingleValuedFilter;
 
 /**
  *

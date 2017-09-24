@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.controllers;
 
 import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
@@ -16,16 +11,16 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.core.entities.Alert;
-import org.rainbow.asset.explorer.core.entities.EmailRecipient;
-import org.rainbow.asset.explorer.core.entities.EmailTemplate;
-import org.rainbow.asset.explorer.core.entities.Schedule;
-import org.rainbow.asset.explorer.core.persistence.exceptions.DuplicateAlertException;
 import org.rainbow.asset.explorer.faces.translation.EnumTranslator;
 import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
-import org.rainbow.asset.explorer.faces.utilities.JsfUtil;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.service.Service;
+import org.rainbow.asset.explorer.orm.entities.Alert;
+import org.rainbow.asset.explorer.orm.entities.EmailRecipient;
+import org.rainbow.asset.explorer.orm.entities.EmailTemplate;
+import org.rainbow.asset.explorer.orm.entities.Schedule;
+import org.rainbow.asset.explorer.service.exceptions.DuplicateAlertException;
+import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.persistence.SearchOptions;
+import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -38,7 +33,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "AlertCreated", updatedMessageKey = "AlertUpdated", deletedMessageKey = "AlertDeleted")
-public class AlertController extends TrackableController<Alert, Integer, SearchOptions> {
+public class AlertController extends AuditableController<Alert, Integer, SearchOptions> {
 
 	/**
 	 * 
@@ -165,7 +160,7 @@ public class AlertController extends TrackableController<Alert, Integer, SearchO
 		if (throwable instanceof DuplicateAlertException) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
 			DuplicateAlertException e = (DuplicateAlertException) throwable;
-			JsfUtil.addErrorMessage(
+			FacesContextUtil.addErrorMessage(
 					String.format(ResourceBundle.getBundle(CRUD_MESSAGES).getString(DUPLICATE_ALERT_ERROR_KEY),
 							translator.translate(e.getAlertType()), translator.translate(e.getAlertCategory())));
 			return true;

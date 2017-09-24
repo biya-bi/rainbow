@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.rainbow.core.entities.Trackable;
+import org.rainbow.orm.entities.Trackable;
 
 @Entity
 @Table(name = "Files")

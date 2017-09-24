@@ -6,7 +6,10 @@
 	<artifactId>rainbow-security</artifactId>
 	<packaging>pom</packaging>
 	<modules>
-		<module>rainbow-security-core</module>
+		<module>rainbow-security-api</module>
+		<module>rainbow-security-impl</module>
+		<module>rainbow-security-orm</module>
+		<module>rainbow-security-auth-faces</module>
 	</modules>
 	<parent>
 		<groupId>org.rainbow</groupId>

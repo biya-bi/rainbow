@@ -9,7 +9,7 @@
         <dependent-module archiveName="rainbow-journal-core-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-journal-core/rainbow-journal-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="rainbow-core-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-core/rainbow-core">
+        <dependent-module archiveName="rainbow-api-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-api/rainbow-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/jsf-spring-integration/target/classes"/>

@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<tx:advice id="rainbowAssetExplorerTxAdvice"
+		transaction-manager="rainbowAssetExplorerTransactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<tx:advice id="rainbowSecurityTxAdvice" transaction-manager="rainbowSecurityTransactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED"
+				no-rollback-for="org.springframework.security.core.AuthenticationException,
+org.rainbow.security.service.exceptions.WrongRecoveryAnswerException" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:advisor advice-ref="rainbowAssetExplorerTxAdvice"
+			pointcut="execution(* org.rainbow.service..*(..))" />
+		<aop:advisor advice-ref="rainbowAssetExplorerTxAdvice"
+			pointcut="execution(* org.rainbow.asset.explorer.service.services..*(..))" />
+		<aop:advisor advice-ref="rainbowSecurityTxAdvice"
+			pointcut="execution(* org.rainbow.service..*(..))" />
+		<aop:advisor advice-ref="rainbowSecurityTxAdvice"
+			pointcut="execution(* org.rainbow.security.service..*(..))" />
+	</aop:config>
+
+	<bean id="rainbowAssetExplorerTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="rainbowAssetExplorerEntityManagerFactory" />
+	</bean>
+
+	<bean id="rainbowSecurityTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="rainbowSecurityEntityManagerFactory" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
+	</bean>
+
+</beans>

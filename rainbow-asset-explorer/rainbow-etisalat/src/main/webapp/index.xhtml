@@ -27,20 +27,31 @@
 						<p:splitButton value="#{labels.LogoutLabel}"
 							action="#{authenticationController.logout}" icon="ui-icon-power">
 							<p:menuitem ajax="false" styleClass="user-account-panelgrid-font"
-								value="#{labels.ChangePasswordTitle}" icon="ui-icon-pencil"
-								outcome="security/changePassword" />
+								value="#{secLabels.ChangePasswordTitle}" icon="ui-icon-pencil"
+								outcome="security/change_password/prompt?faces-redirect=true">
+								<f:param name="user_name" value="#{request.userPrincipal.name}" />
+							</p:menuitem>
 							<p:menuitem ajax="false" styleClass="user-account-panelgrid-font"
-								value="#{labels.ResetPasswordTitle}" icon="ui-icon-arrowrefresh-1-n"
-								outcome="/security/resetPassword/supplyUserName" />
+								value="#{secLabels.ResetPasswordTitle}"
+								icon="ui-icon-arrowrefresh-1-n"
+								outcome="/security/reset_password/user_name_prompt?faces-redirect=true" />
+							<p:menuitem ajax="false" styleClass="user-account-panelgrid-font"
+								value="#{secLabels.ResetRecoveryInformationTitle}" icon="ui-icon-arrowrefresh-1-n"
+								action="security/recovery_information/prompt?faces-redirect=true" />
 						</p:splitButton>
 						<p:outputLabel value="#{labels.WelcomeUserNameSeparator}" />
-						<h:panelGrid columns="2">
-							<p:outputLabel value="#{labels.YourLastLoginDateLabel}" />
-							<p:outputLabel value="#{authenticationController.lastLoginDate}">
-								<f:convertDateTime dateStyle="short" timeStyle="short"
+						<h:panelGrid columns="2"
+							rendered="#{authenticationController.lastLoginDate!=null}">
+							<p:outputLabel value="#{secLabels.YourLastLoginDateLabel}" />
+							<p:outputLabel style="font-weight:bold"
+								value="#{authenticationController.lastLoginDate}">
+								<f:convertDateTime dateStyle="short" timeStyle="long"
 									type="both" />
 							</p:outputLabel>
 						</h:panelGrid>
+						<p:outputLabel
+							rendered="#{authenticationController.lastLoginDate==null}"
+							value="#{secMsg.FirstTimeSystemUse}" />
 					</h:panelGrid>
 				</h:panelGrid>
 			</h:form>
@@ -49,8 +60,7 @@
 		<p:layoutUnit position="south" closable="true" collapsible="true"
 			styleClass="noScrolllayoutUnit">
 			<h:panelGrid columns="2" styleClass="footer-panelgrid">
-				<h:outputText value="#{c.ClientName}"
-					styleClass="client-name-label" />
+				<h:outputText value="#{c.ClientName}" styleClass="client-name-label" />
 				<h:outputText value="#{labels.AllRightsReserved}"
 					styleClass="all-rights-reserved-label" />
 			</h:panelGrid>

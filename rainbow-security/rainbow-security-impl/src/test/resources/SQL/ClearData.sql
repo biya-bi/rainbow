@@ -1,0 +1,15 @@
+delete from group_authorities;
+delete from user_authorities;
+delete from authorities;
+delete from group_users;
+delete from groups;
+delete from password_histories;
+delete from recovery_information;
+delete from login_histories;
+delete from memberships;
+delete from users;
+delete from password_policies;
+delete from lockout_policies;
+delete from login_policies;
+delete from applications;
+commit;

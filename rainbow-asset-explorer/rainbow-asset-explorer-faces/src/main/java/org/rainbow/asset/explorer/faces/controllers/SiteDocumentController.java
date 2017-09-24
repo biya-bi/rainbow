@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.controllers;
 
 import java.io.ByteArrayInputStream;
@@ -14,10 +9,10 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
-import org.rainbow.asset.explorer.core.entities.SiteDocument;
 import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.service.Service;
+import org.rainbow.asset.explorer.orm.entities.SiteDocument;
+import org.rainbow.persistence.SearchOptions;
+import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -30,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "SiteDocumentCreated", updatedMessageKey = "SiteDocumentUpdated", deletedMessageKey = "SiteDocumentDeleted")
-public class SiteDocumentController extends TrackableController<SiteDocument, Long, SearchOptions> {
+public class SiteDocumentController extends AuditableController<SiteDocument, Long, SearchOptions> {
 
 	/**
 	 * 

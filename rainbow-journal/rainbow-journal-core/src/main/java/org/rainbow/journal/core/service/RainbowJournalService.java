@@ -3,9 +3,9 @@ package org.rainbow.journal.core.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.rainbow.core.persistence.Dao;
-import org.rainbow.core.service.Service;
 import org.rainbow.journal.core.utilities.TransactionSettings;
+import org.rainbow.persistence.Dao;
+import org.rainbow.service.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(transactionManager = TransactionSettings.TRANSACTION_MANAGER_NAME, readOnly = true)

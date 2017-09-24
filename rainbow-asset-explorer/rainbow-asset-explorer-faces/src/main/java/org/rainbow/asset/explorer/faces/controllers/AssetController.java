@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.controllers;
 
 import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
@@ -25,17 +20,16 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.rainbow.asset.explorer.core.entities.Asset;
-import org.rainbow.asset.explorer.core.entities.Product;
-import org.rainbow.asset.explorer.core.persistence.exceptions.DuplicateAssetSerialNumberException;
-import org.rainbow.asset.explorer.core.service.ProductService;
 import org.rainbow.asset.explorer.faces.exceptions.ProductNotFoundByNumberExpception;
-import org.rainbow.asset.explorer.faces.models.SessionBean;
 import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
-import org.rainbow.asset.explorer.faces.utilities.JsfUtil;
 import org.rainbow.asset.explorer.faces.utilities.ResourceBundles;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.service.Service;
+import org.rainbow.asset.explorer.orm.entities.Asset;
+import org.rainbow.asset.explorer.orm.entities.Product;
+import org.rainbow.asset.explorer.service.exceptions.DuplicateAssetSerialNumberException;
+import org.rainbow.asset.explorer.service.services.ProductService;
+import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.persistence.SearchOptions;
+import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -52,7 +46,7 @@ import org.xml.sax.SAXException;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "AssetCreated", updatedMessageKey = "AssetUpdated", deletedMessageKey = "AssetDeleted")
-public class AssetController extends TrackableController<Asset, Long, SearchOptions> {
+public class AssetController extends AuditableController<Asset, Long, SearchOptions> {
 
 	/**
 	 * 
@@ -85,14 +79,14 @@ public class AssetController extends TrackableController<Asset, Long, SearchOpti
 		if (throwable instanceof DuplicateAssetSerialNumberException) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
 			DuplicateAssetSerialNumberException e = (DuplicateAssetSerialNumberException) throwable;
-			JsfUtil.addErrorMessage(String.format(
+			FacesContextUtil.addErrorMessage(String.format(
 					ResourceBundle.getBundle(CRUD_MESSAGES).getString(DUPLICATE_ASSET_SERIAL_NUMBER_ERROR_KEY),
 					e.getSerialNumber()));
 			return true;
 		} else if (throwable instanceof ProductNotFoundByNumberExpception) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
 			ProductNotFoundByNumberExpception e = (ProductNotFoundByNumberExpception) throwable;
-			JsfUtil.addErrorMessage(String.format(
+			FacesContextUtil.addErrorMessage(String.format(
 					ResourceBundle.getBundle(CRUD_MESSAGES).getString(PRODUCT_NOT_FOUND_BY_NUMBER_ERROR_KEY),
 					e.getProductNumber()));
 			return true;
@@ -109,8 +103,6 @@ public class AssetController extends TrackableController<Asset, Long, SearchOpti
 
 		NodeList nodeList = doc.getDocumentElement().getChildNodes();
 
-		String username = (String) SessionBean.getSession().getAttribute("username");
-
 		Map<String, Product> productsByNumbers = new HashMap<>();
 
 		for (int count = 0; count < nodeList.getLength(); count++) {
@@ -119,8 +111,6 @@ public class AssetController extends TrackableController<Asset, Long, SearchOpti
 			if (assetNode.getNodeType() == Node.ELEMENT_NODE) {
 				if (ASSET_NODE_NAME.toUpperCase().equals(assetNode.getNodeName().toUpperCase())) {
 					Asset asset = prepareCreate();
-					asset.setCreator(username);
-					asset.setUpdater(username);
 
 					if (assetNode.hasChildNodes()) {
 						NodeList assetNodeChildNodes = assetNode.getChildNodes();
@@ -184,11 +174,11 @@ public class AssetController extends TrackableController<Asset, Long, SearchOpti
 
 			List<Asset> assets = getAssets(doc);
 			if (assets.isEmpty()) {
-				JsfUtil.addErrorMessage(ResourceBundle.getBundle(ResourceBundles.VALIDATION_MESSAGES)
+				FacesContextUtil.addErrorMessage(ResourceBundle.getBundle(ResourceBundles.VALIDATION_MESSAGES)
 						.getString(NO_ASSETS_TO_IMPORT_FOUND_ERROR_KEY));
 			} else {
 				service.create(assets);
-				JsfUtil.addSuccessMessage(
+				FacesContextUtil.addSuccessMessage(
 						(ResourceBundle.getBundle(CRUD_MESSAGES).getString(ASSETS_IMPORTED_SUCCESSFULLY_ERROR_KEY)));
 				RequestContext.getCurrentInstance().addCallbackParam(COMMITTED_FLAG, true);
 			}

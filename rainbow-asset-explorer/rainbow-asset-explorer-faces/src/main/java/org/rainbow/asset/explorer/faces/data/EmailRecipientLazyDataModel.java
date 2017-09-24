@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.data;
 
 import java.util.ArrayList;
@@ -14,13 +9,13 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
-import org.rainbow.asset.explorer.core.entities.EmailRecipient;
+import org.rainbow.asset.explorer.orm.entities.EmailRecipient;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.core.persistence.Filter;
-import org.rainbow.core.persistence.RelationalOperator;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
-import org.rainbow.core.service.Service;
+import org.rainbow.persistence.Filter;
+import org.rainbow.persistence.RelationalOperator;
+import org.rainbow.persistence.SearchOptions;
+import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

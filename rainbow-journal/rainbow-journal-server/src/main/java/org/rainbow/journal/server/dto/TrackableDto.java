@@ -3,7 +3,7 @@ package org.rainbow.journal.server.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.rainbow.core.entities.Identifiable;
+import org.rainbow.orm.entities.Identifiable;
 
 public class TrackableDto<T extends Serializable> extends Identifiable<T> {
 

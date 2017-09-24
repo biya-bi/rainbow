@@ -22,7 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.core.entities.Trackable;
+import org.rainbow.orm.entities.Trackable;
 
 @Entity
 @Table(name = "Publications")

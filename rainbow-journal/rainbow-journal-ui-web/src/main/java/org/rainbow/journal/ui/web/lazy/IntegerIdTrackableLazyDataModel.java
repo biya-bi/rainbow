@@ -5,7 +5,7 @@
  */
 package org.rainbow.journal.ui.web.lazy;
 
-import org.rainbow.core.entities.Trackable;
+import org.rainbow.orm.entities.Trackable;
 
 /**
  *

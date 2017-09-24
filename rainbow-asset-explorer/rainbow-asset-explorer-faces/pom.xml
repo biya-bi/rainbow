@@ -22,8 +22,8 @@
 		<servlet.version>3.1.0</servlet.version>
 	</properties>
 
-	<!-- Spring Framework dependencies -->
 	<dependencies>
+		<!-- Spring Framework dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -77,7 +77,7 @@
 		<!-- Rainbow dependencies -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>rainbow-asset-explorer-core</artifactId>
+			<artifactId>rainbow-asset-explorer-impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -87,7 +87,12 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>rainbow-security-core</artifactId>
+			<artifactId>rainbow-security-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rainbow-faces</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

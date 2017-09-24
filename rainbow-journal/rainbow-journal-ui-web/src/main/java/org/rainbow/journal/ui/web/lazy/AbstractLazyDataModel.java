@@ -13,8 +13,8 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 import org.rainbow.core.persistence.Filter;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.service.Service;
 import org.rainbow.journal.ui.web.utilities.BeanUtilities;
+import org.rainbow.service.Service;
 
 /**
  *

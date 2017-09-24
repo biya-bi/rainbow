@@ -21,14 +21,21 @@
             <var>msg</var>
         </resource-bundle>
         <resource-bundle>
-            <base-name>org.rainbow.asset.explorer.faces.SecurityMessages</base-name>
-            <var>secMsg</var>
-        </resource-bundle>
-        <resource-bundle>
             <base-name>org.rainbow.asset.explorer.faces.Client</base-name>
             <var>c</var>
         </resource-bundle>
- 
+         <resource-bundle>
+            <base-name>org.rainbow.security.auth.faces.Messages</base-name>
+            <var>secMsg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>org.rainbow.security.auth.faces.Labels</base-name>
+            <var>secLabels</var>
+        </resource-bundle>
+         <resource-bundle>
+            <base-name>org.rainbow.security.auth.faces.ValidationMessages</base-name>
+            <var>secValMsg</var>
+        </resource-bundle>
 	</application>
 
 <converter>
@@ -140,6 +147,12 @@
 			<to-view-id>/index.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
+		<navigation-case>
+			<from-action>#{authenticationController.login}</from-action>
+			<from-outcome>credentials_expired</from-outcome>
+			<to-view-id>/security/change_password/prompt.xhtml</to-view-id>
+			<redirect include-view-params="true"/>
+		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<display-name>Logout</display-name>
@@ -153,11 +166,11 @@
 	</navigation-rule>
 	<navigation-rule>
 		<display-name>Change Password</display-name>
-		<from-view-id>/security/changePassword.xhtml</from-view-id>
+		<from-view-id>/security/change_password/prompt.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{changePasswordController.changePassword}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/index.xhtml</to-view-id>
+			<to-view-id>/security/change_password/success.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
@@ -167,12 +180,12 @@
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
-		<display-name>Reset Password - Supply User Name</display-name>
-		<from-view-id>/security/resetPassword/supplyUserName.xhtml</from-view-id>
+		<display-name>Reset Password - User Name Prompt</display-name>
+		<from-view-id>/security/reset_password/user_name_prompt.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{resetPasswordController.checkUser}</from-action>
+			<from-action>#{resetPasswordController.prepare}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/security/resetPassword/supplyPasswordQuestionAnswer.xhtml</to-view-id>
+			<to-view-id>/security/reset_password/recovery_information_prompt.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
@@ -183,12 +196,12 @@
 	</navigation-rule>
 	
 	<navigation-rule>
-		<display-name>Reset Password - Answer Security Question</display-name>
-		<from-view-id>/security/resetPassword/supplyPasswordQuestionAnswer.xhtml</from-view-id>
+		<display-name>Reset Password - Recovery Information Prompt</display-name>
+		<from-view-id>/security/reset_password/recovery_information_prompt.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{resetPasswordController.resetPassword}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/security/resetPassword/resetPasswordSuccessful.xhtml</to-view-id>
+			<to-view-id>/security/reset_password/success.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
@@ -199,12 +212,12 @@
 	</navigation-rule>
 	
 	<navigation-rule>
-		<display-name>Unlock User - Supply User Name</display-name>
-		<from-view-id>/security/unlockUser/supplyUserName.xhtml</from-view-id>
+		<display-name>Unlock User - User Name Prompt</display-name>
+		<from-view-id>/security/unlock_user/user_name_prompt.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{unlockUserController.checkUser}</from-action>
+			<from-action>#{unlockUserController.prepare}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/security/unlockUser/supplyPasswordQuestionAnswer.xhtml</to-view-id>
+			<to-view-id>/security/unlock_user/recovery_information_prompt.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
@@ -215,12 +228,28 @@
 	</navigation-rule>
 	
 	<navigation-rule>
-		<display-name>Unlock User - Answer Security Question</display-name>
-		<from-view-id>/security/unlockUser/supplyPasswordQuestionAnswer.xhtml</from-view-id>
+		<display-name>Unlock User - Recovery Information Prompt</display-name>
+		<from-view-id>/security/unlock_user/recovery_information_prompt.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{unlockUserController.unlockUser}</from-action>
+			<from-action>#{unlockUserController.unlock}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/security/unlockUser/unlockUserSuccessful.xhtml</to-view-id>
+			<to-view-id>/security/unlock_user/success.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>Reset Recovery Information</display-name>
+		<from-view-id>/security/recovery_information/prompt.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{resetRecoveryInformationController.resetRecoveryInformation}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/recovery_information/success.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>

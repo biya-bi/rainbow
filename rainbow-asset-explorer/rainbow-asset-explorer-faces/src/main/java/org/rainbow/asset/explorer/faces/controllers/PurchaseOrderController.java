@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.controllers;
 
 import java.util.ArrayList;
@@ -13,14 +8,13 @@ import java.util.Map;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.core.entities.Location;
-import org.rainbow.asset.explorer.core.entities.PurchaseOrder;
-import org.rainbow.asset.explorer.core.entities.PurchaseOrderDetail;
-import org.rainbow.asset.explorer.core.entities.PurchaseOrderDetailId;
-import org.rainbow.asset.explorer.core.entities.PurchaseOrderStatus;
-import org.rainbow.asset.explorer.core.service.PurchaseOrderService;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.service.Service;
+import org.rainbow.asset.explorer.orm.entities.Location;
+import org.rainbow.asset.explorer.orm.entities.PurchaseOrder;
+import org.rainbow.asset.explorer.orm.entities.PurchaseOrderDetail;
+import org.rainbow.asset.explorer.orm.entities.PurchaseOrderStatus;
+import org.rainbow.asset.explorer.service.services.PurchaseOrderService;
+import org.rainbow.persistence.SearchOptions;
+import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -32,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class PurchaseOrderController extends TrackableController<PurchaseOrder, Long, SearchOptions> {
+public class PurchaseOrderController extends AuditableController<PurchaseOrder, Long, SearchOptions> {
 	/**
 	 * 
 	 */
@@ -83,23 +77,6 @@ public class PurchaseOrderController extends TrackableController<PurchaseOrder, 
 		this.receiptLocation = receiptLocation;
 	}
 
-	private int getDetailId() {
-		List<Integer> detailIds = new ArrayList<>();
-		for (PurchaseOrderDetail d : receivedDetails) {
-			Integer detailId = d.getId().getDetailId();
-			if (!detailIds.contains(detailId)) {
-				detailIds.add(detailId);
-			}
-		}
-		int detailId = 0;
-		while (detailId++ < receivedDetails.size()) {
-			if (!detailIds.contains(detailId)) {
-				break;
-			}
-		}
-		return detailId;
-	}
-
 	public void addDetail() {
 		PurchaseOrder purchaseOrder = this.getCurrent();
 		if (purchaseOrder != null) {
@@ -108,7 +85,6 @@ public class PurchaseOrderController extends TrackableController<PurchaseOrder, 
 				details = new ArrayList<>();
 				purchaseOrder.setDetails(details);
 			}
-			detail.setId(new PurchaseOrderDetailId(this.getCurrent().getId(), getDetailId()));
 			details.add(detail);
 		}
 	}
@@ -144,17 +120,11 @@ public class PurchaseOrderController extends TrackableController<PurchaseOrder, 
 	}
 
 	public void approve() throws Exception {
-		String username = getUserName();
-		PurchaseOrder purchaseOrder = this.getCurrent();
-		purchaseOrder.setUpdater(username);
-		service.approve(purchaseOrder);
+		service.approve(this.getCurrent());
 	}
 
 	public void reject() throws Exception {
-		String username = getUserName();
-		PurchaseOrder purchaseOrder = this.getCurrent();
-		purchaseOrder.setUpdater(username);
-		service.reject(purchaseOrder);
+		service.reject(this.getCurrent());
 	}
 
 	public void complete() throws Exception {
@@ -168,10 +138,7 @@ public class PurchaseOrderController extends TrackableController<PurchaseOrder, 
 						(short) (productByQuantities.get(productId) + receivedDetail.getReceivedQuantity()));
 			}
 		}
-		String username = getUserName();
-		PurchaseOrder purchaseOrder = this.getCurrent();
-		purchaseOrder.setUpdater(username);
-		service.complete(purchaseOrder, this.getReceiptLocation(), productByQuantities);
+		service.complete(this.getCurrent(), this.getReceiptLocation(), productByQuantities);
 	}
 
 	public void addReceivedDetail() {
@@ -195,10 +162,8 @@ public class PurchaseOrderController extends TrackableController<PurchaseOrder, 
 		receiptLocation = this.getCurrent().getLocation();
 		receivedDetails = new ArrayList<>();
 		for (PurchaseOrderDetail d : this.getCurrent().getDetails()) {
-			PurchaseOrderDetailId purchaseOrderDetailId = d.getId();
 			PurchaseOrderDetail receivedDetail = new PurchaseOrderDetail();
-			receivedDetail.setId(new PurchaseOrderDetailId(purchaseOrderDetailId.getPurchaseOrderId(),
-					purchaseOrderDetailId.getDetailId()));
+			receivedDetail.setId(d.getId());
 			receivedDetail.setProduct(d.getProduct());
 			receivedDetail.setReceivedQuantity(d.getOrderedQuantity());
 			receivedDetails.add(receivedDetail);

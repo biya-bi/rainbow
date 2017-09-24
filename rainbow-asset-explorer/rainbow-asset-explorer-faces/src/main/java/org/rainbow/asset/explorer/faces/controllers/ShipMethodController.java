@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.controllers;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.core.entities.ShipMethod;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.service.Service;
+import org.rainbow.asset.explorer.orm.entities.ShipMethod;
+import org.rainbow.persistence.SearchOptions;
+import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -22,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class ShipMethodController extends TrackableController<ShipMethod, Long, SearchOptions> {
+public class ShipMethodController extends AuditableController<ShipMethod, Long, SearchOptions> {
 
     /**
 	 * 

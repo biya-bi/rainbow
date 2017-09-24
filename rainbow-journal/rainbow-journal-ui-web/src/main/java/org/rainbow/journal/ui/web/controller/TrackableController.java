@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
 
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
-import org.rainbow.core.entities.Trackable;
+import org.rainbow.orm.entities.Trackable;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**

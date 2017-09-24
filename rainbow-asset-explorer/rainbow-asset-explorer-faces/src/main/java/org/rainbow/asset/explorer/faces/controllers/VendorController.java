@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.controllers;
 
 import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
@@ -16,20 +11,20 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.core.entities.AddressType;
-import org.rainbow.asset.explorer.core.entities.BusinessEntityAddress;
-import org.rainbow.asset.explorer.core.entities.BusinessEntityEmail;
-import org.rainbow.asset.explorer.core.entities.BusinessEntityFax;
-import org.rainbow.asset.explorer.core.entities.BusinessEntityPhone;
-import org.rainbow.asset.explorer.core.entities.EmailType;
-import org.rainbow.asset.explorer.core.entities.FaxType;
-import org.rainbow.asset.explorer.core.entities.PhoneType;
-import org.rainbow.asset.explorer.core.entities.Vendor;
-import org.rainbow.asset.explorer.core.persistence.exceptions.DuplicateVendorAccountNumberException;
 import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
-import org.rainbow.asset.explorer.faces.utilities.JsfUtil;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.service.Service;
+import org.rainbow.asset.explorer.orm.entities.AddressType;
+import org.rainbow.asset.explorer.orm.entities.BusinessEntityAddress;
+import org.rainbow.asset.explorer.orm.entities.BusinessEntityEmail;
+import org.rainbow.asset.explorer.orm.entities.BusinessEntityFax;
+import org.rainbow.asset.explorer.orm.entities.BusinessEntityPhone;
+import org.rainbow.asset.explorer.orm.entities.EmailType;
+import org.rainbow.asset.explorer.orm.entities.FaxType;
+import org.rainbow.asset.explorer.orm.entities.PhoneType;
+import org.rainbow.asset.explorer.orm.entities.Vendor;
+import org.rainbow.asset.explorer.service.exceptions.DuplicateVendorAccountNumberException;
+import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.persistence.SearchOptions;
+import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -42,7 +37,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "VendorCreated", updatedMessageKey = "VendorUpdated", deletedMessageKey = "VendorDeleted")
-public class VendorController extends TrackableController<Vendor, Long, SearchOptions> {
+public class VendorController extends AuditableController<Vendor, Long, SearchOptions> {
 
 	/**
 	 * 
@@ -98,7 +93,7 @@ public class VendorController extends TrackableController<Vendor, Long, SearchOp
 		if (throwable instanceof DuplicateVendorAccountNumberException) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
 			DuplicateVendorAccountNumberException e = (DuplicateVendorAccountNumberException) throwable;
-			JsfUtil.addErrorMessage(String.format(
+			FacesContextUtil.addErrorMessage(String.format(
 					ResourceBundle.getBundle(CRUD_MESSAGES).getString(DUPLICATE_VENDOR_ACCOUNT_NUMBER_ERROR_KEY),
 					e.getAccountNumber()));
 			return true;

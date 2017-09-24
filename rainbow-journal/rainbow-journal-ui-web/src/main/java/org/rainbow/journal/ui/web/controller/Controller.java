@@ -18,10 +18,10 @@ import java.util.logging.Logger;
 import javax.persistence.EntityNotFoundException;
 
 import org.primefaces.context.RequestContext;
-import org.rainbow.core.entities.Trackable;
-import org.rainbow.core.service.Service;
 import org.rainbow.journal.ui.web.utilities.CrudNotificationInfo;
 import org.rainbow.journal.ui.web.utilities.JsfUtil;
+import org.rainbow.orm.entities.Trackable;
+import org.rainbow.service.Service;
 
 /**
  *

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.handlers;
 
 import java.io.IOException;
@@ -10,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.faces.FacesException;
 import javax.faces.application.NavigationHandler;
 import javax.faces.application.ViewExpiredException;
@@ -83,7 +79,7 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
             FacesContext fc = FacesContext.getCurrentInstance();
 
             Logger.getLogger(DefaultExceptionHandler.class.getName()).log(Level.SEVERE, null, t);
-            String s = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/errors/unexpectedError.xhtml";
+            String s = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/errors/unexpected_error.xhtml";
             try {
                 fc.getExternalContext().redirect(s);
             } catch (IOException ex) {

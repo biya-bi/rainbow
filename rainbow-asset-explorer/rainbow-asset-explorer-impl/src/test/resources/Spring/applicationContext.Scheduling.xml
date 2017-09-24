@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host">
+			<value>${mail.smtp.host.name}</value>
+		</property>
+		<property name="port">
+			<value>${mail.smtp.host.port}</value>
+		</property>
+		<property name="username">
+			<value>${mail.smtp.username}</value>
+		</property>
+		<property name="password">
+			<value>${mail.smtp.password}</value>
+		</property>
+		<property name="javaMailProperties">
+			<props>
+				<!-- Use SMTP transport protocol -->
+				<prop key="mail.transport.protocol">smtp</prop>
+				<!-- Use SMTP-AUTH to authenticate to SMTP server -->
+				<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+				<!-- Use TLS to encrypt communication with SMTP server -->
+				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+				<prop key="mail.debug">${mail.debug}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="schedulerFactoryBean"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="configLocation" value="classpath:quartz.properties" />
+		<property name="waitForJobsToCompleteOnShutdown" value="true" />
+		<property name="schedulerContextAsMap">
+			<map>
+				<entry key="entityManagerFactory" value-ref="rainbowAssetExplorerEntityManagerFactory" />
+				<entry key="mailSender" value-ref="mailSender" />
+				<entry key="applicationName" value="${application.name}" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="alertScheduler"
+		class="org.rainbow.asset.explorer.scheduling.AlertSchedulerImpl">
+		<property name="scheduler" ref="schedulerFactoryBean" />
+	</bean>
+
+</beans>

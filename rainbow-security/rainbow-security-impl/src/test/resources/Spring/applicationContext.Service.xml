@@ -1,0 +1,173 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="applicationService"
+		class="org.rainbow.security.service.services.ApplicationServiceImpl">
+		<property name="dao" ref="applicationDao" />
+	</bean>
+
+	<bean id="authorityService"
+		class="org.rainbow.security.service.services.AuthorityServiceImpl">
+		<property name="dao" ref="authorityDao" />
+	</bean>
+
+	<bean id="groupAuthorityService"
+		class="org.rainbow.security.service.services.GroupAuthorityServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Test Application 1" />
+		<property name="authorityDao" ref="authorityDao" />
+		<property name="groupDao" ref="groupDao" />
+	</bean>
+
+	<bean id="groupService"
+		class="org.rainbow.security.service.services.GroupServiceImpl">
+		<property name="dao" ref="groupDao" />
+	</bean>
+
+	<bean id="groupAuthorityServiceWithMissingApplication"
+		class="org.rainbow.security.service.services.GroupAuthorityServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Missing Application" />
+		<property name="authorityDao" ref="authorityDao" />
+		<property name="groupDao" ref="groupDao" />
+	</bean>
+
+	<bean id="userGroupService"
+		class="org.rainbow.security.service.services.UserGroupServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Test Application 1" />
+		<property name="authorityDao" ref="authorityDao" />
+		<property name="groupDao" ref="groupDao" />
+	</bean>
+
+	<bean id="userGroupServiceWithMissingApplication"
+		class="org.rainbow.security.service.services.UserGroupServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Missing Application" />
+		<property name="authorityDao" ref="authorityDao" />
+		<property name="groupDao" ref="groupDao" />
+	</bean>
+
+	<bean id="userAuthorityService"
+		class="org.rainbow.security.service.services.UserAuthorityServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Test Application 1" />
+		<property name="authorityDao" ref="authorityDao" />
+	</bean>
+
+	<bean id="userAuthorityServiceWithMissingApplication"
+		class="org.rainbow.security.service.services.UserAuthorityServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Missing Application" />
+		<property name="authorityDao" ref="authorityDao" />
+	</bean>
+
+	<bean id="userDetailsService1"
+		class="org.rainbow.security.service.userdetails.UserDetailsServiceImpl">
+		<constructor-arg name="applicationName" value="Test Application 1" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="enableAuthorities" value="false" />
+		<property name="enableGroups" value="true" />
+	</bean>
+
+	<bean id="userDetailsService2"
+		class="org.rainbow.security.service.userdetails.UserDetailsServiceImpl">
+		<constructor-arg name="applicationName" value="Test Application 2" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="enableAuthorities" value="false" />
+		<property name="enableGroups" value="true" />
+	</bean>
+
+	<bean id="userDetailsService3"
+		class="org.rainbow.security.service.userdetails.UserDetailsServiceImpl">
+		<constructor-arg name="applicationName" value="Test Application 3" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="enableAuthorities" value="false" />
+		<property name="enableGroups" value="true" />
+	</bean>
+
+	<bean id="userDetailsServiceWithMissingApplication"
+		class="org.rainbow.security.service.userdetails.UserDetailsServiceImpl">
+		<constructor-arg name="applicationName" value="Missing Application" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="enableAuthorities" value="false" />
+		<property name="enableGroups" value="true" />
+	</bean>
+
+	<bean id="userDetailsService4"
+		class="org.rainbow.security.service.userdetails.UserDetailsServiceImpl">
+		<constructor-arg name="applicationName" value="Test Application 4" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="enableAuthorities" value="false" />
+		<property name="enableGroups" value="true" />
+	</bean>
+
+	<bean id="userService"
+		class="org.rainbow.security.service.services.UserServiceImpl">
+		<property name="dao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+	</bean>
+
+	<bean id="userService1"
+		class="org.rainbow.security.service.services.UserServiceImpl">
+		<property name="dao" ref="userDao1" />
+	</bean>
+
+	<bean id="userAccountService1"
+		class="org.rainbow.security.service.services.UserAccountServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Test Application 1" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="authenticationManager" ref="authenticationManager1" />
+		<property name="userDetailsService" ref="userDetailsService1" />
+	</bean>
+
+	<bean id="userAccountService2"
+		class="org.rainbow.security.service.services.UserAccountServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Test Application 2" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="authenticationManager" ref="authenticationManager2" />
+		<property name="userDetailsService" ref="userDetailsService2" />
+	</bean>
+
+	<bean id="userAccountService3"
+		class="org.rainbow.security.service.services.UserAccountServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Test Application 3" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="authenticationManager" ref="authenticationManager3" />
+		<property name="userDetailsService" ref="userDetailsService3" />
+	</bean>
+
+	<bean id="userAccountServiceWithMissingApplication"
+		class="org.rainbow.security.service.services.UserAccountServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Missing Application" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="authenticationManager" ref="authenticationManagerWithMissingApplication" />
+		<property name="userDetailsService" ref="userDetailsServiceWithMissingApplication" />
+	</bean>
+
+	<bean id="userAccountService4"
+		class="org.rainbow.security.service.services.UserAccountServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" value="Test Application 4" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="authenticationManager" ref="authenticationManager4" />
+		<property name="userDetailsService" ref="userDetailsService4" />
+	</bean>
+</beans>

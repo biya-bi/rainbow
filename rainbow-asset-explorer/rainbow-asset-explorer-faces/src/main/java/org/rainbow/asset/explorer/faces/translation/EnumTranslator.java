@@ -1,22 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.translation;
 
 import java.util.ResourceBundle;
 
-import org.rainbow.asset.explorer.core.entities.AlertCategory;
-import org.rainbow.asset.explorer.core.entities.AlertType;
-import org.rainbow.asset.explorer.core.entities.AssetState;
-import org.rainbow.asset.explorer.core.entities.DepreciationMethod;
-import org.rainbow.asset.explorer.core.entities.DocumentType;
-import org.rainbow.asset.explorer.core.entities.ManufacturerBusinessImpact;
-import org.rainbow.asset.explorer.core.entities.PurchaseOrderStatus;
-import org.rainbow.asset.explorer.core.entities.ShippingOrderStatus;
-import org.rainbow.asset.explorer.core.entities.SiteStatus;
 import org.rainbow.asset.explorer.faces.utilities.ResourceBundles;
+import org.rainbow.asset.explorer.orm.entities.AlertCategory;
+import org.rainbow.asset.explorer.orm.entities.AlertType;
+import org.rainbow.asset.explorer.orm.entities.AssetState;
+import org.rainbow.asset.explorer.orm.entities.DepreciationMethod;
+import org.rainbow.asset.explorer.orm.entities.DocumentType;
+import org.rainbow.asset.explorer.orm.entities.ManufacturerBusinessImpact;
+import org.rainbow.asset.explorer.orm.entities.PurchaseOrderStatus;
+import org.rainbow.asset.explorer.orm.entities.ShippingOrderStatus;
+import org.rainbow.asset.explorer.orm.entities.SiteStatus;
 
 /**
  *

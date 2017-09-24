@@ -1,0 +1,125 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<bean
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"
+		id="passwordEncoder">
+		<constructor-arg name="strength" value="4" />
+	</bean>
+
+	<bean id="userDetailsAuthenticationProvider1"
+		class="org.rainbow.security.service.authentication.UserDetailsAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService1" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="passwordAttemptUpdater">
+			<bean
+				class="org.rainbow.security.service.authentication.PasswordAttemptUpdaterImpl">
+				<property name="applicationName" value="Test Application 1" />
+				<property name="passwordEncoder" ref="passwordEncoder" />
+				<property name="dataSource" ref="dataSource" />
+			</bean>
+		</property>
+
+		<property name="hideUserNotFoundExceptions" value="false" />
+	</bean>
+
+	<bean id="userDetailsAuthenticationProvider2"
+		class="org.rainbow.security.service.authentication.UserDetailsAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService2" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="passwordAttemptUpdater">
+			<bean
+				class="org.rainbow.security.service.authentication.PasswordAttemptUpdaterImpl">
+				<property name="applicationName" value="Test Application 2" />
+				<property name="passwordEncoder" ref="passwordEncoder" />
+				<property name="dataSource" ref="dataSource" />
+			</bean>
+		</property>
+		<property name="hideUserNotFoundExceptions" value="false" />
+	</bean>
+
+	<bean id="userDetailsAuthenticationProvider3"
+		class="org.rainbow.security.service.authentication.UserDetailsAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService3" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="passwordAttemptUpdater">
+			<bean
+				class="org.rainbow.security.service.authentication.PasswordAttemptUpdaterImpl">
+				<property name="applicationName" value="Test Application 3" />
+				<property name="passwordEncoder" ref="passwordEncoder" />
+				<property name="dataSource" ref="dataSource" />
+			</bean>
+		</property>
+		<property name="hideUserNotFoundExceptions" value="false" />
+	</bean>
+
+	<bean id="userDetailsAuthenticationProviderWithMissingApplication"
+		class="org.rainbow.security.service.authentication.UserDetailsAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsServiceWithMissingApplication" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="passwordAttemptUpdater">
+			<bean
+				class="org.rainbow.security.service.authentication.PasswordAttemptUpdaterImpl">
+				<property name="applicationName" value="Missing Application" />
+				<property name="passwordEncoder" ref="passwordEncoder" />
+				<property name="dataSource" ref="dataSource" />
+			</bean>
+		</property>
+		<property name="hideUserNotFoundExceptions" value="false" />
+	</bean>
+
+	<bean id="userDetailsAuthenticationProvider4"
+		class="org.rainbow.security.service.authentication.UserDetailsAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService4" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="passwordAttemptUpdater">
+			<bean
+				class="org.rainbow.security.service.authentication.PasswordAttemptUpdaterImpl">
+				<property name="applicationName" value="Test Application 4" />
+				<property name="passwordEncoder" ref="passwordEncoder" />
+				<property name="dataSource" ref="dataSource" />
+			</bean>
+		</property>
+		<property name="hideUserNotFoundExceptions" value="false" />
+	</bean>
+
+	<security:authentication-manager id="authenticationManager1">
+		<security:authentication-provider
+			ref="userDetailsAuthenticationProvider1" />
+	</security:authentication-manager>
+
+	<security:authentication-manager id="authenticationManager2">
+		<security:authentication-provider
+			ref="userDetailsAuthenticationProvider2" />
+	</security:authentication-manager>
+
+	<security:authentication-manager id="authenticationManager3">
+		<security:authentication-provider
+			ref="userDetailsAuthenticationProvider3" />
+	</security:authentication-manager>
+
+	<security:authentication-manager
+		id="authenticationManagerWithMissingApplication">
+		<security:authentication-provider
+			ref="userDetailsAuthenticationProviderWithMissingApplication" />
+	</security:authentication-manager>
+
+	<security:authentication-manager id="authenticationManager4">
+		<security:authentication-provider
+			ref="userDetailsAuthenticationProvider4" />
+	</security:authentication-manager>
+
+	<bean id="sensitiveUserDetailsEncrypter"
+		class="org.rainbow.security.service.encryption.SensitiveUserDetailsEncrypterImpl"
+		init-method="encrypt" depends-on="dataSource">
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="applicationName" value="Test Application 1" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+</beans>

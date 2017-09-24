@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.controllers;
 
 import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
@@ -23,15 +18,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.rainbow.asset.explorer.core.entities.Product;
-import org.rainbow.asset.explorer.core.persistence.exceptions.DuplicateProductNameException;
-import org.rainbow.asset.explorer.core.persistence.exceptions.DuplicateProductNumberException;
-import org.rainbow.asset.explorer.faces.models.SessionBean;
 import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
-import org.rainbow.asset.explorer.faces.utilities.JsfUtil;
 import org.rainbow.asset.explorer.faces.utilities.ResourceBundles;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.service.Service;
+import org.rainbow.asset.explorer.orm.entities.Product;
+import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNameException;
+import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNumberException;
+import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.persistence.SearchOptions;
+import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -48,7 +42,7 @@ import org.xml.sax.SAXException;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "ProductCreated", updatedMessageKey = "ProductUpdated", deletedMessageKey = "ProductDeleted")
-public class ProductController extends TrackableController<Product, Long, SearchOptions> {
+public class ProductController extends AuditableController<Product, Long, SearchOptions> {
 
 	/**
 	 * 
@@ -77,14 +71,14 @@ public class ProductController extends TrackableController<Product, Long, Search
 		if (throwable instanceof DuplicateProductNumberException) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
 			DuplicateProductNumberException e = (DuplicateProductNumberException) throwable;
-			JsfUtil.addErrorMessage(
+			FacesContextUtil.addErrorMessage(
 					String.format(ResourceBundle.getBundle(CRUD_MESSAGES).getString(DUPLICATE_PRODUCT_NUMBER_ERROR_KEY),
 							e.getNumber()));
 			return true;
 		} else if (throwable instanceof DuplicateProductNameException) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
 			DuplicateProductNameException e = (DuplicateProductNameException) throwable;
-			JsfUtil.addErrorMessage(String.format(
+			FacesContextUtil.addErrorMessage(String.format(
 					ResourceBundle.getBundle(CRUD_MESSAGES).getString(DUPLICATE_PRODUCT_NAME_ERROR_KEY), e.getName()));
 			return true;
 		}
@@ -100,17 +94,13 @@ public class ProductController extends TrackableController<Product, Long, Search
 
 		NodeList nodeList = doc.getDocumentElement().getChildNodes();
 
-		String username = (String) SessionBean.getSession().getAttribute("username");
-
 		for (int count = 0; count < nodeList.getLength(); count++) {
 
 			Node productNode = nodeList.item(count);
 			if (productNode.getNodeType() == Node.ELEMENT_NODE) {
 				if (PRODUCT_NODE_NAME.toUpperCase().equals(productNode.getNodeName().toUpperCase())) {
 					Product product = prepareCreate();
-					product.setCreator(username);
-					product.setUpdater(username);
-
+		
 					if (productNode.hasChildNodes()) {
 						NodeList productNodeChildNodes = productNode.getChildNodes();
 						for (int i = 0; i < productNodeChildNodes.getLength(); i++) {
@@ -150,11 +140,11 @@ public class ProductController extends TrackableController<Product, Long, Search
 
 			List<Product> products = getProducts(doc);
 			if (products.isEmpty()) {
-				JsfUtil.addErrorMessage(ResourceBundle.getBundle(ResourceBundles.VALIDATION_MESSAGES)
+				FacesContextUtil.addErrorMessage(ResourceBundle.getBundle(ResourceBundles.VALIDATION_MESSAGES)
 						.getString(NO_PRODUCTS_TO_IMPORT_FOUND_ERROR_KEY));
 			} else {
 				service.create(products);
-				JsfUtil.addSuccessMessage(
+				FacesContextUtil.addSuccessMessage(
 						(ResourceBundle.getBundle(CRUD_MESSAGES).getString(PRODUCTS_IMPORTED_SUCCESSFULLY_ERROR_KEY)));
 				RequestContext.getCurrentInstance().addCallbackParam(COMMITTED_FLAG, true);
 			}

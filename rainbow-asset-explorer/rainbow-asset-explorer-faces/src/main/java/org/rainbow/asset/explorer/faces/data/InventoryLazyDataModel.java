@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.rainbow.asset.explorer.faces.data;
 
 import java.util.ArrayList;
@@ -17,9 +12,9 @@ import javax.inject.Named;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
-import org.rainbow.asset.explorer.core.entities.Location;
-import org.rainbow.asset.explorer.core.entities.Product;
-import org.rainbow.asset.explorer.core.persistence.dao.InventoryManager;
+import org.rainbow.asset.explorer.orm.entities.Location;
+import org.rainbow.asset.explorer.orm.entities.Product;
+import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
 import org.rainbow.common.util.DefaultComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

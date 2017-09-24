@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<tx:advice id="txAdvice" transaction-manager="rainbowSecurityTransactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" no-rollback-for="org.springframework.security.core.AuthenticationException,
+org.rainbow.security.service.exceptions.WrongRecoveryAnswerException" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* org.rainbow.security.service..*(..))" />
+		<aop:advisor advice-ref="txAdvice"
+			pointcut="execution(* org.rainbow.service..*(..))" />
+	</aop:config>
+
+</beans>

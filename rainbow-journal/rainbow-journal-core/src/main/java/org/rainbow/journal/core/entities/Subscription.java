@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.core.entities.Trackable;
+import org.rainbow.orm.entities.Trackable;
 
 @Entity
 @Table(name = "Subscriptions", uniqueConstraints = @UniqueConstraint(columnNames = { "JOURNAL_ID",

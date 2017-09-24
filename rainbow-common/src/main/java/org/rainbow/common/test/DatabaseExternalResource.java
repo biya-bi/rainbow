@@ -17,8 +17,9 @@ public class DatabaseExternalResource extends ExternalResource {
 
 	public DatabaseExternalResource(Database database, String[] initializationScripts, String[] cleanUpScripts) {
 		super();
-		if (database == null)
+		if (database == null) {
 			throw new IllegalArgumentException("The database argument cannot be null.");
+		}
 		this.database = database;
 		this.initializationScripts = initializationScripts;
 		this.cleanUpScripts = cleanUpScripts;

@@ -5,10 +5,10 @@
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-        <dependent-module archiveName="rainbow-core-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-core/rainbow-core">
+        <dependent-module archiveName="rainbow-shopping-cart-core-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-shopping-cart-core/rainbow-shopping-cart-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="rainbow-security-core-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-core/rainbow-security-core">
+        <dependent-module archiveName="rainbow-api-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-api/rainbow-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/jsf-spring-integration/target/classes"/>
