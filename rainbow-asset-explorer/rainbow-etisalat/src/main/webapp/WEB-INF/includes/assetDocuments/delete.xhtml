@@ -5,7 +5,7 @@
 
     <cps:submitForm id="assetDocumentDelete"
                     title="#{labels.DeleteAssetDocumentTitle}"           
-                    submitActionListener="#{assetDocumentController.delete}"
+                    submitActionListener="#{assetDocumentController.delete()}"
                     update="assetDocumentList:form:dataTable"
                     submitLabel="#{labels.Delete}"
                     submitIcon="ui-icon-trash">

@@ -64,7 +64,7 @@
                                 toolTip="#{labels.AssetTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{assetController.prepareCreate}" update=":assetCreate:form" dialogWidgetVar="assetCreateDialog" title="#{labels.CreateAssetTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_ASSETS')}"/>
+                    <cps:quickCreateButton actionListener="#{assetController.prepareCreate()}" update=":assetCreate:form" dialogWidgetVar="assetCreateDialog" title="#{labels.CreateAssetTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_ASSETS')}"/>
                 </p:column>
                 <p:column>
                     <p:message id="assetDropDownMessage" for="assetDropDown"/>

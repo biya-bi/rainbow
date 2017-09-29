@@ -94,7 +94,7 @@
 			</p:column>
 			<p:column>
 				<cps:quickCreateButton
-					actionListener="#{applicationController.prepareCreate}"
+					actionListener="#{applicationController.prepareCreate()}"
 					update=":applicationCreate:form"
 					dialogWidgetVar="applicationCreateDialog"
 					title="#{labels.CreateApplicationTitle}" />

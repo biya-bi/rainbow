@@ -5,7 +5,7 @@
 
     <cps:submitForm id="groupCreate"
                     title="#{labels.CreateGroupTitle}"           
-                    submitActionListener="#{groupController.create}"
+                    submitActionListener="#{groupController.create()}"
                     update="groupList:form:dataTable">
 
         <cps:writeGroup />

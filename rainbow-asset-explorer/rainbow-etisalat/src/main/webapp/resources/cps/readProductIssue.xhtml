@@ -21,7 +21,7 @@
                 <p:outputLabel styleClass="field-label" value="#{labels.RequisitionerLabel}"/>
                 <h:outputText styleClass="field-value" value="#{productIssueController.current.requisitioner}" title="#{labels.RequisitionerTitle}"/>
                 <p:outputLabel styleClass="field-label" value="#{labels.IssueDateLabel}"/>
-                <h:outputText styleClass="field-value" id="issueDate" value="#{productReceiptController.current.issueDate}" title="#{labels.IssueDateTitle}">
+                <h:outputText styleClass="field-value" id="issueDate" value="#{productIssueController.current.issueDate}" title="#{labels.IssueDateTitle}">
                     <f:convertDateTime dateStyle="short" />
                 </h:outputText>
                 <p:outputLabel id="departmentLabel" styleClass="field-label" value="#{labels.DepartmentLabel}"/>

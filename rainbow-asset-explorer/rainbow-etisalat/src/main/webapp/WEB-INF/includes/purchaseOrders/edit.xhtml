@@ -9,7 +9,7 @@
 
 <cps:submitForm id="purchaseOrderEdit"
 	title="#{labels.EditPurchaseOrderTitle}"
-	submitActionListener="#{purchaseOrderController.edit}"
+	submitActionListener="#{purchaseOrderController.edit()}"
 	update="purchaseOrderList:form:dataTable">
 
 	<p:panelGrid rendered="#{purchaseOrderController.current != null}">
@@ -152,7 +152,7 @@
 				var="detail" value="#{purchaseOrderController.current.details}">
 				<f:facet name="header">
 					<p:commandButton
-						actionListener="#{purchaseOrderController.prepareDetail}"
+						actionListener="#{purchaseOrderController.prepareDetail()}"
 						icon="ui-icon-plus"
 						oncomplete="PF('addPurchaseOrderDetailDialog').show()"
 						update=":addPurchaseOrderDetailForm" />

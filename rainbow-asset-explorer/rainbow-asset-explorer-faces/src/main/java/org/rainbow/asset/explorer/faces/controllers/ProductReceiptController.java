@@ -43,7 +43,7 @@ public class ProductReceiptController extends AuditableController<ProductReceipt
 	 */
 	private static final long serialVersionUID = -6177634125211864091L;
 
-	private ProductReceiptDetail detail;
+	private ProductReceiptDetail detail = new ProductReceiptDetail();
 
 	private static final String DUPLICATE_PRODUCT_RECEIPT_REFERENCE_NUMBER_ERROR_KEY = "DuplicateProductReceiptReferenceNumber";
 	private static final String PRODUCT_RECEIPT_DETAILS_EMPTY_ERROR_KEY = "ProductReceiptDetailsEmpty";

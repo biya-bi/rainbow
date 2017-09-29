@@ -47,7 +47,7 @@
                                 toolTip="#{labels.ProductTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{productController.prepareCreate}" update=":productCreate:form" dialogWidgetVar="productCreateDialog" title="#{labels.CreateProductTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_PRODUCTS')}"/>
+                    <cps:quickCreateButton actionListener="#{productController.prepareCreate()}" update=":productCreate:form" dialogWidgetVar="productCreateDialog" title="#{labels.CreateProductTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_PRODUCTS')}"/>
                 </p:column>
                 <p:column>
                     <p:message id="productDropDownMessage" for="productDropDown"/>
@@ -103,7 +103,7 @@
                                 toolTip="#{labels.VendorTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{vendorController.prepareCreate}" update=":vendorCreate:form" dialogWidgetVar="vendorCreateDialog" title="#{labels.CreateVendorTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_VENDORS')}"/>
+                    <cps:quickCreateButton actionListener="#{vendorController.prepareCreate()}" update=":vendorCreate:form" dialogWidgetVar="vendorCreateDialog" title="#{labels.CreateVendorTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_VENDORS')}"/>
                 </p:column>
 
                 <p:column/>
@@ -249,7 +249,7 @@
                                 toolTip="#{labels.SiteTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{siteController.prepareCreate}" update=":siteCreate:form" dialogWidgetVar="siteCreateDialog" title="#{labels.CreateSiteTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_SITES')}"/>
+                    <cps:quickCreateButton actionListener="#{siteController.prepareCreate()}" update=":siteCreate:form" dialogWidgetVar="siteCreateDialog" title="#{labels.CreateSiteTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_SITES')}"/>
                 </p:column>
 
                 <p:column/>
@@ -271,7 +271,7 @@
                                 toolTip="#{labels.AssetTypeTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{assetTypeController.prepareCreate}" update=":assetTypeCreate:form" dialogWidgetVar="assetTypeCreateDialog" title="#{labels.CreateAssetTypeTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_ASSET_TYPES')}"/>
+                    <cps:quickCreateButton actionListener="#{assetTypeController.prepareCreate()}" update=":assetTypeCreate:form" dialogWidgetVar="assetTypeCreateDialog" title="#{labels.CreateAssetTypeTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_ASSET_TYPES')}"/>
                 </p:column>
             </p:row>
             <p:row>

@@ -72,7 +72,7 @@
                                 toolTip="#{labels.ManufacturerTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{manufacturerController.prepareCreate}" update=":manufacturerCreate:form" dialogWidgetVar="manufacturerCreateDialog" title="#{labels.CreateManufacturerTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_MANUFACTURERS')}"/>
+                    <cps:quickCreateButton actionListener="#{manufacturerController.prepareCreate()}" update=":manufacturerCreate:form" dialogWidgetVar="manufacturerCreateDialog" title="#{labels.CreateManufacturerTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_MANUFACTURERS')}"/>
                 </p:column>
                 <p:column>
                     <p:message id="manufacturerDropDownMessage" for="manufacturerDropDown"/>

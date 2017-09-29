@@ -7,7 +7,7 @@
 
     <cps:submitForm id="shipMethodDelete"
                     title="#{labels.DeleteShipMethodTitle}"           
-                    submitActionListener="#{shipMethodController.delete}"
+                    submitActionListener="#{shipMethodController.delete()}"
                     update="shipMethodList:form:dataTable"
                     submitLabel="#{labels.Delete}"
                     submitIcon="ui-icon-trash">

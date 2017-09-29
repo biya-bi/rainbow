@@ -39,7 +39,7 @@
                                             toolTip="#{labels.ProductTitle}"/>
                             </p:column>
                             <p:column>
-                                <cps:quickCreateButton actionListener="#{productController.prepareCreate}" update=":productCreate:form" dialogWidgetVar="productCreateDialog" title="#{labels.CreateProductTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_PRODUCTS')}" />
+                                <cps:quickCreateButton actionListener="#{productController.prepareCreate()}" update=":productCreate:form" dialogWidgetVar="productCreateDialog" title="#{labels.CreateProductTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_PRODUCTS')}" />
                             </p:column>
                             <p:column>
                                 <p:message id="productDropDownMessage" for="productDropDown"/>

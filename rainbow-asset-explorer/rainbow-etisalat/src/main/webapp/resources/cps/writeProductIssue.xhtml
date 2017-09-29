@@ -51,7 +51,7 @@
 				</p:column>
 				<p:column>
 					<cps:quickCreateButton
-						actionListener="#{locationController.prepareCreate}"
+						actionListener="#{locationController.prepareCreate()}"
 						update=":locationCreate:form"
 						dialogWidgetVar="locationCreateDialog"
 						title="#{labels.CreateLocationTitle}"
@@ -141,7 +141,7 @@
 				var="detail" value="#{productIssueController.current.details}">
 				<f:facet name="header">
 					<p:commandButton
-						actionListener="#{productIssueController.prepareDetail}"
+						actionListener="#{productIssueController.prepareDetail()}"
 						icon="ui-icon-plus"
 						oncomplete="PF('addProductIssueDetailDialog').show()"
 						update=":addProductIssueDetailForm" />

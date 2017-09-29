@@ -15,7 +15,7 @@
 			dataSource="#{siteDocumentLazyDataModel}"
 			selectedItem="#{siteDocumentController.current}"
 			selectedValue="#{item.id}"
-			createActionListener="#{siteDocumentController.prepareCreate}"
+			createActionListener="#{siteDocumentController.prepareCreate()}"
 			createDialog="siteDocumentCreateDialog"
 			createUpdate=":siteDocumentCreate:form"
 			editDialog="siteDocumentEditDialog"

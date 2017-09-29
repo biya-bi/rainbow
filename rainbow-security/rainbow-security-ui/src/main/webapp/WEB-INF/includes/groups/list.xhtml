@@ -12,7 +12,7 @@
 	<cps:trackableDataGrid id="groupList" title="#{labels.ListGroupsTitle}"
 		dataSource="#{groupLazyDataModel}"
 		selectedItem="#{groupController.current}" selectedValue="#{item.id}"
-		createActionListener="#{groupController.prepareCreate}"
+		createActionListener="#{groupController.prepareCreate()}"
 		createDialog="groupCreateDialog" createUpdate=":groupCreate:form"
 		editDialog="groupEditDialog" editUpdate=":groupEdit:form"
 		detailsDialog="groupDetailsDialog" detailsUpdate=":groupDetails:form"

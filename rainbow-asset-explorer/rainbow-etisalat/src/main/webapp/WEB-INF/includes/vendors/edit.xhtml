@@ -5,7 +5,7 @@
 
     <cps:submitForm id="vendorEdit"
                     title="#{labels.EditVendorTitle}"           
-                    submitActionListener="#{vendorController.edit}"
+                    submitActionListener="#{vendorController.edit()}"
                     update="vendorList:form:dataTable">
 
          <cps:writeVendor/>

@@ -13,7 +13,7 @@
 		<cps:trackableDataGrid id="alertList"
 			title="#{labels.ListAlertsTitle}" dataSource="#{alertLazyDataModel}"
 			selectedItem="#{alertController.current}" selectedValue="#{item.id}"
-			createActionListener="#{alertController.prepareCreate}"
+			createActionListener="#{alertController.prepareCreate()}"
 			createDialog="alertCreateDialog" createUpdate=":alertCreate:form"
 			editDialog="alertEditDialog" editUpdate=":alertEdit:form"
 			detailsDialog="alertDetailsDialog" detailsUpdate=":alertDetails:form"

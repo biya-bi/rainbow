@@ -5,7 +5,7 @@
 
     <cps:submitForm id="emailRecipientEdit"
                     title="#{labels.EditEmailRecipientTitle}"           
-                    submitActionListener="#{emailRecipientController.edit}"
+                    submitActionListener="#{emailRecipientController.edit()}"
                     update="emailRecipientList:form:dataTable">
 
         <cps:writeEmailRecipicient/>

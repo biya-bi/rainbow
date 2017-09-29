@@ -17,7 +17,7 @@
 					<p:panelGrid columns="2" style="text-align: left;"
 						styleClass="ui-panelgrid-blank">
 						<p:commandButton value="#{labels.Save}" icon="ui-icon-disk"
-							action="#{purchaseOrderController.complete}"
+							action="#{purchaseOrderController.complete()}"
 							validateClient="true" update="panelGroup,:purchaseOrderList:form"
 							oncomplete="handleSubmit(args,'completePurchaseOrderDialog');" />
 						<p:commandButton value="#{labels.Cancel}" icon="ui-icon-close"
@@ -52,7 +52,7 @@
 					var="detail" value="#{purchaseOrderController.receivedDetails}">
 					<f:facet name="header">
 						<p:commandButton
-							actionListener="#{purchaseOrderController.prepareDetail}"
+							actionListener="#{purchaseOrderController.prepareDetail()}"
 							icon="ui-icon-plus"
 							oncomplete="PF('addPurchaseOrderReceivedDetailDialog').show()"
 							update=":addPurchaseOrderReceivedDetailForm" />

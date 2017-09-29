@@ -12,7 +12,7 @@
 		<cps:trackableDataGrid id="siteList" title="#{labels.ListSitesTitle}"
 			dataSource="#{siteLazyDataModel}"
 			selectedItem="#{siteController.current}" selectedValue="#{item.id}"
-			createActionListener="#{siteController.prepareCreate}"
+			createActionListener="#{siteController.prepareCreate()}"
 			createDialog="siteCreateDialog" createUpdate=":siteCreate:form"
 			editDialog="siteEditDialog" editUpdate=":siteEdit:form"
 			detailsDialog="siteDetailsDialog" detailsUpdate=":siteDetails:form"

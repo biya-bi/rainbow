@@ -46,7 +46,7 @@
 						</p:column>
 						<p:column>
 							<cps:quickCreateButton
-								actionListener="#{productController.prepareCreate}"
+								actionListener="#{productController.prepareCreate()}"
 								update=":productCreate:form"
 								dialogWidgetVar="productCreateDialog"
 								title="#{labels.CreateProductTitle}"

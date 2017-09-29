@@ -13,7 +13,7 @@
 		<cps:trackableDataGrid id="assetList"
 			title="#{labels.ListAssetsTitle}" dataSource="#{assetLazyDataModel}"
 			selectedItem="#{assetController.current}" selectedValue="#{item.id}"
-			createActionListener="#{assetController.prepareCreate}"
+			createActionListener="#{assetController.prepareCreate()}"
 			createDialog="assetCreateDialog" createUpdate=":assetCreate:form"
 			editDialog="assetEditDialog" editUpdate=":assetEdit:form"
 			detailsDialog="assetDetailsDialog" detailsUpdate=":assetDetails:form"

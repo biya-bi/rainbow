@@ -5,7 +5,7 @@
 
     <cps:submitForm id="alertDelete"
                     title="#{labels.DeleteAlertTitle}"           
-                    submitActionListener="#{alertController.delete}"
+                    submitActionListener="#{alertController.delete()}"
                     update="alertList:form:dataTable"
                     submitLabel="#{labels.Delete}"
                     submitIcon="ui-icon-trash">

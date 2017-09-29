@@ -5,7 +5,7 @@
 
     <cps:submitForm id="emailTemplateEdit"
                     title="#{labels.EditEmailTemplateTitle}"           
-                    submitActionListener="#{emailTemplateController.edit}"
+                    submitActionListener="#{emailTemplateController.edit()}"
                     update="emailTemplateList:form:dataTable">
 
         <cps:writeEmailTemplate/>

@@ -7,7 +7,7 @@
 
     <cps:submitForm id="localeDelete"
                     title="#{labels.DeleteLocaleTitle}"           
-                    submitActionListener="#{localeController.delete}"
+                    submitActionListener="#{localeController.delete()}"
                     update="localeList:form:dataTable"
                     submitLabel="#{labels.Delete}"
                     submitIcon="ui-icon-trash">

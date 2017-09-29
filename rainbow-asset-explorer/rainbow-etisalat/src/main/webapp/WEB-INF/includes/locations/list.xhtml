@@ -15,7 +15,7 @@
 			dataSource="#{locationLazyDataModel}"
 			selectedItem="#{locationController.current}"
 			selectedValue="#{item.id}"
-			createActionListener="#{locationController.prepareCreate}"
+			createActionListener="#{locationController.prepareCreate()}"
 			createDialog="locationCreateDialog"
 			createUpdate=":locationCreate:form" editDialog="locationEditDialog"
 			editUpdate=":locationEdit:form" detailsDialog="locationDetailsDialog"

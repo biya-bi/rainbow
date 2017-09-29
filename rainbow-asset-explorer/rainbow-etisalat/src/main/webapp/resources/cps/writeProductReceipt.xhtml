@@ -51,7 +51,7 @@
 				</p:column>
 				<p:column>
 					<cps:quickCreateButton
-						actionListener="#{locationController.prepareCreate}"
+						actionListener="#{locationController.prepareCreate()}"
 						update=":locationCreate:form"
 						dialogWidgetVar="locationCreateDialog"
 						title="#{labels.CreateLocationTitle}"
@@ -79,7 +79,7 @@
 				</p:column>
 				<p:column>
 					<cps:quickCreateButton
-						actionListener="#{vendorController.prepareCreate}"
+						actionListener="#{vendorController.prepareCreate()}"
 						update=":vendorCreate:form" dialogWidgetVar="vendorCreateDialog"
 						title="#{labels.CreateVendorTitle}"
 						rendered="#{sec:areAnyGranted('ROLE_WRITE_VENDORS')}" />
@@ -164,7 +164,7 @@
 				var="detail" value="#{productReceiptController.current.details}">
 				<f:facet name="header">
 					<p:commandButton
-						action="#{productReceiptController.prepareDetail}"
+						action="#{productReceiptController.prepareDetail()}"
 						icon="ui-icon-plus"
 						oncomplete="PF('addProductReceiptDetailDialog').show()"
 						update=":addProductReceiptDetailForm" />

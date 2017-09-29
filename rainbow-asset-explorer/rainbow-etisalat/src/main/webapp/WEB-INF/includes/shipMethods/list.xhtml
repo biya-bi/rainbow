@@ -15,7 +15,7 @@
 			dataSource="#{shipMethodLazyDataModel}"
 			selectedItem="#{shipMethodController.current}"
 			selectedValue="#{item.id}"
-			createActionListener="#{shipMethodController.prepareCreate}"
+			createActionListener="#{shipMethodController.prepareCreate()}"
 			createDialog="shipMethodCreateDialog"
 			createUpdate=":shipMethodCreate:form"
 			editDialog="shipMethodEditDialog" editUpdate=":shipMethodEdit:form"

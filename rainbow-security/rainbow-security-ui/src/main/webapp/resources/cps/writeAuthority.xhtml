@@ -45,7 +45,7 @@
                                 toolTip="#{labels.ApplicationTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{applicationController.prepareCreate}" update=":applicationCreate:form" dialogWidgetVar="applicationCreateDialog" title="#{labels.CreateApplicationTitle}" />
+                    <cps:quickCreateButton actionListener="#{applicationController.prepareCreate()}" update=":applicationCreate:form" dialogWidgetVar="applicationCreateDialog" title="#{labels.CreateApplicationTitle}" />
                 </p:column>
                 <p:column>
                     <p:message id="applicationDropDownMessage" for="applicationDropDown"/>

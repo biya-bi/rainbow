@@ -5,7 +5,7 @@
 
     <cps:submitForm id="productIssueCreate"
                     title="#{labels.CreateProductIssueTitle}"           
-                    submitActionListener="#{productIssueController.create}"
+                    submitActionListener="#{productIssueController.create()}"
                     update="productIssueList:form:dataTable">
 
         <cps:writeProductIssue id="writeProductIssue"/>

@@ -5,7 +5,7 @@
 
     <cps:submitForm id="locationEdit"
                     title="#{labels.EditLocationTitle}"           
-                    submitActionListener="#{locationController.edit}"
+                    submitActionListener="#{locationController.edit()}"
                     update="locationList:form:dataTable">
 
         <cps:writeLocation/>

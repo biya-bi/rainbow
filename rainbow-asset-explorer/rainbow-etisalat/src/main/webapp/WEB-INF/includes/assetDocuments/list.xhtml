@@ -15,7 +15,7 @@
 			dataSource="#{assetDocumentLazyDataModel}"
 			selectedItem="#{assetDocumentController.current}"
 			selectedValue="#{item.id}"
-			createActionListener="#{assetDocumentController.prepareCreate}"
+			createActionListener="#{assetDocumentController.prepareCreate()}"
 			createDialog="assetDocumentCreateDialog"
 			createUpdate=":assetDocumentCreate:form"
 			editDialog="assetDocumentEditDialog"

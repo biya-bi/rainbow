@@ -13,7 +13,7 @@
 		dataSource="#{applicationLazyDataModel}"
 		selectedItem="#{applicationController.current}"
 		selectedValue="#{item.id}"
-		createActionListener="#{applicationController.prepareCreate}"
+		createActionListener="#{applicationController.prepareCreate()}"
 		createDialog="applicationCreateDialog"
 		createUpdate=":applicationCreate:form"
 		editDialog="applicationEditDialog" editUpdate=":applicationEdit:form"

@@ -15,7 +15,7 @@
 			dataSource="#{productLazyDataModel}"
 			selectedItem="#{productController.current}"
 			selectedValue="#{item.id}"
-			createActionListener="#{productController.prepareCreate}"
+			createActionListener="#{productController.prepareCreate()}"
 			createDialog="productCreateDialog" createUpdate=":productCreate:form"
 			editDialog="productEditDialog" editUpdate=":productEdit:form"
 			detailsDialog="productDetailsDialog"

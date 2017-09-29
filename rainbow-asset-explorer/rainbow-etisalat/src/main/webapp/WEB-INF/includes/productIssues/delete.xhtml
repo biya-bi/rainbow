@@ -5,7 +5,7 @@
 
     <cps:submitForm id="productIssueDelete"
                     title="#{labels.DeleteProductIssueTitle}"           
-                    submitActionListener="#{productIssueController.delete}"
+                    submitActionListener="#{productIssueController.delete()}"
                     update="productIssueList:form:dataTable"
                     submitLabel="#{labels.Delete}"
                     submitIcon="ui-icon-trash">

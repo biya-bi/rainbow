@@ -14,7 +14,7 @@
 		dataSource="#{authorityLazyDataModel}"
 		selectedItem="#{authorityController.current}"
 		selectedValue="#{item.id}"
-		createActionListener="#{authorityController.prepareCreate}"
+		createActionListener="#{authorityController.prepareCreate()}"
 		createDialog="authorityCreateDialog"
 		createUpdate=":authorityCreate:form" editDialog="authorityEditDialog"
 		editUpdate=":authorityEdit:form"

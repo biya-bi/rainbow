@@ -43,7 +43,7 @@ public class ProductIssueController extends AuditableController<ProductIssue, Lo
 	 */
 	private static final long serialVersionUID = 3906559360437655759L;
 
-	private ProductIssueDetail detail;
+	private ProductIssueDetail detail = new ProductIssueDetail();
 
 	private static final String DUPLICATE_PRODUCT_ISSUE_REFERENCE_NUMBER_ERROR_KEY = "DuplicateProductIssueReferenceNumber";
 	private static final String PRODUCT_ISSUE_DETAILS_EMPTY_ERROR_KEY = "ProductIssueDetailsEmpty";

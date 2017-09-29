@@ -4,7 +4,7 @@
 
     <cps:submitForm id="alertCreate"
                     title="#{labels.CreateAlertTitle}"           
-                    submitActionListener="#{alertController.create}"
+                    submitActionListener="#{alertController.create()}"
                     update="alertList:form:dataTable">
 
         <cps:writeAlert/>

@@ -5,7 +5,7 @@
 
     <cps:submitForm id="assetTypeCreate"
                     title="#{labels.CreateAssetTypeTitle}"           
-                    submitActionListener="#{assetTypeController.create}"
+                    submitActionListener="#{assetTypeController.create()}"
                     update="assetTypeList:form:dataTable">
 
         <cps:writeAssetType/>

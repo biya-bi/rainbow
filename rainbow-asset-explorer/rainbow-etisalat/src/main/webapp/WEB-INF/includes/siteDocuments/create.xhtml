@@ -5,7 +5,7 @@
 
     <cps:submitForm id="siteDocumentCreate"
                     title="#{labels.CreateSiteDocumentTitle}"           
-                    submitActionListener="#{siteDocumentController.create}"
+                    submitActionListener="#{siteDocumentController.create()}"
                     update="siteDocumentList:form:dataTable">
 
         <cps:writeSiteDocument/>

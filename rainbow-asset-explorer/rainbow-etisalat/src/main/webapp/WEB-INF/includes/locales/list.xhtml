@@ -14,7 +14,7 @@
 			title="#{labels.ListLocalesTitle}"
 			dataSource="#{localeLazyDataModel}"
 			selectedItem="#{localeController.current}" selectedValue="#{item.id}"
-			createActionListener="#{localeController.prepareCreate}"
+			createActionListener="#{localeController.prepareCreate()}"
 			createDialog="localeCreateDialog" createUpdate=":localeCreate:form"
 			editDialog="localeEditDialog" editUpdate=":localeEdit:form"
 			detailsDialog="localeDetailsDialog"

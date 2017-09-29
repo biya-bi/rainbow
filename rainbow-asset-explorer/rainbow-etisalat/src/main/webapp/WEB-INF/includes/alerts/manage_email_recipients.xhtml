@@ -12,8 +12,8 @@
             <h:panelGroup id="panelGroup">
                 <p:panelGrid>
                     <p:panelGrid columns="2">
-                        <p:commandButton id="headerAddButton" update="manageAlertEmailRecipientsForm,alertEmailRecipientsDialog,alertEmailRecipientsDialog" validateClient="true" disabled="#{empty alertController.selectedEmailRecipients}" icon="ui-icon-plus" value="#{labels.AddEmailRecipientsToAlertLabel}" actionListener="#{alertController.addEmailRecipients}" oncomplete="handleSubmit(args,'manageAlertEmailRecipientsDialog');"/>
-                        <p:commandButton id="headerRemoveButton" update="manageAlertEmailRecipientsForm,alertEmailRecipientsDialog,alertEmailRecipientsDialog" validateClient="true" disabled="#{empty alertController.selectedEmailRecipients}" icon="ui-icon-minus" value="#{labels.RemoveEmailRecipientsFromAlertLabel}" actionListener="#{alertController.removeEmailRecipients}" oncomplete="handleSubmit(args,'manageAlertEmailRecipientsDialog');"/>
+                        <p:commandButton id="headerAddButton" update="manageAlertEmailRecipientsForm,alertEmailRecipientsDialog,alertEmailRecipientsDialog" validateClient="true" disabled="#{empty alertController.selectedEmailRecipients}" icon="ui-icon-plus" value="#{labels.AddEmailRecipientsToAlertLabel}" actionListener="#{alertController.addEmailRecipients()}" oncomplete="handleSubmit(args,'manageAlertEmailRecipientsDialog');"/>
+                        <p:commandButton id="headerRemoveButton" update="manageAlertEmailRecipientsForm,alertEmailRecipientsDialog,alertEmailRecipientsDialog" validateClient="true" disabled="#{empty alertController.selectedEmailRecipients}" icon="ui-icon-minus" value="#{labels.RemoveEmailRecipientsFromAlertLabel}" actionListener="#{alertController.removeEmailRecipients()}" oncomplete="handleSubmit(args,'manageAlertEmailRecipientsDialog');"/>
                     </p:panelGrid>
                     <p:panelGrid columns="2">
                         <p:dataTable id="emailRecipientList"

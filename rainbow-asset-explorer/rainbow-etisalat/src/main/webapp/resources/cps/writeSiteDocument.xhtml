@@ -64,7 +64,7 @@
                                 toolTip="#{labels.SiteTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{siteController.prepareCreate}" update=":siteCreate:form" dialogWidgetVar="siteCreateDialog" title="#{labels.CreateSiteTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_SITES')}"/>
+                    <cps:quickCreateButton actionListener="#{siteController.prepareCreate()}" update=":siteCreate:form" dialogWidgetVar="siteCreateDialog" title="#{labels.CreateSiteTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_SITES')}"/>
                 </p:column>
                 <p:column>
                     <p:message id="siteDropDownMessage" for="siteDropDown"/>

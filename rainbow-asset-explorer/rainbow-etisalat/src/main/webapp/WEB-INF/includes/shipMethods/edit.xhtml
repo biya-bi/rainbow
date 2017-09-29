@@ -6,7 +6,7 @@
 
     <cps:submitForm id="shipMethodEdit"
                     title="#{labels.EditShipMethodTitle}"           
-                    submitActionListener="#{shipMethodController.edit}"
+                    submitActionListener="#{shipMethodController.edit()}"
                     update="shipMethodList:form:dataTable">
 
         <p:panelGrid rendered="#{shipMethodController.current != null}">

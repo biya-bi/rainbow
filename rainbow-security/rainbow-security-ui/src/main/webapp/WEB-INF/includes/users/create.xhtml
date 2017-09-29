@@ -5,7 +5,7 @@
 
     <cps:submitForm id="userCreate"
                     title="#{labels.CreateUserTitle}"           
-                    submitActionListener="#{userController.create}"
+                    submitActionListener="#{userController.create()}"
                     update="userList:form:dataTable">
 
         <cps:writeUser />

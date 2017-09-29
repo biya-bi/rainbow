@@ -15,7 +15,7 @@
 			dataSource="#{emailTemplateLazyDataModel}"
 			selectedItem="#{emailTemplateController.current}"
 			selectedValue="#{item.id}"
-			createActionListener="#{emailTemplateController.prepareCreate}"
+			createActionListener="#{emailTemplateController.prepareCreate()}"
 			createDialog="emailTemplateCreateDialog"
 			createUpdate=":emailTemplateCreate:form"
 			editDialog="emailTemplateEditDialog"

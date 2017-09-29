@@ -5,7 +5,7 @@
 
     <cps:submitForm id="userDelete"
                     title="#{labels.DeleteUserTitle}"           
-                    submitActionListener="#{userController.delete}"
+                    submitActionListener="#{userController.delete()}"
                     update="userList:form:dataTable"
                     submitLabel="#{labels.Delete}"
                     submitIcon="ui-icon-trash">

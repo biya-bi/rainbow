@@ -28,7 +28,7 @@
 					var="detail" value="#{shippingOrderController.receivedDetails}">
 					<f:facet name="header">
 						<p:commandButton
-							actionListener="#{shippingOrderController.prepareDetail}"
+							actionListener="#{shippingOrderController.prepareDetail()}"
 							icon="ui-icon-plus"
 							oncomplete="PF('addShippingOrderReceivedDetailDialog').show()"
 							update=":addShippingOrderReceivedDetailForm" />

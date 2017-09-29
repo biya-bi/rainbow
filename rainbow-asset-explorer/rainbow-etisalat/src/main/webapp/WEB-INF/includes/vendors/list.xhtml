@@ -14,7 +14,7 @@
 			title="#{labels.ListVendorsTitle}"
 			dataSource="#{vendorLazyDataModel}"
 			selectedItem="#{vendorController.current}" selectedValue="#{item.id}"
-			createActionListener="#{vendorController.prepareCreate}"
+			createActionListener="#{vendorController.prepareCreate()}"
 			createDialog="vendorCreateDialog" createUpdate=":vendorCreate:form"
 			editDialog="vendorEditDialog" editUpdate=":vendorEdit:form"
 			detailsDialog="vendorDetailsDialog"
