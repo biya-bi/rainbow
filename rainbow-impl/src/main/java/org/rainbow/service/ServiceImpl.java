@@ -3,8 +3,8 @@ package org.rainbow.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.rainbow.persistence.Dao;
-import org.rainbow.service.Service;
+import org.rainbow.persistence.dao.Dao;
+import org.rainbow.service.services.Service;
 
 public class ServiceImpl<TEntity extends Object, TKey extends Serializable, TSearchOptions extends Object>
 		implements Service<TEntity, TKey, TSearchOptions> {

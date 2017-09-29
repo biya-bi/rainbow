@@ -40,7 +40,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 
 	private static final String FAILED_PASSWORD_ATTEMPT_COUNT_UPDATE_QUERY = "UPDATE MEMBERSHIPS SET FAILED_PWD_ATMPT_CNT=? WHERE USER_ID=?";
 
-	private static final String LOCK_UPDATE_QUERY = "UPDATE MEMBERSHIPS SET LOCKED_OUT=?, LAST_LOCK_OUT_DATE=? WHERE USER_ID=?";
+	private static final String LOCK_UPDATE_QUERY = "UPDATE MEMBERSHIPS SET LOCKED=?, LAST_LOCK_OUT_DATE=? WHERE USER_ID=?";
 
 	private static final String USER_UPDATE_QUERY = "UPDATE USERS SET LAST_ACTIVITY_DATE=?, LAST_UPDATE_DATE=?, UPDATER=? WHERE ID=?";
 
@@ -50,7 +50,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 
 	private static final String LOGIN_HISTORY_SELECT_QUERY = "SELECT HISTORY_ID FROM LOGIN_HISTORIES WHERE USER_ID=? ORDER BY LOGIN_DATE DESC";
 
-	private static final String LOGIN_HISTORY_INSERT_QUERY = "INSERT INTO LOGIN_HISTORIES(USER_ID,HISTORY_ID,LOGIN_DATE) VALUES (?,?,?)";
+	private static final String LOGIN_HISTORY_INSERT_QUERY = "INSERT INTO LOGIN_HISTORIES(USER_ID,HISTORY_ID,LOGIN_DATE) values (?,?,?)";
 
 	private static final String LOGIN_HISTORY_DELETE_QUERY = "DELETE FROM LOGIN_HISTORIES WHERE USER_ID=:userId AND HISTORY_ID IN (:history_ids)";
 

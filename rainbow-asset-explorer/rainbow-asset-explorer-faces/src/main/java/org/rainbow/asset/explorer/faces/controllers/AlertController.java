@@ -20,7 +20,7 @@ import org.rainbow.asset.explorer.orm.entities.Schedule;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAlertException;
 import org.rainbow.faces.utilities.FacesContextUtil;
 import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.Service;
+import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

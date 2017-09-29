@@ -12,7 +12,7 @@ import org.rainbow.security.orm.entities.Membership;
 import org.rainbow.security.orm.entities.User;
 import org.rainbow.security.service.exceptions.DuplicateUserException;
 import org.rainbow.security.service.exceptions.InvalidPasswordException;
-import org.rainbow.service.Service;
+import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -52,7 +52,7 @@ public class UserServiceTest extends AbstractServiceTest {
 		Membership actualMembership = actual.getMembership();
 		Assert.assertNotNull(actualMembership);
 		Assert.assertEquals(expectedMembership.isEnabled(), actualMembership.isEnabled());
-		Assert.assertEquals(expectedMembership.isLockedOut(), actualMembership.isLockedOut());
+		Assert.assertEquals(expectedMembership.isLocked(), actualMembership.isLocked());
 	}
 
 	@Test(expected = DuplicateUserException.class)

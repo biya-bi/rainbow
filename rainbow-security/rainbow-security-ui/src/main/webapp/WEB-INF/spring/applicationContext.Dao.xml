@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<bean id="groupDao" class="org.rainbow.security.persistence.dao.GroupDaoImpl" />
+
+	<bean id="authorityDao" class="org.rainbow.security.persistence.dao.AuthorityDaoImpl" />
+
+	<bean id="applicationDao" class="org.rainbow.security.persistence.dao.ApplicationDaoImpl" />
+
+	<bean id="userDao" class="org.rainbow.security.persistence.dao.UserDaoImpl">
+		<property name="passwordEncoder" ref="passwordEncoder" />
+	</bean>
+
+</beans>

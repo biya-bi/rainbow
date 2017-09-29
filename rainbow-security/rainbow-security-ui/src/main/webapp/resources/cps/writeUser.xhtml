@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://security.rainbow.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+<composite:interface>
+	<composite:attribute name="hidePasswords" default="false" />
+</composite:interface>
+
+<composite:implementation>
+
+	<p:panelGrid rendered="#{userController.current != null}">
+		<p:row>
+			<p:column>
+				<p:outputLabel styleClass="field-label"
+					value="#{labels.UserNameLabel}" for="userName" />
+			</p:column>
+			<p:column>
+				<p:inputText styleClass="field-value" id="userName"
+					value="#{userController.current.userName}"
+					title="#{labels.UserNameTitle}" required="true"
+					requiredMessage="#{valMsg.UserNameRequired}">
+					<p:clientValidator event="keyup" />
+				</p:inputText>
+			</p:column>
+			<p:column />
+			<p:column>
+				<p:message for="userName" />
+			</p:column>
+		</p:row>
+		<p:row rendered="#{not cc.attrs.hidePasswords}">
+			<p:column>
+				<p:outputLabel styleClass="field-label"
+					value="#{labels.PasswordLabel}" for="password" />
+			</p:column>
+			<p:column>
+				<p:password
+					validatorMessage="#{valMsg.PasswordAndConfirmPasswordDonotMatch}"
+					styleClass="field-value" id="password" label="Password 1"
+					match="confirmPassword"
+					value="#{userController.current.membership.password}"
+					title="#{labels.PasswordTitle}" required="true"
+					requiredMessage="#{valMsg.PasswordRequired}">
+					<p:clientValidator event="keyup" />
+					<p:ajax event="keyup" process="password confirmPassword" />
+				</p:password>
+				<p:watermark for="password" value="#{labels.PasswordTitle}" />
+			</p:column>
+			<p:column />
+			<p:column>
+				<p:message for="password" id="passwordError" />
+			</p:column>
+		</p:row>
+		<p:row rendered="#{not cc.attrs.hidePasswords}">
+			<p:column>
+				<p:outputLabel styleClass="field-label"
+					value="#{labels.ConfirmPasswordLabel}" for="confirmPassword" />
+			</p:column>
+			<p:column>
+				<p:password styleClass="field-value" id="confirmPassword"
+					label="Password 2"
+					value="#{userController.current.membership.password}"
+					title="#{labels.ConfirmPasswordTitle}" required="true"
+					requiredMessage="#{valMsg.ConfirmPasswordRequired}">
+					<p:clientValidator event="keyup" />
+					<p:ajax event="keyup" process="password confirmPassword" />
+				</p:password>
+				<p:watermark for="confirmPassword"
+					value="#{labels.ConfirmPasswordTitle}" />
+			</p:column>
+			<p:column />
+			<p:column>
+				<p:message for="confirmPassword" id="confirmPasswordError" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel id="applicationLabel" styleClass="field-label"
+					value="#{labels.ApplicationLabel}" for="applicationDropDown" />
+			</p:column>
+			<p:column>
+				<t:dropDown styleClass="field-value" id="applicationDropDown"
+					labelId="applicationLabel" messageId="applicationDropDownMessage"
+					rowKey="#{item.id}"
+					selectionText="#{userController.current.application.name}"
+					dataSource="#{applicationLazyDataModel}" itemLabel="#{item.name}"
+					selection="#{userController.current.application}"
+					filterValue="#{applicationLazyDataModel.nameFilter.value}"
+					required="true" requiredMessage="#{valMsg.ApplicationRequired}"
+					toolTip="#{labels.ApplicationTitle}" />
+			</p:column>
+			<p:column>
+				<cps:quickCreateButton
+					actionListener="#{applicationController.prepareCreate}"
+					update=":applicationCreate:form"
+					dialogWidgetVar="applicationCreateDialog"
+					title="#{labels.CreateApplicationTitle}" />
+			</p:column>
+			<p:column>
+				<p:message id="applicationDropDownMessage" for="applicationDropDown" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel styleClass="field-label"
+					value="#{labels.EnabledLabel}" />
+			</p:column>
+			<p:column>
+				<p:selectBooleanCheckbox styleClass="field-value"
+					value="#{userController.current.membership.enabled}" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel styleClass="field-label"
+					value="#{labels.LockedLabel}" />
+			</p:column>
+			<p:column>
+				<p:selectBooleanCheckbox styleClass="field-value"
+					value="#{userController.current.membership.locked}" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel styleClass="field-label" value="#{labels.EmailLabel}" />
+			</p:column>
+			<p:column>
+				<p:inputText styleClass="field-value" id="email"
+					value="#{userController.current.membership.email}"
+					title="#{labels.EmailTitle}" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel styleClass="field-label" value="#{labels.PhoneLabel}" />
+			</p:column>
+			<p:column>
+				<p:inputText styleClass="field-value" id="phone"
+					value="#{userController.current.membership.phone}"
+					title="#{labels.PhoneTitle}" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel styleClass="field-label"
+					value="#{labels.DescriptionLabel}" />
+			</p:column>
+			<p:column>
+				<p:inputTextarea styleClass="field-value" id="description"
+					value="#{userController.current.membership.description}"
+					title="#{labels.DescriptionTitle}" />
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+
+</composite:implementation>
+</html>
+

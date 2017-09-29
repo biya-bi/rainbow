@@ -13,7 +13,9 @@
 /rainbow-orm/target/
 /rainbow-security/rainbow-security-api/target/
 /rainbow-security/rainbow-security-auth-faces/target/
+/rainbow-security/rainbow-security-faces/target/
 /rainbow-security/rainbow-security-impl/target/
 /rainbow-security/rainbow-security-orm/target/
+/rainbow-security/rainbow-security-ui/target/
 /rainbow-shopping-cart//rainbow-shopping-cart-core/target/
 /rainbow-shopping-cart//rainbow-shopping-cart-ui-web/target/

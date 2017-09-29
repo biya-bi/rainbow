@@ -13,7 +13,7 @@ import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderStatus;
 import org.rainbow.asset.explorer.service.services.ShippingOrderService;
 import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.Service;
+import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

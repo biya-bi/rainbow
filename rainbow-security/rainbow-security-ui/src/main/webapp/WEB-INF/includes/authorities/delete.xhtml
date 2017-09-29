@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+    <cps:submitForm id="authorityDelete"
+                    title="#{labels.DeleteAuthorityTitle}"           
+                    submitActionListener="#{authorityController.delete}"
+                    update="authorityList:form:dataTable"
+                    submitLabel="#{labels.Delete}"
+                    submitIcon="ui-icon-trash">
+        <h3>#{labels.DeleteAuthorityQuestion}</h3>
+
+        <cps:readAuthority/>
+
+    </cps:submitForm>
+</html>

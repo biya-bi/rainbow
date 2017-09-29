@@ -88,7 +88,7 @@
 			<map>
 				<entry key="eclipselink.logging.level" value="ALL" />
 				<entry key="javax.persistence.schema-generation.database.action"
-					value="drop-and-create" />
+					value="none" />
 				<entry key="eclipselink.weaving" value="false" />
 				<entry key="eclipselink.logging.parameters" value="true" />
 				<entry key="javax.persistence.jdbc.driver" value="${rainbow.security.jdbc.driverClassName}" />

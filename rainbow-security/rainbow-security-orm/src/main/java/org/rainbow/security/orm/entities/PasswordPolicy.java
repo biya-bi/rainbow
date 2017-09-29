@@ -23,15 +23,15 @@ public class PasswordPolicy extends AccountPolicy {
 	 */
 	private static final long serialVersionUID = 6898206236783268070L;
 	private Application application;
-	private Integer minAge = 0;
-	private Integer maxAge = 30;
-	private Integer minLength = 1;
-	private Integer maxLength = 128;
-	private Integer minSpecialCharsCount = 0;
-	private Integer historyThreshold = 10;
-	private Integer minLowercaseCharsCount = 0;
-	private Integer minUppercaseCharsCount = 0;
-	private Integer minNumericCount = 0;
+	private Short minAge = 0;
+	private Short maxAge = 30;
+	private Short minLength = 1;
+	private Short maxLength = 128;
+	private Short minSpecialCharsCount = 0;
+	private Short historyThreshold = 10;
+	private Short minLowercaseCharsCount = 0;
+	private Short minUppercaseCharsCount = 0;
+	private Short minNumericCount = 0;
 
 	public PasswordPolicy() {
 	}
@@ -51,11 +51,11 @@ public class PasswordPolicy extends AccountPolicy {
 	@Min(0)
 	@Max(998)
 	@Column(name = "MIN_AGE", nullable = false)
-	public Integer getMinAge() {
+	public Short getMinAge() {
 		return minAge;
 	}
 
-	public void setMinAge(Integer minAge) {
+	public void setMinAge(Short minAge) {
 		this.minAge = minAge;
 	}
 
@@ -63,11 +63,11 @@ public class PasswordPolicy extends AccountPolicy {
 	@Max(999)
 	@NotNull
 	@Column(name = "MAX_AGE", nullable = false)
-	public Integer getMaxAge() {
+	public Short getMaxAge() {
 		return maxAge;
 	}
 
-	public void setMaxAge(Integer maxAge) {
+	public void setMaxAge(Short maxAge) {
 		this.maxAge = maxAge;
 	}
 
@@ -75,11 +75,11 @@ public class PasswordPolicy extends AccountPolicy {
 	@Max(128)
 	@NotNull
 	@Column(name = "MIN_LENGTH", nullable = false)
-	public Integer getMinLength() {
+	public Short getMinLength() {
 		return minLength;
 	}
 
-	public void setMinLength(Integer minLength) {
+	public void setMinLength(Short minLength) {
 		this.minLength = minLength;
 	}
 
@@ -87,11 +87,11 @@ public class PasswordPolicy extends AccountPolicy {
 	@Max(128)
 	@NotNull
 	@Column(name = "MAX_LENGTH", nullable = false)
-	public Integer getMaxLength() {
+	public Short getMaxLength() {
 		return maxLength;
 	}
 
-	public void setMaxLength(Integer maxLength) {
+	public void setMaxLength(Short maxLength) {
 		this.maxLength = maxLength;
 	}
 
@@ -99,11 +99,11 @@ public class PasswordPolicy extends AccountPolicy {
 	@Max(128)
 	@NotNull
 	@Column(name = "MIN_SPECIAL_CHARS_COUNT", nullable = false)
-	public Integer getMinSpecialCharsCount() {
+	public Short getMinSpecialCharsCount() {
 		return minSpecialCharsCount;
 	}
 
-	public void setMinSpecialCharsCount(Integer minSpecialCharsCount) {
+	public void setMinSpecialCharsCount(Short minSpecialCharsCount) {
 		this.minSpecialCharsCount = minSpecialCharsCount;
 	}
 
@@ -111,11 +111,11 @@ public class PasswordPolicy extends AccountPolicy {
 	@Max(48)
 	@NotNull
 	@Column(name = "HISTORY_THRESHOLD", nullable = false)
-	public Integer getHistoryThreshold() {
+	public Short getHistoryThreshold() {
 		return historyThreshold;
 	}
 
-	public void setHistoryThreshold(Integer historyThreshold) {
+	public void setHistoryThreshold(Short historyThreshold) {
 		this.historyThreshold = historyThreshold;
 	}
 
@@ -123,11 +123,11 @@ public class PasswordPolicy extends AccountPolicy {
 	@Max(128)
 	@NotNull
 	@Column(name = "MIN_LOWERCASE_CHARS_COUNT", nullable = false)
-	public Integer getMinLowercaseCharsCount() {
+	public Short getMinLowercaseCharsCount() {
 		return minLowercaseCharsCount;
 	}
 
-	public void setMinLowercaseCharsCount(Integer minLowercaseCharsCount) {
+	public void setMinLowercaseCharsCount(Short minLowercaseCharsCount) {
 		this.minLowercaseCharsCount = minLowercaseCharsCount;
 	}
 
@@ -135,11 +135,11 @@ public class PasswordPolicy extends AccountPolicy {
 	@Max(128)
 	@NotNull
 	@Column(name = "MIN_UPPERCASE_CHARS_COUNT", nullable = false)
-	public Integer getMinUppercaseCharsCount() {
+	public Short getMinUppercaseCharsCount() {
 		return minUppercaseCharsCount;
 	}
 
-	public void setMinUppercaseCharsCount(Integer minUppercaseCharsCount) {
+	public void setMinUppercaseCharsCount(Short minUppercaseCharsCount) {
 		this.minUppercaseCharsCount = minUppercaseCharsCount;
 	}
 
@@ -147,11 +147,11 @@ public class PasswordPolicy extends AccountPolicy {
 	@Max(128)
 	@NotNull
 	@Column(name = "MIN_NUMERIC_COUNT", nullable = false)
-	public Integer getMinNumericCount() {
+	public Short getMinNumericCount() {
 		return minNumericCount;
 	}
 
-	public void setMinNumericCount(Integer minNumericCount) {
+	public void setMinNumericCount(Short minNumericCount) {
 		this.minNumericCount = minNumericCount;
 	}
 

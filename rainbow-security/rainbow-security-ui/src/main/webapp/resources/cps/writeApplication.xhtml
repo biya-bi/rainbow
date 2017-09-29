@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+	<p:panelGrid>
+		<p:panelGrid rendered="#{applicationController.current != null}">
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label" value="#{labels.NameLabel}"
+						for="name" />
+				</p:column>
+				<p:column>
+					<p:inputText styleClass="field-value" id="name"
+						value="#{applicationController.current.name}"
+						title="#{labels.NameTitle}" required="true"
+						requiredMessage="#{valMsg.NameRequired}">
+						<p:clientValidator event="keyup" />
+					</p:inputText>
+				</p:column>
+				<p:column>
+					<p:message for="name" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.DescriptionLabel}" />
+				</p:column>
+				<p:column>
+					<p:inputTextarea styleClass="field-value"
+						value="#{applicationController.current.description}"
+						title="#{labels.DescriptionTitle}" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<p:tabView rendered="#{applicationController.current != null}">
+			<p:tab title="#{labels.PasswordPolicyTitle}">
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="minAge" styleClass="field-label"
+								value="#{labels.MinimumPasswordAgeLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="minAge" styleClass="field-value"
+								value="#{applicationController.current.passwordPolicy.minAge}"
+								title="#{labels.MinimumPasswordAgeTitle}" required="true"
+								requiredMessage="#{valMsg.MinimumPasswordAgeRequired}"
+								converterMessage="#{valMsg.MinimumPasswordAgeMustBeANumber}"
+								validatorMessage="#{valMsg.MinimumPasswordAgeOutOfRange}">
+								<p:clientValidator event="keyup" />
+								<f:validateLongRange maximum="998" minimum="0" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{labels.DaysLabel}" />
+						</p:column>
+						<p:column>
+							<p:message for="minAge" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="maxAge" styleClass="field-label"
+								value="#{labels.MaximumPasswordAgeLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="maxAge" styleClass="field-value"
+								value="#{applicationController.current.passwordPolicy.maxAge}"
+								title="#{labels.MaximumPasswordAgeTitle}" required="true"
+								requiredMessage="#{valMsg.MaximumPasswordAgeRequired}"
+								converterMessage="#{valMsg.MaximumPasswordAgeMustBeANumber}"
+								validatorMessage="#{valMsg.MaximumPasswordAgeOutOfRange}">
+								<p:clientValidator event="keyup" />
+								<f:validateLongRange maximum="999" minimum="0" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{labels.DaysLabel}" />
+						</p:column>
+						<p:column>
+							<p:message for="maxAge" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="minLength" styleClass="field-label"
+								value="#{labels.MinimumPasswordLengthLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="minLength" styleClass="field-value"
+								value="#{applicationController.current.passwordPolicy.minLength}"
+								title="#{labels.MinimumPasswordLengthTitle}" required="true"
+								requiredMessage="#{valMsg.MinimumPasswordLengthRequired}"
+								converterMessage="#{valMsg.MinimumPasswordLengthMustBeANumber}"
+								validatorMessage="#{valMsg.MinimumPasswordLengthOutOfRange}">
+								<p:clientValidator event="keyup" />
+								<f:validateLongRange maximum="128" minimum="1" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:message for="minLength" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="maxLength" styleClass="field-label"
+								value="#{labels.MaximumPasswordLengthLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="maxLength" styleClass="field-value"
+								value="#{applicationController.current.passwordPolicy.maxLength}"
+								title="#{labels.MaximumPasswordLengthTitle}" required="true"
+								requiredMessage="#{valMsg.MaximumPasswordLengthRequired}"
+								converterMessage="#{valMsg.MaximumPasswordLengthMustBeANumber}"
+								validatorMessage="#{valMsg.MaximumPasswordLengthOutOfRange}">
+								<p:clientValidator event="keyup" />
+								<f:validateLongRange maximum="128" minimum="1" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:message for="maxLength" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="minimumNumberOfLowercaseCharacters"
+								styleClass="field-label"
+								value="#{labels.MinimumNumberOfLowercaseCharactersLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="minimumNumberOfLowercaseCharacters"
+								styleClass="field-value"
+								value="#{applicationController.current.passwordPolicy.minLowercaseCharsCount}"
+								title="#{labels.MinimumNumberOfLowercaseCharactersTitle}"
+								required="true"
+								requiredMessage="#{valMsg.MinimumNumberOfLowerCaseCharactersRequired}"
+								converterMessage="#{valMsg.MinimumNumberOfLowerCaseCharactersMustBeANumber}"
+								validatorMessage="#{valMsg.MinimumNumberOfLowerCaseCharactersOutOfRange}">
+								<p:clientValidator event="keyup" />
+								<f:validateLongRange maximum="128" minimum="0" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:message for="minimumNumberOfLowercaseCharacters" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="minimumNumberOfUppercaseCharacters"
+								styleClass="field-label"
+								value="#{labels.MinimumNumberOfUppercaseCharactersLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="minimumNumberOfUppercaseCharacters"
+								styleClass="field-value"
+								value="#{applicationController.current.passwordPolicy.minUppercaseCharsCount}"
+								title="#{labels.MinimumNumberOfUpperCaseCharactersTitle}"
+								required="true"
+								requiredMessage="#{valMsg.MinimumNumberOfUppercaseCharactersRequired}"
+								converterMessage="#{valMsg.MinimumNumberOfUppercaseCharactersMustBeANumber}"
+								validatorMessage="#{valMsg.MinimumNumberOfUppercaseCharactersOutOfRange}">
+								<p:clientValidator event="keyup" />
+									<f:validateLongRange maximum="128" minimum="0" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:message for="minimumNumberOfUppercaseCharacters" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="minimumNumberOfDigits"
+								styleClass="field-label"
+								value="#{labels.MinimumNumberOfDigitsLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="minimumNumberOfDigits" styleClass="field-value"
+								value="#{applicationController.current.passwordPolicy.minNumericCount}"
+								title="#{labels.MinimumNumberOfDigitsTitle}" required="true"
+								requiredMessage="#{valMsg.MinimumNumberOfDigitsRequired}"
+								converterMessage="#{valMsg.MinimumNumberOfDigitsMustBeANumber}"
+								validatorMessage="#{valMsg.MinimumNumberOfDigitsOutOfRange}">
+								<p:clientValidator event="keyup" />
+									<f:validateLongRange maximum="128" minimum="0" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:message for="minimumNumberOfDigits" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="minimumNumberOfSpecialCharacters"
+								styleClass="field-label"
+								value="#{labels.MinimumNumberOfSpecialCharactersLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="minimumNumberOfSpecialCharacters"
+								styleClass="field-value"
+								value="#{applicationController.current.passwordPolicy.minSpecialCharsCount}"
+								title="#{labels.MinimumNumberOfSpecialCharactersTitle}"
+								required="true"
+								requiredMessage="#{valMsg.MinimumNumberOfSpecialCharactersRequired}"
+								converterMessage="#{valMsg.MinimumNumberOfSpecialCharactersMustBeANumber}"
+								validatorMessage="#{valMsg.MinimumNumberOfSpecialCharactersOutOfRange}">
+								<p:clientValidator event="keyup" />
+									<f:validateLongRange maximum="128" minimum="0" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:message for="minimumNumberOfSpecialCharacters" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="passwordHistoryThreshold"
+								styleClass="field-label"
+								value="#{labels.PasswordHistoryThresholdLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="passwordHistoryThreshold"
+								styleClass="field-value"
+								value="#{applicationController.current.passwordPolicy.historyThreshold}"
+								title="#{labels.PasswordHistoryThresholdTitle}" required="true"
+								requiredMessage="#{valMsg.PasswordHistoryThresholdRequired}"
+								converterMessage="#{valMsg.PasswordHistoryThresholdMustBeANumber}"
+								validatorMessage="#{valMsg.PasswordHistoryThresholdOutOfRange}">
+								<p:clientValidator event="keyup" />
+								<f:validateLongRange maximum="48" minimum="0" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:message for="passwordHistoryThreshold" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:tab>
+			<p:tab title="#{labels.LockoutPolicyTitle}">
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="maximumInvalidAttempts"
+								styleClass="field-label"
+								value="#{labels.MaximumInvalidAttemptsLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="maximumInvalidAttempts" styleClass="field-value"
+								value="#{applicationController.current.lockoutPolicy.threshold}"
+								title="#{labels.MaximumInvalidAttemptsTitle}" required="true"
+								requiredMessage="#{valMsg.MaximumInvalidAttemptsRequired}"
+								converterMessage="#{valMsg.MaximumInvalidAttemptsMustBeANumber}"
+								validatorMessage="#{valMsg.MaximumInvalidAttemptsOutOfRange}">
+								<p:clientValidator event="keyup" />
+								<f:validateLongRange maximum="999" minimum="0" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:message for="maximumInvalidAttempts" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="attemptWindow" styleClass="field-label"
+								value="#{labels.LockoutAttemptWindowLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="attemptWindow" styleClass="field-value"
+								value="#{applicationController.current.lockoutPolicy.attemptWindow}"
+								title="#{labels.LockoutAttemptWindowTitle}" required="true"
+								requiredMessage="#{valMsg.LockoutAttemptWindowRequired}"
+								converterMessage="#{valMsg.LockoutAttemptWindowMustBeANumber}"
+								validatorMessage="#{valMsg.LockoutAttemptWindowOutOfRange}">
+								<p:clientValidator event="keyup" />
+								<f:validateLongRange maximum="60" minimum="1" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{labels.MinutesLabel}" />
+						</p:column>
+						<p:column>
+							<p:message for="attemptWindow" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:tab>
+			<p:tab title="#{labels.LoginPolicyTitle}">
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:outputLabel for="loginHistoryThreshold"
+								styleClass="field-label"
+								value="#{labels.LoginHistoryThresholdLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="loginHistoryThreshold" styleClass="field-value"
+								value="#{applicationController.current.loginPolicy.threshold}"
+								title="#{labels.LoginHistoryThresholdTitle}" required="true"
+								requiredMessage="#{valMsg.LoginHistoryThresholdRequired}"
+								converterMessage="#{valMsg.LoginHistoryThresholdMustBeANumber}"
+								validatorMessage="#{valMsg.LoginHistoryThresholdOutOfRange}">
+								<p:clientValidator event="keyup" />
+								<f:validateLongRange maximum="999" minimum="1" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:message for="loginHistoryThreshold" />
+						</p:column>
+					</p:row>
+
+				</p:panelGrid>
+			</p:tab>
+
+		</p:tabView>
+	</p:panelGrid>
+</composite:implementation>
+</html>
+

@@ -1,8 +1,9 @@
 package org.rainbow.security.auth.faces.controllers;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
-public abstract class AbstractOutcomeController implements Serializable {
+public abstract class AbstractController implements Serializable {
 
 	/**
 	 * 
@@ -11,5 +12,5 @@ public abstract class AbstractOutcomeController implements Serializable {
 
 	protected static final String FAILURE = "failure";
 	protected static final String SUCCESS = "success";
-
+	protected final Logger logger = Logger.getLogger(this.getClass().getName());
 }

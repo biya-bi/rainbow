@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Membership.findAll", query = "SELECT m FROM Membership m"),
 		@NamedQuery(name = "Membership.findById", query = "SELECT m FROM Membership m WHERE (m.user IS NOT NULL) AND m.user.id = :id"),
 		@NamedQuery(name = "Membership.findByIsEnabled", query = "SELECT m FROM Membership m WHERE m.enabled = :enabled"),
-		@NamedQuery(name = "Membership.findByIsLockedOut", query = "SELECT m FROM Membership m WHERE m.lockedOut = :lockedOut") })
+		@NamedQuery(name = "Membership.findByIsLockedOut", query = "SELECT m FROM Membership m WHERE m.locked = :locked") })
 public class Membership implements Serializable {
 
 	/**
@@ -46,7 +46,7 @@ public class Membership implements Serializable {
 	private String password;
 	private boolean enabled = true;
 	private Date creationDate;
-	private boolean lockedOut;
+	private boolean locked;
 	private String description;
 	private Date lastPasswordChangeDate;
 	private Date lastLockoutDate;
@@ -68,12 +68,12 @@ public class Membership implements Serializable {
 		this.user = user;
 	}
 
-	public Membership(User user, String password, String description, boolean isApproved, boolean isLockedOut) {
+	public Membership(User user, String password, String description, boolean enabled, boolean locked) {
 		this.user = user;
 		this.password = password;
 		this.description = description;
-		this.enabled = isApproved;
-		this.lockedOut = isLockedOut;
+		this.enabled = enabled;
+		this.locked = locked;
 	}
 
 	@Override
@@ -139,8 +139,8 @@ public class Membership implements Serializable {
 		return enabled;
 	}
 
-	public void setEnabled(boolean approved) {
-		this.enabled = approved;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	@Column(name = "CREATION_DATE")
@@ -153,13 +153,13 @@ public class Membership implements Serializable {
 		this.creationDate = creationDate;
 	}
 
-	@Column(name = "LOCKED_OUT")
-	public boolean isLockedOut() {
-		return lockedOut;
+	@Column(name = "LOCKED")
+	public boolean isLocked() {
+		return locked;
 	}
 
-	public void setLockedOut(boolean lockedOut) {
-		this.lockedOut = lockedOut;
+	public void setLocked(boolean locked) {
+		this.locked = locked;
 	}
 
 	@Column(name = "DESCRIPTION")

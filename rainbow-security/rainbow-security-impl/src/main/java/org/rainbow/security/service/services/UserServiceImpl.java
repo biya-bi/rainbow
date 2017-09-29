@@ -3,8 +3,8 @@ package org.rainbow.security.service.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.rainbow.persistence.Dao;
 import org.rainbow.persistence.SearchOptions;
+import org.rainbow.persistence.dao.Dao;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Membership;
 import org.rainbow.security.orm.entities.User;

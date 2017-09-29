@@ -12,7 +12,7 @@ import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.service.exceptions.DuplicateAuthorityException;
-import org.rainbow.service.Service;
+import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

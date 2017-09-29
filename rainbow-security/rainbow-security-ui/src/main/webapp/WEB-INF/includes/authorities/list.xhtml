@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:body>
+
+	<cps:trackableDataGrid id="authorityList"
+		title="#{labels.ListAuthoritiesTitle}"
+		dataSource="#{authorityLazyDataModel}"
+		selectedItem="#{authorityController.current}"
+		selectedValue="#{item.id}"
+		createActionListener="#{authorityController.prepareCreate}"
+		createDialog="authorityCreateDialog"
+		createUpdate=":authorityCreate:form" editDialog="authorityEditDialog"
+		editUpdate=":authorityEdit:form"
+		detailsDialog="authorityDetailsDialog"
+		detailsUpdate=":authorityDetails:form"
+		deleteDialog="authorityDeleteDialog"
+		deleteUpdate=":authorityDelete:form"
+		selectionUpdate=":authorityList:headerGroupsButton,:authorityList:footerGroupsButton"
+		columnToggleListener="#{authorityController.onToggle}"
+		creatorFilterValue="#{authorityLazyDataModel.creatorFilter.value}"
+		creatorFilterOperator="#{authorityLazyDataModel.creatorFilter.operator}"
+		updaterFilterValue="#{authorityLazyDataModel.updaterFilter.value}"
+		updaterFilterOperator="#{authorityLazyDataModel.updaterFilter.operator}"
+		creationDateFilterValue="#{authorityLazyDataModel.creationDateFilter.value}"
+		creationDateFilterOperator="#{authorityLazyDataModel.creationDateFilter.operator}"
+		lastUpdateDateFilterValue="#{authorityLazyDataModel.lastUpdateDateFilter.value}"
+		lastUpdateDateFilterOperator="#{authorityLazyDataModel.lastUpdateDateFilter.operator}">
+
+		<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
+			sortBy="#{item.name}"
+			filterValue="#{authorityLazyDataModel.nameFilter.value}">
+			<h:outputText value="#{item.name}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="authorityList:form:dataTable"
+					selectedValue="#{authorityLazyDataModel.nameFilter.operator}"
+					changeWidgetVar="authorityListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.ApplicationTitle}"
+			filterBy="#{item.application.name}" sortBy="#{item.application.name}"
+			filterValue="#{authorityLazyDataModel.applicationNameFilter.value}">
+			<h:outputText value="#{item.application.name}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="authorityList:form:dataTable"
+					selectedValue="#{authorityLazyDataModel.applicationNameFilter.operator}"
+					changeWidgetVar="authorityListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<f:facet name="postHeader">
+			<p:commandButton id="headerGroupsButton"
+				value="#{labels.ListGroupsTitle}"
+				update="authorityGroupsDialog,manageGroupsAuthoritiesForm:authorityList"
+				oncomplete="showDialog('authorityGroupsDialog')"
+				disabled="#{authorityController.current==null}">
+				<f:setPropertyActionListener
+					target="#{groupAuthorityController.authority}"
+					value="#{authorityController.current}" />
+			</p:commandButton>
+		</f:facet>
+		<f:facet name="postFooter">
+			<p:commandButton id="footerGroupsButton"
+				value="#{labels.ListGroupsTitle}"
+				update="authorityGroupsDialog,manageGroupsAuthoritiesForm:authorityList"
+				oncomplete="showDialog('authorityGroupsDialog')"
+				disabled="#{authorityController.current==null}">
+				<f:setPropertyActionListener
+					target="#{groupAuthorityController.authority}"
+					value="#{authorityController.current}" />
+			</p:commandButton>
+		</f:facet>
+	</cps:trackableDataGrid>
+
+	<ui:include src="/WEB-INF/includes/authorities/create.xhtml" />
+	<ui:include src="/WEB-INF/includes/authorities/edit.xhtml" />
+	<ui:include src="/WEB-INF/includes/authorities/details.xhtml" />
+	<ui:include src="/WEB-INF/includes/authorities/delete.xhtml" />
+
+	<ui:include src="/WEB-INF/includes/authorities/authority_groups.xhtml" />
+	<ui:include src="/WEB-INF/includes/groups/group_authorities.xhtml" />
+	<ui:include src="/WEB-INF/includes/groups_authorities/manage.xhtml" />
+
+	<ui:include
+		src="/WEB-INF/includes/quickCreate/create_application.xhtml" />
+
+</h:body>
+</html>
+

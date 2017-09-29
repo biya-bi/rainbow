@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.rainbow.persistence.Dao;
 import org.rainbow.persistence.Filter;
 import org.rainbow.persistence.RelationalOperator;
 import org.rainbow.persistence.SearchOptions;
 import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.persistence.dao.Dao;
 import org.rainbow.service.UpdateOperation;
 
 public class DaoUtil {

@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 
 public class UserDetailsServiceImpl extends JdbcDaoImpl {
 
-	public static final String DEF_USERS_BY_USERNAME_QUERY = "SELECT u.USER_NAME AS USER_NAME, m.PASSWORD AS PASSWORD, m.ENABLED AS ENABLED,m.LOCKED_OUT AS LOCKED_OUT FROM USERS u INNER JOIN "
+	public static final String DEF_USERS_BY_USERNAME_QUERY = "SELECT u.USER_NAME AS USER_NAME, m.PASSWORD AS PASSWORD, m.ENABLED AS ENABLED,m.LOCKED AS LOCKED FROM USERS u INNER JOIN "
 			+ "MEMBERSHIPS m ON u.ID=m.USER_ID INNER JOIN APPLICATIONS a ON "
 			+ "u.APPLICATION_ID=a.ID WHERE u.USER_NAME=? AND a.NAME=?";
 
@@ -84,7 +84,7 @@ public class UserDetailsServiceImpl extends JdbcDaoImpl {
 						String username = rs.getString("USER_NAME");
 						String password = rs.getString("PASSWORD");
 						boolean enabled = rs.getBoolean("ENABLED");
-						boolean lockedOut = rs.getBoolean("LOCKED_OUT");
+						boolean lockedOut = rs.getBoolean("LOCKED");
 						return new User(username, password, enabled, true, true, !lockedOut,
 								AuthorityUtils.NO_AUTHORITIES);
 					}

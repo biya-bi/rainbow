@@ -9,7 +9,7 @@ import org.primefaces.model.SortOrder;
 import org.rainbow.common.util.BeanUtilities;
 import org.rainbow.persistence.Filter;
 import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.Service;
+import org.rainbow.service.services.Service;
 
 /**
  *

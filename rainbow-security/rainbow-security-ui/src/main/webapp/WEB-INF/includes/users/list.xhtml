@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:body>
+
+	<cps:trackableDataGrid id="userList" title="#{labels.ListUsersTitle}"
+		dataSource="#{userLazyDataModel}"
+		selectedItem="#{userController.current}" selectedValue="#{item.id}"
+		createActionListener="#{userController.prepareCreate}"
+		createDialog="userCreateDialog" createUpdate=":userCreate:form"
+		editDialog="userEditDialog" editUpdate=":userEdit:form"
+		detailsDialog="userDetailsDialog" detailsUpdate=":userDetails:form"
+		deleteDialog="userDeleteDialog" deleteUpdate=":userDelete:form"
+		selectionUpdate=":userList:headerGroupsButton,:userList:footerGroupsButton,:userList:headerSetPasswordLink,:userList:footerSetPasswordLink"
+		columnToggleListener="#{userController.onToggle}"
+		creatorFilterValue="#{userLazyDataModel.creatorFilter.value}"
+		creatorFilterOperator="#{userLazyDataModel.creatorFilter.operator}"
+		updaterFilterValue="#{userLazyDataModel.updaterFilter.value}"
+		updaterFilterOperator="#{userLazyDataModel.updaterFilter.operator}"
+		creationDateFilterValue="#{userLazyDataModel.creationDateFilter.value}"
+		creationDateFilterOperator="#{userLazyDataModel.creationDateFilter.operator}"
+		lastUpdateDateFilterValue="#{userLazyDataModel.lastUpdateDateFilter.value}"
+		lastUpdateDateFilterOperator="#{userLazyDataModel.lastUpdateDateFilter.operator}">
+
+		<p:column headerText="#{labels.UserNameTitle}"
+			filterBy="#{item.userName}" sortBy="#{item.userName}"
+			filterValue="#{userLazyDataModel.userNameFilter.value}">
+			<h:outputText value="#{item.userName}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="userList:form:dataTable"
+					selectedValue="#{userLazyDataModel.userNameFilter.operator}"
+					changeWidgetVar="userListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.ApplicationTitle}"
+			filterBy="#{item.application.name}" sortBy="#{item.application.name}"
+			filterValue="#{userLazyDataModel.applicationNameFilter.value}">
+			<h:outputText value="#{item.application.name}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="userList:form:dataTable"
+					selectedValue="#{userLazyDataModel.applicationNameFilter.operator}"
+					changeWidgetVar="userListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.EmailTitle}"
+			filterBy="#{item.membership.email}" sortBy="#{item.membership.email}"
+			filterValue="#{userLazyDataModel.emailFilter.value}">
+			<h:outputText value="#{item.membership.email}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="userList:form:dataTable"
+					selectedValue="#{userLazyDataModel.emailFilter.operator}"
+					changeWidgetVar="userListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.PhoneTitle}"
+			filterBy="#{item.membership.phone}" sortBy="#{item.membership.phone}"
+			filterValue="#{userLazyDataModel.phoneFilter.value}">
+			<h:outputText value="#{item.membership.phone}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="userList:form:dataTable"
+					selectedValue="#{userLazyDataModel.phoneFilter.operator}"
+					changeWidgetVar="userListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.EnabledTitle}"
+			sortBy="#{item.membership.enabled}"
+			filterValue="#{userLazyDataModel.enabledFilter.value}">
+			<f:facet name="footer">
+				<cps:booleanFilterSelectOneMenu
+					changeUpdate="userList:form:dataTable"
+					selectedValue="#{userLazyDataModel.enabledFilter.value}"
+					changeWidgetVar="userListDataTable" />
+			</f:facet>
+			<h:selectBooleanCheckbox disabled="true" readonly="false"
+				value="#{item.membership.enabled}" />
+		</p:column>
+
+		<p:column headerText="#{labels.LockedTitle}"
+			sortBy="#{item.membership.locked}"
+			filterValue="#{userLazyDataModel.lockedFilter.value}">
+			<f:facet name="footer">
+				<cps:booleanFilterSelectOneMenu
+					changeUpdate="userList:form:dataTable"
+					selectedValue="#{userLazyDataModel.lockedFilter.value}"
+					changeWidgetVar="userListDataTable" />
+			</f:facet>
+			<h:selectBooleanCheckbox disabled="true" readonly="false"
+				value="#{item.membership.locked}" />
+		</p:column>
+
+		<f:facet name="postHeader">
+			<p:commandButton id="headerGroupsButton"
+				value="#{labels.ListGroupsTitle}"
+				update="userGroupsDialog"
+				oncomplete="showDialog('userGroupsDialog')"
+				disabled="#{userController.current==null}">
+				<f:setPropertyActionListener target="#{userGroupController.user}"
+					value="#{userController.current}" />
+			</p:commandButton>
+			<p:commandButton id="headerMoreActionsButton" icon="ui-icon-gear"
+				value="#{labels.MoreActionsLabel}" />
+			<p:overlayPanel for="headerMoreActionsButton" my="left top"
+				at="left bottom">
+				<p:panelGrid columns="1" style="text-align: left;width:auto;">
+					<p:commandLink id="headerSetPasswordLink"
+						value="#{labels.SetPasswordOption}" update=":setPasswordForm"
+						oncomplete="showDialog('setPasswordDialog')"
+						disabled="#{userController.current==null}">
+						<f:setPropertyActionListener
+							value="#{userController.current.userName}"
+							target="#{setPasswordController.userName}" />
+					</p:commandLink>
+				</p:panelGrid>
+			</p:overlayPanel>
+		</f:facet>
+		<f:facet name="postFooter">
+			<p:commandButton id="footerGroupsButton"
+				value="#{labels.ListGroupsTitle}"
+				update="userGroupsDialog"
+				oncomplete="showDialog('userGroupsDialog')"
+				disabled="#{userController.current==null}">
+				<f:setPropertyActionListener target="#{userGroupController.user}"
+					value="#{userController.current}" />
+			</p:commandButton>
+			<p:commandButton id="footerMoreActionsButton" icon="ui-icon-gear"
+				value="#{labels.MoreActionsLabel}" />
+			<p:overlayPanel for="footerMoreActionsButton" my="left top"
+				at="left bottom">
+				<p:panelGrid columns="1" style="text-align: left;width:auto;">
+					<p:commandLink id="footerSetPasswordLink"
+						value="#{labels.SetPasswordOption}" update=":setPasswordForm"
+						oncomplete="showDialog('setPasswordDialog')"
+						disabled="#{userController.current==null}">
+						<f:setPropertyActionListener
+							value="#{userController.current.userName}"
+							target="#{setPasswordController.userName}" />
+					</p:commandLink>
+				</p:panelGrid>
+			</p:overlayPanel>
+		</f:facet>
+
+	</cps:trackableDataGrid>
+
+	<ui:include src="/WEB-INF/includes/users/create.xhtml" />
+	<ui:include src="/WEB-INF/includes/users/edit.xhtml" />
+	<ui:include src="/WEB-INF/includes/users/details.xhtml" />
+	<ui:include src="/WEB-INF/includes/users/delete.xhtml" />
+
+	<ui:include src="/WEB-INF/includes/users/user_groups.xhtml" />
+	<ui:include src="/WEB-INF/includes/groups/group_users.xhtml" />
+	<ui:include src="/WEB-INF/includes/users_groups/manage.xhtml" />
+
+	<ui:include
+		src="/WEB-INF/includes/quickCreate/create_application.xhtml" />
+
+	<ui:include src="/WEB-INF/includes/users/set_password.xhtml" />
+
+</h:body>
+</html>
+

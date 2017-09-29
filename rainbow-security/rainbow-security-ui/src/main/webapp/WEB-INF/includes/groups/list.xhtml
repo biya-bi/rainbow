@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:body>
+
+	<cps:trackableDataGrid id="groupList" title="#{labels.ListGroupsTitle}"
+		dataSource="#{groupLazyDataModel}"
+		selectedItem="#{groupController.current}" selectedValue="#{item.id}"
+		createActionListener="#{groupController.prepareCreate}"
+		createDialog="groupCreateDialog" createUpdate=":groupCreate:form"
+		editDialog="groupEditDialog" editUpdate=":groupEdit:form"
+		detailsDialog="groupDetailsDialog" detailsUpdate=":groupDetails:form"
+		deleteDialog="groupDeleteDialog" deleteUpdate=":groupDelete:form"
+		selectionUpdate=":groupList:headerUsersButton,:groupList:footerUsersButton,:groupList:headerAuthoritiesButton,:groupList:footerAuthoritiesButton"
+		columnToggleListener="#{groupController.onToggle}"
+		creatorFilterValue="#{groupLazyDataModel.creatorFilter.value}"
+		creatorFilterOperator="#{groupLazyDataModel.creatorFilter.operator}"
+		updaterFilterValue="#{groupLazyDataModel.updaterFilter.value}"
+		updaterFilterOperator="#{groupLazyDataModel.updaterFilter.operator}"
+		creationDateFilterValue="#{groupLazyDataModel.creationDateFilter.value}"
+		creationDateFilterOperator="#{groupLazyDataModel.creationDateFilter.operator}"
+		lastUpdateDateFilterValue="#{groupLazyDataModel.lastUpdateDateFilter.value}"
+		lastUpdateDateFilterOperator="#{groupLazyDataModel.lastUpdateDateFilter.operator}">
+
+		<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
+			sortBy="#{item.name}"
+			filterValue="#{groupLazyDataModel.nameFilter.value}">
+			<h:outputText value="#{item.name}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="groupList:form:dataTable"
+					selectedValue="#{groupLazyDataModel.nameFilter.operator}"
+					changeWidgetVar="groupListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.ApplicationTitle}"
+			filterBy="#{item.application.name}" sortBy="#{item.application.name}"
+			filterValue="#{groupLazyDataModel.applicationNameFilter.value}">
+			<h:outputText value="#{item.application.name}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="groupList:form:dataTable"
+					selectedValue="#{groupLazyDataModel.applicationNameFilter.operator}"
+					changeWidgetVar="groupListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<f:facet name="postHeader">
+			<p:commandButton id="headerUsersButton"
+				value="#{labels.ListUsersTitle}"
+				update="groupUsersDialog"
+				oncomplete="showDialog('groupUsersDialog')"
+				disabled="#{groupController.current==null}">
+				<f:setPropertyActionListener target="#{userGroupController.group}"
+					value="#{groupController.current}" />
+			</p:commandButton>
+			<p:commandButton id="headerAuthoritiesButton"
+				value="#{labels.ListAuthoritiesTitle}"
+				update="groupAuthoritiesDialog"
+				oncomplete="showDialog('groupAuthoritiesDialog')"
+				disabled="#{groupController.current==null}">
+				<f:setPropertyActionListener
+					target="#{groupAuthorityController.group}"
+					value="#{groupController.current}" />
+			</p:commandButton>
+		</f:facet>
+		<f:facet name="postFooter">
+			<p:commandButton id="footerUsersButton"
+				value="#{labels.ListUsersTitle}"
+				update="groupUsersDialog"
+				oncomplete="showDialog('groupUsersDialog')"
+				disabled="#{groupController.current==null}">
+				<f:setPropertyActionListener target="#{userGroupController.group}"
+					value="#{groupController.current}" />
+			</p:commandButton>
+			<p:commandButton id="footerAuthoritiesButton"
+				value="#{labels.ListAuthoritiesTitle}"
+				update="groupAuthoritiesDialog"
+				oncomplete="showDialog('groupAuthoritiesDialog')"
+				disabled="#{groupController.current==null}">
+				<f:setPropertyActionListener
+					target="#{groupAuthorityController.group}"
+					value="#{groupController.current}" />
+			</p:commandButton>
+		</f:facet>
+	</cps:trackableDataGrid>
+
+	<ui:include src="/WEB-INF/includes/groups/create.xhtml" />
+	<ui:include src="/WEB-INF/includes/groups/edit.xhtml" />
+	<ui:include src="/WEB-INF/includes/groups/details.xhtml" />
+	<ui:include src="/WEB-INF/includes/groups/delete.xhtml" />
+
+	<ui:include src="/WEB-INF/includes/users/user_groups.xhtml" />
+	<ui:include src="/WEB-INF/includes/groups/group_users.xhtml" />
+	<ui:include src="/WEB-INF/includes/users_groups/manage.xhtml" />
+
+	<ui:include src="/WEB-INF/includes/groups/group_authorities.xhtml" />
+	<ui:include src="/WEB-INF/includes/authorities/authority_groups.xhtml" />
+	<ui:include src="/WEB-INF/includes/groups_authorities/manage.xhtml" />
+
+	<ui:include
+		src="/WEB-INF/includes/quickCreate/create_application.xhtml" />
+	<ui:include src="/WEB-INF/includes/applications/details.xhtml" />
+
+</h:body>
+</html>
+

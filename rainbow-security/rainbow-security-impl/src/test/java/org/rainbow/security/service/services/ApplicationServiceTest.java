@@ -23,7 +23,7 @@ import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.LockoutPolicy;
 import org.rainbow.security.orm.entities.PasswordPolicy;
 import org.rainbow.security.service.exceptions.DuplicateApplicationException;
-import org.rainbow.service.Service;
+import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

@@ -2,7 +2,6 @@ package org.rainbow.security.auth.faces.controllers;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 
@@ -19,8 +18,6 @@ public abstract class AbstractQuestionAnswerController extends AbstractUserNameC
 	private static final long serialVersionUID = -2176242370337757285L;
 
 	protected static final String USER_DOES_NOT_EXIST_ERROR_KEY = "UserDoesNotExist";
-
-	protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	@Autowired
 	private AuthenticationExceptionHandler authenticationExceptionHandler;

@@ -56,7 +56,7 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
 
                         // Push some stuff to the request scope for later use in the page
                         requestMap.put("currentViewId", vee.getViewId());
-                        nav.handleNavigation(fc, null, "/login");
+                        nav.handleNavigation(fc, null, "security/login");
                         fc.renderResponse();
                     }
                     else {

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<p:dialog id="userGroupsDialog" widgetVar="userGroupsDialog"
+	modal="false" resizable="false" appendTo="@(content)"
+	header="#{labels.GroupsForUserTitle}#{userGroupController.user.userName}">
+	<h:form id="userGroupsForm">
+		<h:panelGroup id="panelGroup"
+			rendered="#{userGroupController.user!=null}">
+			<p:panelGrid columns="2">
+				<p:commandButton
+					update="manageUsersGroupsForm"
+					icon="ui-icon-gear" value="#{labels.ManageLabel}"
+					oncomplete="showDialog('manageUsersGroupsDialog')">
+				</p:commandButton>
+			</p:panelGrid>
+			<p:panelGrid columns="1">
+				<p:dataTable style="max-width: 500px;" scrollable="true"
+					scrollWidth="500" id="groupList" var="item"
+					value="#{userGroupController.user.groups}">
+
+					<p:column headerText="#{labels.GroupTitle}" filterBy="#{item.name}"
+						sortBy="#{item.name}" filterMatchMode="contains">
+						<h:outputText value="#{item.name}" />
+					</p:column>
+
+					<p:column headerText="#{labels.ApplicationTitle}"
+						filterBy="#{item.application.name}"
+						sortBy="#{item.application.name}" filterMatchMode="contains">
+						<h:outputText value="#{item.application.name}" />
+					</p:column>
+				</p:dataTable>
+			</p:panelGrid>
+		</h:panelGroup>
+	</h:form>
+</p:dialog>
+</html>
+

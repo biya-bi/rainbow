@@ -1,4 +1,4 @@
-package org.rainbow.persistence;
+package org.rainbow.persistence.dao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,13 +13,13 @@ import java.util.List;
  * @param <TKey>
  *            the type of the primary key of the entity handled by this layer.
  *            This parameter is required because the
- *            {@link org.rainbow.persistence.Dao#findById(TKey) findById} method
+ *            {@link org.rainbow.persistence.dao.Dao#findById(TKey) findById} method
  *            to get an entity by ID.
  * @param <TSearchOptions>
  *            the type of the search criteria used to find and count entities.
  *            This parameter is used in the
- *            {@link org.rainbow.persistence.Dao#find(TSearchOptions) find} and
- *            {@link org.rainbow.persistence.Dao#count(TSearchOptions) count}
+ *            {@link org.rainbow.persistence.dao.Dao#find(TSearchOptions) find} and
+ *            {@link org.rainbow.persistence.dao.Dao#count(TSearchOptions) count}
  *            methods.
  */
 public interface Dao<TEntity extends Object, TKey extends Serializable, TSearchOptions extends Object> {

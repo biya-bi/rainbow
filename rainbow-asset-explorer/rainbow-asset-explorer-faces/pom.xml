@@ -15,7 +15,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.framework.version>4.3.5.RELEASE</spring.framework.version>
-		<spring.security.version>4.2.1.RELEASE</spring.security.version>
 		<primefaces.version>5.3</primefaces.version>
 		<weld.version>2.0.1.Final</weld.version>
 		<jsf.version>2.2.9</jsf.version>
@@ -55,18 +54,6 @@
 			<version>${spring.framework.version}</version>
 		</dependency>
 
-		<!-- Spring Security dependencies -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
 		<!-- Primeface dependency -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
@@ -83,11 +70,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>rainbow-common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>rainbow-security-impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

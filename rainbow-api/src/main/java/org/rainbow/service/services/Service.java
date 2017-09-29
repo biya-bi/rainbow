@@ -1,4 +1,4 @@
-package org.rainbow.service;
+package org.rainbow.service.services;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,13 +20,13 @@ import java.util.List;
  * @param <TKey>
  *            the type of the primary key of the entity serviced by this layer.
  *            This parameter is required because the
- *            {@link org.rainbow.service.Service#findById(TKey) findById} method
+ *            {@link org.rainbow.service.services.Service#findById(TKey) findById} method
  *            to get an entity by ID.
  * @param <TSearchOptions>
  *            the type of the search criteria used to find and count entities.
  *            This parameter is used in the
- *            {@link org.rainbow.service.Service#find(TSearchOptions) find} and
- *            {@link org.rainbow.service.Service#count(TSearchOptions) count}
+ *            {@link org.rainbow.service.services.Service#find(TSearchOptions) find} and
+ *            {@link org.rainbow.service.services.Service#count(TSearchOptions) count}
  *            methods.
  */
 public interface Service<TEntity extends Object, TKey extends Serializable, TSearchOptions extends Object> {

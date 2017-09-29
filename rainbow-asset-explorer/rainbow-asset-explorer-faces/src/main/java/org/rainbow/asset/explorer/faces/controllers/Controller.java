@@ -15,7 +15,7 @@ import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
 import org.rainbow.faces.utilities.FacesContextUtil;
 import org.rainbow.orm.entities.Trackable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.service.Service;
+import org.rainbow.service.services.Service;
 
 /**
  *

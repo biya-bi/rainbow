@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+<h:body>
+	<p:dialog id="manageUsersGroupsDialog"
+		widgetVar="manageUsersGroupsDialog" modal="false" resizable="false"
+		appendTo="@(content)" header="#{labels.ManageUsersGroups}">
+		<h:form id="manageUsersGroupsForm">
+			<p:growl sticky="true" showDetail="false" autoUpdate="true"
+				globalOnly="true" />
+
+			<p:panelGrid columns="2">
+				<p:commandButton id="headerAddButton"
+					update="manageUsersGroupsForm,userGroupsDialog,groupUsersDialog"
+					disabled="#{not userGroupController.canAdd()}"
+					icon="ui-icon-plus" value="#{labels.AddUsersToGroups}"
+					actionListener="#{userGroupController.add()}" />
+				<p:commandButton id="headerRemoveButton"
+					update="manageUsersGroupsForm,userGroupsDialog,groupUsersDialog"
+					disabled="#{not userGroupController.canRemove()}"
+					icon="ui-icon-minus" value="#{labels.RemoveUsersFromGroups}"
+					actionListener="#{userGroupController.remove()}" />
+			</p:panelGrid>
+			<p:panelGrid columns="2">
+				<p:scrollPanel style="width:500px;height:400px">
+					<p:dataTable id="userList" scrollWidth="500" scrollHeight="200"
+						widgetVar="userDataTable" var="item" value="#{userLazyDataModel}"
+						selection="#{userGroupController.users}" lazy="true"
+						paginator="true"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"
+						scrollable="true" rows="20" rowsPerPageTemplate="20,40,60,80,100"
+						rowSelectMode="checkbox">
+						<f:facet name="header">
+							<p:outputLabel value="#{labels.ListUsersTitle}" />
+						</f:facet>
+						<p:column selectionMode="multiple" width="20" />
+
+						<p:ajax event="rowSelect"
+							update="manageUsersGroupsForm:headerAddButton,manageUsersGroupsForm:headerRemoveButton" />
+						<p:ajax event="rowUnselect"
+							update="manageUsersGroupsForm:headerAddButton,manageUsersGroupsForm:headerRemoveButton" />
+						<p:ajax event="rowSelectCheckbox"
+							update="manageUsersGroupsForm:headerAddButton,manageUsersGroupsForm:headerRemoveButton" />
+						<p:ajax event="rowUnselectCheckbox"
+							update="manageUsersGroupsForm:headerAddButton,manageUsersGroupsForm:headerRemoveButton" />
+						<p:ajax event="toggleSelect"
+							update="manageUsersGroupsForm:headerAddButton,manageUsersGroupsForm:headerRemoveButton" />
+
+						<p:column headerText="#{labels.UserTitle}"
+							filterBy="#{item.userName}" sortBy="#{item.userName}"
+							filterValue="#{userLazyDataModel.userNameFilter.value}">
+							<h:outputText value="#{item.userName}" />
+							<f:facet name="footer">
+								<cps:stringFilterSelectOneMenu
+									changeUpdate="manageUsersGroupsForm:userList"
+									selectedValue="#{userLazyDataModel.userNameFilter.operator}"
+									changeWidgetVar="userDataTable" />
+							</f:facet>
+						</p:column>
+
+						<p:column headerText="#{labels.ApplicationTitle}"
+							filterBy="#{item.application.name}"
+							sortBy="#{item.application.name}"
+							filterValue="#{userLazyDataModel.applicationNameFilter.value}">
+							<h:outputText value="#{item.application.name}" />
+							<f:facet name="footer">
+								<cps:stringFilterSelectOneMenu
+									changeUpdate="manageUsersGroupsForm:userList"
+									selectedValue="#{userLazyDataModel.applicationNameFilter.operator}"
+									changeWidgetVar="userDataTable" />
+							</f:facet>
+						</p:column>
+
+					</p:dataTable>
+				</p:scrollPanel>
+				<p:scrollPanel style="width:500px;height:400px">
+					<p:dataTable id="groupList" scrollWidth="500" scrollHeight="200"
+						widgetVar="groupDataTable" var="item"
+						value="#{groupLazyDataModel}"
+						selection="#{userGroupController.groups}" lazy="true"
+						paginator="true"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"
+						scrollable="true" rows="20" rowsPerPageTemplate="20,40,60,80,100"
+						rowSelectMode="checkbox">
+						<f:facet name="header">
+							<p:outputLabel value="#{labels.ListGroupsTitle}" />
+						</f:facet>
+						<p:column selectionMode="multiple" width="20" />
+
+						<p:ajax event="rowSelect"
+							update="manageUsersGroupsForm:headerAddButton,manageUsersGroupsForm:headerRemoveButton" />
+						<p:ajax event="rowUnselect"
+							update="manageUsersGroupsForm:headerAddButton,manageUsersGroupsForm:headerRemoveButton" />
+						<p:ajax event="rowSelectCheckbox"
+							update="manageUsersGroupsForm:headerAddButton,manageUsersGroupsForm:headerRemoveButton" />
+						<p:ajax event="rowUnselectCheckbox"
+							update="manageUsersGroupsForm:headerAddButton,manageUsersGroupsForm:headerRemoveButton" />
+						<p:ajax event="toggleSelect"
+							update="manageUsersGroupsForm:headerAddButton,manageUsersGroupsForm:headerRemoveButton" />
+
+						<p:column headerText="#{labels.GroupTitle}"
+							filterBy="#{item.name}" sortBy="#{item.name}"
+							filterValue="#{groupLazyDataModel.nameFilter.value}">
+							<h:outputText value="#{item.name}" />
+							<f:facet name="footer">
+								<cps:stringFilterSelectOneMenu
+									changeUpdate="manageUsersGroupsForm:groupList"
+									selectedValue="#{groupLazyDataModel.nameFilter.operator}"
+									changeWidgetVar="groupDataTable" />
+							</f:facet>
+						</p:column>
+
+						<p:column headerText="#{labels.ApplicationTitle}"
+							filterBy="#{item.application.name}"
+							sortBy="#{item.application.name}"
+							filterValue="#{groupLazyDataModel.applicationNameFilter.value}">
+							<h:outputText value="#{item.application.name}" />
+							<f:facet name="footer">
+								<cps:stringFilterSelectOneMenu
+									changeUpdate="manageUsersGroupsForm:groupList"
+									selectedValue="#{groupLazyDataModel.applicationNameFilter.operator}"
+									changeWidgetVar="groupDataTable" />
+							</f:facet>
+						</p:column>
+					</p:dataTable>
+				</p:scrollPanel>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
+

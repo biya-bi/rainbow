@@ -1,0 +1,53 @@
+package org.rainbow.security.faces.controllers;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.Visibility;
+import org.rainbow.orm.entities.Trackable;
+
+/**
+ *
+ * @author Biya-Bi
+ * @param <TEntity>
+ */
+public abstract class AuditableController<TEntity extends Trackable<TKey>, TKey extends Serializable, TSearchOptions>
+		extends Controller<TEntity, TKey, TSearchOptions> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5687105628085910454L;
+	private List<Boolean> auditColumnsStates;
+
+	public AuditableController() {
+	}
+
+	public AuditableController(Class<TEntity> modelClass) {
+		super(modelClass);
+	}
+
+	@PostConstruct
+	public void init() {
+		auditColumnsStates = new ArrayList<>();
+	}
+
+	public List<Boolean> getAuditColumnsStates() {
+		return auditColumnsStates;
+	}
+
+	public void onToggle(ToggleEvent e) {
+		Integer index = (Integer) e.getData();
+		int size = auditColumnsStates.size();
+		if (auditColumnsStates.size() <= index) {
+			for (int i = 0; i < index - size + 1; i++) {
+				auditColumnsStates.add(false);
+			}
+		}
+		auditColumnsStates.set(index, e.getVisibility() == Visibility.VISIBLE);
+	}
+}

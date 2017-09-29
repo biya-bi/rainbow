@@ -22,8 +22,7 @@
 		<property name="groupDao" ref="groupDao" />
 	</bean>
 
-	<bean id="groupService"
-		class="org.rainbow.security.service.services.GroupServiceImpl">
+	<bean id="groupService" class="org.rainbow.security.service.services.GroupServiceImpl">
 		<property name="dao" ref="groupDao" />
 	</bean>
 
@@ -110,14 +109,12 @@
 		<property name="enableGroups" value="true" />
 	</bean>
 
-	<bean id="userService"
-		class="org.rainbow.security.service.services.UserServiceImpl">
+	<bean id="userService" class="org.rainbow.security.service.services.UserServiceImpl">
 		<property name="dao" ref="userDao" />
 		<property name="applicationDao" ref="applicationDao" />
 	</bean>
 
-	<bean id="userService1"
-		class="org.rainbow.security.service.services.UserServiceImpl">
+	<bean id="userService1" class="org.rainbow.security.service.services.UserServiceImpl">
 		<property name="dao" ref="userDao1" />
 	</bean>
 

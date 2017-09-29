@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:t="http://security.rainbow.org/ui">
+
+    <composite:interface>
+        <composite:attribute name="selectionText" default="" />
+        <composite:attribute name="dataSource"/>
+        <composite:attribute name="selection"/>
+        <composite:attribute name="rowKey" />
+        <composite:attribute name="filterValue"/>
+        <composite:attribute name="itemLabel" />
+        <composite:attribute name="toolTip" />
+        <composite:attribute name="required" type="java.lang.Boolean" default="false"/>
+        <composite:attribute name="requiredMessage" default="A value must be specified"/>
+        <composite:attribute name="styleClass"/>
+        <composite:attribute name="labelId"/>
+        <composite:attribute name="messageId"/>
+        <composite:attribute name="updateId"/>
+        <composite:attribute name="dialogWigetVar"/>
+        <composite:attribute name="onchange"/>
+        <composite:attribute name="dialogUpdate"/>
+        <composite:attribute name="createActionListener" method-signature="java.lang.String action()" />
+    </composite:interface>
+
+    <div>
+        <p:panelGrid columns="2">
+            <t:dropDown id="#{cc.id}"
+                        labelId="#{cc.attrs.labelId}"
+                        messageId="#{cc.attrs.messageId}"
+                        rowKey="#{cc.attrs.rowKey}"
+                        selectionText="#{cc.attrs.selectionText}"
+                        dataSource="#{cc.attrs.dataSource}" 
+                        itemLabel="#{cc.attrs.itemLabel}"
+                        selection="#{cc.attrs.selection}"
+                        filterValue="#{cc.attrs.filterValue}"
+                        required="#{cc.attrs.required}"
+                        requiredMessage="#{cc.attrs.requiredMessage}"
+                        toolTip="#{cc.attrs.toolTip}"/>
+            <p:commandButton immediate="true" style="max-width: 20px;" icon="ui-icon-plus" update=":applicationCreate:form" actionListener="#{cc.attrs.createActionListener}" oncomplete="PF('applicationCreateDialog').show()"/>
+        </p:panelGrid>
+    </div>
+</html>
+
+

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/error_layout.xhtml">
+
+        <ui:define name="errorTitle">
+            <h:outputText styleClass="error" value="#{labels.UnexpectedErrorTitle}"/>
+        </ui:define>
+
+        <ui:define name="errorContent">
+            <h:outputText styleClass="error-italic" value="#{msg.UnexpectedErrorOccured}"/>
+        </ui:define>
+    </ui:composition>
+</html>
+

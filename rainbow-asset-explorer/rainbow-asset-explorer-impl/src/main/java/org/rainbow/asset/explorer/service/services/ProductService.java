@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.Service;
+import org.rainbow.service.services.Service;
 
 public interface ProductService extends Service<Product, Long, SearchOptions> {
 	/**

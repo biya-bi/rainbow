@@ -1,6 +1,7 @@
 package org.rainbow.security.persistence.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,8 @@ import javax.persistence.criteria.Root;
 import org.rainbow.persistence.DaoImpl;
 import org.rainbow.persistence.Pageable;
 import org.rainbow.security.orm.entities.Application;
+import org.rainbow.security.orm.entities.Authority;
+import org.rainbow.security.orm.entities.Group;
 import org.rainbow.security.orm.entities.Membership;
 import org.rainbow.security.orm.entities.PasswordHistory;
 import org.rainbow.security.orm.entities.RecoveryInformation;
@@ -55,6 +58,7 @@ public class UserDaoImpl extends DaoImpl<User, Long> {
 	@Override
 	protected void onCreate(User user) throws Exception {
 		super.onCreate(user);
+		fixAssociations(user);
 		Membership membership = user.getMembership();
 		if (membership != null && !user.equals(membership.getUser())) {
 			membership.setUser(user);
@@ -79,7 +83,7 @@ public class UserDaoImpl extends DaoImpl<User, Long> {
 			membership.setCreationDate(now);
 			membership.setFailedRecoveryAttemptsWindowStart(FIRST_JAN_1754);
 			membership.setFailedPasswordAttemptWindowStart(FIRST_JAN_1754);
-			if (membership.isLockedOut()) {
+			if (membership.isLocked()) {
 				membership.setLastLockoutDate(now);
 			} else {
 				membership.setLastLockoutDate(FIRST_JAN_1754);
@@ -163,5 +167,141 @@ public class UserDaoImpl extends DaoImpl<User, Long> {
 			}
 		}
 		super.onUpdate(user);
+		fixAssociations(user);
 	}
+
+	private void fixAssociations(User user) {
+		user.setApplication(EntityManagerUtil.find(this.getEntityManager(), Application.class, user.getApplication()));
+		
+		fixGroups(user);
+		fixAuthorities(user);
+	}
+
+	private void fixGroups(User user) {
+		List<Group> oldGroups = getGroupsForUser(user.getId());
+		List<Group> userGroups = user.getGroups();
+		if (userGroups != null) {
+			List<Group> newGroups = getGroups(userGroups.stream().map(x -> x.getId()).collect(Collectors.toList()));
+			for (Group group : oldGroups) {
+				// If the group has been removed from the user's group, we also
+				// remove the user from the group's users.
+				if (!newGroups.contains(group)) {
+					List<User> groupUsers = group.getUsers();
+					if (groupUsers != null) {
+						groupUsers.remove(user);
+						this.getEntityManager().merge(group);
+					}
+				}
+				// If the old group still appears in the new groups list, then
+				// we have nothing to do because the user is already in the
+				// group.
+			}
+			for (Group group : newGroups) {
+				List<User> groupUsers = group.getUsers();
+				if (groupUsers == null) {
+					groupUsers = new ArrayList<>();
+					group.setUsers(groupUsers);
+				}
+				if (!groupUsers.contains(user)) {
+					groupUsers.add(user);
+					this.getEntityManager().merge(group);
+				}
+			}
+		} else {
+			for (Group group : oldGroups) {
+				List<User> groupUsers = group.getUsers();
+				if (groupUsers != null) {
+					if (groupUsers.contains(user)) {
+						groupUsers.remove(user);
+						this.getEntityManager().merge(group);
+					}
+				}
+			}
+		}
+	}
+
+	private List<Group> getGroups(List<Long> groupIds) {
+		if (groupIds.isEmpty()) {
+			return Collections.emptyList();
+		}
+		CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Group> cq = cb.createQuery(Group.class);
+		Root<Group> rt = cq.from(Group.class);
+		cq.where(rt.get("id").in(groupIds));
+		return this.getEntityManager().createQuery(cq).getResultList();
+	}
+
+	private List<Group> getGroupsForUser(Long userId) {
+		CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Group> cq = cb.createQuery(Group.class);
+		Root<Group> rt = cq.from(Group.class);
+		cq.where(cb.equal(rt.join("users").get("id"), userId));
+		return this.getEntityManager().createQuery(cq).getResultList();
+	}
+
+	private void fixAuthorities(User user) {
+		List<Authority> oldAuthorities = getAuthoritiesForUser(user.getId());
+		List<Authority> userAuthorities = user.getAuthorities();
+		if (userAuthorities != null) {
+			List<Authority> newAuthorities = getAuthorities(
+					userAuthorities.stream().map(x -> x.getId()).collect(Collectors.toList()));
+			for (Authority authority : oldAuthorities) {
+				// If the authority has been removed from the user's
+				// authorities, we also
+				// remove the user from the authority's users.
+				if (!newAuthorities.contains(authority)) {
+					List<User> authorityUsers = authority.getUsers();
+					if (authorityUsers != null) {
+						authorityUsers.remove(user);
+						this.getEntityManager().merge(authority);
+					}
+				}
+				// If the old authority still appears in the new authorities
+				// list, then we
+				// have
+				// nothing to do because the authority is already in the user.
+			}
+			for (Authority authority : newAuthorities) {
+				List<User> authorityUsers = authority.getUsers();
+				if (authorityUsers == null) {
+					authorityUsers = new ArrayList<>();
+					authority.setUsers(authorityUsers);
+				}
+				if (!authorityUsers.contains(user)) {
+					authorityUsers.add(user);
+					this.getEntityManager().merge(authority);
+				}
+			}
+		} else {
+			for (Authority authority : oldAuthorities) {
+				List<User> authorityUsers = authority.getUsers();
+				if (authorityUsers != null) {
+					if (authorityUsers.contains(user)) {
+						authorityUsers.remove(user);
+						this.getEntityManager().merge(authority);
+					}
+				}
+			}
+		}
+	}
+
+	private List<Authority> getAuthorities(List<Long> authorityIds) {
+		if (authorityIds.isEmpty()) {
+			return Collections.emptyList();
+		}
+		CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Authority> cq = cb.createQuery(Authority.class);
+		Root<Authority> rt = cq.from(Authority.class);
+		cq.where(rt.get("id").in(authorityIds));
+		return this.getEntityManager().createQuery(cq).getResultList();
+	}
+
+	private List<Authority> getAuthoritiesForUser(Long userId) {
+		CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Authority> cq = cb.createQuery(Authority.class);
+		Root<Authority> rt = cq.from(Authority.class);
+		cq.where(cb.equal(rt.join("users").get("id"), userId));
+		return this.getEntityManager().createQuery(cq).getResultList();
+	}
+
 }

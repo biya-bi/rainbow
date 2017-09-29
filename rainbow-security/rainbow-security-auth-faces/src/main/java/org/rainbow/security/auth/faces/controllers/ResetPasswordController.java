@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import org.rainbow.faces.utilities.FacesContextUtil;
 import org.rainbow.security.auth.faces.utilities.ResourceBundles;
+import org.rainbow.security.service.exceptions.UserNotFoundException;
 import org.rainbow.security.service.services.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,7 +54,7 @@ public class ResetPasswordController extends AbstractQuestionAnswerController {
 			FacesContextUtil.addSuccessMessage(
 					ResourceBundle.getBundle(ResourceBundles.MESSAGES).getString(PASSWORD_RESET_SUCCESS_KEY));
 			return SUCCESS;
-		} catch (UsernameNotFoundException e) {
+		} catch (UsernameNotFoundException | UserNotFoundException e) {
 			logger.log(Level.SEVERE, null, e);
 			ResourceBundle bundle = ResourceBundle.getBundle(ResourceBundles.MESSAGES);
 			FacesContextUtil.addErrorMessage(

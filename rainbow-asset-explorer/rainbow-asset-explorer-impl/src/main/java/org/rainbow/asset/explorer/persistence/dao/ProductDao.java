@@ -3,8 +3,8 @@ package org.rainbow.asset.explorer.persistence.dao;
 import java.util.List;
 
 import org.rainbow.asset.explorer.orm.entities.Product;
-import org.rainbow.persistence.Dao;
 import org.rainbow.persistence.SearchOptions;
+import org.rainbow.persistence.dao.Dao;
 
 public interface ProductDao extends Dao<Product, Long, SearchOptions> {
 	/**

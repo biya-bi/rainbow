@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="classpath:/Spring/applicationContext.Common.xml" />
+	<import resource="classpath:/Spring/applicationContext.Dao.xml" />
+	<import resource="classpath:/Spring/applicationContext.Service.xml" />
+	<import resource="classpath:/Spring/applicationContext.Persistence.xml" />
+	<import resource="classpath:/Spring/applicationContext.Security.xml" />
+	<import resource="classpath:/Spring/applicationContext.Transaction.xml" />
+	
+</beans>

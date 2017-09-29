@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.rainbow.asset.explorer.orm.entities.Document;
-import org.rainbow.service.Service;
+import org.rainbow.service.services.Service;
 
 public interface DocumentDetailsService<TEntity extends Document, TKey extends Serializable, TSearchOptions extends Object, TDetail extends Object>
 		extends Service<TEntity, TKey, TSearchOptions> {

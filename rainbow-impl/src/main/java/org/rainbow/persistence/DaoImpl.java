@@ -21,7 +21,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.rainbow.persistence.Dao;
+import org.rainbow.persistence.dao.Dao;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.utilities.EntityManagerUtil;
 

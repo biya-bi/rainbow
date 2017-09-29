@@ -24,7 +24,7 @@ import org.rainbow.persistence.RelationalOperator;
 import org.rainbow.persistence.SearchOptions;
 import org.rainbow.persistence.SingleValuedFilter;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.service.Service;
+import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

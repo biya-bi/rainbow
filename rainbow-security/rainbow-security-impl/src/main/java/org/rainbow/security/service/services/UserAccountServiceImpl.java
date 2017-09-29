@@ -14,8 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.rainbow.persistence.Dao;
 import org.rainbow.persistence.SearchOptions;
+import org.rainbow.persistence.dao.Dao;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.LockoutPolicy;
 import org.rainbow.security.orm.entities.LoginHistory;
@@ -144,21 +144,26 @@ public class UserAccountServiceImpl implements UserAccountService {
 			throw new InvalidPasswordException();
 		}
 
-		int passwordHistoryLength = application.getPasswordPolicy().getHistoryThreshold();
+		int passwordHistoryThreshold = application.getPasswordPolicy().getHistoryThreshold();
+		// We could have checked the password history of the user before setting
+		// his/her password. But this is completely unnecessary, because we
+		// assume that only the administrator will call this method. In this
+		// case, the administrator can set the password to a default password
+		// that the user will change. Also, the administrator can't know the
+		// passwords that the user has used. Checking the password history at
+		// this point will disclosing the type of passwords the user has used in
+		// the past, and thus synonymous to compromising the user's account.
 
-		List<PasswordHistory> passwordHistories = membership.getPasswordHistories();
-
-		if (passwordHistories != null) {
-			for (PasswordHistory passwordHistory : passwordHistories) {
-				if (getPasswordEncoder().matches(password, passwordHistory.getPassword())) {
-					throw new PasswordHistoryException(passwordHistoryLength);
-				}
-			}
-		}
 		// When an administrator sets a user's password, the last password
 		// change date should be set in the past so that the user should be
 		// prompted to change his/her password if the minimum password age is 0.
-		setPassword(membership, password, FIRST_JAN_1754, passwordHistories, passwordHistoryLength);
+
+		// We are passing the null as the value of passwordHistories argument in
+		// the below method call so that the user's password history should be
+		// reset to an empty list. This is done because the administrator will
+		// be calling this method if the user has forgot his/her password. In
+		// this case, we want the user's password history to be fresh.
+		setPassword(membership, password, FIRST_JAN_1754, null, passwordHistoryThreshold);
 
 		updateUser(user);
 	}
@@ -254,7 +259,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 			throw new CredentialsNotFoundException(userName);
 		}
 
-		if (membership.isLockedOut()) {
+		if (membership.isLocked()) {
 			throw new LockedException(String.format("The user '%s' has been locked in the application '%s'.", userName,
 					getApplicationName()));
 		}
@@ -512,7 +517,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 		membership.setFailedPasswordAttemptCount((short) 0);
 		membership.setFailedPasswordAttemptWindowStart(FIRST_JAN_1754);
 		membership.setFailedRecoveryAttemptsCount((short) 0);
-		membership.setLockedOut(false);
+		membership.setLocked(false);
 
 		updateUser(user);
 
@@ -538,8 +543,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 
 		Date lastPasswordChangeDate = membership.getLastPasswordChangeDate();
 		Date creationDate = membership.getCreationDate();
-		Integer maximumPasswordAge = passwordPolicy.getMaxAge();
-		Integer minimumPasswordAge = passwordPolicy.getMinAge();
+		Short maximumPasswordAge = passwordPolicy.getMaxAge();
+		Short minimumPasswordAge = passwordPolicy.getMinAge();
 		// If the maximum password age is greater than 0, then the passwords
 		// will expire. If the maximum password age is 0, then passwords will
 		// never expire.
@@ -722,7 +727,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 			}
 			if (lockoutPolicy != null && lockoutPolicy.getThreshold() > 0) {
 				if (membership.getFailedRecoveryAttemptsCount() >= lockoutPolicy.getThreshold()) {
-					membership.setLockedOut(true);
+					membership.setLocked(true);
 					membership.setLastLockoutDate(now);
 				}
 			}

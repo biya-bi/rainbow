@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:t="http://security.rainbow.org/ui"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+
+        <p:panelGrid rendered="#{authorityController.current != null}">
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
+                </p:column>
+                <p:column>
+                    <p:inputText styleClass="field-value" id="name" value="#{authorityController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                        <p:clientValidator event="keyup" />
+                    </p:inputText>
+                </p:column>
+                <p:column/>
+                <p:column>    
+                    <p:message for="name"/>  
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column> 
+                    <p:outputLabel id="applicationLabel" styleClass="field-label" value="#{labels.ApplicationLabel}" for="applicationDropDown"/></p:column>
+                <p:column>    
+                    <t:dropDown styleClass="field-value"
+                                id="applicationDropDown"
+                                labelId="applicationLabel"
+                                messageId="applicationDropDownMessage"
+                                rowKey="#{item.id}"
+                                selectionText="#{authorityController.current.application.name}"
+                                dataSource="#{applicationLazyDataModel}" 
+                                itemLabel="#{item.name}"
+                                selection="#{authorityController.current.application}"
+                                filterValue="#{applicationLazyDataModel.nameFilter.value}"
+                                required="true"
+                                requiredMessage="#{valMsg.ApplicationRequired}"
+                                toolTip="#{labels.ApplicationTitle}"/>
+                </p:column>
+                <p:column>
+                    <cps:quickCreateButton actionListener="#{applicationController.prepareCreate}" update=":applicationCreate:form" dialogWidgetVar="applicationCreateDialog" title="#{labels.CreateApplicationTitle}" />
+                </p:column>
+                <p:column>
+                    <p:message id="applicationDropDownMessage" for="applicationDropDown"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>  
+                    <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
+                </p:column>
+                <p:column>   
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{authorityController.current.description}" title="#{labels.DescriptionTitle}"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+
+    </composite:implementation>
+</html>
+

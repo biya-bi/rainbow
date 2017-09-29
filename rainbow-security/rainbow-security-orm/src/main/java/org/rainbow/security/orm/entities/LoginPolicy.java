@@ -37,7 +37,7 @@ public class LoginPolicy implements Serializable {
 		this.application = application;
 	}
 
-	@Min(0)
+	@Min(1)
 	@Max(999)
 	@NotNull
 	@Column(nullable = false)

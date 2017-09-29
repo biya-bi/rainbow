@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	<application>
+		<!-- JSF and Spring are integrated -->
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<locale-config>
+			<default-locale>en</default-locale>
+		</locale-config>
+
+		<resource-bundle>
+            <base-name>org.rainbow.security.faces.Labels</base-name>
+            <var>labels</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>org.rainbow.security.faces.ValidationMessages</base-name>
+            <var>valMsg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>org.rainbow.security.faces.Messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>org.rainbow.security.faces.Client</base-name>
+            <var>c</var>
+        </resource-bundle>
+         <resource-bundle>
+            <base-name>org.rainbow.security.auth.faces.Messages</base-name>
+            <var>secMsg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>org.rainbow.security.auth.faces.Labels</base-name>
+            <var>secLabels</var>
+        </resource-bundle>
+         <resource-bundle>
+            <base-name>org.rainbow.security.auth.faces.ValidationMessages</base-name>
+            <var>secValMsg</var>
+        </resource-bundle>
+	</application>
+
+	<converter>
+        <description>A converter for integer</description>
+        <converter-id>javax.faces.convert.IntegerConverter</converter-id>
+        <converter-class>
+            javax.faces.convert.IntegerConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <description>A converter for short</description>
+        <converter-id>javax.faces.convert.ShortConverter</converter-id>
+        <converter-class>
+            javax.faces.convert.ShortConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <description>A converter for boolean</description>
+        <converter-id>javax.faces.convert.BooleanConverter</converter-id>
+        <converter-class>
+            javax.faces.convert.BooleanConverter
+        </converter-class>
+    </converter>
+   
+	<navigation-rule>
+		<display-name>Login</display-name>
+		<from-view-id>/security/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{authenticationController.login}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{authenticationController.login}</from-action>
+			<from-outcome>credentials_expired</from-outcome>
+			<to-view-id>/security/change_password/prompt.xhtml</to-view-id>
+			<redirect include-view-params="true"/>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>Logout</display-name>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{authenticationController.logout}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>Change Password</display-name>
+		<from-view-id>/security/change_password/prompt.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{changePasswordController.changePassword}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/change_password/success.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>Reset Password - User Name Prompt</display-name>
+		<from-view-id>/security/reset_password/user_name_prompt.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{resetPasswordController.prepare}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/reset_password/recovery_information_prompt.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>Reset Password - Recovery Information Prompt</display-name>
+		<from-view-id>/security/reset_password/recovery_information_prompt.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{resetPasswordController.resetPassword}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/reset_password/success.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>Unlock User - User Name Prompt</display-name>
+		<from-view-id>/security/unlock_user/user_name_prompt.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{unlockUserController.prepare}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/unlock_user/recovery_information_prompt.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>Unlock User - Recovery Information Prompt</display-name>
+		<from-view-id>/security/unlock_user/recovery_information_prompt.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{unlockUserController.unlock}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/unlock_user/success.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>Reset Recovery Information</display-name>
+		<from-view-id>/security/recovery_information/prompt.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{resetRecoveryInformationController.resetRecoveryInformation}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/security/recovery_information/success.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	 <factory>
+        <exception-handler-factory>org.rainbow.security.faces.handlers.DefaultExceptionHandlerFactory</exception-handler-factory>
+    </factory> 
+</faces-config>

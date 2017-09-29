@@ -16,8 +16,8 @@ import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderDetailsNullOrE
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderReadOnlyException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderStatusTransitionException;
 import org.rainbow.asset.explorer.service.exceptions.VendorInactiveException;
-import org.rainbow.persistence.Dao;
 import org.rainbow.persistence.SearchOptions;
+import org.rainbow.persistence.dao.Dao;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;

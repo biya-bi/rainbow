@@ -2,7 +2,7 @@ package org.rainbow.security.auth.faces.controllers;
 
 import org.rainbow.security.auth.faces.utilities.SessionUtil;
 
-public abstract class AbstractUserNameController extends AbstractOutcomeController {
+public abstract class AbstractUserNameController extends AbstractController {
 	/**
 	 * 
 	 */

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>#{c.ApplicationName}</title>
+	<h:outputScript name="js/jsfcrud.js" />
+</h:head>
+
+<h:body>
+	<h:outputStylesheet name="css/styles.css" />
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" resizable="true" closable="true"
+			collapsible="true" styleClass="noScrolllayoutUnit">
+			<h:form>
+				<p:graphicImage style="float: left;"
+					value="/resources/images/logo.png" width="50" height="50" />
+				<h:panelGrid style="float: right;">
+					<p:outputLabel style="float: right;font-weight: bold;"
+						value="#{c.ApplicationName}" />
+					<h:panelGrid columns="4" styleClass="user-account-panelgrid">
+						<p:outputLabel
+							value="#{labels.WelcomeLabel} #{request.userPrincipal.name} #{labels.WelcomeUserNameSeparator}" />
+						<p:splitButton value="#{labels.LogoutLabel}"
+							action="#{authenticationController.logout}" icon="ui-icon-power">
+							<p:menuitem ajax="false" styleClass="user-account-panelgrid-font"
+								value="#{secLabels.ChangePasswordTitle}" icon="ui-icon-pencil"
+								outcome="security/change_password/prompt?faces-redirect=true">
+								<f:param name="user_name" value="#{request.userPrincipal.name}" />
+							</p:menuitem>
+							<p:menuitem ajax="false" styleClass="user-account-panelgrid-font"
+								value="#{secLabels.ResetPasswordTitle}"
+								icon="ui-icon-arrowrefresh-1-n"
+								outcome="/security/reset_password/user_name_prompt?faces-redirect=true" />
+							<p:menuitem ajax="false" styleClass="user-account-panelgrid-font"
+								value="#{secLabels.ResetRecoveryInformationTitle}" icon="ui-icon-arrowrefresh-1-n"
+								action="security/recovery_information/prompt?faces-redirect=true" />
+						</p:splitButton>
+						<p:outputLabel value="#{labels.WelcomeUserNameSeparator}" />
+						<h:panelGrid columns="2"
+							rendered="#{authenticationController.lastLoginDate!=null}">
+							<p:outputLabel value="#{secLabels.YourLastLoginDateLabel}" />
+							<p:outputLabel style="font-weight:bold"
+								value="#{authenticationController.lastLoginDate}">
+								<f:convertDateTime dateStyle="short" timeStyle="long"
+									type="both" />
+							</p:outputLabel>
+						</h:panelGrid>
+						<p:outputLabel
+							rendered="#{authenticationController.lastLoginDate==null}"
+							value="#{secMsg.FirstTimeSystemUse}" />
+					</h:panelGrid>
+				</h:panelGrid>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="south" closable="true" collapsible="true"
+			styleClass="noScrolllayoutUnit">
+			<h:panelGrid columns="2" styleClass="footer-panelgrid">
+				<h:outputText value="#{c.ClientName}" styleClass="client-name-label" />
+				<h:outputText value="#{labels.AllRightsReserved}"
+					styleClass="all-rights-reserved-label" />
+			</h:panelGrid>
+		</p:layoutUnit>
+
+		<p:layoutUnit resizable="true" position="west"
+			header="#{labels.DashboardLabel}" collapsible="true">
+			<h:form>
+				<h:panelGroup id="menuPanelGroup" layout="block">
+					<f:ajax render=":mainContentPanelGroup">
+						<p:menu style="width: auto;">
+
+							<p:menuitem ajax="false" value="#{labels.HomeLabel}"
+								action="#{navigationController.navigate}" icon="ui-icon-home">
+								<f:setPropertyActionListener
+									value="/WEB-INF/includes/home.xhtml"
+									target="#{navigationController.selectedUrl}" />
+							</p:menuitem>
+
+
+							<p:menuitem ajax="false" value="#{labels.ListApplicationsTitle}"
+								action="#{navigationController.navigate}">
+								<f:setPropertyActionListener
+									value="/WEB-INF/includes/applications/list.xhtml"
+									target="#{navigationController.selectedUrl}" />
+							</p:menuitem>
+
+
+							<p:menuitem ajax="false" value="#{labels.ListUsersTitle}"
+								action="#{navigationController.navigate}">
+								<f:setPropertyActionListener
+									value="/WEB-INF/includes/users/list.xhtml"
+									target="#{navigationController.selectedUrl}" />
+							</p:menuitem>
+
+
+							<p:menuitem ajax="false" value="#{labels.ListGroupsTitle}"
+								action="#{navigationController.navigate}">
+								<f:setPropertyActionListener
+									value="/WEB-INF/includes/groups/list.xhtml"
+									target="#{navigationController.selectedUrl}" />
+							</p:menuitem>
+
+							<p:menuitem ajax="false" value="#{labels.ListAuthoritiesTitle}"
+								action="#{navigationController.navigate}">
+								<f:setPropertyActionListener
+									value="/WEB-INF/includes/authorities/list.xhtml"
+									target="#{navigationController.selectedUrl}" />
+							</p:menuitem>
+
+							<p:menuitem ajax="false"
+								value="#{labels.ManageLabel}"
+								action="#{navigationController.navigate}">
+								<f:setPropertyActionListener
+									value="/WEB-INF/includes/associations/manage.xhtml"
+									target="#{navigationController.selectedUrl}" />
+							</p:menuitem>
+
+						</p:menu>
+					</f:ajax>
+				</h:panelGroup>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center"
+			styleClass="home-layout-unit-background">
+			<h:panelGroup id="mainContentPanelGroup" layout="block">
+				<ui:include src="#{navigationController.selectedUrl}" />
+			</h:panelGroup>
+		</p:layoutUnit>
+
+	</p:layout>
+
+</h:body>
+
+</html>
+

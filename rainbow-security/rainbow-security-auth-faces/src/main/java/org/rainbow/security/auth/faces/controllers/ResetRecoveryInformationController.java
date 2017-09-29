@@ -131,13 +131,6 @@ public class ResetRecoveryInformationController extends AbstractUserNameControll
 
 	public String resetRecoveryInformation() {
 		try {
-			// final List<String> qtns = Arrays.asList(this.getQuestion1(),
-			// this.getQuestion2(), this.getQuestion3(),
-			// this.getQuestion4());
-			// if (!qtns.isEmpty() || qtns.stream().distinct().count() <
-			// qtns.size()) {
-			// throw new RecoveryQuestionsNotDistinctException();
-			// }
 			final Map<String, String> questionAnswerPairs = new HashMap<String, String>();
 			questionAnswerPairs.put(question1, answer1);
 			questionAnswerPairs.put(question2, answer2);

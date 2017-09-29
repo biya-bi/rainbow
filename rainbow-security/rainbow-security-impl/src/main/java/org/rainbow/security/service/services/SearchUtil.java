@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.rainbow.persistence.Dao;
 import org.rainbow.persistence.ListValuedFilter;
 import org.rainbow.persistence.RelationalOperator;
 import org.rainbow.persistence.SearchOptions;
 import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.persistence.dao.Dao;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.orm.entities.Group;
