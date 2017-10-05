@@ -1,23 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:security="http://www.springframework.org/schema/security"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 				http://www.springframework.org/schema/beans/spring-beans.xsd
-				http://www.springframework.org/schema/tx
-http://www.springframework.org/schema/tx/spring-tx.xsd
-http://www.springframework.org/schema/context 
-http://www.springframework.org/schema/context/spring-context.xsd
-http://www.springframework.org/schema/security
-http://www.springframework.org/schema/security/spring-security.xsd">
+				http://www.springframework.org/schema/jee
+http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-	<bean id="rainbowSecurityDataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${rainbow.security.jdbc.driverClassName}" />
-		<property name="url" value="${rainbow.security.jdbc.url}" />
-		<property name="username" value="${rainbow.security.jdbc.user}" />
-		<property name="password" value="${rainbow.security.jdbc.password}" />
-	</bean>
+	<jee:jndi-lookup id="rainbowSecurityDataSource"
+		jndi-name="${rainbow.security.jdbc}" lookup-on-startup="true" cache="true" />
 
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
@@ -29,12 +18,6 @@ http://www.springframework.org/schema/security/spring-security.xsd">
 				<value>classpath*:META-INF/rainbow_security_persistence.xml</value>
 			</list>
 		</property>
-		<property name="dataSources">
-			<map>
-				<entry key="dataSource" value-ref="rainbowSecurityDataSource" />
-			</map>
-		</property>
-		<property name="defaultDataSource" ref="rainbowSecurityDataSource" />
 	</bean>
 
 	<bean id="rainbowSecurityEntityManagerFactory"
@@ -70,5 +53,6 @@ http://www.springframework.org/schema/security/spring-security.xsd">
 		<property name="entityManagerFactory" ref="rainbowSecurityEntityManagerFactory" />
 		<property name="dataSource" ref="rainbowSecurityDataSource" />
 	</bean>
+
 
 </beans>

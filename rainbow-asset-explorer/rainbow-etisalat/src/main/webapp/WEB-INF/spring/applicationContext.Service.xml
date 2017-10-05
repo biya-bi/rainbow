@@ -1,7 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-				http://www.springframework.org/schema/beans/spring-beans.xsd">
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/jee
+http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<jee:jndi-lookup jndi-name="${rainbow.asset.explorer.applicationName}"
+		id="rainbowAssetExplorerApplicationName" lookup-on-startup="true"
+		cache="true" />
 
 	<bean id="alertService"
 		class="org.rainbow.asset.explorer.service.services.AlertServiceImpl">
@@ -106,8 +112,7 @@
 		<property name="dao" ref="vendorDao" />
 	</bean>
 
-	<bean id="userService"
-		class="org.rainbow.security.service.services.UserServiceImpl">
+	<bean id="userService" class="org.rainbow.security.service.services.UserServiceImpl">
 		<property name="dao" ref="userDao" />
 		<property name="applicationDao" ref="applicationDao" />
 	</bean>
@@ -116,8 +121,7 @@
 		<property name="dao" ref="applicationDao" />
 	</bean>
 
-	<bean id="groupService"
-		class="org.rainbow.security.service.services.GroupServiceImpl">
+	<bean id="groupService" class="org.rainbow.security.service.services.GroupServiceImpl">
 		<property name="dao" ref="groupDao" />
 	</bean>
 
@@ -125,7 +129,7 @@
 		class="org.rainbow.security.service.services.UserGroupServiceImpl">
 		<property name="userDao" ref="userDao" />
 		<property name="applicationDao" ref="applicationDao" />
-		<property name="applicationName" value="${application.name}" />
+		<property name="applicationName" ref="rainbowAssetExplorerApplicationName" />
 		<property name="authorityDao" ref="authorityDao" />
 		<property name="groupDao" ref="groupDao" />
 	</bean>
@@ -134,7 +138,7 @@
 		class="org.rainbow.security.service.services.UserAccountServiceImpl">
 		<property name="userDao" ref="userDao" />
 		<property name="applicationDao" ref="applicationDao" />
-		<property name="applicationName" value="${application.name}" />
+		<property name="applicationName" ref="rainbowAssetExplorerApplicationName" />
 		<property name="passwordEncoder" ref="passwordEncoder" />
 		<property name="authenticationManager" ref="authenticationManager" />
 		<property name="userDetailsService" ref="userDetailsService" />

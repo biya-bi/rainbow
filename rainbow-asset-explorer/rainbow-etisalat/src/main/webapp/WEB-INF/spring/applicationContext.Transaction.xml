@@ -41,6 +41,7 @@ org.rainbow.security.service.exceptions.WrongRecoveryAnswerException" />
 
 	<bean id="rainbowAssetExplorerTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="rainbowAssetExplorerEntityManagerFactory" />
+		<property name="dataSource" ref="rainbowAssetExplorerDataSource" />
 	</bean>
 
 	<bean id="rainbowSecurityTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
