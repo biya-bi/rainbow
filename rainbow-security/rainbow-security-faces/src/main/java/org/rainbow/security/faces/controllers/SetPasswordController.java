@@ -1,6 +1,6 @@
 package org.rainbow.security.faces.controllers;
 
-import static org.rainbow.security.faces.utilities.ResourceBundles.SECURITY_MESSAGES;
+import static org.rainbow.security.faces.util.ResourceBundles.SECURITY_MESSAGES;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -10,12 +10,11 @@ import java.util.logging.Logger;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
-import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.security.service.exceptions.InvalidPasswordException;
 import org.rainbow.security.service.exceptions.UserNotFoundException;
 import org.rainbow.security.service.services.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +33,6 @@ public class SetPasswordController implements Serializable {
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	@Autowired
-	@Qualifier("userAccountService")
 	private UserAccountService userAccountService;
 
 	private String userName;

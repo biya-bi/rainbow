@@ -1,7 +1,7 @@
 package org.rainbow.security.faces.controllers;
 
-import static org.rainbow.security.faces.utilities.ResourceBundles.CRUD_MESSAGES;
-import static org.rainbow.security.faces.utilities.ResourceBundles.SECURITY_MESSAGES;
+import static org.rainbow.security.faces.util.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.security.faces.util.ResourceBundles.SECURITY_MESSAGES;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -10,16 +10,14 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.security.faces.utilities.CrudNotificationInfo;
+import org.rainbow.faces.util.FacesContextUtil;
+import org.rainbow.security.faces.util.CrudNotificationInfo;
 import org.rainbow.security.orm.entities.Membership;
 import org.rainbow.security.orm.entities.User;
 import org.rainbow.security.service.exceptions.DuplicateUserException;
 import org.rainbow.security.service.exceptions.InvalidPasswordException;
-import org.rainbow.service.services.Service;
+import org.rainbow.security.service.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,7 +28,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "UserCreated", updatedMessageKey = "UserUpdated", deletedMessageKey = "UserDeleted")
-public class UserController extends AuditableController<User, Long, SearchOptions> {
+public class UserController extends AuditableController<User> {
 
 	/**
 	 * 
@@ -41,8 +39,7 @@ public class UserController extends AuditableController<User, Long, SearchOption
 	private static final String INVALID_PASSWORD_KEY = "InvalidPassword";
 
 	@Autowired
-	@Qualifier("userService")
-	private Service<User, Long, SearchOptions> userService;
+	private UserService userService;
 
 	public UserController() {
 		super(User.class);
@@ -77,7 +74,7 @@ public class UserController extends AuditableController<User, Long, SearchOption
 	}
 
 	@Override
-	protected Service<User, Long, SearchOptions> getService() {
+	protected UserService getService() {
 		return userService;
 	}
 }

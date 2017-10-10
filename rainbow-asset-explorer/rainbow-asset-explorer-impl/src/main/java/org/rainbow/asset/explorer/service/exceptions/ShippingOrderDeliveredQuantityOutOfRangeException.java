@@ -1,5 +1,7 @@
 package org.rainbow.asset.explorer.service.exceptions;
 
+import org.rainbow.asset.explorer.service.exceptions.RainbowAssetExplorerException;
+
 /**
  * This exception is thrown whenever an attempt is made to deliver a negative number of products or more products
  * than shipped in a shipping order.

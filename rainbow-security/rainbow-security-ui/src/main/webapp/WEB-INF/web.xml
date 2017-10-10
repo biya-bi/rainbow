@@ -24,6 +24,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/spring/applicationContext.Common.xml
+			/WEB-INF/spring/applicationContext.Criteria.xml
 			/WEB-INF/spring/applicationContext.Dao.xml
 			/WEB-INF/spring/applicationContext.Persistence.xml
 			/WEB-INF/spring/applicationContext.Security.xml

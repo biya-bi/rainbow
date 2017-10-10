@@ -7,12 +7,10 @@ import javax.persistence.PersistenceContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.rainbow.common.test.DatabaseInitialize;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.service.exceptions.DuplicateAuthorityException;
-import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -25,7 +23,7 @@ public class AuthorityServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("authorityService")
-	private Service<Authority, Long, SearchOptions> authorityService;
+	private AuthorityService authorityService;
 
 	@PersistenceContext
 	private EntityManager em;

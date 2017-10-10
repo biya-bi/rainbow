@@ -1,6 +1,6 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -9,14 +9,12 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
 import org.rainbow.asset.explorer.orm.entities.Manufacturer;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateManufacturerNameException;
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.services.Service;
+import org.rainbow.asset.explorer.service.services.ManufacturerService;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "ManufacturerCreated", updatedMessageKey = "ManufacturerUpdated", deletedMessageKey = "ManufacturerDeleted")
-public class ManufacturerController extends AuditableController<Manufacturer, Long, SearchOptions>{
+public class ManufacturerController extends AuditableController<Manufacturer>{
 
 	/**
 	 * 
@@ -37,8 +35,7 @@ public class ManufacturerController extends AuditableController<Manufacturer, Lo
 	private static final String DUPLICATE_MANUFACTURER_NAME_ERROR_KEY = "DuplicateManufacturerName";
 
 	@Autowired
-	@Qualifier("manufacturerService")
-	private Service<Manufacturer, Long, SearchOptions> service;
+	private ManufacturerService service;
 	
 	public ManufacturerController() {
 		super(Manufacturer.class);
@@ -58,7 +55,7 @@ public class ManufacturerController extends AuditableController<Manufacturer, Lo
 	}
 
 	@Override
-	protected Service<Manufacturer, Long, SearchOptions> getService() {
+	protected ManufacturerService getService() {
 		return service;
 	}
 }

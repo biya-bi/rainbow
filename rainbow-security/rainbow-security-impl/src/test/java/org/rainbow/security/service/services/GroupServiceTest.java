@@ -7,12 +7,10 @@ import javax.persistence.PersistenceContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.rainbow.common.test.DatabaseInitialize;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Group;
 import org.rainbow.security.service.exceptions.DuplicateGroupException;
-import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -26,7 +24,7 @@ public class GroupServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("groupService")
-	private Service<Group, Long, SearchOptions> groupService;
+	private GroupService groupService;
 
 	@PersistenceContext
 	private EntityManager em;

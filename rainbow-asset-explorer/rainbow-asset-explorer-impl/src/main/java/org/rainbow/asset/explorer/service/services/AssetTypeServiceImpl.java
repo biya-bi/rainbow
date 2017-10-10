@@ -2,12 +2,11 @@ package org.rainbow.asset.explorer.service.services;
 
 import org.rainbow.asset.explorer.orm.entities.AssetType;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAssetTypeNameException;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class AssetTypeServiceImpl extends ServiceImpl<AssetType, Long, SearchOptions> {
+public class AssetTypeServiceImpl extends ServiceImpl<AssetType> implements AssetTypeService {
 
 	public AssetTypeServiceImpl() {
 	}

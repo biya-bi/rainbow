@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -12,14 +11,13 @@ import javax.inject.Named;
 import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.faces.translation.EnumTranslator;
 import org.rainbow.asset.explorer.orm.entities.Asset;
+import org.rainbow.asset.explorer.service.services.AssetService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.Filterable;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -54,8 +52,6 @@ public class AssetLazyDataModel extends LongIdTrackableLazyDataModel<Asset> {
 	private static final String VENDOR_NAME_FILTER = "vendor.name";
 	private static final String SITE_ID_FILTER = "site.id";
 
-	private final List<Filter<?>> filters;
-
 	private final SingleValuedFilter<String> nameFilter;
 	private final SingleValuedFilter<String> serialNumberFilter;
 	private final SingleValuedFilter<String> manufacturerNameFilter;
@@ -77,8 +73,7 @@ public class AssetLazyDataModel extends LongIdTrackableLazyDataModel<Asset> {
 	private final EnumTranslator translator;
 
 	@Autowired
-	@Qualifier("assetService")
-	private Service<Asset, Long, SearchOptions> service;
+	private AssetService service;
 
 	public AssetLazyDataModel() {
 		translator = new EnumTranslator();
@@ -102,105 +97,91 @@ public class AssetLazyDataModel extends LongIdTrackableLazyDataModel<Asset> {
 		siteNameFilter = new SingleValuedFilter<>(SITE_NAME_FILTER, RelationalOperator.CONTAINS, "");
 		vendorNameFilter = new SingleValuedFilter<>(VENDOR_NAME_FILTER, RelationalOperator.CONTAINS, "");
 		siteIdFilter = new SingleValuedFilter<>(SITE_ID_FILTER);
-
-		filters = new ArrayList<>();
-		filters.add(nameFilter);
-		filters.add(serialNumberFilter);
-		filters.add(manufacturerNameFilter);
-		filters.add(manufacturerBusinessImpactFilter);
-		filters.add(stateFilter);
-		filters.add(acquisitionDateFilter);
-		filters.add(expiryDateFilter);
-		filters.add(warrantyExpiryDateFilter);
-		filters.add(depreciationMethodFilter);
-		filters.add(manufacturerNameFilter);
-		filters.add(assetTypeFilter);
-		filters.add(barCodeFilter);
-		filters.add(productNameFilter);
-		filters.add(siteLocationFilter);
-		filters.add(siteStatusFilter);
-		filters.add(siteNameFilter);
-		filters.add(vendorNameFilter);
-		filters.add(siteIdFilter);
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getNameFilter() {
 		return nameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getSerialNumberFilter() {
 		return serialNumberFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getManufacturerNameFilter() {
 		return manufacturerNameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getAssetTypeFilter() {
 		return assetTypeFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getStateFilter() {
 		return stateFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getDepreciationMethodFilter() {
 		return depreciationMethodFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getSiteLocationFilter() {
 		return siteLocationFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getManufacturerBusinessImpactFilter() {
 		return manufacturerBusinessImpactFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getAcquisitionDateFilter() {
 		return acquisitionDateFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getExpiryDateFilter() {
 		return expiryDateFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getWarrantyExpiryDateFilter() {
 		return warrantyExpiryDateFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getBarCodeFilter() {
 		return barCodeFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getProductNameFilter() {
 		return productNameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getSiteStatusFilter() {
 		return siteStatusFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getSiteNameFilter() {
 		return siteNameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getVendorNameFilter() {
 		return vendorNameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getSiteIdFilter() {
 		return siteIdFilter;
-	}
-
-	@Override
-	protected List<Filter<?>> getFilters() {
-		List<Filter<?>> baseFilters = super.getFilters();
-		if (baseFilters != null) {
-			ArrayList<Filter<?>> combinedFilters = new ArrayList<>(baseFilters);
-			combinedFilters.addAll(filters);
-			return combinedFilters;
-		}
-		return filters;
 	}
 
 	@Override
@@ -535,7 +516,7 @@ public class AssetLazyDataModel extends LongIdTrackableLazyDataModel<Asset> {
 	}
 
 	@Override
-	protected Service<Asset, Long, SearchOptions> getService() {
+	protected Service<Asset> getService() {
 		return service;
 	}
 

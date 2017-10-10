@@ -5,8 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.rainbow.persistence.DaoImpl;
-import org.rainbow.persistence.Pageable;
+import org.rainbow.persistence.dao.DaoImpl;
+import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.orm.entities.Group;
@@ -17,7 +17,7 @@ import org.rainbow.security.orm.entities.User;
 import org.rainbow.security.utilities.PersistenceSettings;
 
 @Pageable(attributeName = "id")
-public class ApplicationDaoImpl extends DaoImpl<Application, Long> {
+public class ApplicationDaoImpl extends DaoImpl<Application> implements ApplicationDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

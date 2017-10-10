@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 
-import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.security.auth.faces.utilities.ResourceBundles;
 import org.rainbow.security.service.exceptions.UserNotFoundException;
 import org.rainbow.security.service.services.UserAccountService;

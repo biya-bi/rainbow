@@ -1,6 +1,7 @@
 package org.rainbow.asset.explorer.service.exceptions;
 
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderStatus;
+import org.rainbow.asset.explorer.service.exceptions.RainbowAssetExplorerException;
 
 /**
  * This exception is thrown whenever the transition of the status of a shipping

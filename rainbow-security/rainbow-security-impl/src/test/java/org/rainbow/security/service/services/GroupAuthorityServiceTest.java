@@ -14,7 +14,6 @@ import org.rainbow.security.service.exceptions.AuthorityAlreadyGrantedToGroupExc
 import org.rainbow.security.service.exceptions.AuthorityNotFoundException;
 import org.rainbow.security.service.exceptions.AuthorityNotGrantedToGroupException;
 import org.rainbow.security.service.exceptions.GroupNotFoundException;
-import org.rainbow.security.service.services.GroupAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

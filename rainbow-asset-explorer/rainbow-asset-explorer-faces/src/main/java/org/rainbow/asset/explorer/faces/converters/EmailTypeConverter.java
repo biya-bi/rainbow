@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import org.rainbow.asset.explorer.faces.utilities.ResourceBundles;
+import org.rainbow.asset.explorer.faces.util.ResourceBundles;
 import org.rainbow.asset.explorer.orm.entities.EmailType;
 
 /**

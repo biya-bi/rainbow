@@ -1,6 +1,6 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -9,14 +9,12 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
 import org.rainbow.asset.explorer.orm.entities.EmailRecipient;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateEmailRecipientEmailException;
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.services.Service;
+import org.rainbow.asset.explorer.service.services.EmailRecipientService;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "EmailRecipientCreated", updatedMessageKey = "EmailRecipientUpdated", deletedMessageKey = "EmailRecipientDeleted")
-public class EmailRecipientController extends AuditableController<EmailRecipient, Integer, SearchOptions> {
+public class EmailRecipientController extends AuditableController<EmailRecipient> {
 
 	/**
 	 * 
@@ -37,8 +35,7 @@ public class EmailRecipientController extends AuditableController<EmailRecipient
 	private static final String DUPLICATE_EMAIL_RECIPIENT_EMAIL_ERROR_KEY = "DuplicateEmailRecipientEmail";
 
 	@Autowired
-	@Qualifier("emailRecipientService")
-	private Service<EmailRecipient, Integer, SearchOptions> service;
+	private EmailRecipientService service;
 
 	public EmailRecipientController() {
 		super(EmailRecipient.class);
@@ -58,7 +55,7 @@ public class EmailRecipientController extends AuditableController<EmailRecipient
 	}
 
 	@Override
-	protected Service<EmailRecipient, Integer, SearchOptions> getService() {
+	protected EmailRecipientService getService() {
 		return service;
 	}
 }

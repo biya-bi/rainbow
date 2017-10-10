@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,14 +10,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateVendorAccountNumberException;
+import org.rainbow.asset.explorer.service.services.VendorService;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.PredicateBuilder;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptions;
+import org.rainbow.criteria.SearchOptionsFactory;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -31,11 +31,20 @@ public class VendorServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("vendorService")
-	private Service<Vendor, Long, SearchOptions> vendorService;
+	private VendorService vendorService;
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;
 
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
+	
 	@Test
 	public void create_VendorIsValid_VendorCreated() throws Exception {
 		Vendor expected = new Vendor("VDR-NEW-ACC1", "New Vendor", true, "www.optimum.org");
@@ -108,31 +117,25 @@ public class VendorServiceTest extends AbstractServiceTest {
 
 	@Test
 	public void find_NameExistsAndOperatorIsEqual_ReturnOneVendor() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.EQUAL);
-		filter.setValue("Vendor 17001");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Vendor> result = vendorService.find(criteria);
+		PredicateBuilder builder = predicateBuilderFactory.create();
+
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(builder.equal(pathFactory.create("name"), "Vendor 17001"));
+		
+		List<Vendor> result = vendorService.find(searchOptions);
+		
 		Assert.assertEquals(1, result.size());
 	}
 
 	@Test
 	public void find_EmptyStringProvidedAndOperatorIsContains_ReturnVendors() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		List<Filter<?>> filters = new ArrayList<>();
+		PredicateBuilder builder = predicateBuilderFactory.create();
 
-		SingleValuedFilter<String> nameFilter = new SingleValuedFilter<>();
-		nameFilter.setFieldName("name");
-		nameFilter.setOperator(RelationalOperator.CONTAINS);
-		nameFilter.setValue("");
-		filters.add(nameFilter);
-
-		criteria.setFilters(filters);
-		List<Vendor> result = vendorService.find(criteria);
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(builder.contains(pathFactory.create("name"), ""));
+		
+		List<Vendor> result = vendorService.find(searchOptions);
+		
 		Assert.assertFalse(result.isEmpty());
 	}
 }

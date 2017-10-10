@@ -1,7 +1,5 @@
 package org.rainbow.security.service.exceptions;
 
-import org.rainbow.security.service.exceptions.RainbowSecurityServiceException;
-
 /**
  *
  * @author Biya-Bi

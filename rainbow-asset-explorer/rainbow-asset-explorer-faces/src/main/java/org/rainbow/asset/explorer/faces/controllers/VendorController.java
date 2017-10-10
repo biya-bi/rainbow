@@ -1,6 +1,6 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
 import org.rainbow.asset.explorer.orm.entities.AddressType;
 import org.rainbow.asset.explorer.orm.entities.BusinessEntityAddress;
 import org.rainbow.asset.explorer.orm.entities.BusinessEntityEmail;
@@ -22,11 +22,9 @@ import org.rainbow.asset.explorer.orm.entities.FaxType;
 import org.rainbow.asset.explorer.orm.entities.PhoneType;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateVendorAccountNumberException;
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.services.Service;
+import org.rainbow.asset.explorer.service.services.VendorService;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -37,7 +35,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "VendorCreated", updatedMessageKey = "VendorUpdated", deletedMessageKey = "VendorDeleted")
-public class VendorController extends AuditableController<Vendor, Long, SearchOptions> {
+public class VendorController extends AuditableController<Vendor> {
 
 	/**
 	 * 
@@ -47,8 +45,7 @@ public class VendorController extends AuditableController<Vendor, Long, SearchOp
 	private static final String DUPLICATE_VENDOR_ACCOUNT_NUMBER_ERROR_KEY = "DuplicateVendorAccountNumber";
 
 	@Autowired
-	@Qualifier("vendorService")
-	private Service<Vendor, Long, SearchOptions> service;
+	private VendorService service;
 
 	public VendorController() {
 		super(Vendor.class);
@@ -102,7 +99,7 @@ public class VendorController extends AuditableController<Vendor, Long, SearchOp
 	}
 
 	@Override
-	protected Service<Vendor, Long, SearchOptions> getService() {
+	protected VendorService getService() {
 		return service;
 	}
 }

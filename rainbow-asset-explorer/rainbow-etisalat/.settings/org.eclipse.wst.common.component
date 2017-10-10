@@ -31,6 +31,9 @@
         <dependent-module archiveName="rainbow-asset-explorer-impl-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-impl/rainbow-asset-explorer-impl">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="rainbow-asset-explorer-api-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-api/rainbow-asset-explorer-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="rainbow-asset-explorer-faces-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-faces/rainbow-asset-explorer-faces">
             <dependency-type>uses</dependency-type>
         </dependent-module>

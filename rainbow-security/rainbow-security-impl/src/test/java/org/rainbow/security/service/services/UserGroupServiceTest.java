@@ -15,7 +15,6 @@ import org.rainbow.security.service.exceptions.GroupNotFoundException;
 import org.rainbow.security.service.exceptions.UserAlreadyInGroupException;
 import org.rainbow.security.service.exceptions.UserNotFoundException;
 import org.rainbow.security.service.exceptions.UserNotInGroupException;
-import org.rainbow.security.service.services.UserGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

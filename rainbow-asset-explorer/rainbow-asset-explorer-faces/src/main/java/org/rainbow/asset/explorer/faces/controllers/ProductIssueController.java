@@ -1,6 +1,6 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
 import org.rainbow.asset.explorer.orm.entities.Location;
 import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.orm.entities.ProductIssue;
@@ -20,12 +20,12 @@ import org.rainbow.asset.explorer.orm.entities.ProductIssueDetail;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductIssueReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.InsufficientInventoryException;
 import org.rainbow.asset.explorer.service.exceptions.ProductIssueDetailsNullOrEmptyException;
+import org.rainbow.asset.explorer.service.services.LocationService;
 import org.rainbow.asset.explorer.service.services.ProductIssueService;
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
+import org.rainbow.asset.explorer.service.services.ProductService;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,7 +36,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "ProductIssueCreated", updatedMessageKey = "ProductIssueUpdated", deletedMessageKey = "ProductIssueDeleted")
-public class ProductIssueController extends AuditableController<ProductIssue, Long, SearchOptions> {
+public class ProductIssueController extends AuditableController<ProductIssue> {
 
 	/**
 	 * 
@@ -50,16 +50,13 @@ public class ProductIssueController extends AuditableController<ProductIssue, Lo
 	private static final String INSUFFICIENT_INVENTORY_ERROR_KEY = "InsufficientInventory";
 
 	@Autowired
-	@Qualifier("productIssueService")
 	private ProductIssueService service;
 
 	@Autowired
-	@Qualifier("locationService")
-	private Service<Location, Long, SearchOptions> locationService;
+	private LocationService locationService;
 
 	@Autowired
-	@Qualifier("productService")
-	private Service<Product, Long, SearchOptions> productService;
+	private ProductService productService;
 
 	public ProductIssueController() {
 		super(ProductIssue.class);
@@ -148,7 +145,7 @@ public class ProductIssueController extends AuditableController<ProductIssue, Lo
 	}
 
 	@Override
-	protected Service<ProductIssue, Long, SearchOptions> getService() {
+	protected Service<ProductIssue> getService() {
 		return service;
 	}
 }

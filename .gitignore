@@ -1,4 +1,5 @@
 /rainbow-api/target/
+/rainbow-asset-explorer/rainbow-asset-explorer-api/target/
 /rainbow-asset-explorer/rainbow-asset-explorer-faces/target/
 /rainbow-asset-explorer/rainbow-asset-explorer-impl/target/
 /rainbow-asset-explorer/rainbow-asset-explorer-orm/target/

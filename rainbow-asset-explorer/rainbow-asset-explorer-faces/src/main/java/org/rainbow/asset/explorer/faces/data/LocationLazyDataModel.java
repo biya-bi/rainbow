@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -10,14 +9,13 @@ import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.orm.entities.Location;
+import org.rainbow.asset.explorer.service.services.LocationService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.Filterable;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,34 +34,18 @@ public class LocationLazyDataModel extends LongIdTrackableLazyDataModel<Location
 
 	private static final String NAME_FILTER = "name";
 
-	private final List<Filter<?>> filters;
-
 	private final SingleValuedFilter<String> nameFilter;
 
 	@Autowired
-	@Qualifier("locationService")
-	private Service<Location, Long, SearchOptions> service;
+	private LocationService service;
 
 	public LocationLazyDataModel() {
 		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-
-		filters = new ArrayList<>();
-		filters.add(nameFilter);
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getNameFilter() {
 		return nameFilter;
-	}
-
-	@Override
-	protected List<Filter<?>> getFilters() {
-		List<Filter<?>> baseFilters = super.getFilters();
-		if (baseFilters != null) {
-			ArrayList<Filter<?>> combinedFilters = new ArrayList<>(baseFilters);
-			combinedFilters.addAll(filters);
-			return combinedFilters;
-		}
-		return filters;
 	}
 
 	@Override
@@ -97,7 +79,7 @@ public class LocationLazyDataModel extends LongIdTrackableLazyDataModel<Location
 	}
 
 	@Override
-	protected Service<Location, Long, SearchOptions> getService() {
+	protected Service<Location> getService() {
 		return service;
 	}
 

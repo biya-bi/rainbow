@@ -12,7 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.security.auth.faces.utilities.SessionUtil;
 import org.rainbow.security.service.services.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;

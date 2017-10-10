@@ -1,6 +1,6 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,17 +18,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
-import org.rainbow.asset.explorer.faces.utilities.ResourceBundles;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
+import org.rainbow.asset.explorer.faces.util.ResourceBundles;
 import org.rainbow.asset.explorer.orm.entities.Site;
 import org.rainbow.asset.explorer.orm.entities.SiteStatus;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateSiteNameException;
+import org.rainbow.asset.explorer.service.services.SiteService;
 import org.rainbow.common.util.DateTime;
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.services.Service;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -43,7 +41,7 @@ import org.xml.sax.SAXException;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "SiteCreated", updatedMessageKey = "SiteUpdated", deletedMessageKey = "SiteDeleted")
-public class SiteController extends AuditableController<Site, Long, SearchOptions> {
+public class SiteController extends AuditableController<Site> {
 
 	/**
 	 * 
@@ -63,8 +61,7 @@ public class SiteController extends AuditableController<Site, Long, SearchOption
 	private static final String DATE_OF_DECOMMISSIONING_NODE_NAME = "dateOfDecommissioning";
 
 	@Autowired
-	@Qualifier("siteService")
-	private Service<Site, Long, SearchOptions> service;
+	private SiteService service;
 
 	public SiteController() {
 		super(Site.class);
@@ -167,7 +164,7 @@ public class SiteController extends AuditableController<Site, Long, SearchOption
 	}
 
 	@Override
-	protected Service<Site, Long, SearchOptions> getService() {
+	protected SiteService getService() {
 		return service;
 	}
 }

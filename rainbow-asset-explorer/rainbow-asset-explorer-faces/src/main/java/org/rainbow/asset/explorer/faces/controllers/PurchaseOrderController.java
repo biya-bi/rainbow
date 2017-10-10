@@ -13,10 +13,8 @@ import org.rainbow.asset.explorer.orm.entities.PurchaseOrder;
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderStatus;
 import org.rainbow.asset.explorer.service.services.PurchaseOrderService;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -26,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class PurchaseOrderController extends AuditableController<PurchaseOrder, Long, SearchOptions> {
+public class PurchaseOrderController extends AuditableController<PurchaseOrder> {
 	/**
 	 * 
 	 */
@@ -39,7 +37,6 @@ public class PurchaseOrderController extends AuditableController<PurchaseOrder, 
 	private Location receiptLocation;
 
 	@Autowired
-	@Qualifier("purchaseOrderService")
 	private PurchaseOrderService service;
 
 	public PurchaseOrderController() {
@@ -178,7 +175,7 @@ public class PurchaseOrderController extends AuditableController<PurchaseOrder, 
 	}
 
 	@Override
-	protected Service<PurchaseOrder, Long, SearchOptions> getService() {
+	protected Service<PurchaseOrder> getService() {
 		return service;
 	}
 }

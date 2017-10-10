@@ -1,6 +1,7 @@
 package org.rainbow.asset.explorer.service.exceptions;
 
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderStatus;
+import org.rainbow.asset.explorer.service.exceptions.RainbowAssetExplorerException;
 
 /**
  * This exception is thrown whenever an attempt is made to update or deleted a

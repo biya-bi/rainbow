@@ -9,12 +9,11 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
 import org.rainbow.asset.explorer.orm.entities.SiteDocument;
-import org.rainbow.persistence.SearchOptions;
+import org.rainbow.asset.explorer.service.services.SiteDocumentService;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "SiteDocumentCreated", updatedMessageKey = "SiteDocumentUpdated", deletedMessageKey = "SiteDocumentDeleted")
-public class SiteDocumentController extends AuditableController<SiteDocument, Long, SearchOptions> {
+public class SiteDocumentController extends AuditableController<SiteDocument> {
 
 	/**
 	 * 
@@ -33,8 +32,7 @@ public class SiteDocumentController extends AuditableController<SiteDocument, Lo
 	private static final long serialVersionUID = 1950872812719298208L;
 
 	@Autowired
-	@Qualifier("siteDocumentService")
-	private Service<SiteDocument, Long, SearchOptions> service;
+	private SiteDocumentService service;
 
 	public SiteDocumentController() {
 		super(SiteDocument.class);
@@ -57,7 +55,7 @@ public class SiteDocumentController extends AuditableController<SiteDocument, Lo
 	}
 
 	@Override
-	protected Service<SiteDocument, Long, SearchOptions> getService() {
+	protected Service<SiteDocument> getService() {
 		return service;
 	}
 }

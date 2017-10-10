@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.persistence.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -16,7 +15,7 @@ import org.rainbow.asset.explorer.orm.entities.BusinessEntityPhone;
  * @author Biya-Bi
  * @param <TEntity>
  */
-public abstract class BusinessEntityDao<TEntity extends BusinessEntity, TKey extends Serializable> extends TrackableDaoImpl<TEntity,TKey> {
+public abstract class BusinessEntityDao<TEntity extends BusinessEntity> extends TrackableDaoImpl<TEntity> {
 
     public BusinessEntityDao(Class<TEntity> entityClass) {
         super(entityClass);

@@ -5,27 +5,27 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
-import org.rainbow.persistence.dao.Dao;
-import org.rainbow.security.orm.entities.Application;
+import org.rainbow.criteria.PathImpl;
+import org.rainbow.criteria.PredicateBuilderImpl;
+import org.rainbow.criteria.SearchOptionsImpl;
 import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.orm.entities.User;
+import org.rainbow.security.persistence.dao.ApplicationDao;
+import org.rainbow.security.persistence.dao.AuthorityDao;
+import org.rainbow.security.persistence.dao.UserDao;
 import org.rainbow.security.service.exceptions.ApplicationNotFoundException;
 import org.rainbow.security.service.exceptions.AuthorityAlreadyGrantedToUserException;
 import org.rainbow.security.service.exceptions.AuthorityNotFoundException;
 import org.rainbow.security.service.exceptions.AuthorityNotGrantedToUserException;
 import org.rainbow.security.service.exceptions.RainbowSecurityServiceException;
 import org.rainbow.security.service.exceptions.UserNotFoundException;
-import org.rainbow.security.service.services.UserAuthorityService;
 
 public class UserAuthorityServiceImpl implements UserAuthorityService {
 
 	private String applicationName;
-	private Dao<Application, Long, SearchOptions> applicationDao;
-	private Dao<User, Long, SearchOptions> userDao;
-	private Dao<Authority, Long, SearchOptions> authorityDao;
+	private ApplicationDao applicationDao;
+	private UserDao userDao;
+	private AuthorityDao authorityDao;
 
 	public UserAuthorityServiceImpl() {
 	}
@@ -38,27 +38,27 @@ public class UserAuthorityServiceImpl implements UserAuthorityService {
 		this.applicationName = applicationName;
 	}
 
-	public Dao<Application, Long, SearchOptions> getApplicationDao() {
+	public ApplicationDao getApplicationDao() {
 		return applicationDao;
 	}
 
-	public void setApplicationDao(Dao<Application, Long, SearchOptions> applicationDao) {
+	public void setApplicationDao(ApplicationDao applicationDao) {
 		this.applicationDao = applicationDao;
 	}
 
-	public Dao<User, Long, SearchOptions> getUserDao() {
+	public UserDao getUserDao() {
 		return userDao;
 	}
 
-	public void setUserDao(Dao<User, Long, SearchOptions> userDao) {
+	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
 
-	public Dao<Authority, Long, SearchOptions> getAuthorityDao() {
+	public AuthorityDao getAuthorityDao() {
 		return authorityDao;
 	}
 
-	public void setAuthorityDao(Dao<Authority, Long, SearchOptions> authorityDao) {
+	public void setAuthorityDao(AuthorityDao authorityDao) {
 		this.authorityDao = authorityDao;
 	}
 
@@ -188,23 +188,18 @@ public class UserAuthorityServiceImpl implements UserAuthorityService {
 		List<Authority> authoritiesGrantedToUser;
 
 		try {
-			SearchOptions options = new SearchOptions();
 
-			final SingleValuedFilter<String> applicationNameFilter = new SingleValuedFilter<String>("application.name",
-					RelationalOperator.EQUAL, this.getApplicationName());
-			final SingleValuedFilter<String> groupUsersFilter = new SingleValuedFilter<String>("groups.users.userName",
-					RelationalOperator.EQUAL, userName);
+			PredicateBuilderImpl builder = new PredicateBuilderImpl();
 
-			options.setFilters(Arrays.asList(applicationNameFilter, groupUsersFilter));
+			authoritiesGrantedToUserGroups = this.getAuthorityDao()
+					.find(new SearchOptionsImpl(
+							builder.and(builder.equal(new PathImpl("application.name"), this.getApplicationName()),
+									builder.equal(new PathImpl("groups.users.userName"), userName))));
 
-			authoritiesGrantedToUserGroups = this.getAuthorityDao().find(options);
-
-			final SingleValuedFilter<String> userNameFilter = new SingleValuedFilter<String>("users.userName",
-					RelationalOperator.EQUAL, userName);
-
-			options.setFilters(Arrays.asList(applicationNameFilter, userNameFilter));
-
-			authoritiesGrantedToUser = this.getAuthorityDao().find(options);
+			authoritiesGrantedToUser = this.getAuthorityDao()
+					.find(new SearchOptionsImpl(
+							builder.and(builder.equal(new PathImpl("application.name"), this.getApplicationName()),
+									builder.equal(new PathImpl("users.userName"), userName))));
 
 		} catch (Exception e) {
 			throw new RainbowSecurityServiceException(e);
@@ -245,23 +240,16 @@ public class UserAuthorityServiceImpl implements UserAuthorityService {
 		List<Authority> authoritiesGrantedToUser;
 
 		try {
-			SearchOptions options = new SearchOptions();
+			PredicateBuilderImpl builder = new PredicateBuilderImpl();
+			authoritiesGrantedToUserGroups = this.getAuthorityDao()
+					.find(new SearchOptionsImpl(
+							builder.and(builder.equal(new PathImpl("application.name"), this.getApplicationName()),
+									builder.equal(new PathImpl("groups.users.userName"), userName))));
 
-			final SingleValuedFilter<String> applicationNameFilter = new SingleValuedFilter<String>("application.name",
-					RelationalOperator.EQUAL, this.getApplicationName());
-			final SingleValuedFilter<String> groupUsersFilter = new SingleValuedFilter<String>("groups.users.userName",
-					RelationalOperator.EQUAL, userName);
-
-			options.setFilters(Arrays.asList(applicationNameFilter, groupUsersFilter));
-
-			authoritiesGrantedToUserGroups = this.getAuthorityDao().find(options);
-
-			final SingleValuedFilter<String> userNameFilter = new SingleValuedFilter<String>("users.userName",
-					RelationalOperator.EQUAL, userName);
-
-			options.setFilters(Arrays.asList(applicationNameFilter, userNameFilter));
-
-			authoritiesGrantedToUser = this.getAuthorityDao().find(options);
+			authoritiesGrantedToUser = this.getAuthorityDao()
+					.find(new SearchOptionsImpl(
+							builder.and(builder.equal(new PathImpl("application.name"), this.getApplicationName()),
+									builder.equal(new PathImpl("users.userName"), userName))));
 
 		} catch (Exception e) {
 			throw new RainbowSecurityServiceException(e);

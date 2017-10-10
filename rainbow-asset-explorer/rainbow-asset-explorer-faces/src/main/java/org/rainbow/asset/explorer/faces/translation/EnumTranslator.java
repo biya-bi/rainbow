@@ -2,7 +2,7 @@ package org.rainbow.asset.explorer.faces.translation;
 
 import java.util.ResourceBundle;
 
-import org.rainbow.asset.explorer.faces.utilities.ResourceBundles;
+import org.rainbow.asset.explorer.faces.util.ResourceBundles;
 import org.rainbow.asset.explorer.orm.entities.AlertCategory;
 import org.rainbow.asset.explorer.orm.entities.AlertType;
 import org.rainbow.asset.explorer.orm.entities.AssetState;

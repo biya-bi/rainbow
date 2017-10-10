@@ -1,6 +1,6 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +12,15 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.rainbow.asset.explorer.faces.translation.EnumTranslator;
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
 import org.rainbow.asset.explorer.orm.entities.Alert;
 import org.rainbow.asset.explorer.orm.entities.EmailRecipient;
 import org.rainbow.asset.explorer.orm.entities.EmailTemplate;
 import org.rainbow.asset.explorer.orm.entities.Schedule;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAlertException;
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.services.Service;
+import org.rainbow.asset.explorer.service.services.AlertService;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,7 +31,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "AlertCreated", updatedMessageKey = "AlertUpdated", deletedMessageKey = "AlertDeleted")
-public class AlertController extends AuditableController<Alert, Integer, SearchOptions> {
+public class AlertController extends AuditableController<Alert> {
 
 	/**
 	 * 
@@ -48,8 +46,7 @@ public class AlertController extends AuditableController<Alert, Integer, SearchO
 	private final EnumTranslator translator;
 
 	@Autowired
-	@Qualifier("alertService")
-	private Service<Alert, Integer, SearchOptions> service;
+	private AlertService service;
 
 	public AlertController() {
 		super(Alert.class);
@@ -169,7 +166,7 @@ public class AlertController extends AuditableController<Alert, Integer, SearchO
 	}
 
 	@Override
-	protected Service<Alert, Integer, SearchOptions> getService() {
+	protected AlertService getService() {
 		return service;
 	}
 }

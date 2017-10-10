@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -11,14 +10,13 @@ import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.orm.entities.ProductReceipt;
+import org.rainbow.asset.explorer.service.services.ProductReceiptService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.Filterable;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,8 +39,6 @@ public class ProductReceiptLazyDataModel extends LongIdTrackableLazyDataModel<Pr
 	private static final String RECEIPT_DATE_FILTER = "receiptDate";
 	private static final String CURRENCY_NAME_FILTER = "currency.name";
 
-	private final List<Filter<?>> filters;
-
 	private final SingleValuedFilter<String> referenceNumberFilter;
 	private final SingleValuedFilter<String> locationNameFilter;
 	private final SingleValuedFilter<String> vendorNameFilter;
@@ -50,54 +46,39 @@ public class ProductReceiptLazyDataModel extends LongIdTrackableLazyDataModel<Pr
 	private final SingleValuedFilter<String> currencyNameFilter;
 
 	@Autowired
-	@Qualifier("productReceiptService")
-	private Service<ProductReceipt, Long, SearchOptions> service;
+	private ProductReceiptService service;
 
 	public ProductReceiptLazyDataModel() {
-
 		referenceNumberFilter = new SingleValuedFilter<>(REFERENCE_NUMBER_FILTER, RelationalOperator.CONTAINS, "");
 		locationNameFilter = new SingleValuedFilter<>(LOCATION_NAME_FILTER, RelationalOperator.CONTAINS, "");
 		vendorNameFilter = new SingleValuedFilter<>(VENDOR_NAME_FILTER, RelationalOperator.CONTAINS, "");
 		receiptDateFilter = new SingleValuedFilter<>(RECEIPT_DATE_FILTER, RelationalOperator.EQUAL, new Date());
 		currencyNameFilter = new SingleValuedFilter<>(CURRENCY_NAME_FILTER, RelationalOperator.CONTAINS, "");
-
-		filters = new ArrayList<>();
-		filters.add(referenceNumberFilter);
-		filters.add(locationNameFilter);
-		filters.add(vendorNameFilter);
-		filters.add(receiptDateFilter);
-		filters.add(currencyNameFilter);
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getReferenceNumberFilter() {
 		return referenceNumberFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getLocationNameFilter() {
 		return locationNameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getVendorNameFilter() {
 		return vendorNameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<Date> getReceiptDateFilter() {
 		return receiptDateFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getCurrencyNameFilter() {
 		return currencyNameFilter;
-	}
-
-	@Override
-	protected List<Filter<?>> getFilters() {
-		List<Filter<?>> baseFilters = super.getFilters();
-		if (baseFilters != null) {
-			ArrayList<Filter<?>> combinedFilters = new ArrayList<>(baseFilters);
-			combinedFilters.addAll(filters);
-			return combinedFilters;
-		}
-		return filters;
 	}
 
 	@Override
@@ -188,7 +169,7 @@ public class ProductReceiptLazyDataModel extends LongIdTrackableLazyDataModel<Pr
 	}
 
 	@Override
-	protected Service<ProductReceipt, Long, SearchOptions> getService() {
+	protected Service<ProductReceipt> getService() {
 		return service;
 	}
 

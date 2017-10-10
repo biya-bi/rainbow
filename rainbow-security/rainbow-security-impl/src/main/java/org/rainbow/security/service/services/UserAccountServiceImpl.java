@@ -14,8 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.dao.Dao;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.LockoutPolicy;
 import org.rainbow.security.orm.entities.LoginHistory;
@@ -24,6 +22,8 @@ import org.rainbow.security.orm.entities.PasswordHistory;
 import org.rainbow.security.orm.entities.PasswordPolicy;
 import org.rainbow.security.orm.entities.RecoveryInformation;
 import org.rainbow.security.orm.entities.User;
+import org.rainbow.security.persistence.dao.ApplicationDao;
+import org.rainbow.security.persistence.dao.UserDao;
 import org.rainbow.security.service.exceptions.ApplicationNotFoundException;
 import org.rainbow.security.service.exceptions.CredentialsNotFoundException;
 import org.rainbow.security.service.exceptions.DuplicateRecoveryQuestionException;
@@ -52,8 +52,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 	private final static Date FIRST_JAN_1754 = DateUtil.toDate("1754-01-01");
 
-	private Dao<User, Long, SearchOptions> userDao;
-	private Dao<Application, Long, SearchOptions> applicationDao;
+	private UserDao userDao;
+	private ApplicationDao applicationDao;
 	private String applicationName;
 	private PasswordEncoder passwordEncoder;
 	private AuthenticationManager authenticationManager;
@@ -62,19 +62,19 @@ public class UserAccountServiceImpl implements UserAccountService {
 	public UserAccountServiceImpl() {
 	}
 
-	public Dao<User, Long, SearchOptions> getUserDao() {
+	public UserDao getUserDao() {
 		return userDao;
 	}
 
-	public void setUserDao(Dao<User, Long, SearchOptions> dao) {
+	public void setUserDao(UserDao dao) {
 		this.userDao = dao;
 	}
 
-	public Dao<Application, Long, SearchOptions> getApplicationDao() {
+	public ApplicationDao getApplicationDao() {
 		return applicationDao;
 	}
 
-	public void setApplicationDao(Dao<Application, Long, SearchOptions> applicationDao) {
+	public void setApplicationDao(ApplicationDao applicationDao) {
 		this.applicationDao = applicationDao;
 	}
 

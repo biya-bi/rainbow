@@ -3,11 +3,10 @@ package org.rainbow.security.service.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.dao.Dao;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Membership;
 import org.rainbow.security.orm.entities.User;
+import org.rainbow.security.persistence.dao.ApplicationDao;
 import org.rainbow.security.service.exceptions.DuplicateUserException;
 import org.rainbow.security.service.exceptions.InvalidPasswordException;
 import org.rainbow.security.utilities.PasswordUtil;
@@ -15,18 +14,18 @@ import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class UserServiceImpl extends ServiceImpl<User, Long, SearchOptions> {
+public class UserServiceImpl extends ServiceImpl<User> implements UserService {
 
-	private Dao<Application, Long, SearchOptions> applicationDao;
+	private ApplicationDao applicationDao;
 
 	public UserServiceImpl() {
 	}
 
-	public Dao<Application, Long, SearchOptions> getApplicationDao() {
+	public ApplicationDao getApplicationDao() {
 		return applicationDao;
 	}
 
-	public void setApplicationDao(Dao<Application, Long, SearchOptions> applicationDao) {
+	public void setApplicationDao(ApplicationDao applicationDao) {
 		this.applicationDao = applicationDao;
 	}
 
@@ -37,10 +36,10 @@ public class UserServiceImpl extends ServiceImpl<User, Long, SearchOptions> {
 		switch (operation) {
 		case CREATE:
 		case UPDATE:
-			final Map<String, Comparable<?>> filters = new HashMap<>();
-			filters.put("userName", user.getUserName());
-			filters.put("application.id", user.getApplication().getId());
-			if (DaoUtil.isDuplicate(this.getDao(), filters, user.getId(), operation)) {
+			final Map<String, Comparable<?>> pathValuePairs = new HashMap<>();
+			pathValuePairs.put("userName", user.getUserName());
+			pathValuePairs.put("application.id", user.getApplication().getId());
+			if (DaoUtil.isDuplicate(this.getDao(), pathValuePairs, user.getId(), operation)) {
 				throw new DuplicateUserException(user.getUserName());
 			}
 			if (operation == UpdateOperation.CREATE) {

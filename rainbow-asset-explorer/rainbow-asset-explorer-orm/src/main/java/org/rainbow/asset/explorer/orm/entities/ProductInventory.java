@@ -3,6 +3,8 @@ package org.rainbow.asset.explorer.orm.entities;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -22,6 +24,8 @@ public class ProductInventory extends Trackable<ProductInventoryId> {
 	 */
 	private static final long serialVersionUID = 1756755603720578535L;
 	private Short quantity;
+	private Product product;
+	private Location location;
 
 	@Override
 	@EmbeddedId
@@ -43,6 +47,26 @@ public class ProductInventory extends Trackable<ProductInventoryId> {
 
 	public void setQuantity(Short quantity) {
 		this.quantity = quantity;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "PRODUCT_ID", insertable = false, updatable = false)
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "LOCATION_ID", insertable = false, updatable = false)
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 }

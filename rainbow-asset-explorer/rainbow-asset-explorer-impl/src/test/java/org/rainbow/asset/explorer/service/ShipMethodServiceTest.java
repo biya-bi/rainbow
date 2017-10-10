@@ -8,11 +8,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.rainbow.asset.explorer.orm.entities.ShipMethod;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateShipMethodNameException;
+import org.rainbow.asset.explorer.service.services.ShipMethodService;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -27,7 +26,7 @@ public class ShipMethodServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("shipMethodService")
-	private Service<ShipMethod, Long, SearchOptions> shipMethodService;
+	private ShipMethodService shipMethodService;
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

@@ -1,7 +1,9 @@
 package org.rainbow.persistence.dao;
 
-import java.io.Serializable;
 import java.util.List;
+
+import org.rainbow.criteria.Predicate;
+import org.rainbow.criteria.SearchOptions;
 
 /**
  * Interface representing the data access layer.
@@ -10,19 +12,8 @@ import java.util.List;
  *
  * @param <TEntity>
  *            the type of the entity handled by this layer.
- * @param <TKey>
- *            the type of the primary key of the entity handled by this layer.
- *            This parameter is required because the
- *            {@link org.rainbow.persistence.dao.Dao#findById(TKey) findById} method
- *            to get an entity by ID.
- * @param <TSearchOptions>
- *            the type of the search criteria used to find and count entities.
- *            This parameter is used in the
- *            {@link org.rainbow.persistence.dao.Dao#find(TSearchOptions) find} and
- *            {@link org.rainbow.persistence.dao.Dao#count(TSearchOptions) count}
- *            methods.
  */
-public interface Dao<TEntity extends Object, TKey extends Serializable, TSearchOptions extends Object> {
+public interface Dao<TEntity extends Object> {
 	/**
 	 * Create an entity
 	 *
@@ -61,13 +52,13 @@ public interface Dao<TEntity extends Object, TKey extends Serializable, TSearchO
 	 *
 	 * @param id
 	 *            the ID of the entity to be searched.
-	 * @return a {@code T} whose ID is supplied as argument.
+	 * @return a {@code TEntity} whose ID is supplied as argument.
 	 * @throws Exception
 	 *             if an error occurs while searching the entity with the given
 	 *             ID
 	 *
 	 */
-	TEntity findById(TKey id) throws Exception;
+	TEntity findById(Object id) throws Exception;
 
 	/**
 	 * Get all entities
@@ -79,7 +70,7 @@ public interface Dao<TEntity extends Object, TKey extends Serializable, TSearchO
 	List<TEntity> findAll() throws Exception;
 
 	/**
-	 * Get entities that satisfy the specified {@code TSearchOptions}.
+	 * Get entities that satisfy the specified {@link SearchOptions}.
 	 * 
 	 * @param options
 	 *            the search options used to search for the entities
@@ -87,18 +78,18 @@ public interface Dao<TEntity extends Object, TKey extends Serializable, TSearchO
 	 * @throws Exception
 	 *             if an error occurs while searching the entities
 	 */
-	List<TEntity> find(TSearchOptions options) throws Exception;
+	List<TEntity> find(SearchOptions options) throws Exception;
 
 	/**
-	 * Get count of entities that satisfy the specified {@code TSearchOptions}.
+	 * Get count of entities that satisfy the specified {@link Predicate}.
 	 * 
-	 * @param options
-	 *            the search options used to count the entities
+	 * @param predicate
+	 *            the predicate used to count the entities
 	 * @return the number of entities that satisfy the specified search options
 	 * @throws Exception
 	 *             if an error occurs while counting the entities
 	 */
-	long count(TSearchOptions options) throws Exception;
+	long count(Predicate predicate) throws Exception;
 
 	/**
 	 * Create entities

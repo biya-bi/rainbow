@@ -12,10 +12,8 @@ import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderStatus;
 import org.rainbow.asset.explorer.service.services.ShippingOrderService;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class ShippingOrderController extends AuditableController<ShippingOrder, Long, SearchOptions> {
+public class ShippingOrderController extends AuditableController<ShippingOrder> {
 
 	/**
 	 * 
@@ -36,7 +34,6 @@ public class ShippingOrderController extends AuditableController<ShippingOrder, 
 	private List<ShippingOrderDetail> receivedDetails;
 
 	@Autowired
-	@Qualifier("shippingOrderService")
 	private ShippingOrderService service;
 
 	public ShippingOrderController() {
@@ -183,7 +180,7 @@ public class ShippingOrderController extends AuditableController<ShippingOrder, 
 	}
 
 	@Override
-	protected Service<ShippingOrder, Long, SearchOptions> getService() {
+	protected Service<ShippingOrder> getService() {
 		return service;
 	}
 }

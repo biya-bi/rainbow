@@ -11,8 +11,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.rainbow.persistence.DaoImpl;
-import org.rainbow.persistence.Pageable;
+import org.rainbow.persistence.dao.DaoImpl;
+import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.orm.entities.Group;
@@ -25,7 +25,7 @@ import org.rainbow.utilities.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class GroupDaoImpl extends DaoImpl<Group, Long> {
+public class GroupDaoImpl extends DaoImpl<Group> implements GroupDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

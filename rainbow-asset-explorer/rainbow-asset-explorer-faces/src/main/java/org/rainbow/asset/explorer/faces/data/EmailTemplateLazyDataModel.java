@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -10,14 +9,13 @@ import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.orm.entities.EmailTemplate;
+import org.rainbow.asset.explorer.service.services.EmailTemplateService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.Filterable;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,48 +36,32 @@ public class EmailTemplateLazyDataModel extends IntegerIdTrackableLazyDataModel<
 	private static final String SUBJECT_FILTER = "subject";
 	private static final String LOCALE_NAME_FILTER = "locale.name";
 
-	private final List<Filter<?>> filters;
-
 	private final SingleValuedFilter<String> nameFilter;
 	private final SingleValuedFilter<String> subjectFilter;
 	private final SingleValuedFilter<String> localeNameFilter;
 
 	@Autowired
-	@Qualifier("emailTemplateService")
-	private Service<EmailTemplate, Integer, SearchOptions> service;
+	private EmailTemplateService service;
 
 	public EmailTemplateLazyDataModel() {
 		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
 		subjectFilter = new SingleValuedFilter<>(SUBJECT_FILTER, RelationalOperator.CONTAINS, "");
 		localeNameFilter = new SingleValuedFilter<>(LOCALE_NAME_FILTER, RelationalOperator.CONTAINS, "");
-
-		filters = new ArrayList<>();
-		filters.add(nameFilter);
-		filters.add(subjectFilter);
-		filters.add(localeNameFilter);
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getNameFilter() {
 		return nameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getSubjectFilter() {
 		return subjectFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getLocaleNameFilter() {
 		return localeNameFilter;
-	}
-
-	@Override
-	protected List<Filter<?>> getFilters() {
-		List<Filter<?>> baseFilters = super.getFilters();
-		if (baseFilters != null) {
-			ArrayList<Filter<?>> combinedFilters = new ArrayList<>(baseFilters);
-			combinedFilters.addAll(filters);
-			return combinedFilters;
-		}
-		return filters;
 	}
 
 	@Override
@@ -141,7 +123,7 @@ public class EmailTemplateLazyDataModel extends IntegerIdTrackableLazyDataModel<
 	}
 
 	@Override
-	protected Service<EmailTemplate, Integer, SearchOptions> getService() {
+	protected Service<EmailTemplate> getService() {
 		return service;
 	}
 

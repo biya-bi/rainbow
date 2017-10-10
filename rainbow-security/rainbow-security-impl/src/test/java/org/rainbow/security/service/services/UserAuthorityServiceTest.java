@@ -15,7 +15,6 @@ import org.rainbow.security.service.exceptions.AuthorityAlreadyGrantedToUserExce
 import org.rainbow.security.service.exceptions.AuthorityNotFoundException;
 import org.rainbow.security.service.exceptions.AuthorityNotGrantedToUserException;
 import org.rainbow.security.service.exceptions.UserNotFoundException;
-import org.rainbow.security.service.services.UserAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

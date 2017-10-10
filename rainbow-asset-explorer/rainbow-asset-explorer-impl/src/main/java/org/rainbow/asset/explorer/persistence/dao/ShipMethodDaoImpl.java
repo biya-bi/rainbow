@@ -5,14 +5,14 @@ import javax.persistence.PersistenceContext;
 
 import org.rainbow.asset.explorer.orm.entities.ShipMethod;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
-import org.rainbow.persistence.Pageable;
+import org.rainbow.persistence.dao.Pageable;
 
 /**
  *
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class ShipMethodDaoImpl extends TrackableDaoImpl<ShipMethod, Long> {
+public class ShipMethodDaoImpl extends TrackableDaoImpl<ShipMethod> implements ShipMethodDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

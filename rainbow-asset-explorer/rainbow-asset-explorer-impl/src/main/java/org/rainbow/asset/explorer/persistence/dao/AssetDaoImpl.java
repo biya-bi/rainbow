@@ -10,7 +10,7 @@ import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.orm.entities.Site;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
-import org.rainbow.persistence.Pageable;
+import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.utilities.EntityManagerUtil;
 
 /**
@@ -18,7 +18,7 @@ import org.rainbow.utilities.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class AssetDaoImpl extends TrackableDaoImpl<Asset, Long> {
+public class AssetDaoImpl extends TrackableDaoImpl<Asset> implements AssetDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

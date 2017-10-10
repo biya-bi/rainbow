@@ -17,7 +17,6 @@ import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
 import org.rainbow.common.util.DefaultComparator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -43,7 +42,6 @@ public class InventoryLazyDataModel extends LazyDataModel<Map.Entry<Product, Sho
 	private String name;
 
 	@Autowired
-	@Qualifier("inventoryManager")
 	private InventoryManager inventoryManager;
 
 	public InventoryLazyDataModel() {
@@ -80,7 +78,12 @@ public class InventoryLazyDataModel extends LazyDataModel<Map.Entry<Product, Sho
 		int pageIndex = pageSize == 0 ? 0 : first / pageSize;
 		long locationId = location.getId();
 
-		Map<Product, Short> inventory = inventoryManager.load(locationId, number, name, pageIndex, pageSize);
+		Map<Product, Short> inventory;
+		try {
+			inventory = inventoryManager.load(locationId, number, name, pageIndex, pageSize);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		long count = inventoryManager.count(locationId, number, name);
 		Set<Map.Entry<Product, Short>> productSet = inventory.entrySet();
 

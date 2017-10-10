@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.rainbow.security.service.authentication.PasswordAttemptUpdater;
 import org.rainbow.security.service.exceptions.ApplicationNotFoundException;
 import org.rainbow.security.service.exceptions.CredentialsNotFoundException;
 import org.rainbow.security.utilities.DateUtil;

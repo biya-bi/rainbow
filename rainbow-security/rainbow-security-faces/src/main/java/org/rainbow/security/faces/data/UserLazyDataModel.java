@@ -1,6 +1,5 @@
 package org.rainbow.security.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -10,14 +9,12 @@ import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.Filterable;
 import org.rainbow.security.orm.entities.User;
-import org.rainbow.service.services.Service;
+import org.rainbow.security.service.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,8 +38,6 @@ public class UserLazyDataModel extends LongIdTrackableLazyDataModel<User> {
 	private static final String EMAIL_FILTER = "membership.email";
 	private static final String PHONE_FILTER = "membership.phone";
 
-	private final List<Filter<?>> filters;
-
 	private final SingleValuedFilter<String> userNameFilter;
 	private final SingleValuedFilter<String> applicationNameFilter;
 	private final SingleValuedFilter<Boolean> enabledFilter;
@@ -51,8 +46,7 @@ public class UserLazyDataModel extends LongIdTrackableLazyDataModel<User> {
 	private final SingleValuedFilter<String> phoneFilter;
 
 	@Autowired
-	@Qualifier("userService")
-	private Service<User, Long, SearchOptions> userService;
+	private UserService userService;
 
 	public UserLazyDataModel() {
 		userNameFilter = new SingleValuedFilter<>(USER_NAME_FILTER, RelationalOperator.CONTAINS, "");
@@ -61,51 +55,36 @@ public class UserLazyDataModel extends LongIdTrackableLazyDataModel<User> {
 		lockedFilter = new SingleValuedFilter<>(LOCKED_OUT_FILTER, RelationalOperator.EQUAL, null);
 		emailFilter = new SingleValuedFilter<>(EMAIL_FILTER);
 		phoneFilter = new SingleValuedFilter<>(PHONE_FILTER);
-
-		filters = new ArrayList<>();
-		filters.add(userNameFilter);
-		filters.add(applicationNameFilter);
-		filters.add(enabledFilter);
-		filters.add(lockedFilter);
-		filters.add(emailFilter);
-		filters.add(phoneFilter);
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getUserNameFilter() {
 		return userNameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getApplicationNameFilter() {
 		return applicationNameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<Boolean> getEnabledFilter() {
 		return enabledFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<Boolean> getLockedFilter() {
 		return lockedFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getEmailFilter() {
 		return emailFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getPhoneFilter() {
 		return phoneFilter;
-	}
-
-	@Override
-	protected List<Filter<?>> getFilters() {
-		filters.remove(enabledFilter);
-		if (enabledFilter.getValue() != null) {
-			filters.add(enabledFilter);
-		}
-		filters.remove(lockedFilter);
-		if (lockedFilter.getValue() != null) {
-			filters.add(lockedFilter);
-		}
-		return filters;
 	}
 
 	@Override
@@ -249,7 +228,7 @@ public class UserLazyDataModel extends LongIdTrackableLazyDataModel<User> {
 	}
 
 	@Override
-	protected Service<User, Long, SearchOptions> getService() {
+	protected UserService getService() {
 		return userService;
 	}
 }

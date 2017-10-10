@@ -1,17 +1,15 @@
 package org.rainbow.asset.explorer.persistence.dao;
 
-import java.io.Serializable;
-
 import org.rainbow.orm.entities.Trackable;
-import org.rainbow.persistence.DaoImpl;
+import org.rainbow.persistence.dao.DaoImpl;
 
 /**
  *
  * @author Biya-Bi
  * @param <TEntity>
  */
-public abstract class TrackableDaoImpl<TEntity extends Trackable<?>, TKey extends Serializable>
-		extends DaoImpl<TEntity, TKey> {
+public abstract class TrackableDaoImpl<TEntity extends Trackable<?>>
+		extends DaoImpl<TEntity> {
 
 	public TrackableDaoImpl(Class<TEntity> entityClass) {
 		super(entityClass);

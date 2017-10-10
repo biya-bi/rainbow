@@ -1,19 +1,20 @@
 package org.rainbow.security.service.services;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.rainbow.persistence.ListValuedFilter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
-import org.rainbow.persistence.dao.Dao;
+import org.rainbow.criteria.PathImpl;
+import org.rainbow.criteria.PredicateBuilderImpl;
+import org.rainbow.criteria.SearchOptionsImpl;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.orm.entities.Group;
 import org.rainbow.security.orm.entities.User;
+import org.rainbow.security.persistence.dao.ApplicationDao;
+import org.rainbow.security.persistence.dao.AuthorityDao;
+import org.rainbow.security.persistence.dao.GroupDao;
+import org.rainbow.security.persistence.dao.UserDao;
 import org.rainbow.security.service.exceptions.ApplicationNotFoundException;
 import org.rainbow.security.service.exceptions.AuthorityNotFoundException;
 import org.rainbow.security.service.exceptions.GroupNotFoundException;
@@ -22,22 +23,20 @@ import org.rainbow.security.service.exceptions.UserNotFoundException;
 
 public class SearchUtil {
 
-	public static boolean applicationExists(String applicationName,
-			Dao<Application, Long, SearchOptions> applicationDao) {
+	public static boolean applicationExists(String applicationName, ApplicationDao applicationDao) {
 		if (applicationName == null)
 			throw new IllegalArgumentException("The applicationName argument cannot be null.");
 		if (applicationDao == null)
 			throw new IllegalArgumentException("The applicationDao argument cannot be null.");
 
 		try {
-			return applicationDao.count(constructApplicationSearchOptions(applicationName)) > 0;
+			return applicationDao.count(constructApplicationSearchOptions(applicationName).getPredicate()) > 0;
 		} catch (Exception e) {
 			throw new RainbowSecurityServiceException(e);
 		}
 	}
 
-	public static Application getApplication(String applicationName,
-			Dao<Application, Long, SearchOptions> applicationDao) {
+	public static Application getApplication(String applicationName, ApplicationDao applicationDao) {
 		if (applicationName == null)
 			throw new IllegalArgumentException("The applicationName argument cannot be null.");
 		if (applicationDao == null)
@@ -58,9 +57,8 @@ public class SearchUtil {
 		return applications.get(0);
 	}
 
-	public static boolean userExists(String userName, String applicationName, Dao<User, Long, SearchOptions> userDao,
-			Dao<Application, Long, SearchOptions> applicationDao)
-			throws ApplicationNotFoundException, UserNotFoundException {
+	public static boolean userExists(String userName, String applicationName, UserDao userDao,
+			ApplicationDao applicationDao) throws ApplicationNotFoundException, UserNotFoundException {
 		if (userName == null)
 			throw new IllegalArgumentException("The userName argument cannot be null.");
 		if (applicationName == null)
@@ -75,14 +73,13 @@ public class SearchUtil {
 		}
 
 		try {
-			return userDao.count(constructUserSearchOptions(userName, applicationName)) > 0;
+			return userDao.count(constructUserSearchOptions(userName, applicationName).getPredicate()) > 0;
 		} catch (Exception e) {
 			throw new RainbowSecurityServiceException(e);
 		}
 	}
 
-	public static User getUser(String userName, String applicationName, Dao<User, Long, SearchOptions> userDao,
-			Dao<Application, Long, SearchOptions> applicationDao)
+	public static User getUser(String userName, String applicationName, UserDao userDao, ApplicationDao applicationDao)
 			throws ApplicationNotFoundException, UserNotFoundException {
 		if (userName == null)
 			throw new IllegalArgumentException("The userName argument cannot be null.");
@@ -112,9 +109,8 @@ public class SearchUtil {
 		return users.get(0);
 	}
 
-	public static List<User> getUsers(List<String> userNames, String applicationName,
-			Dao<User, Long, SearchOptions> userDao, Dao<Application, Long, SearchOptions> applicationDao)
-			throws ApplicationNotFoundException, UserNotFoundException {
+	public static List<User> getUsers(List<String> userNames, String applicationName, UserDao userDao,
+			ApplicationDao applicationDao) throws ApplicationNotFoundException, UserNotFoundException {
 
 		if (userNames == null)
 			throw new IllegalArgumentException("The userNames argument cannot be null.");
@@ -129,14 +125,12 @@ public class SearchUtil {
 			throw new ApplicationNotFoundException(applicationName);
 		}
 
-		SearchOptions options = new SearchOptions();
-		options.setFilters(Arrays.asList(
-				new SingleValuedFilter<String>("application.name", RelationalOperator.EQUAL, applicationName),
-				new ListValuedFilter<String>("userName", RelationalOperator.IN, userNames)));
-
 		List<User> users;
 		try {
-			users = userDao.find(options);
+			PredicateBuilderImpl builder = new PredicateBuilderImpl();
+			users = userDao.find(
+					new SearchOptionsImpl(builder.and(builder.equal(new PathImpl("application.name"), applicationName),
+							builder.in(new PathImpl("userName"), userNames))));
 		} catch (Exception e) {
 			throw new RainbowSecurityServiceException(e);
 		}
@@ -157,9 +151,8 @@ public class SearchUtil {
 		return users;
 	}
 
-	public static List<Group> getGroups(List<String> groupNames, String applicationName,
-			Dao<Group, Long, SearchOptions> groupDao, Dao<Application, Long, SearchOptions> applicationDao)
-			throws ApplicationNotFoundException, GroupNotFoundException {
+	public static List<Group> getGroups(List<String> groupNames, String applicationName, GroupDao groupDao,
+			ApplicationDao applicationDao) throws ApplicationNotFoundException, GroupNotFoundException {
 
 		if (groupNames == null)
 			throw new IllegalArgumentException("The groupNames argument cannot be null.");
@@ -174,14 +167,13 @@ public class SearchUtil {
 			throw new ApplicationNotFoundException(applicationName);
 		}
 
-		SearchOptions options = new SearchOptions();
-		options.setFilters(Arrays.asList(
-				new SingleValuedFilter<String>("application.name", RelationalOperator.EQUAL, applicationName),
-				new ListValuedFilter<String>("name", RelationalOperator.IN, groupNames)));
-
 		List<Group> groups;
 		try {
-			groups = groupDao.find(options);
+			PredicateBuilderImpl builder = new PredicateBuilderImpl();
+
+			groups = groupDao.find(
+					new SearchOptionsImpl(builder.and(builder.equal(new PathImpl("application.name"), applicationName),
+							builder.in(new PathImpl("name"), groupNames))));
 		} catch (Exception e) {
 			throw new RainbowSecurityServiceException(e);
 		}
@@ -201,22 +193,24 @@ public class SearchUtil {
 		return groups;
 	}
 
-	private static SearchOptions constructApplicationSearchOptions(String applicationName) {
-		SearchOptions options = new SearchOptions();
-		options.setFilters(
-				Arrays.asList(new SingleValuedFilter<String>("name", RelationalOperator.EQUAL, applicationName)));
-		return options;
+	private static SearchOptionsImpl constructApplicationSearchOptions(String applicationName) {
+		SearchOptionsImpl searchOptions = new SearchOptionsImpl();
+		PredicateBuilderImpl builder = new PredicateBuilderImpl();
+		searchOptions.setPredicate(builder.equal(new PathImpl("name"), applicationName));
+		return searchOptions;
 	}
 
-	private static SearchOptions constructUserSearchOptions(String userName, String applicationName) {
-		SearchOptions options = new SearchOptions();
-		options.setFilters(Arrays.asList(new SingleValuedFilter<String>("userName", RelationalOperator.EQUAL, userName),
-				new SingleValuedFilter<String>("application.name", RelationalOperator.EQUAL, applicationName)));
-		return options;
+	private static SearchOptionsImpl constructUserSearchOptions(String userName, String applicationName) {
+		SearchOptionsImpl searchOptions = new SearchOptionsImpl();
+		PredicateBuilderImpl builder = new PredicateBuilderImpl();
+		searchOptions.setPredicate(builder.and(builder.equal(new PathImpl("userName"), userName),
+				builder.equal(new PathImpl("application.name"), applicationName)));
+
+		return searchOptions;
 	}
 
 	public static List<Authority> getAuthorities(List<String> authorityNames, String applicationName,
-			Dao<Authority, Long, SearchOptions> authorityDao, Dao<Application, Long, SearchOptions> applicationDao)
+			AuthorityDao authorityDao, ApplicationDao applicationDao)
 			throws ApplicationNotFoundException, AuthorityNotFoundException {
 
 		if (authorityNames == null)
@@ -232,14 +226,13 @@ public class SearchUtil {
 			throw new ApplicationNotFoundException(applicationName);
 		}
 
-		SearchOptions options = new SearchOptions();
-		options.setFilters(Arrays.asList(
-				new SingleValuedFilter<String>("application.name", RelationalOperator.EQUAL, applicationName),
-				new ListValuedFilter<String>("name", RelationalOperator.IN, authorityNames)));
-
 		List<Authority> authorities;
 		try {
-			authorities = authorityDao.find(options);
+			PredicateBuilderImpl builder = new PredicateBuilderImpl();
+
+			authorities = authorityDao.find(
+					new SearchOptionsImpl(builder.and(builder.equal(new PathImpl("application.name"), applicationName),
+							builder.in(new PathImpl("name"), authorityNames))));
 		} catch (Exception e) {
 			throw new RainbowSecurityServiceException(e);
 		}

@@ -1,5 +1,7 @@
 package org.rainbow.asset.explorer.service.exceptions;
 
+import org.rainbow.asset.explorer.service.exceptions.RainbowAssetExplorerException;
+
 /**
  *
  * @author Biya-Bi

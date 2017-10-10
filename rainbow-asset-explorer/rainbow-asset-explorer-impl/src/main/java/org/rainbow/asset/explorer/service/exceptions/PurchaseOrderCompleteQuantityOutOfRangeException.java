@@ -1,5 +1,7 @@
 package org.rainbow.asset.explorer.service.exceptions;
 
+import org.rainbow.asset.explorer.service.exceptions.RainbowAssetExplorerException;
+
 /**
  * This exception is thrown whenever an attempt is made to complete a purchase order with a negative number of products or more products
  * than ordered the purchase order.

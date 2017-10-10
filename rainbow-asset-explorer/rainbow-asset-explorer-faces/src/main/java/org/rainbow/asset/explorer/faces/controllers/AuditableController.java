@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +14,7 @@ import org.rainbow.orm.entities.Trackable;
  * @author Biya-Bi
  * @param <TEntity>
  */
-public abstract class AuditableController<TEntity extends Trackable<TKey>, TKey extends Serializable, TSearchOptions>
-		extends Controller<TEntity, TKey, TSearchOptions> {
+public abstract class AuditableController<TEntity extends Trackable<?>> extends Controller<TEntity> {
 
 	/**
 	 * 

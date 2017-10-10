@@ -3,14 +3,13 @@ package org.rainbow.security.service.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.security.orm.entities.Group;
 import org.rainbow.security.service.exceptions.DuplicateGroupException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class GroupServiceImpl extends ServiceImpl<Group, Long, SearchOptions> {
+public class GroupServiceImpl extends ServiceImpl<Group> implements GroupService {
 
 	public GroupServiceImpl() {
 	}
@@ -20,10 +19,10 @@ public class GroupServiceImpl extends ServiceImpl<Group, Long, SearchOptions> {
 		switch (operation) {
 		case CREATE:
 		case UPDATE:
-			final Map<String, Comparable<?>> filters = new HashMap<>();
-			filters.put("name", group.getName());
-			filters.put("application.id", group.getApplication().getId());
-			if (DaoUtil.isDuplicate(this.getDao(), filters, group.getId(), operation)) {
+			final Map<String, Comparable<?>> pathValuePairs = new HashMap<>();
+			pathValuePairs.put("name", group.getName());
+			pathValuePairs.put("application.id", group.getApplication().getId());
+			if (DaoUtil.isDuplicate(this.getDao(), pathValuePairs, group.getId(), operation)) {
 				throw new DuplicateGroupException(group.getName());
 			}
 			break;

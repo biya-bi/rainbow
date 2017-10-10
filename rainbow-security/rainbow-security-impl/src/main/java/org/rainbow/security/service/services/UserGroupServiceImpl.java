@@ -1,33 +1,32 @@
 package org.rainbow.security.service.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
-import org.rainbow.persistence.dao.Dao;
-import org.rainbow.security.orm.entities.Application;
-import org.rainbow.security.orm.entities.Authority;
+import org.rainbow.criteria.PathImpl;
+import org.rainbow.criteria.PredicateBuilderImpl;
+import org.rainbow.criteria.SearchOptionsImpl;
 import org.rainbow.security.orm.entities.Group;
 import org.rainbow.security.orm.entities.User;
+import org.rainbow.security.persistence.dao.ApplicationDao;
+import org.rainbow.security.persistence.dao.AuthorityDao;
+import org.rainbow.security.persistence.dao.GroupDao;
+import org.rainbow.security.persistence.dao.UserDao;
 import org.rainbow.security.service.exceptions.ApplicationNotFoundException;
 import org.rainbow.security.service.exceptions.GroupNotFoundException;
 import org.rainbow.security.service.exceptions.RainbowSecurityServiceException;
 import org.rainbow.security.service.exceptions.UserAlreadyInGroupException;
 import org.rainbow.security.service.exceptions.UserNotFoundException;
 import org.rainbow.security.service.exceptions.UserNotInGroupException;
-import org.rainbow.security.service.services.UserGroupService;
 
 public class UserGroupServiceImpl implements UserGroupService {
 
 	private String applicationName;
-	private Dao<Application, Long, SearchOptions> applicationDao;
-	private Dao<User, Long, SearchOptions> userDao;
-	private Dao<Group, Long, SearchOptions> groupDao;
-	private Dao<Authority, Long, SearchOptions> authorityDao;
+	private ApplicationDao applicationDao;
+	private UserDao userDao;
+	private GroupDao groupDao;
+	private AuthorityDao authorityDao;
 
 	public UserGroupServiceImpl() {
 	}
@@ -40,35 +39,35 @@ public class UserGroupServiceImpl implements UserGroupService {
 		this.applicationName = applicationName;
 	}
 
-	public Dao<Application, Long, SearchOptions> getApplicationDao() {
+	public ApplicationDao getApplicationDao() {
 		return applicationDao;
 	}
 
-	public void setApplicationDao(Dao<Application, Long, SearchOptions> applicationDao) {
+	public void setApplicationDao(ApplicationDao applicationDao) {
 		this.applicationDao = applicationDao;
 	}
 
-	public Dao<User, Long, SearchOptions> getUserDao() {
+	public UserDao getUserDao() {
 		return userDao;
 	}
 
-	public void setUserDao(Dao<User, Long, SearchOptions> userDao) {
+	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
 
-	public Dao<Group, Long, SearchOptions> getGroupDao() {
+	public GroupDao getGroupDao() {
 		return groupDao;
 	}
 
-	public void setGroupDao(Dao<Group, Long, SearchOptions> groupDao) {
+	public void setGroupDao(GroupDao groupDao) {
 		this.groupDao = groupDao;
 	}
 
-	public Dao<Authority, Long, SearchOptions> getAuthorityDao() {
+	public AuthorityDao getAuthorityDao() {
 		return authorityDao;
 	}
 
-	public void setAuthorityDao(Dao<Authority, Long, SearchOptions> authorityDao) {
+	public void setAuthorityDao(AuthorityDao authorityDao) {
 		this.authorityDao = authorityDao;
 	}
 
@@ -180,13 +179,11 @@ public class UserGroupServiceImpl implements UserGroupService {
 		List<Group> groups;
 
 		try {
-			SearchOptions options = new SearchOptions();
-			options.setFilters(Arrays.asList(
-					new SingleValuedFilter<String>("application.name", RelationalOperator.EQUAL,
-							this.getApplicationName()),
-					new SingleValuedFilter<String>("users.userName", RelationalOperator.EQUAL, userName)));
 
-			groups = this.getGroupDao().find(options);
+			PredicateBuilderImpl builder = new PredicateBuilderImpl();
+			groups = this.getGroupDao().find(
+					new SearchOptionsImpl(builder.and(builder.equal(new PathImpl("application.name"), applicationName),
+							builder.equal(new PathImpl("users.userName"), userName))));
 		} catch (Exception e) {
 			throw new RainbowSecurityServiceException(e);
 		}

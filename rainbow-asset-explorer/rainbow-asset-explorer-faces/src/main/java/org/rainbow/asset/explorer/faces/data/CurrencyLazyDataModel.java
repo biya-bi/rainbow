@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -10,14 +9,13 @@ import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.orm.entities.Currency;
+import org.rainbow.asset.explorer.service.services.CurrencyService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.Filterable;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -37,41 +35,25 @@ public class CurrencyLazyDataModel extends IntegerIdTrackableLazyDataModel<Curre
 	private static final String NAME_FILTER = "name";
 	private static final String SYMBOE_FILTER = "symbol";
 
-	private final List<Filter<?>> filters;
-
 	private final SingleValuedFilter<String> nameFilter;
 	private final SingleValuedFilter<String> symbolFilter;
 
 	@Autowired
-	@Qualifier("currencyService")
-	private Service<Currency, Integer, SearchOptions> service;
+	private CurrencyService service;
 
 	public CurrencyLazyDataModel() {
 		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
 		symbolFilter = new SingleValuedFilter<>(SYMBOE_FILTER, RelationalOperator.CONTAINS, "");
-
-		filters = new ArrayList<>();
-		filters.add(nameFilter);
-		filters.add(symbolFilter);
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getNameFilter() {
 		return nameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getSymbolFilter() {
 		return symbolFilter;
-	}
-
-	@Override
-	protected List<Filter<?>> getFilters() {
-		List<Filter<?>> baseFilters = super.getFilters();
-		if (baseFilters != null) {
-			ArrayList<Filter<?>> combinedFilters = new ArrayList<>(baseFilters);
-			combinedFilters.addAll(filters);
-			return combinedFilters;
-		}
-		return filters;
 	}
 
 	@Override
@@ -119,7 +101,7 @@ public class CurrencyLazyDataModel extends IntegerIdTrackableLazyDataModel<Curre
 	}
 
 	@Override
-	protected Service<Currency, Integer, SearchOptions> getService() {
+	protected Service<Currency> getService() {
 		return service;
 	}
 

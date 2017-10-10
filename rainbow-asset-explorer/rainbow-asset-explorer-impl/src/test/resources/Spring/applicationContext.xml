@@ -4,11 +4,12 @@
 				http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="classpath:/Spring/applicationContext.Common.xml" />
-	<import resource="classpath:/Spring/applicationContext.Database.xml" />
+	<import resource="classpath:/Spring/applicationContext.Criteria.xml" />
 	<import resource="classpath:/Spring/applicationContext.Dao.xml" />
-	<import resource="classpath:/Spring/applicationContext.Service.xml" />
+	<import resource="classpath:/Spring/applicationContext.Database.xml" />
 	<import resource="classpath:/Spring/applicationContext.Persistence.xml" />
 	<import resource="classpath:/Spring/applicationContext.Scheduling.xml" />
+	<import resource="classpath:/Spring/applicationContext.Service.xml" />
 	<import resource="classpath:/Spring/applicationContext.Transaction.xml" />
-	
+
 </beans>

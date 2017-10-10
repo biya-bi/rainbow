@@ -10,6 +10,7 @@
 	<artifactId>rainbow-asset-explorer</artifactId>
 	<packaging>pom</packaging>
 	<modules>
+		<module>rainbow-asset-explorer-api</module>
 		<module>rainbow-asset-explorer-orm</module>
 		<module>rainbow-asset-explorer-impl</module>
 		<module>rainbow-asset-explorer-faces</module>

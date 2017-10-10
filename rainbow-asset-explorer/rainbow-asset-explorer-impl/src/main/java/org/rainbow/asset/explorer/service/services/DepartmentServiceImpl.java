@@ -2,12 +2,11 @@ package org.rainbow.asset.explorer.service.services;
 
 import org.rainbow.asset.explorer.orm.entities.Department;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateDepartmentNameException;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class DepartmentServiceImpl extends ServiceImpl<Department, Integer, SearchOptions> {
+public class DepartmentServiceImpl extends ServiceImpl<Department> implements DepartmentService {
 
 	public DepartmentServiceImpl() {
 	}

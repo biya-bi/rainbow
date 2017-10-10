@@ -1,6 +1,5 @@
 package org.rainbow.security.service.authentication;
 
-import org.rainbow.security.service.authentication.PasswordAttemptUpdater;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

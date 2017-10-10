@@ -1,5 +1,7 @@
 package org.rainbow.asset.explorer.service.exceptions;
 
+import org.rainbow.asset.explorer.service.exceptions.RainbowAssetExplorerException;
+
 /**
  * This exception is thrown whenever an inactive vendor is specified
  * for a purchase order that is pending.

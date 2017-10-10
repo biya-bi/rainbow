@@ -1,8 +1,8 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.MESSAGES;
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.SECURITY_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.SECURITY_MESSAGES;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -11,8 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.primefaces.context.RequestContext;
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
-import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.orm.entities.Trackable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.service.services.Service;
@@ -22,8 +22,7 @@ import org.rainbow.service.services.Service;
  * @author Biya-Bi
  * @param <TEntity>
  */
-public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends Serializable, TSearchOptions>
-		implements Serializable {
+public abstract class Controller<TEntity extends Trackable<?>> implements Serializable {
 
 	/**
 	 * 
@@ -47,7 +46,7 @@ public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends S
 	public Controller() {
 	}
 
-	protected abstract Service<TEntity, TKey, TSearchOptions> getService();
+	protected abstract Service<TEntity> getService();
 
 	public Controller(Class<TEntity> modelClass) {
 		this.modelClass = modelClass;
@@ -156,7 +155,7 @@ public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends S
 
 	protected boolean handle(Throwable throwable) {
 		Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, throwable);
-		 NonexistentEntityException exception = extractException(throwable, NonexistentEntityException.class);
+		NonexistentEntityException exception = extractException(throwable, NonexistentEntityException.class);
 		if (exception != null) {
 			FacesContextUtil.addErrorMessage(
 					ResourceBundle.getBundle(CRUD_MESSAGES).getString(CRUD_NON_EXISTENT_ENTITY_ACCESSED));
@@ -164,7 +163,8 @@ public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends S
 		}
 		SecurityException se = extractException(throwable, SecurityException.class);
 		if (se != null) {
-			FacesContextUtil.addErrorMessage(ResourceBundle.getBundle(SECURITY_MESSAGES).getString(AUTHORIZATION_REFUSED));
+			FacesContextUtil
+					.addErrorMessage(ResourceBundle.getBundle(SECURITY_MESSAGES).getString(AUTHORIZATION_REFUSED));
 			return true;
 		}
 		FacesContextUtil.addErrorMessage(ResourceBundle.getBundle(MESSAGES).getString(UNEXPECTED_ERROR_KEY));

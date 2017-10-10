@@ -1,6 +1,6 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,16 +18,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
-import org.rainbow.asset.explorer.faces.utilities.ResourceBundles;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
+import org.rainbow.asset.explorer.faces.util.ResourceBundles;
 import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNameException;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNumberException;
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
+import org.rainbow.asset.explorer.service.services.ProductService;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -42,7 +41,7 @@ import org.xml.sax.SAXException;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "ProductCreated", updatedMessageKey = "ProductUpdated", deletedMessageKey = "ProductDeleted")
-public class ProductController extends AuditableController<Product, Long, SearchOptions> {
+public class ProductController extends AuditableController<Product> {
 
 	/**
 	 * 
@@ -59,8 +58,7 @@ public class ProductController extends AuditableController<Product, Long, Search
 	private static final String REORDER_POINT_NODE_NAME = "reorder_point";
 
 	@Autowired
-	@Qualifier("productService")
-	private Service<Product, Long, SearchOptions> service;
+	private ProductService service;
 
 	public ProductController() {
 		super(Product.class);
@@ -157,7 +155,7 @@ public class ProductController extends AuditableController<Product, Long, Search
 	}
 
 	@Override
-	protected Service<Product, Long, SearchOptions> getService() {
+	protected Service<Product> getService() {
 		return service;
 	}
 }

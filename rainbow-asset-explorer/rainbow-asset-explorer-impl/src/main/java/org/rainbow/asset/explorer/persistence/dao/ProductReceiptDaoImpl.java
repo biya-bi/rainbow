@@ -22,7 +22,7 @@ import org.rainbow.asset.explorer.orm.entities.ProductReceiptDetail;
 import org.rainbow.asset.explorer.orm.entities.ProductReceiptDetailId;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
-import org.rainbow.persistence.Pageable;
+import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.utilities.EntityManagerUtil;
 
@@ -31,7 +31,7 @@ import org.rainbow.utilities.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class ProductReceiptDaoImpl extends TrackableDaoImpl<ProductReceipt, Long> {
+public class ProductReceiptDaoImpl extends TrackableDaoImpl<ProductReceipt> implements ProductReceiptDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

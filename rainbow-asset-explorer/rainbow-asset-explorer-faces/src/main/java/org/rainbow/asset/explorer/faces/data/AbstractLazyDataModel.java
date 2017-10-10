@@ -1,15 +1,18 @@
 package org.rainbow.asset.explorer.faces.data;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
-import org.rainbow.common.util.BeanUtilities;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.SearchOptions;
+import org.rainbow.common.util.BeanUtil;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptions;
+import org.rainbow.criteria.SearchOptionsFactory;
+import org.rainbow.faces.util.FilterUtil;
 import org.rainbow.service.services.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -17,26 +20,33 @@ import org.rainbow.service.services.Service;
  * @param <TModel>
  * @param <TId>
  */
-public abstract class AbstractLazyDataModel<TModel, TId extends Serializable> extends LazyDataModel<TModel> {
+public abstract class AbstractLazyDataModel<TModel> extends LazyDataModel<TModel> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8283281893367824155L;
-	private final SearchOptions options;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
+
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
 
 	public AbstractLazyDataModel() {
-		options = new SearchOptions();
 	}
 
-	protected abstract Service<TModel, TId, SearchOptions> getService();
+	protected abstract Service<TModel> getService();
 
-	protected abstract TId toModelId(String rowKey);
+	protected abstract Object convert(String rowKey);
 
 	@Override
 	public TModel getRowData(String rowKey) {
 		try {
-			return getService().findById(toModelId(rowKey));
+			return getService().findById(convert(rowKey));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -44,11 +54,7 @@ public abstract class AbstractLazyDataModel<TModel, TId extends Serializable> ex
 
 	@Override
 	public Object getRowKey(TModel object) {
-		return BeanUtilities.getProperty(object, "id");
-	}
-
-	protected List<Filter<?>> getFilters() {
-		return null;
+		return BeanUtil.getProperty(object, "id");
 	}
 
 	@Override
@@ -57,15 +63,13 @@ public abstract class AbstractLazyDataModel<TModel, TId extends Serializable> ex
 
 		int pageIndex = pageSize == 0 ? 0 : first / pageSize;
 
-		options.setPageIndex(pageIndex);
-		options.setPageSize(pageSize);
-		options.setFilters(getFilters());
-
-		Service<TModel, TId, SearchOptions> service = getService();
+		Service<TModel> service = getService();
 		List<TModel> result;
 		try {
-			result = service.find(options);
-			setRowCount((int) service.count(options));
+			SearchOptions searchOptions = searchOptionsFactory.create(pageIndex, pageSize,
+					FilterUtil.getPredicate(this, predicateBuilderFactory, pathFactory));
+			result = service.find(searchOptions);
+			setRowCount((int) service.count(searchOptions.getPredicate()));
 
 			sort(sortField, sortOrder, result);
 		} catch (Exception e) {

@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -11,14 +10,13 @@ import javax.inject.Named;
 import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.faces.translation.EnumTranslator;
 import org.rainbow.asset.explorer.orm.entities.AssetDocument;
+import org.rainbow.asset.explorer.service.services.AssetDocumentService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.Filterable;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -43,8 +41,6 @@ public class AssetDocumentLazyDataModel extends LongIdTrackableLazyDataModel<Ass
 	private static final String SITE_NAME_FILTER = "asset.name";
 	private static final String SITE_STATUS_FILTER = "asset.status";
 
-	private final List<Filter<?>> filters;
-
 	private final SingleValuedFilter<String> fileNameFilter;
 	private final SingleValuedFilter<String> documentTypeFilter;
 	private final SingleValuedFilter<String> assetLocationFilter;
@@ -52,8 +48,7 @@ public class AssetDocumentLazyDataModel extends LongIdTrackableLazyDataModel<Ass
 	private final SingleValuedFilter<String> assetStateFilter;
 
 	@Autowired
-	@Qualifier("assetDocumentService")
-	private Service<AssetDocument, Long, SearchOptions> service;
+	private AssetDocumentService service;
 
 	public AssetDocumentLazyDataModel() {
 		translator = new EnumTranslator();
@@ -63,24 +58,6 @@ public class AssetDocumentLazyDataModel extends LongIdTrackableLazyDataModel<Ass
 		assetLocationFilter = new SingleValuedFilter<>(SITE_LOCATION_FILTER, RelationalOperator.CONTAINS, "");
 		assetNameFilter = new SingleValuedFilter<>(SITE_NAME_FILTER, RelationalOperator.CONTAINS, "");
 		assetStateFilter = new SingleValuedFilter<>(SITE_STATUS_FILTER, RelationalOperator.CONTAINS, "");
-
-		filters = new ArrayList<>();
-		filters.add(fileNameFilter);
-		filters.add(documentTypeFilter);
-		filters.add(assetLocationFilter);
-		filters.add(assetNameFilter);
-		filters.add(assetStateFilter);
-	}
-
-	@Override
-	protected List<Filter<?>> getFilters() {
-		List<Filter<?>> baseFilters = super.getFilters();
-		if (baseFilters != null) {
-			ArrayList<Filter<?>> combinedFilters = new ArrayList<>(baseFilters);
-			combinedFilters.addAll(filters);
-			return combinedFilters;
-		}
-		return filters;
 	}
 
 	@Override
@@ -177,28 +154,33 @@ public class AssetDocumentLazyDataModel extends LongIdTrackableLazyDataModel<Ass
 		}
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getFileNameFilter() {
 		return fileNameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getDocumentTypeFilter() {
 		return documentTypeFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getAssetLocationFilter() {
 		return assetLocationFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getAssetNameFilter() {
 		return assetNameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getAssetStateFilter() {
 		return assetStateFilter;
 	}
 
 	@Override
-	protected Service<AssetDocument, Long, SearchOptions> getService() {
+	protected Service<AssetDocument> getService() {
 		return service;
 	}
 

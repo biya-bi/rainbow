@@ -1,6 +1,6 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -9,14 +9,12 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
 import org.rainbow.asset.explorer.orm.entities.EmailTemplate;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateEmailTemplateNameException;
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.services.Service;
+import org.rainbow.asset.explorer.service.services.EmailTemplateService;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "EmailTemplateCreated", updatedMessageKey = "EmailTemplateUpdated", deletedMessageKey = "EmailTemplateDeleted")
-public class EmailTemplateController extends AuditableController<EmailTemplate, Integer, SearchOptions> {
+public class EmailTemplateController extends AuditableController<EmailTemplate> {
 
 	/**
 	 * 
@@ -37,8 +35,7 @@ public class EmailTemplateController extends AuditableController<EmailTemplate, 
 	private static final String DUPLICATE_EMAIL_TEMPLATE_NAME_ERROR_KEY = "DuplicateEmailTemplateName";
 
 	@Autowired
-	@Qualifier("emailTemplateService")
-	private Service<EmailTemplate, Integer, SearchOptions> service;
+	private EmailTemplateService service;
 
 	public EmailTemplateController() {
 		super(EmailTemplate.class);
@@ -58,7 +55,7 @@ public class EmailTemplateController extends AuditableController<EmailTemplate, 
 	}
 
 	@Override
-	protected Service<EmailTemplate, Integer, SearchOptions> getService() {
+	protected EmailTemplateService getService() {
 		return service;
 	}
 }

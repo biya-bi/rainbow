@@ -1,6 +1,6 @@
 package org.rainbow.security.faces.controllers;
 
-import static org.rainbow.security.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.security.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,13 +10,11 @@ import java.util.ResourceBundle;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.security.orm.entities.Group;
 import org.rainbow.security.orm.entities.User;
-import org.rainbow.service.services.Service;
+import org.rainbow.security.service.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,12 +40,7 @@ public class UserGroupController implements Serializable {
 	private Group group;
 
 	@Autowired
-	@Qualifier("groupService")
-	private Service<Group, Long, SearchOptions> groupService;
-
-	@Autowired
-	@Qualifier("userService")
-	private Service<User, Long, SearchOptions> userService;
+	private GroupService groupService;
 
 	public UserGroupController() {
 	}

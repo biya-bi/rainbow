@@ -21,7 +21,7 @@ import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetailId;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
-import org.rainbow.persistence.Pageable;
+import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.utilities.EntityManagerUtil;
 
@@ -30,7 +30,7 @@ import org.rainbow.utilities.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class ShippingOrderDaoImpl extends TrackableDaoImpl<ShippingOrder, Long> {
+public class ShippingOrderDaoImpl extends TrackableDaoImpl<ShippingOrder> implements ShippingOrderDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

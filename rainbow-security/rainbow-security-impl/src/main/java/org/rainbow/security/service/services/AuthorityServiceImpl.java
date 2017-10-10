@@ -3,14 +3,13 @@ package org.rainbow.security.service.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.service.exceptions.DuplicateAuthorityException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class AuthorityServiceImpl extends ServiceImpl<Authority, Long, SearchOptions> {
+public class AuthorityServiceImpl extends ServiceImpl<Authority> implements AuthorityService {
 
 	public AuthorityServiceImpl() {
 	}
@@ -20,10 +19,10 @@ public class AuthorityServiceImpl extends ServiceImpl<Authority, Long, SearchOpt
 		switch (operation) {
 		case CREATE:
 		case UPDATE:
-			final Map<String, Comparable<?>> filters = new HashMap<>();
-			filters.put("name", authority.getName());
-			filters.put("application.id", authority.getApplication().getId());
-			if (DaoUtil.isDuplicate(this.getDao(), filters, authority.getId(), operation)) {
+			final Map<String, Comparable<?>> pathValuePairs = new HashMap<>();
+			pathValuePairs.put("name", authority.getName());
+			pathValuePairs.put("application.id", authority.getApplication().getId());
+			if (DaoUtil.isDuplicate(this.getDao(), pathValuePairs, authority.getId(), operation)) {
 				throw new DuplicateAuthorityException(authority.getName());
 			}
 			break;

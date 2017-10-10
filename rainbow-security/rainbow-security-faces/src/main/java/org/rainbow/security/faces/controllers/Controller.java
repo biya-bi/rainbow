@@ -1,8 +1,8 @@
 package org.rainbow.security.faces.controllers;
 
-import static org.rainbow.security.faces.utilities.ResourceBundles.CRUD_MESSAGES;
-import static org.rainbow.security.faces.utilities.ResourceBundles.MESSAGES;
-import static org.rainbow.security.faces.utilities.ResourceBundles.SECURITY_MESSAGES;
+import static org.rainbow.security.faces.util.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.security.faces.util.ResourceBundles.MESSAGES;
+import static org.rainbow.security.faces.util.ResourceBundles.SECURITY_MESSAGES;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -11,10 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.primefaces.context.RequestContext;
-import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.orm.entities.Trackable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.security.faces.utilities.CrudNotificationInfo;
+import org.rainbow.security.faces.util.CrudNotificationInfo;
 import org.rainbow.service.services.Service;
 
 /**
@@ -22,7 +22,7 @@ import org.rainbow.service.services.Service;
  * @author Biya-Bi
  * @param <TEntity>
  */
-public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends Serializable, TSearchOptions>
+public abstract class Controller<TEntity extends Trackable<?>>
 		implements Serializable {
 
 	/**
@@ -30,7 +30,7 @@ public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends S
 	 */
 	private static final long serialVersionUID = -2668614258570663861L;
 	private TEntity current;
-	private Class<TEntity> modelClass;
+	private Class<TEntity> entityClass;
 
 	private CrudNotificationInfo crudNotificationInfo;
 
@@ -46,10 +46,10 @@ public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends S
 	public Controller() {
 	}
 
-	protected abstract Service<TEntity, TKey, TSearchOptions> getService();
+	protected abstract Service<TEntity> getService();
 
-	public Controller(Class<TEntity> modelClass) {
-		this.modelClass = modelClass;
+	public Controller(Class<TEntity> entityClass) {
+		this.entityClass = entityClass;
 	}
 
 	public TEntity getCurrent() {
@@ -104,7 +104,7 @@ public abstract class Controller<TEntity extends Trackable<TKey>, TKey extends S
 
 	public TEntity prepareCreate() {
 		try {
-			return this.current = modelClass.getConstructor().newInstance(new Object[] {});
+			return this.current = entityClass.getConstructor().newInstance(new Object[] {});
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException ex) {
 			throw new RuntimeException(ex);

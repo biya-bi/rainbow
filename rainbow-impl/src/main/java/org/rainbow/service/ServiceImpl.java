@@ -1,20 +1,20 @@
 package org.rainbow.service;
 
-import java.io.Serializable;
 import java.util.List;
 
+import org.rainbow.criteria.Predicate;
+import org.rainbow.criteria.SearchOptions;
 import org.rainbow.persistence.dao.Dao;
 import org.rainbow.service.services.Service;
 
-public class ServiceImpl<TEntity extends Object, TKey extends Serializable, TSearchOptions extends Object>
-		implements Service<TEntity, TKey, TSearchOptions> {
-	private Dao<TEntity, TKey, TSearchOptions> dao;
+public class ServiceImpl<TEntity extends Object> implements Service<TEntity> {
+	private Dao<TEntity> dao;
 
-	public Dao<TEntity, TKey, TSearchOptions> getDao() {
+	public Dao<TEntity> getDao() {
 		return dao;
 	}
 
-	public void setDao(Dao<TEntity, TKey, TSearchOptions> dao) {
+	public void setDao(Dao<TEntity> dao) {
 		this.dao = dao;
 	}
 
@@ -40,7 +40,7 @@ public class ServiceImpl<TEntity extends Object, TKey extends Serializable, TSea
 	}
 
 	@Override
-	public TEntity findById(TKey id) throws Exception {
+	public TEntity findById(Object id) throws Exception {
 		checkDependencies();
 		return this.getDao().findById(id);
 	}
@@ -52,15 +52,15 @@ public class ServiceImpl<TEntity extends Object, TKey extends Serializable, TSea
 	}
 
 	@Override
-	public List<TEntity> find(TSearchOptions options) throws Exception {
+	public List<TEntity> find(SearchOptions options) throws Exception {
 		checkDependencies();
 		return this.getDao().find(options);
 	}
 
 	@Override
-	public long count(TSearchOptions options) throws Exception {
+	public long count(Predicate predicate) throws Exception {
 		checkDependencies();
-		return this.getDao().count(options);
+		return this.getDao().count(predicate);
 	}
 
 	@Override

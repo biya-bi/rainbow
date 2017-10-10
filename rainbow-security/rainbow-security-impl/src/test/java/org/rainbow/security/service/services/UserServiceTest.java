@@ -6,13 +6,11 @@ import javax.persistence.PersistenceContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.rainbow.common.test.DatabaseInitialize;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Membership;
 import org.rainbow.security.orm.entities.User;
 import org.rainbow.security.service.exceptions.DuplicateUserException;
 import org.rainbow.security.service.exceptions.InvalidPasswordException;
-import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -26,7 +24,7 @@ public class UserServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("userService")
-	private Service<User, Long, SearchOptions> userService;
+	private UserService userService;
 
 	@PersistenceContext
 	private EntityManager em;

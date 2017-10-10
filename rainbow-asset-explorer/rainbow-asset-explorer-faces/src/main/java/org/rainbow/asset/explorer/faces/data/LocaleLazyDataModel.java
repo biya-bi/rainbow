@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -10,14 +9,13 @@ import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.orm.entities.Locale;
+import org.rainbow.asset.explorer.service.services.LocaleService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.Filterable;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,48 +36,32 @@ public class LocaleLazyDataModel extends IntegerIdTrackableLazyDataModel<Locale>
 	private static final String LANGUAGE_CODE_FILTER = "languageCode";
 	private static final String LCID_FILTER = "lcid";
 
-	private final List<Filter<?>> filters;
-
 	private final SingleValuedFilter<String> nameFilter;
 	private final SingleValuedFilter<String> languageCodeFilter;
 	private final SingleValuedFilter<String> lcidFilter;
 
 	@Autowired
-	@Qualifier("localeService")
-	private Service<Locale, Integer, SearchOptions> service;
+	private LocaleService service;
 
 	public LocaleLazyDataModel() {
 		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
 		languageCodeFilter = new SingleValuedFilter<>(LANGUAGE_CODE_FILTER, RelationalOperator.CONTAINS, "");
 		lcidFilter = new SingleValuedFilter<>(LCID_FILTER, RelationalOperator.CONTAINS, "");
-
-		filters = new ArrayList<>();
-		filters.add(nameFilter);
-		filters.add(languageCodeFilter);
-		filters.add(lcidFilter);
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getNameFilter() {
 		return nameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getLanguageCodeFilter() {
 		return languageCodeFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getLcidFilter() {
 		return lcidFilter;
-	}
-
-	@Override
-	protected List<Filter<?>> getFilters() {
-		List<Filter<?>> baseFilters = super.getFilters();
-		if (baseFilters != null) {
-			ArrayList<Filter<?>> combinedFilters = new ArrayList<>(baseFilters);
-			combinedFilters.addAll(filters);
-			return combinedFilters;
-		}
-		return filters;
 	}
 
 	@Override
@@ -141,7 +123,7 @@ public class LocaleLazyDataModel extends IntegerIdTrackableLazyDataModel<Locale>
 	}
 
 	@Override
-	protected Service<Locale, Integer, SearchOptions> getService() {
+	protected Service<Locale> getService() {
 		return service;
 	}
 

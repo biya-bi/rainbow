@@ -10,11 +10,10 @@ import org.rainbow.asset.explorer.orm.entities.AlertCategory;
 import org.rainbow.asset.explorer.orm.entities.AlertType;
 import org.rainbow.asset.explorer.orm.entities.Schedule;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAlertException;
+import org.rainbow.asset.explorer.service.services.AlertService;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -27,7 +26,7 @@ public class AlertServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("alertService")
-	private Service<Alert, Integer, SearchOptions> alertService;
+	private AlertService alertService;
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

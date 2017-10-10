@@ -2,6 +2,7 @@ package org.rainbow.asset.explorer.service.exceptions;
 
 import org.rainbow.asset.explorer.orm.entities.AlertCategory;
 import org.rainbow.asset.explorer.orm.entities.AlertType;
+import org.rainbow.asset.explorer.service.exceptions.RainbowAssetExplorerException;
 
 /**
  *

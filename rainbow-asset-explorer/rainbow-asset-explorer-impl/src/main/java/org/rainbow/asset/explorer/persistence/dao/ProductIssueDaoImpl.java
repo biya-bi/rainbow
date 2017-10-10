@@ -21,7 +21,7 @@ import org.rainbow.asset.explorer.orm.entities.ProductIssue;
 import org.rainbow.asset.explorer.orm.entities.ProductIssueDetail;
 import org.rainbow.asset.explorer.orm.entities.ProductIssueDetailId;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
-import org.rainbow.persistence.Pageable;
+import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.utilities.EntityManagerUtil;
 
@@ -30,7 +30,7 @@ import org.rainbow.utilities.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class ProductIssueDaoImpl extends TrackableDaoImpl<ProductIssue, Long> {
+public class ProductIssueDaoImpl extends TrackableDaoImpl<ProductIssue> implements ProductIssueDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

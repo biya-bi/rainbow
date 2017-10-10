@@ -1,6 +1,5 @@
 package org.rainbow.security.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -10,14 +9,12 @@ import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.Filterable;
 import org.rainbow.security.orm.entities.Application;
-import org.rainbow.service.services.Service;
+import org.rainbow.security.service.services.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,28 +32,18 @@ public class ApplicationLazyDataModel extends LongIdTrackableLazyDataModel<Appli
 
 	private static final String NAME_FILTER = "name";
 
-	private final List<Filter<?>> filters;
-
 	private final SingleValuedFilter<String> nameFilter;
 
 	@Autowired
-	@Qualifier("applicationService")
-	private Service<Application, Long, SearchOptions> applicationService;
+	private ApplicationService applicationService;
 
 	public ApplicationLazyDataModel() {
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-
-		filters = new ArrayList<>();
-		filters.add(nameFilter);
+		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, null);
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getNameFilter() {
 		return nameFilter;
-	}
-
-	@Override
-	protected List<Filter<?>> getFilters() {
-		return filters;
 	}
 
 	@Override
@@ -89,7 +76,7 @@ public class ApplicationLazyDataModel extends LongIdTrackableLazyDataModel<Appli
 	}
 
 	@Override
-	protected Service<Application, Long, SearchOptions> getService() {
+	protected ApplicationService getService() {
 		return applicationService;
 	}
 

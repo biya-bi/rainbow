@@ -2,12 +2,11 @@ package org.rainbow.asset.explorer.service.services;
 
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateVendorAccountNumberException;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class VendorServiceImpl extends ServiceImpl<Vendor, Long, SearchOptions> {
+public class VendorServiceImpl extends ServiceImpl<Vendor> implements VendorService {
 
 	public VendorServiceImpl() {
 	}

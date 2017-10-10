@@ -2,12 +2,11 @@ package org.rainbow.asset.explorer.service.services;
 
 import org.rainbow.asset.explorer.orm.entities.Currency;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateCurrencyNameException;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class CurrencyServiceImpl extends ServiceImpl<Currency, Integer, SearchOptions> {
+public class CurrencyServiceImpl extends ServiceImpl<Currency> implements CurrencyService {
 
 	public CurrencyServiceImpl() {
 	}

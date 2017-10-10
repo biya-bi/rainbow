@@ -6,15 +6,13 @@ import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.persistence.dao.ProductDao;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNameException;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNumberException;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class ProductServiceImpl extends ServiceImpl<Product, Long, SearchOptions>
-		implements ProductService {
+public class ProductServiceImpl extends ServiceImpl<Product> implements ProductService {
 
-	public ProductServiceImpl() {		
+	public ProductServiceImpl() {
 	}
 
 	@Override

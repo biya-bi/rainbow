@@ -18,7 +18,7 @@ import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 
-import org.rainbow.faces.utilities.FacesContextUtil;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.security.service.services.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

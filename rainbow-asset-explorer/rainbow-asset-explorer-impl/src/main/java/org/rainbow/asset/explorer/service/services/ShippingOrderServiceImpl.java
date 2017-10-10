@@ -11,32 +11,30 @@ import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderStatus;
 import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
+import org.rainbow.asset.explorer.persistence.dao.LocationDao;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateShippingOrderReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderDeliveredQuantityOutOfRangeException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderDetailsNullOrEmptyException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderLocationException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderReadOnlyException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderStatusTransitionException;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.dao.Dao;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder, Long, SearchOptions>
-		implements ShippingOrderService {
+public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> implements ShippingOrderService {
 
-	private Dao<Location, Long, SearchOptions> locationDao;
+	private LocationDao locationDao;
 	private InventoryManager inventoryManager;
 
 	public ShippingOrderServiceImpl() {
 	}
 
-	public Dao<Location, Long, SearchOptions> getLocationDao() {
+	public LocationDao getLocationDao() {
 		return locationDao;
 	}
 
-	public void setLocationDao(Dao<Location, Long, SearchOptions> locationDao) {
+	public void setLocationDao(LocationDao locationDao) {
 		this.locationDao = locationDao;
 	}
 
@@ -143,7 +141,7 @@ public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder, Long, S
 	}
 
 	@Override
-	public List<ShippingOrderDetail> getDetails(Long shippingOrderId) throws Exception {
+	public List<ShippingOrderDetail> getDetails(Object shippingOrderId) throws Exception {
 		checkDependencies();
 		return this.getDao().findById(shippingOrderId).getDetails();
 	}

@@ -9,11 +9,10 @@ import org.junit.Test;
 import org.rainbow.asset.explorer.orm.entities.EmailRecipient;
 import org.rainbow.asset.explorer.orm.entities.Locale;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateEmailRecipientEmailException;
+import org.rainbow.asset.explorer.service.services.EmailRecipientService;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -28,7 +27,7 @@ public class EmailRecipientServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("emailRecipientService")
-	private Service<EmailRecipient, Integer, SearchOptions> emailRecipientService;
+	private EmailRecipientService emailRecipientService;
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

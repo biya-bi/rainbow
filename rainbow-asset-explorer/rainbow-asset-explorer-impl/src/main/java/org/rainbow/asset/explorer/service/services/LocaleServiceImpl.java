@@ -3,12 +3,11 @@ package org.rainbow.asset.explorer.service.services;
 import org.rainbow.asset.explorer.orm.entities.Locale;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateLocaleLcidException;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateLocaleNameException;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class LocaleServiceImpl extends ServiceImpl<Locale, Integer, SearchOptions> {
+public class LocaleServiceImpl extends ServiceImpl<Locale> implements LocaleService {
 
 	public LocaleServiceImpl() {
 	}

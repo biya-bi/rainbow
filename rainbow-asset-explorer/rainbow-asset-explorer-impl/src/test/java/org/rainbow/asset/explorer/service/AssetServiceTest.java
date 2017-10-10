@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,14 +16,15 @@ import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.orm.entities.Site;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAssetSerialNumberException;
+import org.rainbow.asset.explorer.service.services.AssetService;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.PredicateBuilder;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptions;
+import org.rainbow.criteria.SearchOptionsFactory;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -41,10 +41,19 @@ public class AssetServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("assetService")
-	private Service<Asset, Long, SearchOptions> assetService;
+	private AssetService assetService;
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;
+
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
 
 	/**
 	 * Test of create method, of class AssetDao.
@@ -130,17 +139,12 @@ public class AssetServiceTest extends AbstractServiceTest {
 
 	@Test
 	public void find() throws Exception {
-		SearchOptions options = new SearchOptions();
+		PredicateBuilder builder = predicateBuilderFactory.create();
 
-		SingleValuedFilter<Long> filter = new SingleValuedFilter<>("site.id");
-		filter.setOperator(RelationalOperator.EQUAL);
-		filter.setValue(2001L);
-
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		options.setFilters(filters);
-
-		List<Asset> result = assetService.find(options);
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(builder.equal(pathFactory.create("site.id"), 2001L));
+		
+		List<Asset> result = assetService.find(searchOptions);
 		Assert.assertEquals(1, result.size());
 	}
 

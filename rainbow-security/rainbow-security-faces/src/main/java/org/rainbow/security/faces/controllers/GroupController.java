@@ -1,6 +1,6 @@
 package org.rainbow.security.faces.controllers;
 
-import static org.rainbow.security.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.security.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -9,14 +9,12 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.security.faces.utilities.CrudNotificationInfo;
+import org.rainbow.faces.util.FacesContextUtil;
+import org.rainbow.security.faces.util.CrudNotificationInfo;
 import org.rainbow.security.orm.entities.Group;
 import org.rainbow.security.service.exceptions.DuplicateGroupException;
-import org.rainbow.service.services.Service;
+import org.rainbow.security.service.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "GroupCreated", updatedMessageKey = "GroupUpdated", deletedMessageKey = "GroupDeleted")
-public class GroupController extends AuditableController<Group, Long, SearchOptions> {
+public class GroupController extends AuditableController<Group> {
 
 	/**
 	 * 
@@ -37,8 +35,7 @@ public class GroupController extends AuditableController<Group, Long, SearchOpti
 	private static final String DUPLICATE_GROUP_NAME_ERROR_KEY = "DuplicateGroupName";
 
 	@Autowired
-	@Qualifier("groupService")
-	private Service<Group, Long, SearchOptions> groupService;
+	private GroupService groupService;
 
 	public GroupController() {
 		super(Group.class);
@@ -58,7 +55,7 @@ public class GroupController extends AuditableController<Group, Long, SearchOpti
 	}
 
 	@Override
-	protected Service<Group, Long, SearchOptions> getService() {
+	protected GroupService getService() {
 		return groupService;
 	}
 

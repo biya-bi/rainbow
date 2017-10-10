@@ -1,6 +1,6 @@
 package org.rainbow.asset.explorer.faces.controllers;
 
-import static org.rainbow.asset.explorer.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.asset.explorer.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -9,14 +9,12 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.asset.explorer.faces.utilities.CrudNotificationInfo;
+import org.rainbow.asset.explorer.faces.util.CrudNotificationInfo;
 import org.rainbow.asset.explorer.orm.entities.AssetType;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAssetTypeNameException;
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.service.services.Service;
+import org.rainbow.asset.explorer.service.services.AssetTypeService;
+import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "AssetTypeCreated", updatedMessageKey = "AssetTypeUpdated", deletedMessageKey = "AssetTypeDeleted")
-public class AssetTypeController extends AuditableController<AssetType, Long, SearchOptions> {
+public class AssetTypeController extends AuditableController<AssetType> {
 	/**
 	 * 
 	 */
@@ -36,8 +34,7 @@ public class AssetTypeController extends AuditableController<AssetType, Long, Se
 	private static final String DUPLICATE_ASSET_TYPE_NAME_ERROR_KEY = "DuplicateAssetTypeName";
 
 	@Autowired
-	@Qualifier("assetTypeService")
-	private Service<AssetType, Long, SearchOptions> service;
+	private AssetTypeService service;
 
 	public AssetTypeController() {
 		super(AssetType.class);
@@ -57,7 +54,7 @@ public class AssetTypeController extends AuditableController<AssetType, Long, Se
 	}
 
 	@Override
-	protected Service<AssetType, Long, SearchOptions> getService() {
+	protected AssetTypeService getService() {
 		return service;
 	}
 }

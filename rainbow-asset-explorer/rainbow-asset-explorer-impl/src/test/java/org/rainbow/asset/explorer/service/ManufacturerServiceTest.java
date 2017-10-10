@@ -8,11 +8,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.rainbow.asset.explorer.orm.entities.Manufacturer;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateManufacturerNameException;
+import org.rainbow.asset.explorer.service.services.ManufacturerService;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -25,7 +24,7 @@ public class ManufacturerServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("manufacturerService")
-	private Service<Manufacturer, Long, SearchOptions> manufacturerService;
+	private ManufacturerService manufacturerService;
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

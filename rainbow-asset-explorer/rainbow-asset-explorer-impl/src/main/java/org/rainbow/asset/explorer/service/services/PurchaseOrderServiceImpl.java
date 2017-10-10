@@ -10,40 +10,39 @@ import org.rainbow.asset.explorer.orm.entities.PurchaseOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderStatus;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
+import org.rainbow.asset.explorer.persistence.dao.LocationDao;
+import org.rainbow.asset.explorer.persistence.dao.VendorDao;
 import org.rainbow.asset.explorer.service.exceptions.DuplicatePurchaseOrderReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderCompleteQuantityOutOfRangeException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderDetailsNullOrEmptyException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderReadOnlyException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderStatusTransitionException;
 import org.rainbow.asset.explorer.service.exceptions.VendorInactiveException;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.dao.Dao;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder, Long, SearchOptions>
-		implements PurchaseOrderService {
-	private Dao<Vendor, Long, SearchOptions> vendorDao;
-	private Dao<Location, Long, SearchOptions> locationDao;
+public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> implements PurchaseOrderService {
+	private VendorDao vendorDao;
+	private LocationDao locationDao;
 	private InventoryManager inventoryManager;
 
 	public PurchaseOrderServiceImpl() {
 	}
 
-	public Dao<Vendor, Long, SearchOptions> getVendorDao() {
+	public VendorDao getVendorDao() {
 		return vendorDao;
 	}
 
-	public void setVendorDao(Dao<Vendor, Long, SearchOptions> vendorDao) {
+	public void setVendorDao(VendorDao vendorDao) {
 		this.vendorDao = vendorDao;
 	}
 
-	public Dao<Location, Long, SearchOptions> getLocationDao() {
+	public LocationDao getLocationDao() {
 		return locationDao;
 	}
 
-	public void setLocationDao(Dao<Location, Long, SearchOptions> locationDao) {
+	public void setLocationDao(LocationDao locationDao) {
 		this.locationDao = locationDao;
 	}
 
@@ -105,7 +104,7 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder, Long, S
 	}
 
 	@Override
-	public List<PurchaseOrderDetail> getDetails(Long purchaseOrderId) throws Exception {
+	public List<PurchaseOrderDetail> getDetails(Object purchaseOrderId) throws Exception {
 		checkDependencies();
 		return this.getDao().findById(purchaseOrderId).getDetails();
 	}

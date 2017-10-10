@@ -9,21 +9,19 @@ import org.rainbow.asset.explorer.orm.entities.Location;
 import org.rainbow.asset.explorer.orm.entities.ProductReceipt;
 import org.rainbow.asset.explorer.orm.entities.ProductReceiptDetail;
 import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
+import org.rainbow.asset.explorer.persistence.dao.LocationDao;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductReceiptReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.ProductReceiptDetailsNullOrEmptyException;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.dao.Dao;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt, Long, SearchOptions>
-		implements ProductReceiptService {
+public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt> implements ProductReceiptService {
 
 	private InventoryManager inventoryManager;
-	private Dao<Location, Long, SearchOptions> locationDao;
+	private LocationDao locationDao;
 
-	public ProductReceiptServiceImpl() {		
+	public ProductReceiptServiceImpl() {
 	}
 
 	public InventoryManager getInventoryManager() {
@@ -34,16 +32,16 @@ public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt, Long,
 		this.inventoryManager = inventoryManager;
 	}
 
-	public Dao<Location, Long, SearchOptions> getLocationDao() {
+	public LocationDao getLocationDao() {
 		return locationDao;
 	}
 
-	public void setLocationDao(Dao<Location, Long, SearchOptions> locationDao) {
+	public void setLocationDao(LocationDao locationDao) {
 		this.locationDao = locationDao;
 	}
 
 	@Override
-	public List<ProductReceiptDetail> getDetails(Long productReceiptId) throws Exception {
+	public List<ProductReceiptDetail> getDetails(Object productReceiptId) throws Exception {
 		return this.getDao().findById(productReceiptId).getDetails();
 	}
 
@@ -111,7 +109,7 @@ public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt, Long,
 		super.delete(productReceipts);
 	}
 
-	private void onCreated(ProductReceipt productReceipt) {
+	private void onCreated(ProductReceipt productReceipt) throws Exception {
 		final List<ProductReceiptDetail> details = productReceipt.getDetails();
 		if (details != null) {
 			final Map<Long, Short> productsCount = new HashMap<>();

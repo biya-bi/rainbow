@@ -10,14 +10,13 @@ import org.rainbow.asset.explorer.orm.entities.ProductIssue;
 import org.rainbow.asset.explorer.orm.entities.ProductIssueDetail;
 import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductIssueReferenceNumberException;
+import org.rainbow.asset.explorer.service.exceptions.InsufficientInventoryException;
 import org.rainbow.asset.explorer.service.exceptions.ProductIssueDetailsNullOrEmptyException;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue, Long, SearchOptions>
-		implements ProductIssueService {
+public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue> implements ProductIssueService {
 
 	private InventoryManager inventoryManager;
 
@@ -33,7 +32,7 @@ public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue, Long, Sea
 	}
 
 	@Override
-	public List<ProductIssueDetail> getDetails(Long productIssueId) throws Exception {
+	public List<ProductIssueDetail> getDetails(Object productIssueId) throws Exception {
 		return this.getDao().findById(productIssueId).getDetails();
 	}
 
@@ -68,7 +67,9 @@ public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue, Long, Sea
 	@Override
 	public void create(List<ProductIssue> productIssues) throws Exception {
 		super.create(productIssues);
-		productIssues.stream().forEach(x -> onCreated(x));
+		for (ProductIssue productIssue : productIssues) {
+			onCreated(productIssue);
+		}
 	}
 
 	@Override
@@ -99,7 +100,7 @@ public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue, Long, Sea
 		super.delete(productIssues);
 	}
 
-	private void onCreated(ProductIssue productIssue) {
+	private void onCreated(ProductIssue productIssue) throws InsufficientInventoryException, Exception {
 		final List<ProductIssueDetail> details = productIssue.getDetails();
 		if (details != null) {
 			final Map<Long, Short> productsCount = new HashMap<>();

@@ -1,6 +1,6 @@
 package org.rainbow.security.service.services;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -12,18 +12,18 @@ import javax.persistence.PersistenceContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.rainbow.common.test.DatabaseInitialize;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.ListValuedFilter;
-import org.rainbow.persistence.RangeValuedFilter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.criteria.Expression;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.PredicateBuilder;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptions;
+import org.rainbow.criteria.SearchOptionsFactory;
+import org.rainbow.criteria.SearchOptionsImpl;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.LockoutPolicy;
 import org.rainbow.security.orm.entities.PasswordPolicy;
 import org.rainbow.security.service.exceptions.DuplicateApplicationException;
-import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -32,10 +32,19 @@ public class ApplicationServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	@Qualifier("applicationService")
-	private Service<Application, Long, SearchOptions> applicationService;
+	private ApplicationService applicationService;
 
 	@PersistenceContext
 	private EntityManager em;
+
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
 
 	@Test
 	public void create_ApplicationIsValid_ApplicationCreated() throws Exception {
@@ -117,500 +126,424 @@ public class ApplicationServiceTest extends AbstractServiceTest {
 
 	@Test
 	public void find_NameExistsAndOperatorIsEqual_ReturnOneApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.EQUAL);
-		filter.setValue("Rainbow Optimum");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.equal(pathFactory.create("name"), "Rainbow Optimum"));
+
+		List<Application> result = applicationService.find(searchOptions);
+
 		Assert.assertEquals(1, result.size());
 	}
 
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsEqual_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.EQUAL);
-		filter.setValue("non-existent-application-name");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.equal(pathFactory.create("name"), "non-existent-application-name"));
+
+		List<Application> result = applicationService.find(searchOptions);
+
 		Assert.assertTrue(result.isEmpty());
 	}
 
 	@Test
 	public void find_NameExistsAndOperatorIsNotEqual_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.NOT_EQUAL);
-		filter.setValue("rainbow optimum");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.notEqual(pathFactory.create("name"), "rainbow optimum"));
+
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
 
 		Assert.assertEquals(result1.size() - 1, result.size());
 	}
 
 	@Test
-	public void find_NameDoesnotExistAndOperatorIsNotEqual_ReturnTwoApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.NOT_EQUAL);
-		filter.setValue("non-existent-application-name");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
+	public void find_NameDoesnotExistAndOperatorIsNotEqual_ReturnComplimentApplications() throws Exception {
+		SearchOptionsImpl searchOptions = new SearchOptionsImpl();
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		searchOptions
+				.setPredicate(predicateBuilder.notEqual(pathFactory.create("name"), "non-existent-application-name"));
+
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
+
 		Assert.assertEquals(result1.size(), result.size());
 	}
 
 	@Test
 	public void find_NameExistsAndOperatorIsContains_ReturnTwoApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.CONTAINS);
-		filter.setValue("optimum");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("name");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.contains(exp, "optimum"));
+
+		List<Application> result = applicationService.find(searchOptions);
+
 		Assert.assertEquals(2, result.size());
 	}
 
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsContains_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.CONTAINS);
-		filter.setValue("nonexistent");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("name");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.contains(exp, "nonexistent"));
+
+		List<Application> result = applicationService.find(searchOptions);
+
 		Assert.assertTrue(result.isEmpty());
 	}
 
 	@Test
 	public void find_NameExistsAndOperatorIsStartsWith_ReturnOneApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.STARTS_WITH);
-		filter.setValue("rain");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("name");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.startsWith(exp, "rain"));
+
+		List<Application> result = applicationService.find(searchOptions);
+
 		Assert.assertEquals(1, result.size());
 	}
 
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsStartsWith_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.STARTS_WITH);
-		filter.setValue("non-existent-start");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("name");
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.startsWith(exp, "non-existent-start"));
+
+		List<Application> result = applicationService.find(searchOptions);
+
 		Assert.assertTrue(result.isEmpty());
 	}
 
 	@Test
 	public void find_NameExistsAndOperatorIsEndsWith_ReturnTwoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.ENDS_WITH);
-		filter.setValue("timum");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("name");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.endsWith(exp, "timum"));
+
+		List<Application> result = applicationService.find(searchOptions);
+
 		Assert.assertEquals(2, result.size());
 	}
 
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsEndsWith_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.ENDS_WITH);
-		filter.setValue("non-existent-end");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("name");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.endsWith(exp, "non-existent-end"));
+
+		List<Application> result = applicationService.find(searchOptions);
+
 		Assert.assertTrue(result.isEmpty());
 	}
 
 	@Test
 	public void find_OperatorIsEmpty_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.IS_EMPTY);
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<?> exp = pathFactory.create("name");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.isNull(exp));
+
+		List<Application> result = applicationService.find(searchOptions);
+
 		Assert.assertTrue(result.isEmpty());
 	}
 
 	@Test
 	public void find_OperatorIsNotEmpty_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.IS_NOT_EMPTY);
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<?> exp = pathFactory.create("name");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.isNotNull(exp));
+
+		List<Application> result = applicationService.find(searchOptions);
+
 		Assert.assertFalse(result.isEmpty());
 	}
 
 	@Test
 	public void find_NameExistsAndOperatorIsDoesNotContain_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.DOES_NOT_CONTAIN);
-		filter.setValue("optimum");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("name");
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.not(predicateBuilder.contains(exp, "optimum")));
+
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
 
 		Assert.assertEquals(result1.size() - 2, result.size());
 	}
 
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsDoesNotContain_ReturnAllApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
-		filter.setFieldName("name");
-		filter.setOperator(RelationalOperator.DOES_NOT_CONTAIN);
-		filter.setValue("nonexistent");
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("name");
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.not(predicateBuilder.contains(exp, "nonexistent")));
+
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
 
 		Assert.assertFalse(result.isEmpty());
 		Assert.assertEquals(result1.size(), result.size());
 	}
 
 	@Test
-	public void find_DateIsGivenAndOperatorIsEqual_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<Date> filter = new SingleValuedFilter<>();
-		filter.setFieldName("creationDate");
-		filter.setOperator(RelationalOperator.EQUAL);
-		filter.setValue(new Date());
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
-
-		Assert.assertEquals(result1.size(), result.size());
-	}
-
-	@Test
-	public void find_DateIsGivenAndOperatorIsNotEqual_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<Date> filter = new SingleValuedFilter<>();
-		filter.setFieldName("creationDate");
-		filter.setOperator(RelationalOperator.NOT_EQUAL);
-		filter.setValue(new Date());
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-
-		Assert.assertEquals(0, result.size());
-	}
-
-	@Test
-	public void find_DateIsGivenAndOperatorIsLessThan_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<Date> filter = new SingleValuedFilter<>();
-		filter.setFieldName("creationDate");
-		filter.setOperator(RelationalOperator.LESS_THAN);
-		filter.setValue(new Date());
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-
-		Assert.assertEquals(0, result.size());
-	}
-
-	@Test
-	public void find_DateIsGivenAndOperatorIsLessThanOrEqual_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<Date> filter = new SingleValuedFilter<>();
-		filter.setFieldName("creationDate");
-		filter.setOperator(RelationalOperator.LESS_THAN_OR_EQUAL);
-		filter.setValue(new Date());
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
-
-		Assert.assertEquals(result1.size(), result.size());
-	}
-
-	@Test
-	public void find_DateIsGivenAndOperatorIsGreaterThan_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<Date> filter = new SingleValuedFilter<>();
-		filter.setFieldName("creationDate");
-		filter.setOperator(RelationalOperator.GREATER_THAN);
-		filter.setValue(new Date());
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-
-		Assert.assertEquals(0, result.size());
-	}
-
-	@Test
-	public void find_DateIsGivenAndOperatorIsGreaterThanOrEqual_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<Date> filter = new SingleValuedFilter<>();
-		filter.setFieldName("creationDate");
-		filter.setOperator(RelationalOperator.GREATER_THAN_OR_EQUAL);
-		filter.setValue(new Date());
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
-
-		Assert.assertEquals(result1.size(), result.size());
-	}
-
-	@Test
-	public void find_ValidDateRangeIsGivenAndOperatorIsIsBetween_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		RangeValuedFilter<Date> filter = new RangeValuedFilter<>();
-		filter.setFieldName("creationDate");
-		filter.setOperator(RelationalOperator.IS_BETWEEN);
-		Date date = new Date();
+	public void find_CreationDateIsToday_ReturnApplications() throws Exception {
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		calendar.add(Calendar.DATE, -1);
-		Date yesterday = calendar.getTime();
-		// Setting the amount 2 brings back the date to the initial date, and
-		// then increases
-		// it by 1 to make it the next day.
-		calendar.add(Calendar.DATE, 2);
-		Date tomorrow = calendar.getTime();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0,
+				0, 0);
+		Date lowerBound = calendar.getTime();
 
-		filter.setLowerBound(yesterday);
-		filter.setUpperBound(tomorrow);
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 23,
+				59, 59);
+		Date upperBound = calendar.getTime();
 
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("creationDate");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.and(
+				predicateBuilder.greaterThanOrEqualTo(exp, lowerBound), predicateBuilder.lessThan(exp, upperBound)));
+
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
+
+		Assert.assertFalse(result.isEmpty());
 		Assert.assertEquals(result1.size(), result.size());
 	}
 
 	@Test
-	public void find_InvalidDateRangeIsGivenAndOperatorIsIsBetween_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		RangeValuedFilter<Date> filter = new RangeValuedFilter<>();
-		filter.setFieldName("creationDate");
-		filter.setOperator(RelationalOperator.IS_BETWEEN);
-		Date date = new Date();
+	public void find_CreationDateIsNotToday_ReturnNoApplication() throws Exception {
 		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0,
+				0, 0);
+		Date lowerBound = calendar.getTime();
 
-		calendar.setTime(date);
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 23,
+				59, 59);
+		Date upperBound = calendar.getTime();
 
-		// Set the date 10 days back.
-		calendar.add(Calendar.DATE, -10);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("creationDate");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.not(predicateBuilder.and(
+				predicateBuilder.greaterThanOrEqualTo(exp, lowerBound), predicateBuilder.lessThan(exp, upperBound))));
 
-		calendar.add(Calendar.DATE, -1);
-		Date yesterday = calendar.getTime();
-
-		// Setting the amount 2 brings back the date to the initial date, and
-		// then increases
-		// it by 1 to make it the next day.
-		calendar.add(Calendar.DATE, 2);
-		Date tomorrow = calendar.getTime();
-
-		filter.setLowerBound(yesterday);
-		filter.setUpperBound(tomorrow);
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		List<Application> result = applicationService.find(searchOptions);
 
 		Assert.assertTrue(result.isEmpty());
 	}
 
 	@Test
-	public void find_ValidDateRangeIsGivenAndOperatorIsIsNotBetween_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		RangeValuedFilter<Date> filter = new RangeValuedFilter<>();
-		filter.setFieldName("creationDate");
-		filter.setOperator(RelationalOperator.IS_NOT_BETWEEN);
-		Date date = new Date();
+	public void find_DateIsLessThanToday_ReturnNoApplication() throws Exception {
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		calendar.add(Calendar.DATE, -1);
-		Date yesterday = calendar.getTime();
-		// Setting the amount 2 brings back the date to the initial date, and
-		// then increases
-		// it by 1 to make it the next day.
-		calendar.add(Calendar.DATE, 2);
-		Date tomorrow = calendar.getTime();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0,
+				0, 0);
+		Date lowerBound = calendar.getTime();
 
-		filter.setLowerBound(yesterday);
-		filter.setUpperBound(tomorrow);
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("creationDate");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.lessThan(exp, lowerBound));
+
+		List<Application> result = applicationService.find(searchOptions);
+
+		Assert.assertEquals(0, result.size());
+	}
+
+	@Test
+	public void find_CreationDateIsLessThanOrEqualToToday_ReturnApplications() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 23,
+				59, 59);
+		Date upperBound = calendar.getTime();
+
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("creationDate");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.lessThanOrEqualTo(exp, upperBound));
+
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
+
+		Assert.assertEquals(result1.size(), result.size());
+	}
+
+	@Test
+	public void find_CreationDateIsGreaterThanToday_ReturnNoApplication() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 23,
+				59, 59);
+		Date upperBound = calendar.getTime();
+
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("creationDate");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.greaterThan(exp, upperBound));
+
+		List<Application> result = applicationService.find(searchOptions);
 
 		Assert.assertTrue(result.isEmpty());
 	}
 
 	@Test
-	public void find_InvalidDateRangeIsGivenAndOperatorIsIsNotBetween_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		RangeValuedFilter<Date> filter = new RangeValuedFilter<>();
-		filter.setFieldName("creationDate");
-		filter.setOperator(RelationalOperator.IS_NOT_BETWEEN);
-		Date date = new Date();
+	public void find_CreationDateIsGreaterThanOrEqualToToday_ReturnApplications() throws Exception {
 		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0,
+				0, 0);
+		Date lowerBound = calendar.getTime();
 
-		calendar.setTime(date);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("creationDate");
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.greaterThanOrEqualTo(exp, lowerBound));
+
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
+
+		Assert.assertFalse(result.isEmpty());
+		Assert.assertEquals(result1.size(), result.size());
+	}
+
+	@Test
+	public void find_CreationDateIsBetweenYesterdayAndTomorrow_ReturnApplications() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0,
+				0, 0);
+
+		calendar.add(Calendar.DATE, -1);
+		Date yesterday = calendar.getTime(); // Setting the amount 2 brings back
+												// the date to the initial date,
+												// and then increases it by 1 to
+												// make it the next day.
+		calendar.add(Calendar.DATE, 2);
+		Date tomorrow = calendar.getTime();
+
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("creationDate");
+		SearchOptions searchOptions = searchOptionsFactory.create(predicateBuilder.between(exp, yesterday, tomorrow));
+
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
+
+		Assert.assertFalse(result.isEmpty());
+		Assert.assertEquals(result1.size(), result.size());
+	}
+
+	@Test
+	public void find_CreationDateIsBetweenTenDaysBackAndYesterday_ReturnNoApplication() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0,
+				0, 0);
 
 		// Set the date 10 days back.
 		calendar.add(Calendar.DATE, -10);
+		Date tenDaysBack = calendar.getTime();
+
+		calendar.add(Calendar.DATE, 9);
+		Date yesterday = calendar.getTime();
+
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("creationDate");
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.between(exp, tenDaysBack, yesterday));
+
+		List<Application> result = applicationService.find(searchOptions);
+
+		Assert.assertTrue(result.isEmpty());
+	}
+
+	@Test
+	public void find_CreationDateIsNotBetweenYesterdayAndTomorrow_ReturnNoApplication() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0,
+				0, 0);
 
 		calendar.add(Calendar.DATE, -1);
 		Date yesterday = calendar.getTime();
 
-		// Setting the amount 2 brings back the date to the initial date, and
-		// then increases
-		// it by 1 to make it the next day.
 		calendar.add(Calendar.DATE, 2);
 		Date tomorrow = calendar.getTime();
 
-		filter.setLowerBound(yesterday);
-		filter.setUpperBound(tomorrow);
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("creationDate");
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.not(predicateBuilder.between(exp, yesterday, tomorrow)));
 
+		List<Application> result = applicationService.find(searchOptions);
+
+		Assert.assertTrue(result.isEmpty());
+	}
+
+	@Test
+	public void find_CreationDateIsNotBetweenTenDaysBackAndYesterday_ReturnApplications() throws Exception {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0,
+				0, 0);
+
+		// Set the date 10 days back.
+		calendar.add(Calendar.DATE, -10);
+		Date tenDaysBack = calendar.getTime();
+
+		calendar.add(Calendar.DATE, 9);
+		Date yesterday = calendar.getTime();
+
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<String> exp = pathFactory.create("creationDate");
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.not(predicateBuilder.between(exp, tenDaysBack, yesterday)));
+
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
+
+		Assert.assertFalse(result.isEmpty());
 		Assert.assertEquals(result1.size(), result.size());
 	}
 
 	@Test
 	public void find_ListOfExistingIdsIsGivenAndOperatorIsIn_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		ListValuedFilter<Long> filter = new ListValuedFilter<>();
-		filter.setFieldName("id");
-		filter.setOperator(RelationalOperator.IN);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<?> exp = pathFactory.create("id");
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.in(exp, Arrays.asList(1005L, 1007L)));
 
-		List<Long> ids = new ArrayList<>();
-		ids.add(1005L);
-		ids.add(1007L);
-		filter.setList(ids);
-
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		List<Application> result = applicationService.find(searchOptions);
 
 		Assert.assertEquals(2, result.size());
 	}
 
 	@Test
 	public void find_ListOfNonExistingIdsIsGivenAndOperatorIsIn_ReturnNoApplication() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		ListValuedFilter<Long> filter = new ListValuedFilter<>();
-		filter.setFieldName("id");
-		filter.setOperator(RelationalOperator.IN);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<?> exp = pathFactory.create("id");
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.in(exp, Arrays.asList(Long.MAX_VALUE - 1, Long.MAX_VALUE)));
 
-		List<Long> ids = new ArrayList<>();
-		ids.add(Long.MAX_VALUE - 1);
-		ids.add(Long.MAX_VALUE);
-		filter.setList(ids);
-
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
+		List<Application> result = applicationService.find(searchOptions);
 
 		Assert.assertTrue(result.isEmpty());
 	}
 
 	@Test
 	public void find_ListOfExistingIdsIsGivenAndOperatorIsNotIn_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		ListValuedFilter<Long> filter = new ListValuedFilter<>();
-		filter.setFieldName("id");
-		filter.setOperator(RelationalOperator.NOT_IN);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<?> exp = pathFactory.create("id");
+		SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilder.not(predicateBuilder.in(exp, Arrays.asList(1005L, 1007L))));
 
-		List<Long> ids = new ArrayList<>();
-		ids.add(1005L);
-		ids.add(1007L);
-		filter.setList(ids);
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
 
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
-
+		Assert.assertFalse(result.isEmpty());
 		Assert.assertEquals(result1.size() - 2, result.size());
 	}
 
 	@Test
 	public void find_ListOfNonExistingIdsIsGivenAndOperatorIsNotIn_ReturnApplications() throws Exception {
-		SearchOptions criteria = new SearchOptions();
-		ListValuedFilter<Long> filter = new ListValuedFilter<>();
-		filter.setFieldName("id");
-		filter.setOperator(RelationalOperator.NOT_IN);
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		Expression<?> exp = pathFactory.create("id");
+		SearchOptions searchOptions = searchOptionsFactory.create(
+				predicateBuilder.not(predicateBuilder.in(exp, Arrays.asList(Long.MAX_VALUE - 1, Long.MAX_VALUE))));
 
-		List<Long> ids = new ArrayList<>();
-		ids.add(Long.MAX_VALUE - 1);
-		ids.add(Long.MAX_VALUE);
-		filter.setList(ids);
+		List<Application> result = applicationService.find(searchOptions);
+		List<Application> result1 = applicationService.find(new SearchOptionsImpl());
 
-		List<Filter<?>> filters = new ArrayList<>();
-		filters.add(filter);
-		criteria.setFilters(filters);
-		List<Application> result = applicationService.find(criteria);
-		List<Application> result1 = applicationService.find(new SearchOptions());
-
+		Assert.assertFalse(result.isEmpty());
 		Assert.assertEquals(result1.size(), result.size());
 	}
+
 }

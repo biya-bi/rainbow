@@ -1,13 +1,12 @@
 package org.rainbow.security.service.services;
 
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.service.exceptions.DuplicateApplicationException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class ApplicationServiceImpl extends ServiceImpl<Application, Long, SearchOptions> {
+public class ApplicationServiceImpl extends ServiceImpl<Application> implements ApplicationService {
 
 	public ApplicationServiceImpl() {
 	}
@@ -17,8 +16,7 @@ public class ApplicationServiceImpl extends ServiceImpl<Application, Long, Searc
 		switch (operation) {
 		case CREATE:
 		case UPDATE:
-			if (DaoUtil.isDuplicate(this.getDao(), "name", application.getName(), application.getId(),
-					operation)) {
+			if (DaoUtil.isDuplicate(this.getDao(), "name", application.getName(), application.getId(), operation)) {
 				throw new DuplicateApplicationException(application.getName());
 			}
 			break;

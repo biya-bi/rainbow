@@ -1,6 +1,5 @@
 package org.rainbow.asset.explorer.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -10,14 +9,13 @@ import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.orm.entities.Product;
+import org.rainbow.asset.explorer.service.services.ProductService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.persistence.Filter;
-import org.rainbow.persistence.RelationalOperator;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.persistence.SingleValuedFilter;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.Filterable;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,8 +39,6 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 	private static final String REORDER_POINT_FILTER = "reorderPoint";
 	private static final String MANUFACTURER_NAME_FILTER = "manufacturer.name";
 
-	private final List<Filter<?>> filters;
-
 	private final SingleValuedFilter<String> nameFilter;
 	private final SingleValuedFilter<String> numberFilter;
 	private final SingleValuedFilter<String> safetyStockLevelFilter;
@@ -51,8 +47,7 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 	private final SingleValuedFilter<String> manufacturerNameFilter;
 
 	@Autowired
-	@Qualifier("productService")
-	private Service<Product, Long, SearchOptions> service;
+	private ProductService service;
 
 	public ProductLazyDataModel() {
 		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
@@ -61,49 +56,36 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 		stockCoverFilter = new SingleValuedFilter<>(STOCK_COVER_FILTER);
 		reorderPointFilter = new SingleValuedFilter<>(REORDER_POINT_FILTER);
 		manufacturerNameFilter = new SingleValuedFilter<>(MANUFACTURER_NAME_FILTER, RelationalOperator.CONTAINS, "");
-
-		filters = new ArrayList<>();
-		filters.add(nameFilter);
-		filters.add(numberFilter);
-		filters.add(safetyStockLevelFilter);
-		filters.add(stockCoverFilter);
-		filters.add(reorderPointFilter);
-		filters.add(manufacturerNameFilter);
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getNameFilter() {
 		return nameFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getNumberFilter() {
 		return numberFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getSafetyStockLevelFilter() {
 		return safetyStockLevelFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getStockCoverFilter() {
 		return stockCoverFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getReorderPointFilter() {
 		return reorderPointFilter;
 	}
 
+	@Filterable
 	public SingleValuedFilter<String> getManufacturerNameFilter() {
 		return manufacturerNameFilter;
-	}
-
-	@Override
-	protected List<Filter<?>> getFilters() {
-		List<Filter<?>> baseFilters = super.getFilters();
-		if (baseFilters != null) {
-			ArrayList<Filter<?>> combinedFilters = new ArrayList<>(baseFilters);
-			combinedFilters.addAll(filters);
-			return combinedFilters;
-		}
-		return filters;
 	}
 
 	@Override
@@ -217,7 +199,7 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 	}
 
 	@Override
-	protected Service<Product, Long, SearchOptions> getService() {
+	protected Service<Product> getService() {
 		return service;
 	}
 

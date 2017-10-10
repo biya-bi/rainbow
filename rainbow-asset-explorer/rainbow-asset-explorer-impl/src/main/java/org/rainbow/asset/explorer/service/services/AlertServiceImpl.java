@@ -9,12 +9,11 @@ import org.rainbow.asset.explorer.orm.entities.Alert;
 import org.rainbow.asset.explorer.orm.entities.Schedule;
 import org.rainbow.asset.explorer.scheduling.AlertScheduler;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAlertException;
-import org.rainbow.persistence.SearchOptions;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
 import org.rainbow.utilities.DaoUtil;
 
-public class AlertServiceImpl extends ServiceImpl<Alert, Integer, SearchOptions> {
+public class AlertServiceImpl extends ServiceImpl<Alert> implements AlertService {
 
 	private AlertScheduler alertScheduler;
 

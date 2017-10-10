@@ -1,6 +1,6 @@
 package org.rainbow.security.faces.controllers;
 
-import static org.rainbow.security.faces.utilities.ResourceBundles.CRUD_MESSAGES;
+import static org.rainbow.security.faces.util.ResourceBundles.CRUD_MESSAGES;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,9 +17,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.rainbow.faces.utilities.FacesContextUtil;
-import org.rainbow.persistence.SearchOptions;
-import org.rainbow.security.faces.utilities.CrudNotificationInfo;
+import org.rainbow.faces.util.FacesContextUtil;
+import org.rainbow.security.faces.util.CrudNotificationInfo;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.orm.entities.Group;
@@ -29,9 +28,9 @@ import org.rainbow.security.orm.entities.Membership;
 import org.rainbow.security.orm.entities.PasswordPolicy;
 import org.rainbow.security.orm.entities.User;
 import org.rainbow.security.service.exceptions.DuplicateApplicationException;
+import org.rainbow.security.service.services.ApplicationService;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -47,7 +46,7 @@ import org.xml.sax.SAXException;
 @Named
 @ViewScoped
 @CrudNotificationInfo(createdMessageKey = "ApplicationCreated", updatedMessageKey = "ApplicationUpdated", deletedMessageKey = "ApplicationDeleted")
-public class ApplicationController extends AuditableController<Application, Long, SearchOptions> {
+public class ApplicationController extends AuditableController<Application> {
 
 	/**
 	 * 
@@ -55,8 +54,7 @@ public class ApplicationController extends AuditableController<Application, Long
 	private static final long serialVersionUID = 7783179356086452428L;
 
 	@Autowired
-	@Qualifier("applicationService")
-	private Service<Application, Long, SearchOptions> applicationService;
+	private ApplicationService applicationService;
 
 	private static final String APPLICATION_NODE_NAME = "application";
 	private static final String NAME_ATTRIBUTE_NAME = "name";
@@ -417,7 +415,7 @@ public class ApplicationController extends AuditableController<Application, Long
 	}
 
 	@Override
-	protected Service<Application, Long, SearchOptions> getService() {
+	protected Service<Application> getService() {
 		return applicationService;
 	}
 }
