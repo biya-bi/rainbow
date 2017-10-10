@@ -1,10 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:security="http://www.springframework.org/schema/security"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 				http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/security
-http://www.springframework.org/schema/security/spring-security.xsd">
+http://www.springframework.org/schema/security/spring-security.xsd
+http://www.springframework.org/schema/jee
+http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<jee:jndi-lookup id="rainbowAssetExplorerApplicationName"
+		jndi-name="${rainbow.asset.explorer.applicationName}"
+		lookup-on-startup="true" cache="true" />
 
 	<security:http auto-config="true" use-expressions="true">
 		<security:csrf disabled="true" />
@@ -62,7 +68,7 @@ http://www.springframework.org/schema/security/spring-security.xsd">
 		<property name="passwordAttemptUpdater">
 			<bean
 				class="org.rainbow.security.service.authentication.PasswordAttemptUpdaterImpl">
-				<property name="applicationName" value="${application.name}" />
+				<property name="applicationName" ref="rainbowAssetExplorerApplicationName" />
 				<property name="passwordEncoder" ref="passwordEncoder" />
 				<property name="dataSource" ref="rainbowSecurityDataSource" />
 			</bean>
@@ -79,13 +85,14 @@ http://www.springframework.org/schema/security/spring-security.xsd">
 		class="org.rainbow.security.service.encryption.SensitiveUserDetailsEncrypterImpl"
 		init-method="encrypt" depends-on="rainbowSecurityDataSource">
 		<property name="passwordEncoder" ref="passwordEncoder" />
-		<property name="applicationName" value="${application.name}" />
+		<property name="applicationName" ref="rainbowAssetExplorerApplicationName" />
 		<property name="dataSource" ref="rainbowSecurityDataSource" />
 	</bean>
 
 	<bean id="userDetailsService"
 		class="org.rainbow.security.service.userdetails.UserDetailsServiceImpl">
-		<constructor-arg name="applicationName" value="${application.name}" />
+		<constructor-arg name="applicationName"
+			ref="rainbowAssetExplorerApplicationName" />
 		<property name="dataSource" ref="rainbowSecurityDataSource" />
 		<property name="enableAuthorities" value="false" />
 		<property name="enableGroups" value="true" />

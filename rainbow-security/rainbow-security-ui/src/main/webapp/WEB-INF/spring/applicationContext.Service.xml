@@ -1,7 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-				http://www.springframework.org/schema/beans/spring-beans.xsd">
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/jee
+http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<jee:jndi-lookup id="rainbowSecurityApplicationName"
+		jndi-name="${rainbow.security.applicationName}"
+		lookup-on-startup="true" cache="true" />
 
 	<bean id="applicationService"
 		class="org.rainbow.security.service.services.ApplicationServiceImpl">
@@ -19,7 +25,7 @@
 
 	<bean id="userDetailsService"
 		class="org.rainbow.security.service.userdetails.UserDetailsServiceImpl">
-		<constructor-arg name="applicationName" value="${application.name}" />
+		<constructor-arg name="applicationName" ref="rainbowSecurityApplicationName" />
 		<property name="dataSource" ref="rainbowSecurityDataSource" />
 		<property name="enableAuthorities" value="false" />
 		<property name="enableGroups" value="true" />
@@ -34,7 +40,7 @@
 		class="org.rainbow.security.service.services.UserAccountServiceImpl">
 		<property name="userDao" ref="userDao" />
 		<property name="applicationDao" ref="applicationDao" />
-		<property name="applicationName" value="${application.name}" />
+		<property name="applicationName" ref="rainbowSecurityApplicationName" />
 		<property name="passwordEncoder" ref="passwordEncoder" />
 		<property name="authenticationManager" ref="authenticationManager" />
 		<property name="userDetailsService" ref="userDetailsService" />

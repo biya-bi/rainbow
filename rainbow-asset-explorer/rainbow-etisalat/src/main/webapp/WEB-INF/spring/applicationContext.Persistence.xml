@@ -1,24 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-				http://www.springframework.org/schema/beans/spring-beans.xsd">
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/jee
+http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName"
-			value="${rainbow.asset.explorer.jdbc.driverClassName}" />
-		<property name="url" value="${rainbow.asset.explorer.jdbc.url}" />
-		<property name="username" value="${rainbow.asset.explorer.jdbc.user}" />
-		<property name="password" value="${rainbow.asset.explorer.jdbc.password}" />
-	</bean>
+	<jee:jndi-lookup id="rainbowAssetExplorerDataSource" jndi-name="${rainbow.asset.explorer.jdbc}" />
 
-	<bean id="rainbowSecurityDataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${rainbow.security.jdbc.driverClassName}" />
-		<property name="url" value="${rainbow.security.jdbc.url}" />
-		<property name="username" value="${rainbow.security.jdbc.user}" />
-		<property name="password" value="${rainbow.security.jdbc.password}" />
-	</bean>
+	<jee:jndi-lookup id="rainbowSecurityDataSource" jndi-name="${rainbow.security.jdbc}" />
 
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
@@ -31,20 +20,13 @@
 				<value>classpath*:META-INF/rainbow_security_persistence.xml</value>
 			</list>
 		</property>
-		<property name="dataSources">
-			<map>
-				<entry key="dataSource" value-ref="dataSource" />
-				<entry key="rainbowSecurityDataSource" value-ref="rainbowSecurityDataSource" />
-			</map>
-		</property>
-		<property name="defaultPersistenceUnitRootLocation" value="classpath:" />
 	</bean>
 
 	<bean id="rainbowAssetExplorerEntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="RainbowAssetExplorerPersistenceUnit" />
 		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="rainbowAssetExplorerDataSource" />
 		<property name="packagesToScan">
 			<list>
 				<value>org.rainbow</value>
@@ -57,10 +39,6 @@
 					value="none" />
 				<entry key="eclipselink.weaving" value="false" />
 				<entry key="eclipselink.logging.parameters" value="true" />
-				<entry key="javax.persistence.jdbc.driver" value="${rainbow.asset.explorer.jdbc.driverClassName}" />
-				<entry key="javax.persistence.jdbc.user" value="${rainbow.asset.explorer.jdbc.user}" />
-				<entry key="javax.persistence.jdbc.password" value="${rainbow.asset.explorer.jdbc.password}" />
-				<entry key="javax.persistence.jdbc.url" value="${rainbow.asset.explorer.jdbc.url}" />
 			</map>
 		</property>
 		<property name="jpaVendorAdapter">
@@ -91,10 +69,6 @@
 					value="none" />
 				<entry key="eclipselink.weaving" value="false" />
 				<entry key="eclipselink.logging.parameters" value="true" />
-				<entry key="javax.persistence.jdbc.driver" value="${rainbow.security.jdbc.driverClassName}" />
-				<entry key="javax.persistence.jdbc.user" value="${rainbow.security.jdbc.user}" />
-				<entry key="javax.persistence.jdbc.password" value="${rainbow.security.jdbc.password}" />
-				<entry key="javax.persistence.jdbc.url" value="${rainbow.security.jdbc.url}" />
 			</map>
 		</property>
 		<property name="jpaVendorAdapter">
@@ -107,5 +81,5 @@
 			</bean>
 		</property>
 	</bean>
-	
+
 </beans>
