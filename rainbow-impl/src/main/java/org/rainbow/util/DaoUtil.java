@@ -1,4 +1,4 @@
-package org.rainbow.utilities;
+package org.rainbow.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;

@@ -12,7 +12,7 @@ import org.rainbow.criteria.PathImpl;
 import org.rainbow.criteria.PredicateBuilderImpl;
 import org.rainbow.criteria.SearchOptionsImpl;
 import org.rainbow.persistence.dao.Pageable;
-import org.rainbow.utilities.EntityManagerUtil;
+import org.rainbow.util.EntityManagerUtil;
 
 /**
  *

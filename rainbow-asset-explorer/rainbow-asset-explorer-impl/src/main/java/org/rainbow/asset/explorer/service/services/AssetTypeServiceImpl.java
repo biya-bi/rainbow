@@ -4,7 +4,7 @@ import org.rainbow.asset.explorer.orm.entities.AssetType;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAssetTypeNameException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class AssetTypeServiceImpl extends ServiceImpl<AssetType> implements AssetTypeService {
 

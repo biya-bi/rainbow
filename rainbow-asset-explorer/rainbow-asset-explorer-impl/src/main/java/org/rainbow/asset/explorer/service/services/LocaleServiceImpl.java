@@ -5,7 +5,7 @@ import org.rainbow.asset.explorer.service.exceptions.DuplicateLocaleLcidExceptio
 import org.rainbow.asset.explorer.service.exceptions.DuplicateLocaleNameException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class LocaleServiceImpl extends ServiceImpl<Locale> implements LocaleService {
 

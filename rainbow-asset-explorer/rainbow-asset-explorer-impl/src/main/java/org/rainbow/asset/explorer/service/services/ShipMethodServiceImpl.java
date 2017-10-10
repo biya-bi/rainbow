@@ -4,7 +4,7 @@ import org.rainbow.asset.explorer.orm.entities.ShipMethod;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateShipMethodNameException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class ShipMethodServiceImpl extends ServiceImpl<ShipMethod> implements ShipMethodService {
 

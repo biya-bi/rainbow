@@ -14,7 +14,7 @@ import org.rainbow.asset.explorer.service.exceptions.InsufficientInventoryExcept
 import org.rainbow.asset.explorer.service.exceptions.ProductIssueDetailsNullOrEmptyException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue> implements ProductIssueService {
 

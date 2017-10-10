@@ -23,7 +23,7 @@ import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.utilities.EntityManagerUtil;
+import org.rainbow.util.EntityManagerUtil;
 
 /**
  *

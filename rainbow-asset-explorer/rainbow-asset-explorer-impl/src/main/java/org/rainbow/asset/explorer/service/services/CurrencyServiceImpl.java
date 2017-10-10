@@ -4,7 +4,7 @@ import org.rainbow.asset.explorer.orm.entities.Currency;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateCurrencyNameException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class CurrencyServiceImpl extends ServiceImpl<Currency> implements CurrencyService {
 

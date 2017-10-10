@@ -25,7 +25,7 @@ import org.rainbow.security.orm.entities.RecoveryInformation;
 import org.rainbow.security.orm.entities.User;
 import org.rainbow.security.utilities.DateUtil;
 import org.rainbow.security.utilities.PersistenceSettings;
-import org.rainbow.utilities.EntityManagerUtil;
+import org.rainbow.util.EntityManagerUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Pageable(attributeName = "id")

@@ -20,7 +20,7 @@ import org.rainbow.asset.explorer.service.exceptions.ShippingOrderReadOnlyExcept
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderStatusTransitionException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> implements ShippingOrderService {
 

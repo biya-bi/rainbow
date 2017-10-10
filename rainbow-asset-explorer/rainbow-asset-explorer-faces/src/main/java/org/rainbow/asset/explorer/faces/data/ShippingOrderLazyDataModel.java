@@ -58,11 +58,11 @@ public class ShippingOrderLazyDataModel extends LongIdTrackableLazyDataModel<Shi
 	public ShippingOrderLazyDataModel() {
 		translator = new EnumTranslator();
 
-		referenceNumberFilter = new SingleValuedFilter<>(REFERENCE_NUMBER_FILTER, RelationalOperator.CONTAINS, null);
+		referenceNumberFilter = new SingleValuedFilter<>(REFERENCE_NUMBER_FILTER, RelationalOperator.CONTAINS, "");
 		sourceLocationNameFilter = new SingleValuedFilter<>(SOURCE_LOCATION_NAME_FILTER, RelationalOperator.CONTAINS,
-				null);
+				"");
 		targetLocationNameFilter = new SingleValuedFilter<>(TARGET_LOCATION_NAME_FILTER, RelationalOperator.CONTAINS,
-				null);
+				"");
 		shipMethodNameFilter = new SingleValuedFilter<>(SHIP_METHOD_NAME_FILTER);
 		statusFilter = new SingleValuedFilter<>(STATUS_FILTER);
 		deliveryDateFilter = new SingleValuedFilter<>(DELIVERY_DATE_FILTER, RelationalOperator.EQUAL, null);

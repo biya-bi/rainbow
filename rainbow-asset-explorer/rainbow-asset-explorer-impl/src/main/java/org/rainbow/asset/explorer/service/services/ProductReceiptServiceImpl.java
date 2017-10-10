@@ -14,7 +14,7 @@ import org.rainbow.asset.explorer.service.exceptions.DuplicateProductReceiptRefe
 import org.rainbow.asset.explorer.service.exceptions.ProductReceiptDetailsNullOrEmptyException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt> implements ProductReceiptService {
 

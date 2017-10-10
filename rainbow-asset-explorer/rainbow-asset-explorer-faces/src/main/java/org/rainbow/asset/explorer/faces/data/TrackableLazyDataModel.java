@@ -34,8 +34,8 @@ public abstract class TrackableLazyDataModel<TModel extends Trackable<?>> extend
 	private final SingleValuedFilter<Date> lastUpdateDateFilter;
 
 	public TrackableLazyDataModel() {
-		creatorFilter = new SingleValuedFilter<>(CREATOR_FILTER, RelationalOperator.CONTAINS, null);
-		updaterFilter = new SingleValuedFilter<>(UPDATER_FILTER, RelationalOperator.CONTAINS, null);
+		creatorFilter = new SingleValuedFilter<>(CREATOR_FILTER, RelationalOperator.CONTAINS, "");
+		updaterFilter = new SingleValuedFilter<>(UPDATER_FILTER, RelationalOperator.CONTAINS, "");
 		creationDateFilter = new SingleValuedFilter<>(CREATION_DATE_FILTER, RelationalOperator.EQUAL, null);
 		lastUpdateDateFilter = new SingleValuedFilter<>(LAST_UPDATE_DATE_FILTER, RelationalOperator.EQUAL, null);
 	}

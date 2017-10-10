@@ -4,7 +4,7 @@ import org.rainbow.asset.explorer.orm.entities.EmailTemplate;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateEmailTemplateNameException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplate> implements EmailTemplateService {
 

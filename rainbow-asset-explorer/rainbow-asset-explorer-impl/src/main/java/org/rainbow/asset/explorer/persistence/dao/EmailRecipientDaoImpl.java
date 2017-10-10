@@ -7,7 +7,7 @@ import org.rainbow.asset.explorer.orm.entities.EmailRecipient;
 import org.rainbow.asset.explorer.orm.entities.Locale;
 import org.rainbow.asset.explorer.utilities.PersistenceSettings;
 import org.rainbow.persistence.dao.Pageable;
-import org.rainbow.utilities.EntityManagerUtil;
+import org.rainbow.util.EntityManagerUtil;
 
 /**
  *

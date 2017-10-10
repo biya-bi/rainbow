@@ -7,7 +7,7 @@ import org.rainbow.asset.explorer.service.exceptions.SiteCommissioningDateNullEx
 import org.rainbow.asset.explorer.service.exceptions.SiteDecommissioningDateNullException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class SiteServiceImpl extends ServiceImpl<Site> implements SiteService {
 

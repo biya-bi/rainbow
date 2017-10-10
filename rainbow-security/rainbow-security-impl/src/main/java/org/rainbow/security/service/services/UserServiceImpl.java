@@ -12,7 +12,7 @@ import org.rainbow.security.service.exceptions.InvalidPasswordException;
 import org.rainbow.security.utilities.PasswordUtil;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class UserServiceImpl extends ServiceImpl<User> implements UserService {
 

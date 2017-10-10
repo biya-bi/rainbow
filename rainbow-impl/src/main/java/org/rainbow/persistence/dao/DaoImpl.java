@@ -17,7 +17,7 @@ import javax.persistence.criteria.Root;
 import org.rainbow.criteria.PredicateUtil;
 import org.rainbow.criteria.SearchOptions;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
-import org.rainbow.utilities.EntityManagerUtil;
+import org.rainbow.util.EntityManagerUtil;
 
 /**
  *

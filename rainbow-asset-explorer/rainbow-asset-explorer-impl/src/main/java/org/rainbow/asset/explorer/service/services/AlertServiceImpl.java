@@ -11,7 +11,7 @@ import org.rainbow.asset.explorer.scheduling.AlertScheduler;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAlertException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class AlertServiceImpl extends ServiceImpl<Alert> implements AlertService {
 

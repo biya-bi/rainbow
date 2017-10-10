@@ -20,7 +20,7 @@ import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderStatusTransiti
 import org.rainbow.asset.explorer.service.exceptions.VendorInactiveException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> implements PurchaseOrderService {
 	private VendorDao vendorDao;

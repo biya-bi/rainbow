@@ -145,6 +145,9 @@ public class FilterUtil {
 				}
 				break;
 			case NOT_IN:
+				if (hasValue) {
+					return builder.not(builder.in(p, (Collection<?>) value));
+				}
 				break;
 			case STARTS_WITH:
 				if (isString && hasValue) {

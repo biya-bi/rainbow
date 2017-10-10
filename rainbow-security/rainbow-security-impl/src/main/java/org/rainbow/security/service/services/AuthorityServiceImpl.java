@@ -7,7 +7,7 @@ import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.service.exceptions.DuplicateAuthorityException;
 import org.rainbow.service.ServiceImpl;
 import org.rainbow.service.UpdateOperation;
-import org.rainbow.utilities.DaoUtil;
+import org.rainbow.util.DaoUtil;
 
 public class AuthorityServiceImpl extends ServiceImpl<Authority> implements AuthorityService {
 

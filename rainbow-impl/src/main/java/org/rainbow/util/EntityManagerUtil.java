@@ -1,4 +1,4 @@
-package org.rainbow.utilities;
+package org.rainbow.util;
 
 import java.util.HashMap;
 import java.util.List;
