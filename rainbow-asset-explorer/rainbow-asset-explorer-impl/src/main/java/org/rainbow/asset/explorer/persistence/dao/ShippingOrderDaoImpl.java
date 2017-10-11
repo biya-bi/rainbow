@@ -20,7 +20,7 @@ import org.rainbow.asset.explorer.orm.entities.ShipMethod;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetailId;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.util.EntityManagerUtil;

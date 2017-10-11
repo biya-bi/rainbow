@@ -20,7 +20,7 @@ import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.orm.entities.ProductIssue;
 import org.rainbow.asset.explorer.orm.entities.ProductIssueDetail;
 import org.rainbow.asset.explorer.orm.entities.ProductIssueDetailId;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.util.EntityManagerUtil;

@@ -8,7 +8,6 @@ import java.util.Map;
 import org.rainbow.asset.explorer.orm.entities.Location;
 import org.rainbow.asset.explorer.orm.entities.ProductReceipt;
 import org.rainbow.asset.explorer.orm.entities.ProductReceiptDetail;
-import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
 import org.rainbow.asset.explorer.persistence.dao.LocationDao;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductReceiptReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.ProductReceiptDetailsNullOrEmptyException;

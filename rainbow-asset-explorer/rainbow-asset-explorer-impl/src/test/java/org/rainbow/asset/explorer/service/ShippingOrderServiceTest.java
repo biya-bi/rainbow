@@ -19,15 +19,19 @@ import org.rainbow.asset.explorer.orm.entities.ShipMethod;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderStatus;
-import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateShippingOrderReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderDeliveredQuantityOutOfRangeException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderDetailsNullOrEmptyException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderLocationException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderReadOnlyException;
+import org.rainbow.asset.explorer.service.services.InventoryManager;
+import org.rainbow.asset.explorer.service.services.ProductInventoryService;
 import org.rainbow.asset.explorer.service.services.ShippingOrderService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptionsFactory;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,6 +55,18 @@ public class ShippingOrderServiceTest extends AbstractServiceTest {
 	@Autowired
 	@Qualifier("inventoryManager")
 	private InventoryManager inventoryManager;
+
+	@Autowired
+	private ProductInventoryService productInventoryService;
+
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
 
 	@Test
 	public void create_ShippingOrderIsValid_ShippingOrderCreated() throws Exception {
@@ -322,7 +338,8 @@ public class ShippingOrderServiceTest extends AbstractServiceTest {
 		Long shippingOrderId = 15007L;
 		Long locationId = 15003L;
 
-		List<ProductInventory> inventoryBefore = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		ShippingOrder shippingOrder = em.getReference(ShippingOrder.class, shippingOrderId);
 		List<ShippingOrderDetail> details = shippingOrderService.getDetails(shippingOrderId);
@@ -335,7 +352,8 @@ public class ShippingOrderServiceTest extends AbstractServiceTest {
 		ShippingOrder actual = em.getReference(ShippingOrder.class, shippingOrderId);
 		Assert.assertEquals(ShippingOrderStatus.IN_TRANSIT, actual.getStatus());
 
-		List<ProductInventory> inventoryAfter = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		int matches = 0;
 		for (ProductInventory pib : inventoryBefore) {
@@ -369,7 +387,8 @@ public class ShippingOrderServiceTest extends AbstractServiceTest {
 		Long shippingOrderId = 15008L;
 		Long locationId = 15005L;
 
-		List<ProductInventory> inventoryBefore = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 		ShippingOrder shippingOrder = em.getReference(ShippingOrder.class, shippingOrderId);
 		List<ShippingOrderDetail> details = shippingOrderService.getDetails(shippingOrderId);
 		shippingOrder.setDetails(details);
@@ -381,7 +400,8 @@ public class ShippingOrderServiceTest extends AbstractServiceTest {
 		ShippingOrder actual = em.getReference(ShippingOrder.class, shippingOrderId);
 		Assert.assertEquals(ShippingOrderStatus.RESTITUTED, actual.getStatus());
 
-		List<ProductInventory> inventoryAfter = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		int matches = 0;
 		for (ProductInventory pib : inventoryBefore) {
@@ -415,7 +435,8 @@ public class ShippingOrderServiceTest extends AbstractServiceTest {
 		Long shippingOrderId = 15009L;
 		Long targetLocationId = 15008L;
 
-		List<ProductInventory> inventoryBefore = inventoryManager.getProductInventories(targetLocationId);
+		List<ProductInventory> inventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), targetLocationId)));
 
 		em.clear();
 
@@ -429,7 +450,8 @@ public class ShippingOrderServiceTest extends AbstractServiceTest {
 		ShippingOrder actual = em.getReference(ShippingOrder.class, shippingOrderId);
 		Assert.assertEquals(ShippingOrderStatus.DELIVERED, actual.getStatus());
 
-		List<ProductInventory> inventoryAfter = inventoryManager.getProductInventories(targetLocationId);
+		List<ProductInventory> inventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), targetLocationId)));
 
 		int matches = 0;
 

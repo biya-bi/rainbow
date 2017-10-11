@@ -8,7 +8,6 @@ import java.util.Map;
 import org.rainbow.asset.explorer.orm.entities.Location;
 import org.rainbow.asset.explorer.orm.entities.ProductIssue;
 import org.rainbow.asset.explorer.orm.entities.ProductIssueDetail;
-import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductIssueReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.InsufficientInventoryException;
 import org.rainbow.asset.explorer.service.exceptions.ProductIssueDetailsNullOrEmptyException;

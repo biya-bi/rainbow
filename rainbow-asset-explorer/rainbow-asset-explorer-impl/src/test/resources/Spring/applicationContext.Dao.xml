@@ -3,11 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 				http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="alertDao"
-		class="org.rainbow.asset.explorer.persistence.dao.AlertDaoImpl" />
+	<bean id="alertDao" class="org.rainbow.asset.explorer.persistence.dao.AlertDaoImpl" />
 
-	<bean id="assetDao"
-		class="org.rainbow.asset.explorer.persistence.dao.AssetDaoImpl" />
+	<bean id="assetDao" class="org.rainbow.asset.explorer.persistence.dao.AssetDaoImpl" />
 
 	<bean id="assetTypeDao"
 		class="org.rainbow.asset.explorer.persistence.dao.AssetTypeDaoImpl" />
@@ -17,11 +15,6 @@
 
 	<bean id="emailTemplateDao"
 		class="org.rainbow.asset.explorer.persistence.dao.EmailTemplateDaoImpl" />
-
-	<bean id="inventoryManager"
-		class="org.rainbow.asset.explorer.persistence.dao.InventoryManagerImpl">
-		<property name="alertScheduler" ref="alertScheduler" />
-	</bean>
 
 	<bean id="localeDao"
 		class="org.rainbow.asset.explorer.persistence.dao.LocaleDaoImpl" />
@@ -34,6 +27,9 @@
 
 	<bean id="productDao"
 		class="org.rainbow.asset.explorer.persistence.dao.ProductDaoImpl" />
+
+	<bean id="productInventoryDao"
+		class="org.rainbow.asset.explorer.persistence.dao.ProductInventoryDaoImpl" />
 
 	<bean id="productIssueDao"
 		class="org.rainbow.asset.explorer.persistence.dao.ProductIssueDaoImpl" />
@@ -50,8 +46,7 @@
 	<bean id="shippingOrderDao"
 		class="org.rainbow.asset.explorer.persistence.dao.ShippingOrderDaoImpl" />
 
-	<bean id="siteDao"
-		class="org.rainbow.asset.explorer.persistence.dao.SiteDaoImpl" />
+	<bean id="siteDao" class="org.rainbow.asset.explorer.persistence.dao.SiteDaoImpl" />
 
 	<bean id="vendorDao"
 		class="org.rainbow.asset.explorer.persistence.dao.VendorDaoImpl" />

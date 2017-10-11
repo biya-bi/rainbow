@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.rainbow.asset.explorer.orm.entities.Location;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateLocationNameException;
 import org.rainbow.asset.explorer.service.services.LocationService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.springframework.beans.factory.annotation.Autowired;

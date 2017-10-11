@@ -13,9 +13,9 @@
 		<module>rainbow-asset-explorer</module>
 		<module>rainbow-common</module>
 		<module>rainbow-faces</module>
-<!-- 		<module>rainbow-journal</module> -->
+		<!-- <module>rainbow-journal</module> -->
 		<module>rainbow-security</module>
-<!-- 		<module>rainbow-shopping-cart</module> -->
+		<!-- <module>rainbow-shopping-cart</module> -->
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

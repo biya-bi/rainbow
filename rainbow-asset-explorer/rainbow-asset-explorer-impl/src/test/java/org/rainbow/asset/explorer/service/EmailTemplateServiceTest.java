@@ -10,7 +10,7 @@ import org.rainbow.asset.explorer.orm.entities.EmailTemplate;
 import org.rainbow.asset.explorer.orm.entities.Locale;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateEmailTemplateNameException;
 import org.rainbow.asset.explorer.service.services.EmailTemplateService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.springframework.beans.factory.annotation.Autowired;

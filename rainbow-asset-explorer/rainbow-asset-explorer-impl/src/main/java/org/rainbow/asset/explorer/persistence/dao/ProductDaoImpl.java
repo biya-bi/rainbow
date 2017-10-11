@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.rainbow.asset.explorer.orm.entities.Manufacturer;
 import org.rainbow.asset.explorer.orm.entities.Product;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.criteria.PathImpl;
 import org.rainbow.criteria.PredicateBuilderImpl;
 import org.rainbow.criteria.SearchOptionsImpl;

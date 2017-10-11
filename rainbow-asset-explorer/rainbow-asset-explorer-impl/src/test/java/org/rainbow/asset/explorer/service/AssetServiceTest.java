@@ -17,7 +17,7 @@ import org.rainbow.asset.explorer.orm.entities.Site;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAssetSerialNumberException;
 import org.rainbow.asset.explorer.service.services.AssetService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.criteria.PathFactory;
 import org.rainbow.criteria.PredicateBuilder;
@@ -141,9 +141,8 @@ public class AssetServiceTest extends AbstractServiceTest {
 	public void find() throws Exception {
 		PredicateBuilder builder = predicateBuilderFactory.create();
 
-		SearchOptions searchOptions = searchOptionsFactory
-				.create(builder.equal(pathFactory.create("site.id"), 2001L));
-		
+		SearchOptions searchOptions = searchOptionsFactory.create(builder.equal(pathFactory.create("site.id"), 2001L));
+
 		List<Asset> result = assetService.find(searchOptions);
 		Assert.assertEquals(1, result.size());
 	}

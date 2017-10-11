@@ -1,21 +1,26 @@
 package org.rainbow.asset.explorer.faces.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
-import org.rainbow.asset.explorer.orm.entities.Location;
-import org.rainbow.asset.explorer.orm.entities.Product;
-import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
+import org.rainbow.asset.explorer.orm.entities.ProductInventory;
+import org.rainbow.asset.explorer.service.services.ProductInventoryService;
 import org.rainbow.common.util.DefaultComparator;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptions;
+import org.rainbow.criteria.SearchOptionsFactory;
+import org.rainbow.faces.filters.RelationalOperator;
+import org.rainbow.faces.filters.SingleValuedFilter;
+import org.rainbow.faces.util.FilterUtil;
+import org.rainbow.faces.util.Filterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,77 +31,86 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class InventoryLazyDataModel extends LazyDataModel<Map.Entry<Product, Short>> {
+public class InventoryLazyDataModel extends LazyDataModel<ProductInventory> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3493803572871669696L;
 
-	private static final String NAME_FILTER = "key.name";
-	private static final String NUMBER_FILTER = "key.number";
-	private static final String QUANTITY_FILTER = "value";
+	private static final String LOCATION_ID_FILTER = "id.locationId";
+	private static final String NAME_FILTER = "product.name";
+	private static final String NUMBER_FILTER = "product.number";
+	private static final String QUANTITY_FILTER = "quantity";
 
-	private Location location;
-	private String number;
-	private String name;
+	private final SingleValuedFilter<Long> locationIdFilter;
+	private final SingleValuedFilter<String> productNameFilter;
+	private final SingleValuedFilter<String> productNumberFilter;
+	private final SingleValuedFilter<Short> quantityFilter;
 
 	@Autowired
-	private InventoryManager inventoryManager;
+	private ProductInventoryService productInventoryService;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
+
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
 
 	public InventoryLazyDataModel() {
+		locationIdFilter = new SingleValuedFilter<>(LOCATION_ID_FILTER, RelationalOperator.EQUAL, null);
+		productNameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
+		productNumberFilter = new SingleValuedFilter<>(NUMBER_FILTER, RelationalOperator.CONTAINS, "");
+		quantityFilter = new SingleValuedFilter<>(QUANTITY_FILTER);
 	}
 
-	public Location getLocation() {
-		return location;
+	@Filterable
+	public SingleValuedFilter<Long> getLocationIdFilter() {
+		return locationIdFilter;
 	}
 
-	public void setLocation(Location location) {
-		this.location = location;
+	@Filterable
+	public SingleValuedFilter<String> getProductNameFilter() {
+		return productNameFilter;
 	}
 
-	public String getNumber() {
-		return number;
+	@Filterable
+	public SingleValuedFilter<String> getProductNumberFilter() {
+		return productNumberFilter;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	@Filterable
+	public SingleValuedFilter<Short> getQuantityFilter() {
+		return quantityFilter;
 	}
 
 	@Override
-	public List<Map.Entry<Product, Short>> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+	public List<ProductInventory> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 			Map<String, Object> filters) {
 
 		int pageIndex = pageSize == 0 ? 0 : first / pageSize;
-		long locationId = location.getId();
 
-		Map<Product, Short> inventory;
+		List<ProductInventory> result;
+
 		try {
-			inventory = inventoryManager.load(locationId, number, name, pageIndex, pageSize);
+			SearchOptions searchOptions = searchOptionsFactory.create(pageIndex, pageSize,
+					FilterUtil.getPredicate(this, predicateBuilderFactory, pathFactory));
+			result = productInventoryService.find(searchOptions);
+			setRowCount((int) productInventoryService.count(searchOptions.getPredicate()));
+
+			sort(sortField, sortOrder, result);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		long count = inventoryManager.count(locationId, number, name);
-		Set<Map.Entry<Product, Short>> productSet = inventory.entrySet();
-
-		ArrayList<Map.Entry<Product, Short>> result = new ArrayList<>(productSet);
-		setRowCount((int) count);
-
-		sort(sortField, sortOrder, result);
 
 		return result;
 
 	}
 
-	protected void sort(String sortField, SortOrder sortOrder, List<Map.Entry<Product, Short>> list) {
+	protected void sort(String sortField, SortOrder sortOrder, List<ProductInventory> list) {
 		if (sortField == null) {
 			sortField = NAME_FILTER; // We want to sort by name if no sort field
 										// was specified.
@@ -106,10 +120,10 @@ public class InventoryLazyDataModel extends LazyDataModel<Map.Entry<Product, Sho
 			switch (sortField) {
 			case NAME_FILTER: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
-				Collections.sort(list, new Comparator<Map.Entry<Product, Short>>() {
+				Collections.sort(list, new Comparator<ProductInventory>() {
 					@Override
-					public int compare(Map.Entry<Product, Short> one, Map.Entry<Product, Short> other) {
-						int result = comparator.compare(one.getKey().getName(), other.getKey().getName());
+					public int compare(ProductInventory one, ProductInventory other) {
+						int result = comparator.compare(one.getProduct().getName(), other.getProduct().getName());
 						if (order == SortOrder.DESCENDING) {
 							return -result;
 						}
@@ -120,10 +134,10 @@ public class InventoryLazyDataModel extends LazyDataModel<Map.Entry<Product, Sho
 			}
 			case NUMBER_FILTER: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
-				Collections.sort(list, new Comparator<Map.Entry<Product, Short>>() {
+				Collections.sort(list, new Comparator<ProductInventory>() {
 					@Override
-					public int compare(Map.Entry<Product, Short> one, Map.Entry<Product, Short> other) {
-						int result = comparator.compare(one.getKey().getNumber(), other.getKey().getNumber());
+					public int compare(ProductInventory one, ProductInventory other) {
+						int result = comparator.compare(one.getProduct().getNumber(), other.getProduct().getNumber());
 						if (order == SortOrder.DESCENDING) {
 							return -result;
 						}
@@ -134,10 +148,10 @@ public class InventoryLazyDataModel extends LazyDataModel<Map.Entry<Product, Sho
 			}
 			case QUANTITY_FILTER: {
 				final Comparator<Short> comparator = DefaultComparator.<Short>getInstance();
-				Collections.sort(list, new Comparator<Map.Entry<Product, Short>>() {
+				Collections.sort(list, new Comparator<ProductInventory>() {
 					@Override
-					public int compare(Map.Entry<Product, Short> one, Map.Entry<Product, Short> other) {
-						int result = comparator.compare(one.getValue(), other.getValue());
+					public int compare(ProductInventory one, ProductInventory other) {
+						int result = comparator.compare(one.getQuantity(), other.getQuantity());
 						if (order == SortOrder.DESCENDING) {
 							return -result;
 						}

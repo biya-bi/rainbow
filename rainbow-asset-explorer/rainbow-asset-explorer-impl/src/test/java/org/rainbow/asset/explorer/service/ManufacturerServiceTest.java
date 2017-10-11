@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.rainbow.asset.explorer.orm.entities.Manufacturer;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateManufacturerNameException;
 import org.rainbow.asset.explorer.service.services.ManufacturerService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.springframework.beans.factory.annotation.Autowired;

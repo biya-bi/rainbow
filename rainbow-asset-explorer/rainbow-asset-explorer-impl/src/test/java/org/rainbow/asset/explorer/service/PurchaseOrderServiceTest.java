@@ -20,16 +20,20 @@ import org.rainbow.asset.explorer.orm.entities.PurchaseOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderStatus;
 import org.rainbow.asset.explorer.orm.entities.ShipMethod;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
-import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
 import org.rainbow.asset.explorer.service.exceptions.DuplicatePurchaseOrderReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderCompleteQuantityOutOfRangeException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderDetailsNullOrEmptyException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderReadOnlyException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderStatusTransitionException;
 import org.rainbow.asset.explorer.service.exceptions.VendorInactiveException;
+import org.rainbow.asset.explorer.service.services.InventoryManager;
+import org.rainbow.asset.explorer.service.services.ProductInventoryService;
 import org.rainbow.asset.explorer.service.services.PurchaseOrderService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptionsFactory;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,6 +57,18 @@ public class PurchaseOrderServiceTest extends AbstractServiceTest {
 	@Autowired
 	@Qualifier("inventoryManager")
 	private InventoryManager inventoryManager;
+
+	@Autowired
+	private ProductInventoryService productInventoryService;
+
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
 
 	@Test
 	public void create_PurchaseOrderIsValid_PurchaseOrderCreated() throws Exception {
@@ -289,7 +305,8 @@ public class PurchaseOrderServiceTest extends AbstractServiceTest {
 		Long purchaseOrderId = 13008L;
 		Long locationId = 13001L;
 
-		List<ProductInventory> inventoryBefore = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		Map<Long, Short> productCount = new HashMap<>();
 		productCount.put(13001L, (short) 1000);
@@ -299,7 +316,8 @@ public class PurchaseOrderServiceTest extends AbstractServiceTest {
 		PurchaseOrder actual = em.getReference(PurchaseOrder.class, purchaseOrderId);
 		Assert.assertEquals(PurchaseOrderStatus.COMPLETE, actual.getStatus());
 
-		List<ProductInventory> inventoryAfter = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		int matches = 0;
 

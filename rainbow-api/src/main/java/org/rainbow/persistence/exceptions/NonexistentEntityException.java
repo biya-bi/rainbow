@@ -1,8 +1,5 @@
 package org.rainbow.persistence.exceptions;
 
-import javax.ejb.ApplicationException;
-
-@ApplicationException(rollback = true)
 public class NonexistentEntityException extends RuntimeException {
 	/**
 	 * 

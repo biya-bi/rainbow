@@ -64,7 +64,7 @@
 		<!-- Rainbow dependencies -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>rainbow-asset-explorer-impl</artifactId>
+			<artifactId>rainbow-asset-explorer-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

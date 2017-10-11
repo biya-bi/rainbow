@@ -6,7 +6,7 @@
 
     <p:dialog id="inventoryDialog" widgetVar="inventoryDialog" modal="false" resizable="false" appendTo="@(content)" header="#{locationController.current.name} #{labels.LocationInventoryNameSuffix}">
         <h:form id="inventoryForm">
-            <h:panelGroup id="panelGroup" rendered="#{inventoryLazyDataModel.location!=null}">
+            <h:panelGroup id="panelGroup" rendered="#{inventoryLazyDataModel.locationIdFilter.value!=null}">
                 <p:dataTable id="inventoryList"
                              widgetVar="inventoryDataTable"
                              value="#{inventoryLazyDataModel}"
@@ -19,16 +19,16 @@
                              rowsPerPageTemplate="20,40,60,80,100" 
                              var="item">
 
-                    <p:column  headerText="#{labels.ProductNumberTitle}" filterBy="#{item.key.number}" sortBy="#{item.key.number}" filterValue="#{inventoryLazyDataModel.number}">
-                        <h:outputText value="#{item.key.number}" />
+                    <p:column  headerText="#{labels.ProductNumberTitle}" filterBy="#{item.product.number}" sortBy="#{item.product.number}" filterValue="#{inventoryLazyDataModel.productNumberFilter.value}">
+                        <h:outputText value="#{item.product.number}" />
                     </p:column>
 
-                    <p:column headerText="#{labels.ProductNameTitle}" filterBy="#{item.key.name}" sortBy="#{item.key.name}" filterValue="#{inventoryLazyDataModel.name}">
-                        <h:outputText value="#{item.key.name}" />
+                    <p:column headerText="#{labels.ProductNameTitle}" filterBy="#{item.product.name}" sortBy="#{item.product.name}" filterValue="#{inventoryLazyDataModel.productNameFilter.value}">
+                        <h:outputText value="#{item.product.name}" />
                     </p:column>
 
-                    <p:column headerText="#{labels.QuantityTitle}" sortBy="#{item.value}">
-                        <h:outputText value="#{item.value}" />
+                    <p:column headerText="#{labels.QuantityTitle}" sortBy="#{item.quantity}">
+                        <h:outputText value="#{item.quantity}" />
                     </p:column>
 
                 </p:dataTable>

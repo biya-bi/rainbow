@@ -9,5 +9,5 @@
 		<constructor-arg name="password" value="${jdbc.password}" />
 		<constructor-arg name="driverClassName" value="${jdbc.driverClassName}" />
 	</bean>
-	
+
 </beans>

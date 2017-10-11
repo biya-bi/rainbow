@@ -19,13 +19,17 @@ import org.rainbow.asset.explorer.orm.entities.ProductInventory;
 import org.rainbow.asset.explorer.orm.entities.ProductReceipt;
 import org.rainbow.asset.explorer.orm.entities.ProductReceiptDetail;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
-import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductReceiptReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.InsufficientInventoryException;
 import org.rainbow.asset.explorer.service.exceptions.ProductReceiptDetailsNullOrEmptyException;
+import org.rainbow.asset.explorer.service.services.InventoryManager;
+import org.rainbow.asset.explorer.service.services.ProductInventoryService;
 import org.rainbow.asset.explorer.service.services.ProductReceiptService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptionsFactory;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,10 +56,23 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 	@Qualifier("inventoryManager")
 	private InventoryManager inventoryManager;
 
+	@Autowired
+	private ProductInventoryService productInventoryService;
+
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
+
 	@Test
 	public void create_ProductReceiptIsValid_ProductReceiptCreated() throws Exception {
 		long locationId = 11001L;
-		List<ProductInventory> inventoryBefore = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		ProductReceipt expected = new ProductReceipt();
 		expected.setReferenceNumber("NEW-PR-1");
@@ -86,7 +103,8 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 		actual.getId(); // If no exception is thrown, then the create was
 						// successful.
 
-		List<ProductInventory> inventoryAfter = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		int matches = 0;
 
@@ -255,7 +273,8 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 	@Test
 	public void update_ProductReceiptIsValid_ProductReceiptEdited() throws Exception {
 		long locationId = 11002L;
-		List<ProductInventory> inventoryBefore = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		long productReceiptId = 11002L;
 		ProductReceipt expected = em.getReference(ProductReceipt.class, productReceiptId);
@@ -275,7 +294,8 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 
 		productReceiptService.update(expected);
 
-		List<ProductInventory> inventoryAfter = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		int matches = 0;
 
@@ -306,7 +326,8 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 	@Test
 	public void update_NewDetailsAdded_ProductReceiptEdited() throws Exception {
 		long locationId = 11003L;
-		List<ProductInventory> inventoryBefore = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		long productReceiptId = 11003L;
 		ProductReceipt expected = em.getReference(ProductReceipt.class, productReceiptId);
@@ -355,7 +376,8 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 
 		productReceiptService.update(expected);
 
-		List<ProductInventory> inventoryAfter = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		int matches = 0;
 
@@ -487,7 +509,8 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 		List<ProductReceiptDetail> details = productReceiptService.getDetails(productReceiptId);
 		expected.setDetails(details);
 
-		List<ProductInventory> inventoryBefore = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		Map<Long, Short> oldProductQuantities = new HashMap<>();
 		Map<Long, Short> newProductQuantities = new HashMap<>();
@@ -518,7 +541,8 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 
 		productReceiptService.update(expected);
 
-		List<ProductInventory> inventoryAfter = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		int matches = 0;
 
@@ -577,8 +601,10 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 	public void update_LocationChanged_OldLocationAndNewLocationInventoriesAdjusted() throws Exception {
 		long oldLocationId = 11009L;
 		long newLocationId = 11010L;
-		List<ProductInventory> oldLocationInventoryBefore = inventoryManager.getProductInventories(oldLocationId);
-		List<ProductInventory> newLocationInventoryBefore = inventoryManager.getProductInventories(newLocationId);
+		List<ProductInventory> oldLocationInventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), oldLocationId)));
+		List<ProductInventory> newLocationInventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), newLocationId)));
 
 		long productReceiptId = 11009L;
 		ProductReceipt expected = em.getReference(ProductReceipt.class, productReceiptId);
@@ -598,7 +624,7 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 				oldProductQuantities.replace(productId,
 						(short) (oldProductQuantities.get(productId) + detail.getQuantity()));
 			}
-			if (detail.getId().getDetailId()== 11016) {
+			if (detail.getId().getDetailId() == 11016) {
 				detail.setQuantity((short) 400);
 			} else if (detail.getId().getDetailId() == 11017) {
 				detail.setQuantity((short) 275);
@@ -613,8 +639,10 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 
 		productReceiptService.update(expected);
 
-		List<ProductInventory> oldLocationInventoryAfter = inventoryManager.getProductInventories(oldLocationId);
-		List<ProductInventory> newLocationInventoryAfter = inventoryManager.getProductInventories(newLocationId);
+		List<ProductInventory> oldLocationInventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), oldLocationId)));
+		List<ProductInventory> newLocationInventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), newLocationId)));
 
 		int oldLocationInventoryMatches = 0;
 		int newLocationInventoryMatches = 0;
@@ -672,7 +700,8 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 		long locationId = 11011L;
 		long productReceiptId = 11010L;
 
-		List<ProductInventory> inventoryBefore = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryBefore = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		ProductReceipt expected = em.getReference(ProductReceipt.class, productReceiptId);
 		List<ProductReceiptDetail> details = productReceiptService.getDetails(productReceiptId);
@@ -691,7 +720,8 @@ public class ProductReceiptServiceTest extends AbstractServiceTest {
 
 		productReceiptService.delete(expected);
 
-		List<ProductInventory> inventoryAfter = inventoryManager.getProductInventories(locationId);
+		List<ProductInventory> inventoryAfter = productInventoryService.find(searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), locationId)));
 
 		int matches = 0;
 

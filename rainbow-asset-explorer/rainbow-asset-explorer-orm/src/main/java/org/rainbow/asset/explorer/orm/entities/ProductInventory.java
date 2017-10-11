@@ -3,6 +3,7 @@ package org.rainbow.asset.explorer.orm.entities;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -49,7 +50,7 @@ public class ProductInventory extends Trackable<ProductInventoryId> {
 		this.quantity = quantity;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PRODUCT_ID", insertable = false, updatable = false)
 	public Product getProduct() {
 		return product;
@@ -59,7 +60,7 @@ public class ProductInventory extends Trackable<ProductInventoryId> {
 		this.product = product;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "LOCATION_ID", insertable = false, updatable = false)
 	public Location getLocation() {
 		return location;

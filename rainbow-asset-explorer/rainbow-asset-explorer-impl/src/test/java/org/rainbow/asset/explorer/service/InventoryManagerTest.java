@@ -3,18 +3,22 @@ package org.rainbow.asset.explorer.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.rainbow.asset.explorer.orm.entities.Department;
 import org.rainbow.asset.explorer.orm.entities.Location;
 import org.rainbow.asset.explorer.orm.entities.Product;
+import org.rainbow.asset.explorer.orm.entities.ProductInventory;
 import org.rainbow.asset.explorer.orm.entities.ProductIssue;
 import org.rainbow.asset.explorer.orm.entities.ProductIssueDetail;
-import org.rainbow.asset.explorer.persistence.dao.InventoryManager;
+import org.rainbow.asset.explorer.service.services.InventoryManager;
+import org.rainbow.asset.explorer.service.services.ProductInventoryService;
 import org.rainbow.asset.explorer.service.services.ProductIssueService;
 import org.rainbow.common.test.DatabaseInitialize;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptionsFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -33,9 +37,22 @@ public class InventoryManagerTest extends AbstractServiceTest {
 	@Qualifier("productIssueService")
 	private ProductIssueService productIssueService;
 
+	@Autowired
+	private ProductInventoryService productInventoryService;
+
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
+
 	@Test
-	public void load_LocationIdIsSupplied_InventoryReturned() throws Exception {
-		Map<Product, Short> inventory = inventoryManager.load(6001L);
+	public void find_LocationIdIsSupplied_InventoryReturned() throws Exception {
+		List<ProductInventory> inventory = productInventoryService.find(
+				searchOptionsFactory.create(predicateBuilderFactory.create().equal(pathFactory.create("id.locationId"), 6001L)));
 		Assert.assertEquals(3, inventory.size());
 	}
 

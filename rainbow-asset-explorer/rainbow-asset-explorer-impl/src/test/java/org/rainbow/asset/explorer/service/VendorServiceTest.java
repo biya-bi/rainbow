@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateVendorAccountNumberException;
 import org.rainbow.asset.explorer.service.services.VendorService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.criteria.PathFactory;
 import org.rainbow.criteria.PredicateBuilder;
@@ -44,7 +44,7 @@ public class VendorServiceTest extends AbstractServiceTest {
 
 	@Autowired
 	private SearchOptionsFactory searchOptionsFactory;
-	
+
 	@Test
 	public void create_VendorIsValid_VendorCreated() throws Exception {
 		Vendor expected = new Vendor("VDR-NEW-ACC1", "New Vendor", true, "www.optimum.org");
@@ -121,9 +121,9 @@ public class VendorServiceTest extends AbstractServiceTest {
 
 		SearchOptions searchOptions = searchOptionsFactory
 				.create(builder.equal(pathFactory.create("name"), "Vendor 17001"));
-		
+
 		List<Vendor> result = vendorService.find(searchOptions);
-		
+
 		Assert.assertEquals(1, result.size());
 	}
 
@@ -131,11 +131,10 @@ public class VendorServiceTest extends AbstractServiceTest {
 	public void find_EmptyStringProvidedAndOperatorIsContains_ReturnVendors() throws Exception {
 		PredicateBuilder builder = predicateBuilderFactory.create();
 
-		SearchOptions searchOptions = searchOptionsFactory
-				.create(builder.contains(pathFactory.create("name"), ""));
-		
+		SearchOptions searchOptions = searchOptionsFactory.create(builder.contains(pathFactory.create("name"), ""));
+
 		List<Vendor> result = vendorService.find(searchOptions);
-		
+
 		Assert.assertFalse(result.isEmpty());
 	}
 }

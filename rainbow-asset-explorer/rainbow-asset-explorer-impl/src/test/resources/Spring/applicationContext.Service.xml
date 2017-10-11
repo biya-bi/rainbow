@@ -29,6 +29,14 @@
 		<property name="dao" ref="emailTemplateDao" />
 	</bean>
 
+	<bean id="inventoryManager"
+		class="org.rainbow.asset.explorer.service.services.InventoryManagerImpl">
+		<property name="alertScheduler" ref="alertScheduler" />
+		<property name="locationDao" ref="locationDao" />
+		<property name="productDao" ref="productDao" />
+		<property name="productInventoryDao" ref="productInventoryDao" />
+	</bean>
+
 	<bean id="localeService"
 		class="org.rainbow.asset.explorer.service.services.LocaleServiceImpl">
 		<property name="dao" ref="localeDao" />
@@ -42,6 +50,11 @@
 	<bean id="manufacturerService"
 		class="org.rainbow.asset.explorer.service.services.ManufacturerServiceImpl">
 		<property name="dao" ref="manufacturerDao" />
+	</bean>
+
+	<bean id="productInventoryService"
+		class="org.rainbow.asset.explorer.service.services.ProductInventoryServiceImpl">
+		<property name="dao" ref="productInventoryDao" />
 	</bean>
 
 	<bean id="productIssueService"
@@ -91,5 +104,4 @@
 		class="org.rainbow.asset.explorer.service.services.VendorServiceImpl">
 		<property name="dao" ref="vendorDao" />
 	</bean>
-
 </beans>

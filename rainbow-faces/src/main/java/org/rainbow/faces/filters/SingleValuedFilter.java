@@ -14,12 +14,12 @@ public class SingleValuedFilter<T extends Comparable<? super T>> extends Filter<
 	public SingleValuedFilter() {
 	}
 
-	public SingleValuedFilter(String fieldName) {
-		super(fieldName);
+	public SingleValuedFilter(String path) {
+		super(path);
 	}
 
-	public SingleValuedFilter(String fieldName, RelationalOperator operator, T value) {
-		super(fieldName, operator);
+	public SingleValuedFilter(String path, RelationalOperator operator, T value) {
+		super(path, operator);
 		this.value = value;
 	}
 

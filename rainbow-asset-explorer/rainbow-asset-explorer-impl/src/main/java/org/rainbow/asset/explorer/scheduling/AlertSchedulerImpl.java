@@ -39,7 +39,7 @@ import org.rainbow.asset.explorer.orm.entities.ProductAlertInfo;
 import org.rainbow.asset.explorer.orm.entities.ProductAlertInfoId;
 import org.rainbow.asset.explorer.orm.entities.ProductInventory;
 import org.rainbow.asset.explorer.orm.entities.Schedule;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 
 /**
  *

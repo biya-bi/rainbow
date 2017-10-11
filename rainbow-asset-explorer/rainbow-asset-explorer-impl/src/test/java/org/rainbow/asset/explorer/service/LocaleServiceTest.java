@@ -10,7 +10,7 @@ import org.rainbow.asset.explorer.orm.entities.Locale;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateLocaleLcidException;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateLocaleNameException;
 import org.rainbow.asset.explorer.service.services.LocaleService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.springframework.beans.factory.annotation.Autowired;

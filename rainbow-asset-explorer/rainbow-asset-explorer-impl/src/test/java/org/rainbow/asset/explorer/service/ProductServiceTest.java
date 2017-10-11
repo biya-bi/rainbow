@@ -15,7 +15,7 @@ import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNameException;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNumberException;
 import org.rainbow.asset.explorer.service.services.ProductService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,8 +126,8 @@ public class ProductServiceTest extends AbstractServiceTest {
 	@Test(expected = DuplicateProductNumberException.class)
 	public void create_ProductNumberAlreadyExists_ThrowDuplicateProductNumberException() throws Exception {
 		Date now = new Date();
-		Product product = new Product("PDT-12006", "Product with duplicate number", (short) 1000, (short) 750, (short) 3,
-				"", now, now);
+		Product product = new Product("PDT-12006", "Product with duplicate number", (short) 1000, (short) 750,
+				(short) 3, "", now, now);
 
 		try {
 			productService.create(product);

@@ -11,7 +11,7 @@ import org.rainbow.asset.explorer.orm.entities.AlertType;
 import org.rainbow.asset.explorer.orm.entities.Schedule;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAlertException;
 import org.rainbow.asset.explorer.service.services.AlertService;
-import org.rainbow.asset.explorer.utilities.PersistenceSettings;
+import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.common.test.DatabaseInitialize;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,5 +98,5 @@ public class AlertServiceTest extends AbstractServiceTest {
 	// throw e;
 	// }
 	// }
-	
+
 }

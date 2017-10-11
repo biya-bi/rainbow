@@ -47,8 +47,8 @@
 					value="#{labels.ViewInventoryLabel}"
 					oncomplete="PF('inventoryDialog').show()" update=":inventoryDialog"
 					disabled="#{locationController.current==null or sec:areNotGranted('ROLE_READ_LOCATIONS') or sec:areNotGranted('ROLE_READ_PRODUCTS')}">
-					<f:setPropertyActionListener value="#{locationController.current}"
-						target="#{inventoryLazyDataModel.location}" />
+					<f:setPropertyActionListener value="#{locationController.current.id}"
+						target="#{inventoryLazyDataModel.locationIdFilter.value}" />
 				</p:commandButton>
 			</f:facet>
 
@@ -57,8 +57,8 @@
 					value="#{labels.ViewInventoryLabel}"
 					oncomplete="PF('inventoryDialog').show()" update=":inventoryDialog"
 					disabled="#{locationController.current==null or sec:areNotGranted('ROLE_READ_LOCATIONS') or sec:areNotGranted('ROLE_READ_PRODUCTS')}">
-					<f:setPropertyActionListener value="#{locationController.current}"
-						target="#{inventoryLazyDataModel.location}" />
+					<f:setPropertyActionListener value="#{locationController.current.id}"
+						target="#{inventoryLazyDataModel.locationIdFilter.value}" />
 				</p:commandButton>
 			</f:facet>
 
