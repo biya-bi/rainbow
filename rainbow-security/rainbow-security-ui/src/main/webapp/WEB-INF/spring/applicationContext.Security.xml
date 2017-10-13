@@ -8,7 +8,7 @@ http://www.springframework.org/schema/security/spring-security.xsd
 http://www.springframework.org/schema/jee
 http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-	<jee:jndi-lookup id="rainbowSecurityApplicationName"
+	<jee:jndi-lookup id="RainbowSecurityApplicationName"
 		jndi-name="${rainbow.security.applicationName}"
 		lookup-on-startup="true" cache="true" />
 
@@ -66,9 +66,9 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 		<property name="passwordAttemptUpdater">
 			<bean
 				class="org.rainbow.security.service.authentication.PasswordAttemptUpdaterImpl">
-				<property name="applicationName" ref="rainbowSecurityApplicationName" />
+				<property name="applicationName" ref="RainbowSecurityApplicationName" />
 				<property name="passwordEncoder" ref="passwordEncoder" />
-				<property name="dataSource" ref="rainbowSecurityDataSource" />
+				<property name="dataSource" ref="RainbowSecurityDataSource" />
 			</bean>
 		</property>
 		<property name="hideUserNotFoundExceptions" value="false" />
@@ -81,16 +81,16 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 
 	<bean id="sensitiveUserDetailsEncrypter"
 		class="org.rainbow.security.service.encryption.SensitiveUserDetailsEncrypterImpl"
-		init-method="encrypt" depends-on="rainbowSecurityDataSource">
+		init-method="encrypt" depends-on="RainbowSecurityDataSource">
 		<property name="passwordEncoder" ref="passwordEncoder" />
-		<property name="applicationName" ref="rainbowSecurityApplicationName" />
-		<property name="dataSource" ref="rainbowSecurityDataSource" />
+		<property name="applicationName" ref="RainbowSecurityApplicationName" />
+		<property name="dataSource" ref="RainbowSecurityDataSource" />
 	</bean>
 
 	<bean id="userDetailsService"
 		class="org.rainbow.security.service.userdetails.UserDetailsServiceImpl">
-		<constructor-arg name="applicationName" ref="rainbowSecurityApplicationName" />
-		<property name="dataSource" ref="rainbowSecurityDataSource" />
+		<constructor-arg name="applicationName" ref="RainbowSecurityApplicationName" />
+		<property name="dataSource" ref="RainbowSecurityDataSource" />
 		<property name="enableAuthorities" value="false" />
 		<property name="enableGroups" value="true" />
 	</bean>

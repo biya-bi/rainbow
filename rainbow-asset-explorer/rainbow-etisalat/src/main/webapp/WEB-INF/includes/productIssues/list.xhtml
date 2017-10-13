@@ -12,84 +12,84 @@
 	<sec:authorize access="hasRole('ROLE_READ_PRODUCT_ISSUES')">
 		<cps:trackableDataGrid id="productIssueList"
 			title="#{labels.ListProductIssuesTitle}"
-			dataSource="#{productIssueLazyDataModel}"
-			selectedItem="#{productIssueController.current}"
+			dataSource="#{productIssueListController}"
+			selectedItem="#{productIssueDetailController.current}"
 			selectedValue="#{item.id}"
-			createActionListener="#{productIssueController.prepareCreate()}"
+			createActionListener="#{productIssueDetailController.prepareCreate()}"
 			createDialog="productIssueCreateDialog"
 			createUpdate=":productIssueCreate:form"
 			editDialog="productIssueEditDialog"
-			editActionListener="#{productIssueController.setDetails()}"
+			editActionListener="#{productIssueDetailController.setDetails()}"
 			editUpdate=":productIssueEdit:form"
 			detailsDialog="productIssueDetailsDialog"
-			detailsActionListener="#{productIssueController.setDetails()}"
+			detailsActionListener="#{productIssueDetailController.setDetails()}"
 			detailsUpdate=":productIssueDetails:form"
 			deleteDialog="productIssueDeleteDialog"
-			deleteActionListener="#{productIssueController.setDetails()}"
+			deleteActionListener="#{productIssueDetailController.setDetails()}"
 			deleteUpdate=":productIssueDelete:form"
 			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_PRODUCT_ISSUES')}"
 			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_PRODUCT_ISSUES')}"
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_PRODUCT_ISSUES')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_PRODUCT_ISSUES')}"
-			columnToggleListener="#{productIssueController.onToggle}"
-			creatorFilterValue="#{productIssueLazyDataModel.creatorFilter.value}"
-			creatorFilterOperator="#{productIssueLazyDataModel.creatorFilter.operator}"
-			updaterFilterValue="#{productIssueLazyDataModel.updaterFilter.value}"
-			updaterFilterOperator="#{productIssueLazyDataModel.updaterFilter.operator}"
-			creationDateFilterValue="#{productIssueLazyDataModel.creationDateFilter.value}"
-			creationDateFilterOperator="#{productIssueLazyDataModel.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{productIssueLazyDataModel.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{productIssueLazyDataModel.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{productIssueController.auditColumnsStates[5]}"
-			updaterColumnVisible="#{productIssueController.auditColumnsStates[6]}"
-			creationDateColumnVisible="#{productIssueController.auditColumnsStates[7]}"
-			lastUpdateDateColumnVisible="#{productIssueController.auditColumnsStates[8]}">
+			columnToggleListener="#{productIssueDetailController.onToggle}"
+			creatorFilterValue="#{productIssueListController.creatorFilter.value}"
+			creatorFilterOperator="#{productIssueListController.creatorFilter.operator}"
+			updaterFilterValue="#{productIssueListController.updaterFilter.value}"
+			updaterFilterOperator="#{productIssueListController.updaterFilter.operator}"
+			creationDateFilterValue="#{productIssueListController.creationDateFilter.value}"
+			creationDateFilterOperator="#{productIssueListController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{productIssueListController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{productIssueListController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{productIssueDetailController.auditColumnsStates[5]}"
+			updaterColumnVisible="#{productIssueDetailController.auditColumnsStates[6]}"
+			creationDateColumnVisible="#{productIssueDetailController.auditColumnsStates[7]}"
+			lastUpdateDateColumnVisible="#{productIssueDetailController.auditColumnsStates[8]}">
 
 
 			<p:column headerText="#{labels.ReferenceNumberTitle}"
 				filterBy="#{item.referenceNumber}" sortBy="#{item.referenceNumber}"
-				filterValue="#{productIssueLazyDataModel.referenceNumberFilter.value}">
+				filterValue="#{productIssueListController.referenceNumberFilter.value}">
 				<h:outputText value="#{item.referenceNumber}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productIssueList:form:dataTable"
-						selectedValue="#{productIssueLazyDataModel.referenceNumberFilter.operator}"
+						selectedValue="#{productIssueListController.referenceNumberFilter.operator}"
 						changeWidgetVar="productIssueListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.LocationTitle}"
 				sortBy="#{item.location.name}" filterBy="#{item.location.name}"
-				filterValue="#{productIssueLazyDataModel.locationNameFilter.value}">
+				filterValue="#{productIssueListController.locationNameFilter.value}">
 				<p:commandLink update=":locationDetails:form"
 					value="#{item.location.name}"
 					oncomplete="PF('locationDetailsDialog').show()">
 					<f:setPropertyActionListener value="#{item.location}"
-						target="#{locationController.current}" />
+						target="#{locationDetailController.current}" />
 				</p:commandLink>
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productIssueList:form:dataTable"
-						selectedValue="#{productIssueLazyDataModel.locationNameFilter.operator}"
+						selectedValue="#{productIssueListController.locationNameFilter.operator}"
 						changeWidgetVar="productIssueListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.RequisitionerTitle}"
 				filterBy="#{item.requisitioner}" sortBy="#{item.requisitioner}"
-				filterValue="#{productIssueLazyDataModel.requisitionerFilter.value}">
+				filterValue="#{productIssueListController.requisitionerFilter.value}">
 				<h:outputText value="#{item.requisitioner}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productIssueList:form:dataTable"
-						selectedValue="#{productIssueLazyDataModel.requisitionerFilter.operator}"
+						selectedValue="#{productIssueListController.requisitionerFilter.operator}"
 						changeWidgetVar="productIssueListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.IssueDateTitle}"
 				filterBy="#{item.issueDate}" sortBy="#{item.issueDate}"
-				filterValue="#{productIssueLazyDataModel.issueDateFilter.value}">
+				filterValue="#{productIssueListController.issueDateFilter.value}">
 				<f:facet name="filter">
 					<p:calendar navigator="true">
 						<p:ajax event="dateSelect" update="@this"
@@ -99,7 +99,7 @@
 				<f:facet name="footer">
 					<cps:comparableFilterSelectOneMenu
 						changeUpdate="productIssueList:form:dataTable"
-						selectedValue="#{productIssueLazyDataModel.issueDateFilter.operator}"
+						selectedValue="#{productIssueListController.issueDateFilter.operator}"
 						changeWidgetVar="productIssueListDataTable" />
 				</f:facet>
 				<h:outputText value="#{item.issueDate}">
@@ -109,12 +109,12 @@
 
 			<p:column headerText="#{labels.DepartmentTitle}"
 				filterBy="#{item.department.name}" sortBy="#{item.department.name}"
-				filterValue="#{productIssueLazyDataModel.departmentNameFilter.value}">
+				filterValue="#{productIssueListController.departmentNameFilter.value}">
 				<h:outputText value="#{item.department.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productIssueList:form:dataTable"
-						selectedValue="#{productIssueLazyDataModel.departmentNameFilter.operator}"
+						selectedValue="#{productIssueListController.departmentNameFilter.operator}"
 						changeWidgetVar="productIssueListDataTable" />
 				</f:facet>
 			</p:column>

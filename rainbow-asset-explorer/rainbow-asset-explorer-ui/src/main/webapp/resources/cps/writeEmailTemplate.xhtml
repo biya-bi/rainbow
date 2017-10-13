@@ -8,13 +8,13 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{emailTemplateController.current != null}">
+        <p:panelGrid rendered="#{emailTemplateDetailController.current != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="name" value="#{emailTemplateController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                    <p:inputText styleClass="field-value" id="name" value="#{emailTemplateDetailController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -27,7 +27,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.SubjectLabel}" for="subject"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputText styleClass="field-value" id="subject" value="#{emailTemplateController.current.subject}" title="#{labels.SubjectTitle}" required="true" requiredMessage="#{valMsg.SubjectRequired}">
+                    <p:inputText styleClass="field-value" id="subject" value="#{emailTemplateDetailController.current.subject}" title="#{labels.SubjectTitle}" required="true" requiredMessage="#{valMsg.SubjectRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -38,7 +38,7 @@
             <p:row>
                 <p:column colspan="3">
                     <p:panel header="#{labels.ContentTitle}">
-                        <p:editor value="#{emailTemplateController.current.content}" />
+                        <p:editor value="#{emailTemplateDetailController.current.content}" />
                     </p:panel>
                 </p:column>
             </p:row>
@@ -47,7 +47,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputTextarea styleClass="field-value" id="description" value="#{emailTemplateController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{emailTemplateDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

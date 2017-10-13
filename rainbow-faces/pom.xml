@@ -17,6 +17,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javaee.version>7.0</javaee.version>
+		<primefaces.version>5.3</primefaces.version>
+		<spring.framework.version>4.3.5.RELEASE</spring.framework.version>
 	</properties>
 
 	<dependencies>
@@ -30,6 +32,28 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>rainbow-api</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rainbow-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rainbow-orm</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- Primeface dependency -->
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>${primefaces.version}</version>
+		</dependency>
+		<!-- Spring Framework dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.framework.version}</version>
 		</dependency>
 	</dependencies>
 </project>

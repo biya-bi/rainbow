@@ -12,12 +12,12 @@
 	<h:form id="completePurchaseOrderForm">
 		<h:panelGroup id="panelGroup">
 			<p:panelGrid columns="1"
-				rendered="#{purchaseOrderController.current != null}">
+				rendered="#{purchaseOrderDetailController.current != null}">
 				<f:facet name="header">
 					<p:panelGrid columns="2" style="text-align: left;"
 						styleClass="ui-panelgrid-blank">
 						<p:commandButton value="#{labels.Save}" icon="ui-icon-disk"
-							action="#{purchaseOrderController.complete()}"
+							action="#{purchaseOrderDetailController.complete()}"
 							validateClient="true" update="panelGroup,:purchaseOrderList:form"
 							oncomplete="handleSubmit(args,'completePurchaseOrderDialog');" />
 						<p:commandButton value="#{labels.Cancel}" icon="ui-icon-close"
@@ -35,10 +35,10 @@
 							<t:dropDown styleClass="field-value" id="receiptLocationDropDown"
 								labelId="receiptLocationLabel"
 								messageId="receiptLocationDropDownMessage" rowKey="#{item.id}"
-								selectionText="#{purchaseOrderController.receiptLocation.name}"
-								dataSource="#{locationLazyDataModel}" itemLabel="#{item.name}"
-								selection="#{purchaseOrderController.receiptLocation}"
-								filterValue="#{locationLazyDataModel.nameFilter.value}"
+								selectionText="#{purchaseOrderDetailController.receiptLocation.name}"
+								dataSource="#{locationListController}" itemLabel="#{item.name}"
+								selection="#{purchaseOrderDetailController.receiptLocation}"
+								filterValue="#{locationListController.nameFilter.value}"
 								required="true" requiredMessage="#{valMsg.LocationRequired}"
 								toolTip="#{labels.SourceLocationTitle}" />
 						</p:column>
@@ -49,10 +49,10 @@
 					</p:row>
 				</p:panelGrid>
 				<p:dataTable style="width: 700px" id="details" widgetVar="details"
-					var="detail" value="#{purchaseOrderController.receivedDetails}">
+					var="detail" value="#{purchaseOrderDetailController.receivedDetails}">
 					<f:facet name="header">
 						<p:commandButton
-							actionListener="#{purchaseOrderController.prepareDetail()}"
+							actionListener="#{purchaseOrderDetailController.prepareDetail()}"
 							icon="ui-icon-plus"
 							oncomplete="PF('addPurchaseOrderReceivedDetailDialog').show()"
 							update=":addPurchaseOrderReceivedDetailForm" />
@@ -76,14 +76,14 @@
 							oncomplete="PF('editPurchaseOrderReceivedDetailDialog').show()">
 							<h:outputText styleClass="ui-icon ui-icon-pencil" />
 							<f:setPropertyActionListener value="#{detail}"
-								target="#{purchaseOrderController.detail}" />
+								target="#{purchaseOrderDetailController.detail}" />
 						</p:commandLink>
 						<p:commandLink style="display: inline-block"
-							action="#{purchaseOrderController.removeReceivedDetail}"
+							action="#{purchaseOrderDetailController.removeReceivedDetail}"
 							update=":completePurchaseOrderForm:details">
 							<h:outputText styleClass="ui-icon ui-icon-close" />
 							<f:setPropertyActionListener value="#{detail}"
-								target="#{purchaseOrderController.detail}" />
+								target="#{purchaseOrderDetailController.detail}" />
 						</p:commandLink>
 
 					</p:column>

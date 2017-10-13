@@ -12,7 +12,7 @@
 
 <composite:implementation>
 
-	<p:panelGrid rendered="#{userController.current != null}">
+	<p:panelGrid rendered="#{userDetailController.current != null}">
 		<p:row>
 			<p:column>
 				<p:outputLabel styleClass="field-label"
@@ -20,7 +20,7 @@
 			</p:column>
 			<p:column>
 				<p:inputText styleClass="field-value" id="userName"
-					value="#{userController.current.userName}"
+					value="#{userDetailController.current.userName}"
 					title="#{labels.UserNameTitle}" required="true"
 					requiredMessage="#{valMsg.UserNameRequired}">
 					<p:clientValidator event="keyup" />
@@ -41,7 +41,7 @@
 					validatorMessage="#{valMsg.PasswordAndConfirmPasswordDonotMatch}"
 					styleClass="field-value" id="password" label="Password 1"
 					match="confirmPassword"
-					value="#{userController.current.membership.password}"
+					value="#{userDetailController.current.membership.password}"
 					title="#{labels.PasswordTitle}" required="true"
 					requiredMessage="#{valMsg.PasswordRequired}">
 					<p:clientValidator event="keyup" />
@@ -62,7 +62,7 @@
 			<p:column>
 				<p:password styleClass="field-value" id="confirmPassword"
 					label="Password 2"
-					value="#{userController.current.membership.password}"
+					value="#{userDetailController.current.membership.password}"
 					title="#{labels.ConfirmPasswordTitle}" required="true"
 					requiredMessage="#{valMsg.ConfirmPasswordRequired}">
 					<p:clientValidator event="keyup" />
@@ -85,16 +85,16 @@
 				<t:dropDown styleClass="field-value" id="applicationDropDown"
 					labelId="applicationLabel" messageId="applicationDropDownMessage"
 					rowKey="#{item.id}"
-					selectionText="#{userController.current.application.name}"
-					dataSource="#{applicationLazyDataModel}" itemLabel="#{item.name}"
-					selection="#{userController.current.application}"
-					filterValue="#{applicationLazyDataModel.nameFilter.value}"
+					selectionText="#{userDetailController.current.application.name}"
+					dataSource="#{applicationListController}" itemLabel="#{item.name}"
+					selection="#{userDetailController.current.application}"
+					filterValue="#{applicationListController.nameFilter.value}"
 					required="true" requiredMessage="#{valMsg.ApplicationRequired}"
 					toolTip="#{labels.ApplicationTitle}" />
 			</p:column>
 			<p:column>
 				<cps:quickCreateButton
-					actionListener="#{applicationController.prepareCreate()}"
+					actionListener="#{applicationDetailController.prepareCreate()}"
 					update=":applicationCreate:form"
 					dialogWidgetVar="applicationCreateDialog"
 					title="#{labels.CreateApplicationTitle}" />
@@ -110,7 +110,7 @@
 			</p:column>
 			<p:column>
 				<p:selectBooleanCheckbox styleClass="field-value"
-					value="#{userController.current.membership.enabled}" />
+					value="#{userDetailController.current.membership.enabled}" />
 			</p:column>
 		</p:row>
 		<p:row>
@@ -120,7 +120,7 @@
 			</p:column>
 			<p:column>
 				<p:selectBooleanCheckbox styleClass="field-value"
-					value="#{userController.current.membership.locked}" />
+					value="#{userDetailController.current.membership.locked}" />
 			</p:column>
 		</p:row>
 		<p:row>
@@ -129,7 +129,7 @@
 			</p:column>
 			<p:column>
 				<p:inputText styleClass="field-value" id="email"
-					value="#{userController.current.membership.email}"
+					value="#{userDetailController.current.membership.email}"
 					title="#{labels.EmailTitle}" />
 			</p:column>
 		</p:row>
@@ -139,7 +139,7 @@
 			</p:column>
 			<p:column>
 				<p:inputText styleClass="field-value" id="phone"
-					value="#{userController.current.membership.phone}"
+					value="#{userDetailController.current.membership.phone}"
 					title="#{labels.PhoneTitle}" />
 			</p:column>
 		</p:row>
@@ -150,7 +150,7 @@
 			</p:column>
 			<p:column>
 				<p:inputTextarea styleClass="field-value" id="description"
-					value="#{userController.current.membership.description}"
+					value="#{userDetailController.current.membership.description}"
 					title="#{labels.DescriptionTitle}" />
 			</p:column>
 		</p:row>

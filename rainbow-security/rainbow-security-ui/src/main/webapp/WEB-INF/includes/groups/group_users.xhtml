@@ -4,9 +4,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 
-    <p:dialog id="groupUsersDialog" widgetVar="groupUsersDialog" modal="false" resizable="false" appendTo="@(content)" header="#{labels.UsersForGroupTitle}#{groupController.current.name}">
+    <p:dialog id="groupUsersDialog" widgetVar="groupUsersDialog" modal="false" resizable="false" appendTo="@(content)" header="#{labels.UsersForGroupTitle}#{groupDetailController.current.name}">
         <h:form id="groupUsersForm">
-            <h:panelGroup id="panelGroup" rendered="#{groupController.current!=null}">
+            <h:panelGroup id="panelGroup" rendered="#{groupDetailController.current!=null}">
                 <p:panelGrid columns="2">
                     <p:commandButton update="manageUsersGroupsForm" icon="ui-icon-gear" value="#{labels.ManageLabel}" oncomplete="showDialog('manageUsersGroupsDialog')"/>
                 </p:panelGrid>
@@ -15,7 +15,7 @@
                                  scrollable="true"
                                  scrollWidth="500"
                                  var="item"
-                                 value="#{groupController.current.users}">
+                                 value="#{groupDetailController.current.users}">
                     
                         <p:column headerText="#{labels.UserTitle}" filterBy="#{item.userName}" sortBy="#{item.userName}" filterMatchMode="contains">
                             <h:outputText value="#{item.userName}" />

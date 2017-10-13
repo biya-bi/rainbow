@@ -9,10 +9,10 @@
     <p:dialog id="addShippingOrderReceivedDetailDialog" widgetVar="addShippingOrderReceivedDetailDialog" modal="false" resizable="false" header="#{labels.ShippingOrderDetailTitle}">
         <h:form id="addShippingOrderReceivedDetailForm">
             <h:panelGroup id="panelGroup">
-                <p:panelGrid columns="1" rendered="#{shippingOrderController.detail != null}">
+                <p:panelGrid columns="1" rendered="#{shippingOrderDetailController.detail != null}">
                     <f:facet name="header">
                         <p:panelGrid columns="2" style="text-align: left;" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="#{labels.Add}" icon="ui-icon-plus" action="#{shippingOrderController.addReceivedDetail}" validateClient="true" update="panelGroup,:deliverShippingOrderForm" oncomplete="handleSubmit(args,'addShippingOrderReceivedDetailDialog');"/>
+                            <p:commandButton value="#{labels.Add}" icon="ui-icon-plus" action="#{shippingOrderDetailController.addReceivedDetail}" validateClient="true" update="panelGroup,:deliverShippingOrderForm" oncomplete="handleSubmit(args,'addShippingOrderReceivedDetailDialog');"/>
                             <p:commandButton value="#{labels.Cancel}" icon="ui-icon-close" onclick="PF('addShippingOrderReceivedDetailDialog').hide()" immediate="true"/>
                         </p:panelGrid>
                     </f:facet>
@@ -27,11 +27,11 @@
                                             labelId="productLabel"
                                             messageId="productDropDownMessage"
                                             rowKey="#{item.id}"
-                                            selectionText="#{shippingOrderController.detail.product.name}"
-                                            dataSource="#{productLazyDataModel}" 
+                                            selectionText="#{shippingOrderDetailController.detail.product.name}"
+                                            dataSource="#{productListController}" 
                                             itemLabel="#{item.name}"
-                                            selection="#{shippingOrderController.detail.product}"
-                                            filterValue="#{productLazyDataModel.nameFilter.value}"
+                                            selection="#{shippingOrderDetailController.detail.product}"
+                                            filterValue="#{productListController.nameFilter.value}"
                                             required="true"
                                             requiredMessage="#{valMsg.ProductRequired}"
                                             toolTip="#{labels.ProductTitle}"/>
@@ -45,7 +45,7 @@
                                 <p:outputLabel styleClass="field-label"  value="#{labels.ReceivedQuantityLabel}" for="receivedQuantity" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="receivedQuantity" styleClass="field-value" value="#{shippingOrderController.detail.receivedQuantity}" required="true" requiredMessage="#{valMsg.ReceivedQuantityRequired}" title="#{labels.ReceivedQuantityTitle}">
+                                <p:inputText id="receivedQuantity" styleClass="field-value" value="#{shippingOrderDetailController.detail.receivedQuantity}" required="true" requiredMessage="#{valMsg.ReceivedQuantityRequired}" title="#{labels.ReceivedQuantityTitle}">
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
                             </p:column>

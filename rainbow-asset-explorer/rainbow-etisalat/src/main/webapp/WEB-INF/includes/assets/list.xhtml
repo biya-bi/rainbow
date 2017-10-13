@@ -11,9 +11,9 @@
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_ASSETS')">
 		<cps:trackableDataGrid id="assetList"
-			title="#{labels.ListAssetsTitle}" dataSource="#{assetLazyDataModel}"
-			selectedItem="#{assetController.current}" selectedValue="#{item.id}"
-			createActionListener="#{assetController.prepareCreate()}"
+			title="#{labels.ListAssetsTitle}" dataSource="#{assetListController}"
+			selectedItem="#{assetDetailController.current}" selectedValue="#{item.id}"
+			createActionListener="#{assetDetailController.prepareCreate()}"
 			createDialog="assetCreateDialog" createUpdate=":assetCreate:form"
 			editDialog="assetEditDialog" editUpdate=":assetEdit:form"
 			detailsDialog="assetDetailsDialog" detailsUpdate=":assetDetails:form"
@@ -23,19 +23,19 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_ASSETS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_ASSETS')}"
 			selectionUpdate=":assetList:headerImportButton,:assetList:footerImportButton"
-			columnToggleListener="#{assetController.onToggle}"
-			creatorFilterValue="#{assetLazyDataModel.creatorFilter.value}"
-			creatorFilterOperator="#{assetLazyDataModel.creatorFilter.operator}"
-			updaterFilterValue="#{assetLazyDataModel.updaterFilter.value}"
-			updaterFilterOperator="#{assetLazyDataModel.updaterFilter.operator}"
-			creationDateFilterValue="#{assetLazyDataModel.creationDateFilter.value}"
-			creationDateFilterOperator="#{assetLazyDataModel.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{assetLazyDataModel.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{assetLazyDataModel.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{assetController.auditColumnsStates[5]}"
-			updaterColumnVisible="#{assetController.auditColumnsStates[6]}"
-			creationDateColumnVisible="#{assetController.auditColumnsStates[7]}"
-			lastUpdateDateColumnVisible="#{assetController.auditColumnsStates[8]}">
+			columnToggleListener="#{assetDetailController.onToggle}"
+			creatorFilterValue="#{assetListController.creatorFilter.value}"
+			creatorFilterOperator="#{assetListController.creatorFilter.operator}"
+			updaterFilterValue="#{assetListController.updaterFilter.value}"
+			updaterFilterOperator="#{assetListController.updaterFilter.operator}"
+			creationDateFilterValue="#{assetListController.creationDateFilter.value}"
+			creationDateFilterOperator="#{assetListController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{assetListController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{assetListController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{assetDetailController.auditColumnsStates[5]}"
+			updaterColumnVisible="#{assetDetailController.auditColumnsStates[6]}"
+			creationDateColumnVisible="#{assetDetailController.auditColumnsStates[7]}"
+			lastUpdateDateColumnVisible="#{assetDetailController.auditColumnsStates[8]}">
 
 
 			<f:facet name="postHeader">
@@ -56,48 +56,48 @@
 
 			<p:column headerText="#{labels.SerialNumberTitle}"
 				filterBy="#{item.serialNumber}" sortBy="#{item.serialNumber}"
-				filterValue="#{assetLazyDataModel.serialNumberFilter.value}">
+				filterValue="#{assetListController.serialNumberFilter.value}">
 				<h:outputText value="#{item.serialNumber}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetList:form:dataTable"
-						selectedValue="#{assetLazyDataModel.serialNumberFilter.operator}"
+						selectedValue="#{assetListController.serialNumberFilter.operator}"
 						changeWidgetVar="assetListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{assetLazyDataModel.nameFilter.value}">
+				filterValue="#{assetListController.nameFilter.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetList:form:dataTable"
-						selectedValue="#{assetLazyDataModel.nameFilter.operator}"
+						selectedValue="#{assetListController.nameFilter.operator}"
 						changeWidgetVar="assetListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.AssetTypeTitle}"
 				sortBy="#{item.assetType.name}" filterBy="#{item.assetType.name}"
-				filterValue="#{assetLazyDataModel.assetTypeFilter.value}">
+				filterValue="#{assetListController.assetTypeFilter.value}">
 				<p:commandLink update=":assetTypeDetails:form"
 					value="#{item.assetType.name}"
 					oncomplete="PF('assetTypeDetailsDialog').show()">
 					<f:setPropertyActionListener value="#{item.assetType}"
-						target="#{assetTypeController.current}" />
+						target="#{assetTypeDetailController.current}" />
 				</p:commandLink>
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetList:form:dataTable"
-						selectedValue="#{assetLazyDataModel.assetTypeFilter.operator}"
+						selectedValue="#{assetListController.assetTypeFilter.operator}"
 						changeWidgetVar="assetListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.AssetStateTitle}"
 				sortBy="#{item.state}" filterBy="#{item.state}"
-				filterValue="#{assetLazyDataModel.stateFilter.value}">
+				filterValue="#{assetListController.stateFilter.value}">
 				<f:facet name="filter">
 					<p:selectOneMenu id="stateFilter"
 						onchange="PF('assetListDataTable').filter()">
@@ -123,17 +123,17 @@
 
 			<p:column headerText="#{labels.ProductTitle}"
 				filterBy="#{item.product.name}" sortBy="#{item.product.name}"
-				filterValue="#{assetLazyDataModel.productNameFilter.value}">
+				filterValue="#{assetListController.productNameFilter.value}">
 				<p:commandLink update=":productDetails:form"
 					value="#{item.product.name}"
 					oncomplete="PF('productDetailsDialog').show()">
 					<f:setPropertyActionListener value="#{item.product}"
-						target="#{productController.current}" />
+						target="#{productDetailController.current}" />
 				</p:commandLink>
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetList:form:dataTable"
-						selectedValue="#{assetLazyDataModel.productNameFilter.operator}"
+						selectedValue="#{assetListController.productNameFilter.operator}"
 						changeWidgetVar="assetListDataTable" />
 				</f:facet>
 			</p:column>

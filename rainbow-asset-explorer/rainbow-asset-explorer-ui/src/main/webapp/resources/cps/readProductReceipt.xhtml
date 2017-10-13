@@ -10,37 +10,37 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{productReceiptController.current != null}">
+        <p:panelGrid rendered="#{productReceiptDetailController.current != null}">
             <p:panelGrid columns="2">
                 <p:outputLabel styleClass="field-label" value="#{labels.ReferenceNumberLabel}"/>
-                <h:outputText styleClass="field-value" value="#{productReceiptController.current.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
+                <h:outputText styleClass="field-value" value="#{productReceiptDetailController.current.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
                 <p:outputLabel id="locationLabel" styleClass="field-label" value="#{labels.LocationLabel}"/>
-                <p:commandLink title="#{labels.LocationTitle}" styleClass="field-value" immediate="true" value="#{productReceiptController.current.location.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
-                    <f:setPropertyActionListener value="#{productReceiptController.current.location}" target="#{locationController.current}" />
+                <p:commandLink title="#{labels.LocationTitle}" styleClass="field-value" immediate="true" value="#{productReceiptDetailController.current.location.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{productReceiptDetailController.current.location}" target="#{locationDetailController.current}" />
                 </p:commandLink>
                 <p:outputLabel id="vendorLabel" styleClass="field-label" value="#{labels.VendorLabel}"/>
-                <p:commandLink title="#{labels.VendorTitle}" styleClass="field-value" immediate="true" value="#{productReceiptController.current.vendor.name}" update=":vendorDetails:form" oncomplete="PF('vendorDetailsDialog').show()">
-                    <f:setPropertyActionListener value="#{productReceiptController.current.vendor}" target="#{vendorController.current}" />
+                <p:commandLink title="#{labels.VendorTitle}" styleClass="field-value" immediate="true" value="#{productReceiptDetailController.current.vendor.name}" update=":vendorDetails:form" oncomplete="PF('vendorDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{productReceiptDetailController.current.vendor}" target="#{vendorDetailController.current}" />
                 </p:commandLink>
                 <p:outputLabel id="currencyLabel" styleClass="field-label" value="#{labels.CurrencyLabel}"/>
-                <h:outputText styleClass="field-value" id="currency" value="#{productReceiptController.current.currency.name}" title="#{labels.CurrencyTitle}"/>
+                <h:outputText styleClass="field-value" id="currency" value="#{productReceiptDetailController.current.currency.name}" title="#{labels.CurrencyTitle}"/>
                 <p:outputLabel styleClass="field-label" value="#{labels.ReceiptDateLabel}"/>
-                <h:outputText styleClass="field-value" id="receiptDate" value="#{productReceiptController.current.receiptDate}" title="#{labels.ReceiptDateTitle}">
+                <h:outputText styleClass="field-value" id="receiptDate" value="#{productReceiptDetailController.current.receiptDate}" title="#{labels.ReceiptDateTitle}">
                     <f:convertDateTime dateStyle="short" />
                 </h:outputText>
                 <p:column headerText="#{labels.TotalPriceTitle}">
-                    <h:outputText value="#{productReceiptController.current.totalPrice}">
-                        <f:convertNumber currencySymbol="#{productReceiptController.current.currency.symbol}" type="currency"/>
+                    <h:outputText value="#{productReceiptDetailController.current.totalPrice}">
+                        <f:convertNumber currencySymbol="#{productReceiptDetailController.current.currency.symbol}" type="currency"/>
                     </h:outputText>
                 </p:column>
                 <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
-                <h:outputText styleClass="field-value" id="description" value="#{productReceiptController.current.description}" title="#{labels.DescriptionTitle}"/>
+                <h:outputText styleClass="field-value" id="description" value="#{productReceiptDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
             </p:panelGrid>
             <p:panel>
                 <f:facet name="header">
                     #{labels.ProductReceiptDetailsTitle}
                 </f:facet>
-                <p:dataTable style="width: 700px" id="details" widgetVar="details" var="detail" value="#{productReceiptController.current.details}">
+                <p:dataTable style="width: 700px" id="details" widgetVar="details" var="detail" value="#{productReceiptDetailController.current.details}">
                     <p:column  headerText="#{labels.ProductTitle}" sortBy="#{detail.product.name}" filterBy="#{detail.product.name}" filterMatchMode="contains">
                         <h:outputText value="#{detail.product.name}" />
                     </p:column>
@@ -53,13 +53,13 @@
 
                     <p:column headerText="#{labels.UnitPriceTitle}" sortBy="#{detail.unitPrice}" filterBy="#{detail.unitPrice}" filterMatchMode="contains">
                         <h:outputText value="#{detail.unitPrice}">
-                            <f:convertNumber currencySymbol="#{productReceiptController.current.currency.symbol}" type="currency"/>
+                            <f:convertNumber currencySymbol="#{productReceiptDetailController.current.currency.symbol}" type="currency"/>
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="#{labels.SubTotalTitle}" sortBy="#{detail.subTotal}" filterBy="#{detail.subTotal}" filterMatchMode="contains">
                         <h:outputText value="#{detail.subTotal}">
-                            <f:convertNumber currencySymbol="#{productReceiptController.current.currency.symbol}" type="currency"/>
+                            <f:convertNumber currencySymbol="#{productReceiptDetailController.current.currency.symbol}" type="currency"/>
                         </h:outputText>
                     </p:column>
                 </p:dataTable>

@@ -12,10 +12,10 @@
 	<sec:authorize access="hasRole('ROLE_READ_ASSET_DOCUMENTS')">
 		<cps:trackableDataGrid id="assetDocumentList"
 			title="#{labels.ListAssetDocumentsTitle}"
-			dataSource="#{assetDocumentLazyDataModel}"
-			selectedItem="#{assetDocumentController.current}"
+			dataSource="#{assetDocumentListController}"
+			selectedItem="#{assetDocumentDetailController.current}"
 			selectedValue="#{item.id}"
-			createActionListener="#{assetDocumentController.prepareCreate()}"
+			createActionListener="#{assetDocumentDetailController.prepareCreate()}"
 			createDialog="assetDocumentCreateDialog"
 			createUpdate=":assetDocumentCreate:form"
 			editDialog="assetDocumentEditDialog"
@@ -28,40 +28,40 @@
 			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_ASSET_DOCUMENTS')}"
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_ASSET_DOCUMENTS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_ASSET_DOCUMENTS')}"
-			columnToggleListener="#{assetDocumentController.onToggle}"
-			creatorFilterValue="#{assetDocumentLazyDataModel.creatorFilter.value}"
-			creatorFilterOperator="#{assetDocumentLazyDataModel.creatorFilter.operator}"
-			updaterFilterValue="#{assetDocumentLazyDataModel.updaterFilter.value}"
-			updaterFilterOperator="#{assetDocumentLazyDataModel.updaterFilter.operator}"
-			creationDateFilterValue="#{assetDocumentLazyDataModel.creationDateFilter.value}"
-			creationDateFilterOperator="#{assetDocumentLazyDataModel.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{assetDocumentLazyDataModel.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{assetDocumentLazyDataModel.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{assetDocumentController.auditColumnsStates[5]}"
-			updaterColumnVisible="#{assetDocumentController.auditColumnsStates[6]}"
-			creationDateColumnVisible="#{assetDocumentController.auditColumnsStates[7]}"
-			lastUpdateDateColumnVisible="#{assetDocumentController.auditColumnsStates[8]}">
+			columnToggleListener="#{assetDocumentDetailController.onToggle}"
+			creatorFilterValue="#{assetDocumentListController.creatorFilter.value}"
+			creatorFilterOperator="#{assetDocumentListController.creatorFilter.operator}"
+			updaterFilterValue="#{assetDocumentListController.updaterFilter.value}"
+			updaterFilterOperator="#{assetDocumentListController.updaterFilter.operator}"
+			creationDateFilterValue="#{assetDocumentListController.creationDateFilter.value}"
+			creationDateFilterOperator="#{assetDocumentListController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{assetDocumentListController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{assetDocumentListController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{assetDocumentDetailController.auditColumnsStates[5]}"
+			updaterColumnVisible="#{assetDocumentDetailController.auditColumnsStates[6]}"
+			creationDateColumnVisible="#{assetDocumentDetailController.auditColumnsStates[7]}"
+			lastUpdateDateColumnVisible="#{assetDocumentDetailController.auditColumnsStates[8]}">
 
 			<p:column headerText="#{labels.FileNameTitle}"
 				filterBy="#{item.fileName}" sortBy="#{item.fileName}"
-				filterValue="#{assetDocumentLazyDataModel.fileNameFilter.value}">
+				filterValue="#{assetDocumentListController.fileNameFilter.value}">
 
 				<p:commandLink value="#{item.fileName}" ajax="false">
 					<f:setPropertyActionListener value="#{item}"
-						target="#{assetDocumentController.current}" />
-					<p:fileDownload value="#{assetDocumentController.file}" />
+						target="#{assetDocumentDetailController.current}" />
+					<p:fileDownload value="#{assetDocumentDetailController.file}" />
 				</p:commandLink>
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetDocumentList:form:dataTable"
-						selectedValue="#{assetDocumentLazyDataModel.fileNameFilter.operator}"
+						selectedValue="#{assetDocumentListController.fileNameFilter.operator}"
 						changeWidgetVar="assetDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.DocumentTypeTitle}"
 				sortBy="#{item.documentType}" filterBy="#{item.documentType}"
-				filterValue="#{assetDocumentLazyDataModel.documentTypeFilter.value}">
+				filterValue="#{assetDocumentListController.documentTypeFilter.value}">
 				<h:outputText value="#{item.documentType}">
 					<f:converter
 						converterId="org.rainbow.asset.explorer.faces.converters.DocumentTypeConverter" />
@@ -69,48 +69,48 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetDocumentList:form:dataTable"
-						selectedValue="#{assetDocumentLazyDataModel.documentTypeFilter.operator}"
+						selectedValue="#{assetDocumentListController.documentTypeFilter.operator}"
 						changeWidgetVar="assetDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.AssetNameTitle}"
 				sortBy="#{item.asset.name}" filterBy="#{item.asset.name}"
-				filterValue="#{assetDocumentLazyDataModel.assetNameFilter.value}">
+				filterValue="#{assetDocumentListController.assetNameFilter.value}">
 				<p:commandLink update=":assetDetails:form"
 					value="#{item.asset.name}"
 					oncomplete="PF('assetDetailsDialog').show()">
 					<f:setPropertyActionListener value="#{item.asset}"
-						target="#{assetController.current}" />
+						target="#{assetDetailController.current}" />
 				</p:commandLink>
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetDocumentList:form:dataTable"
-						selectedValue="#{assetDocumentLazyDataModel.assetNameFilter.operator}"
+						selectedValue="#{assetDocumentListController.assetNameFilter.operator}"
 						changeWidgetVar="assetDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.AssetLocationTitle}"
 				sortBy="#{item.asset.site.name}" filterBy="#{item.asset.site.name}"
-				filterValue="#{assetDocumentLazyDataModel.assetLocationFilter.value}">
+				filterValue="#{assetDocumentListController.assetLocationFilter.value}">
 				<p:commandLink update=":siteDetails:form"
 					value="#{item.asset.site.name}"
 					oncomplete="PF('siteDetailsDialog').show()">
 					<f:setPropertyActionListener value="#{item.asset.site}"
-						target="#{siteController.current}" />
+						target="#{siteDetailController.current}" />
 				</p:commandLink>
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetDocumentList:form:dataTable"
-						selectedValue="#{assetDocumentLazyDataModel.assetLocationFilter.operator}"
+						selectedValue="#{assetDocumentListController.assetLocationFilter.operator}"
 						changeWidgetVar="assetDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.AssetStateTitle}"
 				sortBy="#{item.asset.state}" filterBy="#{item.asset.state}"
-				filterValue="#{assetDocumentLazyDataModel.assetStateFilter.value}">
+				filterValue="#{assetDocumentListController.assetStateFilter.value}">
 				<h:outputText value="#{item.asset.state}">
 					<f:converter
 						converterId="org.rainbow.asset.explorer.faces.converters.AssetStateConverter" />
@@ -118,7 +118,7 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetDocumentList:form:dataTable"
-						selectedValue="#{assetDocumentLazyDataModel.assetStateFilter.operator}"
+						selectedValue="#{assetDocumentListController.assetStateFilter.operator}"
 						changeWidgetVar="assetDocumentListDataTable" />
 				</f:facet>
 			</p:column>

@@ -12,10 +12,10 @@
 	<sec:authorize access="hasRole('ROLE_READ_EMAIL_RECIPIENTS')">
 		<cps:trackableDataGrid id="emailRecipientList"
 			title="#{labels.ListEmailRecipientsTitle}"
-			dataSource="#{emailRecipientLazyDataModel}"
-			selectedItem="#{emailRecipientController.current}"
+			dataSource="#{emailRecipientListController}"
+			selectedItem="#{emailRecipientDetailController.current}"
 			selectedValue="#{item.id}"
-			createActionListener="#{emailRecipientController.prepareCreate()}"
+			createActionListener="#{emailRecipientDetailController.prepareCreate()}"
 			createDialog="emailRecipientCreateDialog"
 			createUpdate=":emailRecipientCreate:form"
 			editDialog="emailRecipientEditDialog"
@@ -28,41 +28,41 @@
 			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_EMAIL_RECIPIENTS')}"
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_EMAIL_RECIPIENTS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_EMAIL_RECIPIENTS')}"
-			columnToggleListener="#{emailRecipientController.onToggle}"
-			creatorFilterValue="#{emailRecipientLazyDataModel.creatorFilter.value}"
-			creatorFilterOperator="#{emailRecipientLazyDataModel.creatorFilter.operator}"
-			updaterFilterValue="#{emailRecipientLazyDataModel.updaterFilter.value}"
-			updaterFilterOperator="#{emailRecipientLazyDataModel.updaterFilter.operator}"
-			creationDateFilterValue="#{emailRecipientLazyDataModel.creationDateFilter.value}"
-			creationDateFilterOperator="#{emailRecipientLazyDataModel.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{emailRecipientLazyDataModel.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{emailRecipientLazyDataModel.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{emailRecipientController.auditColumnsStates[2]}"
-			updaterColumnVisible="#{emailRecipientController.auditColumnsStates[3]}"
-			creationDateColumnVisible="#{emailRecipientController.auditColumnsStates[4]}"
-			lastUpdateDateColumnVisible="#{emailRecipientController.auditColumnsStates[5]}">
+			columnToggleListener="#{emailRecipientDetailController.onToggle}"
+			creatorFilterValue="#{emailRecipientListController.creatorFilter.value}"
+			creatorFilterOperator="#{emailRecipientListController.creatorFilter.operator}"
+			updaterFilterValue="#{emailRecipientListController.updaterFilter.value}"
+			updaterFilterOperator="#{emailRecipientListController.updaterFilter.operator}"
+			creationDateFilterValue="#{emailRecipientListController.creationDateFilter.value}"
+			creationDateFilterOperator="#{emailRecipientListController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{emailRecipientListController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{emailRecipientListController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{emailRecipientDetailController.auditColumnsStates[2]}"
+			updaterColumnVisible="#{emailRecipientDetailController.auditColumnsStates[3]}"
+			creationDateColumnVisible="#{emailRecipientDetailController.auditColumnsStates[4]}"
+			lastUpdateDateColumnVisible="#{emailRecipientDetailController.auditColumnsStates[5]}">
 
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{emailRecipientLazyDataModel.nameFilter.value}">
+				filterValue="#{emailRecipientListController.nameFilter.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="emailRecipientList:form:dataTable"
-						selectedValue="#{emailRecipientLazyDataModel.nameFilter.operator}"
+						selectedValue="#{emailRecipientListController.nameFilter.operator}"
 						changeWidgetVar="emailRecipientListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.EmailTitle}" filterBy="#{item.email}"
 				sortBy="#{item.email}"
-				filterValue="#{emailRecipientLazyDataModel.emailFilter.value}">
+				filterValue="#{emailRecipientListController.emailFilter.value}">
 				<h:outputText value="#{item.email}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="emailRecipientList:form:dataTable"
-						selectedValue="#{emailRecipientLazyDataModel.emailFilter.operator}"
+						selectedValue="#{emailRecipientListController.emailFilter.operator}"
 						changeWidgetVar="emailRecipientListDataTable" />
 				</f:facet>
 			</p:column>

@@ -12,9 +12,9 @@
 	<sec:authorize access="hasRole('ROLE_READ_VENDORS')">
 		<cps:trackableDataGrid id="vendorList"
 			title="#{labels.ListVendorsTitle}"
-			dataSource="#{vendorLazyDataModel}"
-			selectedItem="#{vendorController.current}" selectedValue="#{item.id}"
-			createActionListener="#{vendorController.prepareCreate()}"
+			dataSource="#{vendorListController}"
+			selectedItem="#{vendorDetailController.current}" selectedValue="#{item.id}"
+			createActionListener="#{vendorDetailController.prepareCreate()}"
 			createDialog="vendorCreateDialog" createUpdate=":vendorCreate:form"
 			editDialog="vendorEditDialog" editUpdate=":vendorEdit:form"
 			detailsDialog="vendorDetailsDialog"
@@ -24,62 +24,62 @@
 			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_VENDORS')}"
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_VENDORS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_VENDORS')}"
-			columnToggleListener="#{vendorController.onToggle}"
-			creatorFilterValue="#{vendorLazyDataModel.creatorFilter.value}"
-			creatorFilterOperator="#{vendorLazyDataModel.creatorFilter.operator}"
-			updaterFilterValue="#{vendorLazyDataModel.updaterFilter.value}"
-			updaterFilterOperator="#{vendorLazyDataModel.updaterFilter.operator}"
-			creationDateFilterValue="#{vendorLazyDataModel.creationDateFilter.value}"
-			creationDateFilterOperator="#{vendorLazyDataModel.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{vendorLazyDataModel.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{vendorLazyDataModel.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{vendorController.auditColumnsStates[4]}"
-			updaterColumnVisible="#{vendorController.auditColumnsStates[5]}"
-			creationDateColumnVisible="#{vendorController.auditColumnsStates[6]}"
-			lastUpdateDateColumnVisible="#{vendorController.auditColumnsStates[7]}">
+			columnToggleListener="#{vendorDetailController.onToggle}"
+			creatorFilterValue="#{vendorListController.creatorFilter.value}"
+			creatorFilterOperator="#{vendorListController.creatorFilter.operator}"
+			updaterFilterValue="#{vendorListController.updaterFilter.value}"
+			updaterFilterOperator="#{vendorListController.updaterFilter.operator}"
+			creationDateFilterValue="#{vendorListController.creationDateFilter.value}"
+			creationDateFilterOperator="#{vendorListController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{vendorListController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{vendorListController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{vendorDetailController.auditColumnsStates[4]}"
+			updaterColumnVisible="#{vendorDetailController.auditColumnsStates[5]}"
+			creationDateColumnVisible="#{vendorDetailController.auditColumnsStates[6]}"
+			lastUpdateDateColumnVisible="#{vendorDetailController.auditColumnsStates[7]}">
 
 			<p:column headerText="#{labels.AccountNumberTitle}"
 				filterBy="#{item.accountNumber}" sortBy="#{item.accountNumber}"
-				filterValue="#{vendorLazyDataModel.accountNumberFilter.value}">
+				filterValue="#{vendorListController.accountNumberFilter.value}">
 				<h:outputText value="#{item.accountNumber}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="vendorList:form:dataTable"
-						selectedValue="#{vendorLazyDataModel.accountNumberFilter.operator}"
+						selectedValue="#{vendorListController.accountNumberFilter.operator}"
 						changeWidgetVar="vendorListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{vendorLazyDataModel.nameFilter.value}">
+				filterValue="#{vendorListController.nameFilter.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="vendorList:form:dataTable"
-						selectedValue="#{vendorLazyDataModel.nameFilter.operator}"
+						selectedValue="#{vendorListController.nameFilter.operator}"
 						changeWidgetVar="vendorListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.PurchasingUrlTitle}"
 				filterBy="#{item.purchasingUrl}" sortBy="#{item.purchasingUrl}"
-				filterValue="#{vendorLazyDataModel.purchasingUrlFilter.value}">
+				filterValue="#{vendorListController.purchasingUrlFilter.value}">
 				<h:outputText value="#{item.purchasingUrl}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="vendorList:form:dataTable"
-						selectedValue="#{vendorLazyDataModel.purchasingUrlFilter.operator}"
+						selectedValue="#{vendorListController.purchasingUrlFilter.operator}"
 						changeWidgetVar="vendorListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.ActiveTitle}" sortBy="#{item.active}"
-				filterValue="#{vendorLazyDataModel.activeFilter.value}">
+				filterValue="#{vendorListController.activeFilter.value}">
 				<f:facet name="footer">
 					<cps:booleanFilterSelectOneMenu
 						changeUpdate="vendorList:form:dataTable"
-						selectedValue="#{vendorLazyDataModel.activeFilter.value}"
+						selectedValue="#{vendorListController.activeFilter.value}"
 						changeWidgetVar="vendorListDataTable" />
 				</f:facet>
 				<h:selectBooleanCheckbox disabled="true" readonly="false"

@@ -10,11 +10,11 @@
                     showSubmitButton="false"
                     cancelLabel="#{labels.Close}">
 
-        <p:panelGrid columns="2" rendered="#{shipMethodController.current != null}">
+        <p:panelGrid columns="2" rendered="#{shipMethodDetailController.current != null}">
             <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
-            <h:outputText styleClass="field-value" id="name" value="#{shipMethodController.current.name}" title="#{labels.NameTitle}"/>
+            <h:outputText styleClass="field-value" id="name" value="#{shipMethodDetailController.current.name}" title="#{labels.NameTitle}"/>
             <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
-            <h:outputText styleClass="field-value" id="description" value="#{shipMethodController.current.description}" title="#{labels.DescriptionTitle}"/>
+            <h:outputText styleClass="field-value" id="description" value="#{shipMethodDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
         </p:panelGrid>
 
     </cps:submitForm>

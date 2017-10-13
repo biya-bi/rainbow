@@ -12,13 +12,13 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{assetController.current != null}">
+        <p:panelGrid rendered="#{assetDetailController.current != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="name" value="#{assetController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                    <p:inputText styleClass="field-value" id="name" value="#{assetDetailController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -37,17 +37,17 @@
                                 labelId="productLabel"
                                 messageId="productDropDownMessage"
                                 rowKey="#{item.id}"
-                                selectionText="#{assetController.current.product.name}"
-                                dataSource="#{productLazyDataModel}" 
+                                selectionText="#{assetDetailController.current.product.name}"
+                                dataSource="#{productListController}" 
                                 itemLabel="#{item.name}"
-                                selection="#{assetController.current.product}"
-                                filterValue="#{productLazyDataModel.nameFilter.value}"
+                                selection="#{assetDetailController.current.product}"
+                                filterValue="#{productListController.nameFilter.value}"
                                 required="true"
                                 requiredMessage="#{valMsg.ProductRequired}"
                                 toolTip="#{labels.ProductTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{productController.prepareCreate()}" update=":productCreate:form" dialogWidgetVar="productCreateDialog" title="#{labels.CreateProductTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_PRODUCTS')}"/>
+                    <cps:quickCreateButton actionListener="#{productDetailController.prepareCreate()}" update=":productCreate:form" dialogWidgetVar="productCreateDialog" title="#{labels.CreateProductTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_PRODUCTS')}"/>
                 </p:column>
                 <p:column>
                     <p:message id="productDropDownMessage" for="productDropDown"/>
@@ -58,7 +58,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.BusinessImpactLabel}" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu styleClass="field-value" value="#{assetController.current.manufacturerBusinessImpact}" title="#{labels.BusinessImpactTitle}">
+                    <p:selectOneMenu styleClass="field-value" value="#{assetDetailController.current.manufacturerBusinessImpact}" title="#{labels.BusinessImpactTitle}">
                         <f:selectItem itemValue="#{null}"/>
                         <f:selectItem itemLabel="#{labels.ManufacturerBusinessImpactHigh}" itemValue="HIGH" />
                         <f:selectItem itemLabel="#{labels.ManufacturerBusinessImpactLow}" itemValue="LOW" />
@@ -73,7 +73,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputTextarea styleClass="field-value" id="description" value="#{assetController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{assetDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
                 <p:column/>
                 <p:column/>
@@ -95,15 +95,15 @@
                                 labelId="vendorLabel"
                                 messageId="vendorDropDownMessage"
                                 rowKey="#{item.id}"
-                                selectionText="#{assetController.current.vendor.name}"
-                                dataSource="#{vendorLazyDataModel}" 
+                                selectionText="#{assetDetailController.current.vendor.name}"
+                                dataSource="#{vendorListController}" 
                                 itemLabel="#{item.name}"
-                                selection="#{assetController.current.vendor}"
-                                filterValue="#{vendorLazyDataModel.nameFilter.value}"
+                                selection="#{assetDetailController.current.vendor}"
+                                filterValue="#{vendorListController.nameFilter.value}"
                                 toolTip="#{labels.VendorTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{vendorController.prepareCreate()}" update=":vendorCreate:form" dialogWidgetVar="vendorCreateDialog" title="#{labels.CreateVendorTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_VENDORS')}"/>
+                    <cps:quickCreateButton actionListener="#{vendorDetailController.prepareCreate()}" update=":vendorCreate:form" dialogWidgetVar="vendorCreateDialog" title="#{labels.CreateVendorTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_VENDORS')}"/>
                 </p:column>
 
                 <p:column/>
@@ -117,11 +117,11 @@
                                 labelId="currencyLabel"
                                 messageId="currencyDropDownMessage"
                                 rowKey="#{item.id}"
-                                selectionText="#{assetController.current.purchaseCurrency.name}"
-                                dataSource="#{currencyLazyDataModel}" 
+                                selectionText="#{assetDetailController.current.purchaseCurrency.name}"
+                                dataSource="#{currencyListController}" 
                                 itemLabel="#{item.name}"
-                                selection="#{assetController.current.purchaseCurrency}"
-                                filterValue="#{currencyLazyDataModel.nameFilter.value}"
+                                selection="#{assetDetailController.current.purchaseCurrency}"
+                                filterValue="#{currencyListController.nameFilter.value}"
                                 toolTip="#{labels.PurchaseCurrencyTitle}"/>
                 </p:column>
                 <p:column>
@@ -135,7 +135,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.AssetTagLabel}" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="assetTag" value="#{assetController.current.tag}" title="#{labels.AssetTagTitle}">
+                    <p:inputText styleClass="field-value" id="assetTag" value="#{assetDetailController.current.tag}" title="#{labels.AssetTagTitle}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -147,7 +147,7 @@
                     <p:outputLabel id="purchaseCostLabel" styleClass="field-label" value="#{labels.PurchaseCostLabel}" for="purchaseCost"/> 
                 </p:column>
                 <p:column> 
-                    <p:inputText styleClass="field-value" id="purchaseCost" value="#{assetController.current.purchaseCost}" title="#{labels.PurchaseCostTitle}" converterMessage="#{valMsg.PurchaseCostMustBeANumber}" validatorMessage="#{valMsg.PurchaseCostOutOfRange}">
+                    <p:inputText styleClass="field-value" id="purchaseCost" value="#{assetDetailController.current.purchaseCost}" title="#{labels.PurchaseCostTitle}" converterMessage="#{valMsg.PurchaseCostMustBeANumber}" validatorMessage="#{valMsg.PurchaseCostOutOfRange}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -161,7 +161,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.SerialNumberLabel}" for="serialNumber" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="serialNumber" value="#{assetController.current.serialNumber}" title="#{labels.SerialNumberTitle}" required="true" requiredMessage="#{valMsg.SerialNumberRequired}">
+                    <p:inputText styleClass="field-value" id="serialNumber" value="#{assetDetailController.current.serialNumber}" title="#{labels.SerialNumberTitle}" required="true" requiredMessage="#{valMsg.SerialNumberRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -174,7 +174,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.AcquisitionDateLabel}"/> 
                 </p:column>
                 <p:column> 
-                    <p:calendar id="acquisitionDate" styleClass="field-value" value="#{assetController.current.acquisitionDate}" title="#{labels.AcquisitionDateTitle}">
+                    <p:calendar id="acquisitionDate" styleClass="field-value" value="#{assetDetailController.current.acquisitionDate}" title="#{labels.AcquisitionDateTitle}">
                         <p:clientValidator event="change"/>
                         <p:clientValidator event="dateSelect"/>
                         <p:ajax event="dateSelect" />
@@ -186,7 +186,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.BarcodeLabel}" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="barCode" value="#{assetController.current.barCode}" title="#{labels.BarcodeTitle}">
+                    <p:inputText styleClass="field-value" id="barCode" value="#{assetDetailController.current.barCode}" title="#{labels.BarcodeTitle}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -198,7 +198,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.ExpiryDateLabel}"/> 
                 </p:column>
                 <p:column> 
-                    <p:calendar id="expiryDate" styleClass="field-value" value="#{assetController.current.expiryDate}" title="#{labels.ExpiryDateTitle}">
+                    <p:calendar id="expiryDate" styleClass="field-value" value="#{assetDetailController.current.expiryDate}" title="#{labels.ExpiryDateTitle}">
                         <p:clientValidator event="change"/>
                         <p:clientValidator event="dateSelect"/>
                         <p:ajax event="dateSelect" />
@@ -217,7 +217,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.WarrantyExpiryDateLabel}"/> 
                 </p:column>
                 <p:column> 
-                    <p:calendar id="warrantyExpiryDate" styleClass="field-value" value="#{assetController.current.warrantyExpiryDate}" title="#{labels.WarrantyExpiryDateTitle}">
+                    <p:calendar id="warrantyExpiryDate" styleClass="field-value" value="#{assetDetailController.current.warrantyExpiryDate}" title="#{labels.WarrantyExpiryDateTitle}">
                         <p:clientValidator event="change"/>
                         <p:clientValidator event="dateSelect"/>
                         <p:ajax event="dateSelect" />
@@ -241,15 +241,15 @@
                                 labelId="siteLabel"
                                 messageId="siteDropDownMessage"
                                 rowKey="#{item.id}"
-                                selectionText="#{assetController.current.site.name}"
-                                dataSource="#{siteLazyDataModel}" 
+                                selectionText="#{assetDetailController.current.site.name}"
+                                dataSource="#{siteListController}" 
                                 itemLabel="#{item.name}"
-                                selection="#{assetController.current.site}"
-                                filterValue="#{siteLazyDataModel.nameFilter.value}"
+                                selection="#{assetDetailController.current.site}"
+                                filterValue="#{siteListController.nameFilter.value}"
                                 toolTip="#{labels.SiteTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{siteController.prepareCreate()}" update=":siteCreate:form" dialogWidgetVar="siteCreateDialog" title="#{labels.CreateSiteTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_SITES')}"/>
+                    <cps:quickCreateButton actionListener="#{siteDetailController.prepareCreate()}" update=":siteCreate:form" dialogWidgetVar="siteCreateDialog" title="#{labels.CreateSiteTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_SITES')}"/>
                 </p:column>
 
                 <p:column/>
@@ -263,15 +263,15 @@
                                 labelId="assetTypeLabel"
                                 messageId="assetTypeDropDownMessage"
                                 rowKey="#{item.id}"
-                                selectionText="#{assetController.current.assetType.name}"
-                                dataSource="#{assetTypeLazyDataModel}" 
+                                selectionText="#{assetDetailController.current.assetType.name}"
+                                dataSource="#{assetTypeListController}" 
                                 itemLabel="#{item.name}"
-                                selection="#{assetController.current.assetType}"
-                                filterValue="#{assetTypeLazyDataModel.nameFilter.value}"
+                                selection="#{assetDetailController.current.assetType}"
+                                filterValue="#{assetTypeListController.nameFilter.value}"
                                 toolTip="#{labels.AssetTypeTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{assetTypeController.prepareCreate()}" update=":assetTypeCreate:form" dialogWidgetVar="assetTypeCreateDialog" title="#{labels.CreateAssetTypeTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_ASSET_TYPES')}"/>
+                    <cps:quickCreateButton actionListener="#{assetTypeDetailController.prepareCreate()}" update=":assetTypeCreate:form" dialogWidgetVar="assetTypeCreateDialog" title="#{labels.CreateAssetTypeTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_ASSET_TYPES')}"/>
                 </p:column>
             </p:row>
             <p:row>
@@ -279,7 +279,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.AssetStateLabel}" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu styleClass="field-value" value="#{assetController.current.state}" title="#{labels.AssetStateTitle}">
+                    <p:selectOneMenu styleClass="field-value" value="#{assetDetailController.current.state}" title="#{labels.AssetStateTitle}">
                         <f:selectItem itemValue="#{null}"/>
                         <f:selectItem itemLabel="#{labels.AssetStateInStore}" itemValue="IN_STORE" />
                         <f:selectItem itemLabel="#{labels.AssetStateInUse}" itemValue="IN_USE" />
@@ -294,7 +294,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DepreciationMethodLabel}" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu styleClass="field-value" value="#{assetController.current.depreciationMethod}" title="#{DepreciationMethodTitle}">
+                    <p:selectOneMenu styleClass="field-value" value="#{assetDetailController.current.depreciationMethod}" title="#{DepreciationMethodTitle}">
                         <f:selectItem itemValue="#{null}"/>
                         <f:selectItem itemLabel="#{labels.DepreciationMethodStraightLine}" itemValue="STRAIGHT_LINE" />
                         <f:selectItem itemLabel="#{labels.DepreciationMethodDecliningBalance}" itemValue="DECLINING_BALANCE" />

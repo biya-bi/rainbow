@@ -10,10 +10,10 @@
 <h:body>
 	<cps:trackableDataGrid id="applicationList"
 		title="#{labels.ListApplicationsTitle}"
-		dataSource="#{applicationLazyDataModel}"
-		selectedItem="#{applicationController.current}"
+		dataSource="#{applicationListController}"
+		selectedItem="#{applicationDetailController.current}"
 		selectedValue="#{item.id}"
-		createActionListener="#{applicationController.prepareCreate()}"
+		createActionListener="#{applicationDetailController.prepareCreate()}"
 		createDialog="applicationCreateDialog"
 		createUpdate=":applicationCreate:form"
 		editDialog="applicationEditDialog" editUpdate=":applicationEdit:form"
@@ -21,15 +21,15 @@
 		detailsUpdate=":applicationDetails:form"
 		deleteDialog="applicationDeleteDialog"
 		deleteUpdate=":applicationDelete:form"
-		columnToggleListener="#{applicationController.onToggle}"
-		creatorFilterValue="#{applicationLazyDataModel.creatorFilter.value}"
-		creatorFilterOperator="#{applicationLazyDataModel.creatorFilter.operator}"
-		updaterFilterValue="#{applicationLazyDataModel.updaterFilter.value}"
-		updaterFilterOperator="#{applicationLazyDataModel.updaterFilter.operator}"
-		creationDateFilterValue="#{applicationLazyDataModel.creationDateFilter.value}"
-		creationDateFilterOperator="#{applicationLazyDataModel.creationDateFilter.operator}"
-		lastUpdateDateFilterValue="#{applicationLazyDataModel.lastUpdateDateFilter.value}"
-		lastUpdateDateFilterOperator="#{applicationLazyDataModel.lastUpdateDateFilter.operator}">
+		columnToggleListener="#{applicationDetailController.onToggle}"
+		creatorFilterValue="#{applicationListController.creatorFilter.value}"
+		creatorFilterOperator="#{applicationListController.creatorFilter.operator}"
+		updaterFilterValue="#{applicationListController.updaterFilter.value}"
+		updaterFilterOperator="#{applicationListController.updaterFilter.operator}"
+		creationDateFilterValue="#{applicationListController.creationDateFilter.value}"
+		creationDateFilterOperator="#{applicationListController.creationDateFilter.operator}"
+		lastUpdateDateFilterValue="#{applicationListController.lastUpdateDateFilter.value}"
+		lastUpdateDateFilterOperator="#{applicationListController.lastUpdateDateFilter.operator}">
 		<f:facet name="postHeader">
 			<p:commandButton id="headerImportButton"
 				icon="ui-icon-arrowreturn-1-s" value="#{labels.ImportLabel}"
@@ -44,12 +44,12 @@
 		</f:facet>
 		<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 			sortBy="#{item.name}"
-			filterValue="#{applicationLazyDataModel.nameFilter.value}">
+			filterValue="#{applicationListController.nameFilter.value}">
 			<h:outputText value="#{item.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="applicationList:form:dataTable"
-					selectedValue="#{applicationLazyDataModel.nameFilter.operator}"
+					selectedValue="#{applicationListController.nameFilter.operator}"
 					changeWidgetVar="applicationListDataTable" />
 			</f:facet>
 		</p:column>

@@ -10,13 +10,13 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{assetController.current != null}">
+        <p:panelGrid rendered="#{assetDetailController.current != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="name" value="#{assetController.current.name}" title="#{labels.NameTitle}"/>
+                    <h:outputText styleClass="field-value" id="name" value="#{assetDetailController.current.name}" title="#{labels.NameTitle}"/>
                 </p:column>
 
                 <p:column/>
@@ -25,8 +25,8 @@
                     <p:outputLabel id="productLabel" styleClass="field-label" value="#{labels.ProductLabel}"/>
                 </p:column>
                 <p:column>
-                    <p:commandLink title="#{labels.ProductTitle}" styleClass="field-value" immediate="true" value="#{assetController.current.product.name}" update=":productDetails:form" oncomplete="PF('productDetailsDialog').show()">
-                        <f:setPropertyActionListener value="#{assetController.current.product}" target="#{productController.current}" />
+                    <p:commandLink title="#{labels.ProductTitle}" styleClass="field-value" immediate="true" value="#{assetDetailController.current.product.name}" update=":productDetails:form" oncomplete="PF('productDetailsDialog').show()">
+                        <f:setPropertyActionListener value="#{assetDetailController.current.product}" target="#{productDetailController.current}" />
                     </p:commandLink>
                 </p:column>
             </p:row>
@@ -35,7 +35,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.BusinessImpactLabel}" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{assetController.current.manufacturerBusinessImpact}" title="#{labels.BusinessImpactTitle}">
+                    <h:outputText value="#{assetDetailController.current.manufacturerBusinessImpact}" title="#{labels.BusinessImpactTitle}">
                         <f:converter converterId="org.rainbow.asset.explorer.faces.converters.ManufacturerBusinessImpactConverter" />
                     </h:outputText>
                 </p:column>
@@ -46,7 +46,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <h:outputText styleClass="field-value" id="description" value="#{assetController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <h:outputText styleClass="field-value" id="description" value="#{assetDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
 
@@ -61,8 +61,8 @@
                     <p:outputLabel id="vendorLabel" styleClass="field-label" value="#{labels.VendorLabel}"/>
                 </p:column>
                 <p:column>
-                    <p:commandLink title="#{labels.VendorTitle}" styleClass="field-value" immediate="true" value="#{assetController.current.vendor.name}" update=":vendorDetails:form" oncomplete="PF('vendorDetailsDialog').show()">
-                        <f:setPropertyActionListener value="#{assetController.current.vendor}" target="#{vendorController.current}" />
+                    <p:commandLink title="#{labels.VendorTitle}" styleClass="field-value" immediate="true" value="#{assetDetailController.current.vendor.name}" update=":vendorDetails:form" oncomplete="PF('vendorDetailsDialog').show()">
+                        <f:setPropertyActionListener value="#{assetDetailController.current.vendor}" target="#{vendorDetailController.current}" />
                     </p:commandLink>
                 </p:column>
 
@@ -73,7 +73,7 @@
                     <p:outputLabel id="currencyLabel" styleClass="field-label" value="#{labels.PurchaseCurrencyLabel}"/>
                 </p:column>
                 <p:column>    
-                    <h:outputText styleClass="field-value" id="purchaseCurrency" value="#{assetController.current.purchaseCurrency.name}" title="#{labels.PurchaseCurrencyTitle}"/>
+                    <h:outputText styleClass="field-value" id="purchaseCurrency" value="#{assetDetailController.current.purchaseCurrency.name}" title="#{labels.PurchaseCurrencyTitle}"/>
                 </p:column>
             </p:row>
 
@@ -82,7 +82,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.AssetTagLabel}" />
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="assetTag" value="#{assetController.current.tag}" title="#{labels.AssetTagTitle}"/>
+                    <h:outputText styleClass="field-value" id="assetTag" value="#{assetDetailController.current.tag}" title="#{labels.AssetTagTitle}"/>
                 </p:column>
 
                 <p:column/>
@@ -91,8 +91,8 @@
                     <p:outputLabel id="purchaseCostLabel" styleClass="field-label" value="#{labels.PurchaseCostLabel}" for="purchaseCost"/> 
                 </p:column>
                 <p:column> 
-                    <h:outputText styleClass="field-value" id="purchaseCost" value="#{assetController.current.purchaseCost}" title="#{labels.PurchaseCostTitle}">
-                        <f:convertNumber currencySymbol="#{assetController.current.purchaseCurrency.symbol}" type="currency"/>
+                    <h:outputText styleClass="field-value" id="purchaseCost" value="#{assetDetailController.current.purchaseCost}" title="#{labels.PurchaseCostTitle}">
+                        <f:convertNumber currencySymbol="#{assetDetailController.current.purchaseCurrency.symbol}" type="currency"/>
                     </h:outputText>
                 </p:column>
                 <p:column/>
@@ -102,7 +102,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.SerialNumberLabel}" />
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="serialNumber" value="#{assetController.current.serialNumber}" title="#{labels.SerialNumberTitle}"/>
+                    <h:outputText styleClass="field-value" id="serialNumber" value="#{assetDetailController.current.serialNumber}" title="#{labels.SerialNumberTitle}"/>
                 </p:column>
 
                 <p:column/>
@@ -111,7 +111,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.AcquisitionDateLabel}"/> 
                 </p:column>
                 <p:column> 
-                    <h:outputText styleClass="field-value" id="acquisitionDate"  value="#{assetController.current.acquisitionDate}" title="#{labels.AcquisitionDateTitle}">
+                    <h:outputText styleClass="field-value" id="acquisitionDate"  value="#{assetDetailController.current.acquisitionDate}" title="#{labels.AcquisitionDateTitle}">
                         <f:convertDateTime dateStyle="short" />
                     </h:outputText>
                 </p:column>
@@ -121,7 +121,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.BarcodeLabel}" />
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="barCode" value="#{assetController.current.barCode}" title="#{labels.BarcodeTitle}"/>
+                    <h:outputText styleClass="field-value" id="barCode" value="#{assetDetailController.current.barCode}" title="#{labels.BarcodeTitle}"/>
                 </p:column>
 
                 <p:column/>
@@ -130,7 +130,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.ExpiryDateLabel}"/> 
                 </p:column>
                 <p:column> 
-                    <h:outputText styleClass="field-value" id="expiryDate"  value="#{assetController.current.expiryDate}" title="#{labels.ExpiryDateTitle}">
+                    <h:outputText styleClass="field-value" id="expiryDate"  value="#{assetDetailController.current.expiryDate}" title="#{labels.ExpiryDateTitle}">
                         <f:convertDateTime dateStyle="short" />
                     </h:outputText>
                 </p:column>
@@ -144,7 +144,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.WarrantyExpiryDateLabel}"/> 
                 </p:column>
                 <p:column> 
-                    <h:outputText styleClass="field-value" id="warrantyExpiryDate"  value="#{assetController.current.warrantyExpiryDate}" title="#{labels.WarrantyExpiryDateTitle}">
+                    <h:outputText styleClass="field-value" id="warrantyExpiryDate"  value="#{assetDetailController.current.warrantyExpiryDate}" title="#{labels.WarrantyExpiryDateTitle}">
                         <f:convertDateTime dateStyle="short" />
                     </h:outputText>
                 </p:column>
@@ -162,8 +162,8 @@
                     <p:outputLabel id="siteLabel" styleClass="field-label" value="#{labels.SiteLabel}"/>
                 </p:column>
                 <p:column>
-                    <p:commandLink title="#{labels.SiteTitle}" styleClass="field-value" immediate="true" value="#{assetController.current.site.name}" update=":siteDetails:form" oncomplete="PF('siteDetailsDialog').show()">
-                        <f:setPropertyActionListener value="#{assetController.current.site}" target="#{siteController.current}" />
+                    <p:commandLink title="#{labels.SiteTitle}" styleClass="field-value" immediate="true" value="#{assetDetailController.current.site.name}" update=":siteDetails:form" oncomplete="PF('siteDetailsDialog').show()">
+                        <f:setPropertyActionListener value="#{assetDetailController.current.site}" target="#{siteDetailController.current}" />
                     </p:commandLink>
                 </p:column>
 
@@ -174,8 +174,8 @@
                     <p:outputLabel id="assetTypeLabel" styleClass="field-label" value="#{labels.AssetTypeLabel}"/>
                 </p:column>
                 <p:column>
-                    <p:commandLink title="#{labels.AssetTypeTitle}" styleClass="field-value" immediate="true" value="#{assetController.current.assetType.name}" update=":assetTypeDetails:form" oncomplete="PF('assetTypeDetailsDialog').show()">
-                        <f:setPropertyActionListener value="#{assetController.current.assetType}" target="#{assetTypeController.current}" />
+                    <p:commandLink title="#{labels.AssetTypeTitle}" styleClass="field-value" immediate="true" value="#{assetDetailController.current.assetType.name}" update=":assetTypeDetails:form" oncomplete="PF('assetTypeDetailsDialog').show()">
+                        <f:setPropertyActionListener value="#{assetDetailController.current.assetType}" target="#{assetTypeDetailController.current}" />
                     </p:commandLink>
                 </p:column>
 
@@ -185,7 +185,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.AssetStateLabel}" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{assetController.current.state}" title="#{labels.AssetStateTitle}">
+                    <h:outputText value="#{assetDetailController.current.state}" title="#{labels.AssetStateTitle}">
                         <f:converter converterId="org.rainbow.asset.explorer.faces.converters.AssetStateConverter" />
                     </h:outputText>
                 </p:column>
@@ -195,7 +195,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DepreciationMethodLabel}" />
                 </p:column>
                 <p:column>
-                    <h:outputText value="#{assetController.current.depreciationMethod}" title="#{labels.DepreciationMethodTitle}">
+                    <h:outputText value="#{assetDetailController.current.depreciationMethod}" title="#{labels.DepreciationMethodTitle}">
                         <f:converter converterId="org.rainbow.asset.explorer.faces.converters.DepreciationMethodConverter" />
                     </h:outputText>
                 </p:column>

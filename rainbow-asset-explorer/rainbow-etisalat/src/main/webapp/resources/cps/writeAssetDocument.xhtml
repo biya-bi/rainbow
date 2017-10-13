@@ -13,13 +13,13 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{assetDocumentController.current != null}">
+        <p:panelGrid rendered="#{assetDocumentDetailController.current != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.FileNameLabel}"/>
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="fileName" value="#{assetDocumentController.current.fileName}" title="#{labels.FileNameTitle}"/>
+                    <h:outputText styleClass="field-value" id="fileName" value="#{assetDocumentDetailController.current.fileName}" title="#{labels.FileNameTitle}"/>
                 </p:column>
                 <p:column/>
                 <p:column>
@@ -31,7 +31,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DocumentTypeLabel}" for="documentType" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu styleClass="field-value" id="documentType" value="#{assetDocumentController.current.documentType}" title="#{labels.DocumentTypeTitle}" required="true" requiredMessage="#{valMsg.DocumentTypeRequired}">
+                    <p:selectOneMenu styleClass="field-value" id="documentType" value="#{assetDocumentDetailController.current.documentType}" title="#{labels.DocumentTypeTitle}" required="true" requiredMessage="#{valMsg.DocumentTypeRequired}">
                         <p:clientValidator event="change" />
                         <f:selectItem itemLabel="" itemValue="#{null}"/>
                         <f:selectItem itemLabel="#{labels.DocumentTypeLegal}" itemValue="LEGAL_DOCUMENT"/>
@@ -54,17 +54,17 @@
                                 labelId="assetLabel"
                                 messageId="assetDropDownMessage"
                                 rowKey="#{item.id}"
-                                selectionText="#{assetDocumentController.current.asset.name}"
-                                dataSource="#{assetLazyDataModel}" 
+                                selectionText="#{assetDocumentDetailController.current.asset.name}"
+                                dataSource="#{assetListController}" 
                                 itemLabel="#{item.name}"
-                                selection="#{assetDocumentController.current.asset}"
-                                filterValue="#{assetLazyDataModel.nameFilter.value}"
+                                selection="#{assetDocumentDetailController.current.asset}"
+                                filterValue="#{assetListController.nameFilter.value}"
                                 required="true"
                                 requiredMessage="#{valMsg.AssetRequired}"
                                 toolTip="#{labels.AssetTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{assetController.prepareCreate()}" update=":assetCreate:form" dialogWidgetVar="assetCreateDialog" title="#{labels.CreateAssetTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_ASSETS')}"/>
+                    <cps:quickCreateButton actionListener="#{assetDetailController.prepareCreate()}" update=":assetCreate:form" dialogWidgetVar="assetCreateDialog" title="#{labels.CreateAssetTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_ASSETS')}"/>
                 </p:column>
                 <p:column>
                     <p:message id="assetDropDownMessage" for="assetDropDown"/>
@@ -75,7 +75,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputTextarea styleClass="field-value" id="description" value="#{assetDocumentController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{assetDocumentDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

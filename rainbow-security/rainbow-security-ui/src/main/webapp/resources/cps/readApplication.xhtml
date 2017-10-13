@@ -9,7 +9,7 @@
 
 <composite:implementation>
 	<p:panelGrid>
-		<p:panelGrid rendered="#{applicationController.current != null}">
+		<p:panelGrid rendered="#{applicationDetailController.current != null}">
 			<p:row>
 				<p:column>
 					<p:outputLabel styleClass="field-label" value="#{labels.NameLabel}"
@@ -17,7 +17,7 @@
 				</p:column>
 				<p:column>
 					<p:outputLabel styleClass="field-value" id="name"
-						value="#{applicationController.current.name}"
+						value="#{applicationDetailController.current.name}"
 						title="#{labels.NameTitle}" />
 				</p:column>
 			</p:row>
@@ -28,12 +28,12 @@
 				</p:column>
 				<p:column>
 					<p:outputLabel styleClass="field-value"
-						value="#{applicationController.current.description}"
+						value="#{applicationDetailController.current.description}"
 						title="#{labels.DescriptionTitle}" />
 				</p:column>
 			</p:row>
 		</p:panelGrid>
-		<p:tabView rendered="#{applicationController.current != null}">
+		<p:tabView rendered="#{applicationDetailController.current != null}">
 			<p:tab title="#{labels.PasswordPolicyTitle}">
 				<p:panelGrid>
 					<p:row>
@@ -43,7 +43,7 @@
 						</p:column>
 						<p:column>
 							<p:outputLabel id="minAge" styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minAge}"
+								value="#{applicationDetailController.current.passwordPolicy.minAge}"
 								title="#{labels.MinimumPasswordAgeTitle}" />
 						</p:column>
 						<p:column>
@@ -57,7 +57,7 @@
 						</p:column>
 						<p:column>
 							<p:outputLabel id="maxAge" styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.maxAge}"
+								value="#{applicationDetailController.current.passwordPolicy.maxAge}"
 								title="#{labels.MaximumPasswordAgeTitle}" />
 						</p:column>
 						<p:column>
@@ -71,7 +71,7 @@
 						</p:column>
 						<p:column>
 							<p:outputLabel id="minLength" styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minLength}"
+								value="#{applicationDetailController.current.passwordPolicy.minLength}"
 								title="#{labels.MinimumPasswordLengthTitle}" />
 						</p:column>
 					</p:row>
@@ -82,7 +82,7 @@
 						</p:column>
 						<p:column>
 							<p:outputLabel id="maxLength" styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.maxLength}"
+								value="#{applicationDetailController.current.passwordPolicy.maxLength}"
 								title="#{labels.MaximumPasswordLengthTitle}" />
 						</p:column>
 					</p:row>
@@ -95,7 +95,7 @@
 						<p:column>
 							<p:outputLabel id="minimumNumberOfLowercaseCharacters"
 								styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minLowercaseCharsCount}"
+								value="#{applicationDetailController.current.passwordPolicy.minLowercaseCharsCount}"
 								title="#{labels.MinimumNumberOfLowercaseCharactersTitle}" />
 						</p:column>
 					</p:row>
@@ -108,7 +108,7 @@
 						<p:column>
 							<p:outputLabel id="minimumNumberOfUppercaseCharacters"
 								styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minUppercaseCharsCount}"
+								value="#{applicationDetailController.current.passwordPolicy.minUppercaseCharsCount}"
 								title="#{labels.MinimumNumberOfUpperCaseCharactersTitle}" />
 						</p:column>
 					</p:row>
@@ -121,7 +121,7 @@
 						<p:column>
 							<p:outputLabel id="minimumNumberOfDigits"
 								styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minNumericCount}"
+								value="#{applicationDetailController.current.passwordPolicy.minNumericCount}"
 								title="#{labels.MinimumNumberOfDigitsTitle}" />
 						</p:column>
 					</p:row>
@@ -134,7 +134,7 @@
 						<p:column>
 							<p:outputLabel id="minimumNumberOfSpecialCharacters"
 								styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minSpecialCharsCount}"
+								value="#{applicationDetailController.current.passwordPolicy.minSpecialCharsCount}"
 								title="#{labels.MinimumNumberOfSpecialCharactersTitle}" />
 						</p:column>
 					</p:row>
@@ -147,7 +147,7 @@
 						<p:column>
 							<p:outputLabel id="passwordHistoryThreshold"
 								styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.historyThreshold}"
+								value="#{applicationDetailController.current.passwordPolicy.historyThreshold}"
 								title="#{labels.PasswordHistoryThresholdTitle}" />
 						</p:column>
 					</p:row>
@@ -164,7 +164,7 @@
 						<p:column>
 							<p:outputLabel id="maximumInvalidAttempts"
 								styleClass="field-value"
-								value="#{applicationController.current.lockoutPolicy.threshold}"
+								value="#{applicationDetailController.current.lockoutPolicy.threshold}"
 								title="#{labels.MaximumInvalidAttemptsTitle}">
 							</p:outputLabel>
 						</p:column>
@@ -176,7 +176,7 @@
 						</p:column>
 						<p:column>
 							<p:outputLabel id="attemptWindow" styleClass="field-value"
-								value="#{applicationController.current.lockoutPolicy.attemptWindow}"
+								value="#{applicationDetailController.current.lockoutPolicy.attemptWindow}"
 								title="#{labels.LockoutAttemptWindowTitle}" />
 						</p:column>
 						<p:column>
@@ -196,7 +196,7 @@
 						<p:column>
 							<p:outputLabel id="loginHistoryThreshold"
 								styleClass="field-value"
-								value="#{applicationController.current.loginPolicy.threshold}"
+								value="#{applicationDetailController.current.loginPolicy.threshold}"
 								title="#{labels.LoginHistoryThresholdTitle}" />
 						</p:column>
 					</p:row>

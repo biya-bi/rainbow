@@ -10,14 +10,14 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{assetDocumentController.current != null}">
+        <p:panelGrid rendered="#{assetDocumentDetailController.current != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.FileNameLabel}" for="fileName" />
                 </p:column>
                 <p:column>
-                    <p:commandLink styleClass="field-value" id="fileName" ajax="false" value="#{assetDocumentController.current.fileName}" title="#{labels.FileNameTitle}">                
-                        <p:fileDownload value="#{assetDocumentController.file}" />
+                    <p:commandLink styleClass="field-value" id="fileName" ajax="false" value="#{assetDocumentDetailController.current.fileName}" title="#{labels.FileNameTitle}">                
+                        <p:fileDownload value="#{assetDocumentDetailController.file}" />
                     </p:commandLink>
                 </p:column>
             </p:row>
@@ -26,7 +26,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DocumentTypeLabel}" for="documentType" />
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="documentType" value="#{assetDocumentController.current.documentType}" title="#{labels.DocumentTypeTitle}">
+                    <h:outputText styleClass="field-value" id="documentType" value="#{assetDocumentDetailController.current.documentType}" title="#{labels.DocumentTypeTitle}">
                         <f:converter converterId="org.rainbow.asset.explorer.faces.converters.DocumentTypeConverter" />
                     </h:outputText>
                 </p:column>
@@ -36,8 +36,8 @@
                     <p:outputLabel id="siteLabel" styleClass="field-label" value="#{labels.AssetLabel}"/>
                 </p:column>
                 <p:column>    
-                    <p:commandLink title="#{labels.AssetTitle}" styleClass="field-value" immediate="true" value="#{assetDocumentController.current.asset.name}" update=":assetDetails:form" oncomplete="PF('assetDetailsDialog').show()">
-                        <f:setPropertyActionListener value="#{assetDocumentController.current.asset}" target="#{assetController.current}" />
+                    <p:commandLink title="#{labels.AssetTitle}" styleClass="field-value" immediate="true" value="#{assetDocumentDetailController.current.asset.name}" update=":assetDetails:form" oncomplete="PF('assetDetailsDialog').show()">
+                        <f:setPropertyActionListener value="#{assetDocumentDetailController.current.asset}" target="#{assetDetailController.current}" />
                     </p:commandLink>
                 </p:column>             
             </p:row>
@@ -46,7 +46,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <h:outputText styleClass="field-value" id="description" value="#{assetDocumentController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <h:outputText styleClass="field-value" id="description" value="#{assetDocumentDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

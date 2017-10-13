@@ -8,7 +8,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd
 http://www.springframework.org/schema/aop
 http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<tx:advice id="txAdvice" transaction-manager="rainbowSecurityTransactionManager">
+	<tx:advice id="txAdvice" transaction-manager="RainbowSecurityTransactionManager">
 		<tx:attributes>
 			<tx:method name="*" propagation="REQUIRED" no-rollback-for="org.springframework.security.core.AuthenticationException,
 org.rainbow.security.service.exceptions.WrongRecoveryAnswerException" />

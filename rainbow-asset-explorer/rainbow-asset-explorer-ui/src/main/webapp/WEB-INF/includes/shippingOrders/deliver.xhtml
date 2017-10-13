@@ -11,12 +11,12 @@
 	<h:form id="deliverShippingOrderForm">
 		<h:panelGroup id="panelGroup">
 			<p:panelGrid columns="1"
-				rendered="#{shippingOrderController.current != null}">
+				rendered="#{shippingOrderDetailController.current != null}">
 				<f:facet name="header">
 					<p:panelGrid columns="2" style="text-align: left;"
 						styleClass="ui-panelgrid-blank">
 						<p:commandButton value="#{labels.Save}" icon="ui-icon-disk"
-							action="#{shippingOrderController.deliver}" validateClient="true"
+							action="#{shippingOrderDetailController.deliver}" validateClient="true"
 							update="panelGroup,:shippingOrderList:form"
 							oncomplete="handleSubmit(args,'deliverShippingOrderDialog');" />
 						<p:commandButton value="#{labels.Cancel}" icon="ui-icon-close"
@@ -25,10 +25,10 @@
 					</p:panelGrid>
 				</f:facet>
 				<p:dataTable style="width: 700px" id="details" widgetVar="details"
-					var="detail" value="#{shippingOrderController.receivedDetails}">
+					var="detail" value="#{shippingOrderDetailController.receivedDetails}">
 					<f:facet name="header">
 						<p:commandButton
-							actionListener="#{shippingOrderController.prepareDetail()}"
+							actionListener="#{shippingOrderDetailController.prepareDetail()}"
 							icon="ui-icon-plus"
 							oncomplete="PF('addShippingOrderReceivedDetailDialog').show()"
 							update=":addShippingOrderReceivedDetailForm" />
@@ -52,14 +52,14 @@
 							oncomplete="PF('editShippingOrderReceivedDetailDialog').show()">
 							<h:outputText styleClass="ui-icon ui-icon-pencil" />
 							<f:setPropertyActionListener value="#{detail}"
-								target="#{shippingOrderController.detail}" />
+								target="#{shippingOrderDetailController.detail}" />
 						</p:commandLink>
 						<p:commandLink style="display: inline-block"
-							action="#{shippingOrderController.removeReceivedDetail}"
+							action="#{shippingOrderDetailController.removeReceivedDetail}"
 							update=":deliverShippingOrderForm:details">
 							<h:outputText styleClass="ui-icon ui-icon-close" />
 							<f:setPropertyActionListener value="#{detail}"
-								target="#{shippingOrderController.detail}" />
+								target="#{shippingOrderDetailController.detail}" />
 						</p:commandLink>
 
 					</p:column>

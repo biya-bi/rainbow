@@ -9,14 +9,14 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{vendorController.current != null}">
+        <p:panelGrid rendered="#{vendorDetailController.current != null}">
             <p:panelGrid>
                 <p:row>
                     <p:column>
                         <p:outputLabel styleClass="field-label" value="#{labels.AccountNumberLabel}" for="accountNumber" />
                     </p:column>
                     <p:column>
-                        <p:inputText styleClass="field-value" id="accountNumber" value="#{vendorController.current.accountNumber}" title="#{labels.AccountNumberTitle}" required="true" requiredMessage="#{valMsg.AccountNumberRequired}">
+                        <p:inputText styleClass="field-value" id="accountNumber" value="#{vendorDetailController.current.accountNumber}" title="#{labels.AccountNumberTitle}" required="true" requiredMessage="#{valMsg.AccountNumberRequired}">
                             <p:clientValidator event="keyup" />
                         </p:inputText>
                     </p:column>
@@ -29,7 +29,7 @@
                         <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
                     </p:column>
                     <p:column>
-                        <p:inputText styleClass="field-value" id="name" value="#{vendorController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                        <p:inputText styleClass="field-value" id="name" value="#{vendorDetailController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
                             <p:clientValidator event="keyup" />
                         </p:inputText>
                     </p:column>
@@ -42,7 +42,7 @@
                         <p:outputLabel styleClass="field-label" value="#{labels.PurchasingUrlLabel}"/> 
                     </p:column>
                     <p:column>   
-                        <p:inputText styleClass="field-value" id="purchasingUrl" value="#{vendorController.current.purchasingUrl}" title="#{labels.PurchasingUrlTitle}"/>
+                        <p:inputText styleClass="field-value" id="purchasingUrl" value="#{vendorDetailController.current.purchasingUrl}" title="#{labels.PurchasingUrlTitle}"/>
                     </p:column>
                 </p:row>
                 <p:row>
@@ -50,7 +50,7 @@
                         <p:outputLabel styleClass="field-label" value="#{labels.ActiveLabel}"/> 
                     </p:column>
                     <p:column>   
-                        <p:selectBooleanCheckbox styleClass="field-value" value="#{vendorController.current.active}"/> 
+                        <p:selectBooleanCheckbox styleClass="field-value" value="#{vendorDetailController.current.active}"/> 
                     </p:column>
                 </p:row>
             </p:panelGrid>
@@ -59,7 +59,7 @@
                     <p:column colspan="3">
                         <p:tabView>
                             <p:tab title="#{labels.AddressesTitle}">
-                                <p:accordionPanel activeIndex="-1" value="#{vendorController.current.addresses}" var="address">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorDetailController.current.addresses}" var="address">
                                     <p:tab>
                                         <f:facet name="title">
                                             <p:outputLabel value="#{address.addressType}">
@@ -76,7 +76,7 @@
                                 </p:accordionPanel>
                             </p:tab>
                             <p:tab title="#{labels.PhonesTitle}">
-                                <p:accordionPanel activeIndex="-1" value="#{vendorController.current.phones}" var="phone">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorDetailController.current.phones}" var="phone">
                                     <p:tab>
                                         <f:facet name="title">
                                             <p:outputLabel value="#{phone.phoneType}">
@@ -91,7 +91,7 @@
                                 </p:accordionPanel>
                             </p:tab>
                             <p:tab title="#{labels.FaxesTitle}">
-                                <p:accordionPanel activeIndex="-1" value="#{vendorController.current.faxes}" var="fax">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorDetailController.current.faxes}" var="fax">
                                     <p:tab>
                                         <f:facet name="title">
                                             <p:outputLabel value="#{fax.faxType}">
@@ -106,7 +106,7 @@
                                 </p:accordionPanel>
                             </p:tab>
                             <p:tab title="#{labels.EmailsTitle}">
-                                <p:accordionPanel activeIndex="-1" value="#{vendorController.current.emails}" var="email">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorDetailController.current.emails}" var="email">
                                     <p:tab>
                                         <f:facet name="title">
                                             <p:outputLabel value="#{email.emailType}">

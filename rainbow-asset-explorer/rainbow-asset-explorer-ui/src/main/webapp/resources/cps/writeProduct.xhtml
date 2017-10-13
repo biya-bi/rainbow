@@ -11,13 +11,13 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{productController.current != null}">
+        <p:panelGrid rendered="#{productDetailController.current != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.ProductNumberLabel}" for="number" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="number" value="#{productController.current.number}" title="#{labels.ProductNumberTitle}" required="true" requiredMessage="#{valMsg.ProductNumberRequired}">
+                    <p:inputText styleClass="field-value" id="number" value="#{productDetailController.current.number}" title="#{labels.ProductNumberTitle}" required="true" requiredMessage="#{valMsg.ProductNumberRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -31,7 +31,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.ProductNameLabel}" for="name" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="name" value="#{productController.current.name}" title="#{labels.ProductNameTitle}" required="true" requiredMessage="#{valMsg.ProductNameRequired}">
+                    <p:inputText styleClass="field-value" id="name" value="#{productDetailController.current.name}" title="#{labels.ProductNameTitle}" required="true" requiredMessage="#{valMsg.ProductNameRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -45,7 +45,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.ReorderPointLabel}" for="reorderPoint" />
                 </p:column>
                 <p:column>
-                    <p:inputText converterMessage="#{valMsg.ReorderPointInvalid}" validatorMessage="#{valMsg.ReorderPointInvalid}" styleClass="field-value" id="reorderPoint" value="#{productController.current.reorderPoint}" title="#{labels.ReorderPointTitle}" required="true" requiredMessage="#{valMsg.ReorderPointRequired}">
+                    <p:inputText converterMessage="#{valMsg.ReorderPointInvalid}" validatorMessage="#{valMsg.ReorderPointInvalid}" styleClass="field-value" id="reorderPoint" value="#{productDetailController.current.reorderPoint}" title="#{labels.ReorderPointTitle}" required="true" requiredMessage="#{valMsg.ReorderPointRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -64,15 +64,15 @@
                                 labelId="manufacturerLabel"
                                 messageId="manufacturerDropDownMessage"
                                 rowKey="#{item.id}"
-                                selectionText="#{productController.current.manufacturer.name}"
-                                dataSource="#{manufacturerLazyDataModel}" 
+                                selectionText="#{productDetailController.current.manufacturer.name}"
+                                dataSource="#{manufacturerListController}" 
                                 itemLabel="#{item.name}"
-                                selection="#{productController.current.manufacturer}"
-                                filterValue="#{manufacturerLazyDataModel.nameFilter.value}"
+                                selection="#{productDetailController.current.manufacturer}"
+                                filterValue="#{manufacturerListController.nameFilter.value}"
                                 toolTip="#{labels.ManufacturerTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{manufacturerController.prepareCreate()}" update=":manufacturerCreate:form" dialogWidgetVar="manufacturerCreateDialog" title="#{labels.CreateManufacturerTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_MANUFACTURERS')}"/>
+                    <cps:quickCreateButton actionListener="#{manufacturerDetailController.prepareCreate()}" update=":manufacturerCreate:form" dialogWidgetVar="manufacturerCreateDialog" title="#{labels.CreateManufacturerTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_MANUFACTURERS')}"/>
                 </p:column>
                 <p:column>
                     <p:message id="manufacturerDropDownMessage" for="manufacturerDropDown"/>
@@ -83,7 +83,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputTextarea styleClass="field-value" id="description" value="#{productController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{productDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

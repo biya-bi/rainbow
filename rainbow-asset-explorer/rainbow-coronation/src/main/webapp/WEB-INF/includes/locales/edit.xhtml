@@ -6,16 +6,16 @@
 
     <cps:submitForm id="localeEdit"
                     title="#{labels.EditLocaleTitle}"           
-                    submitActionListener="#{localeController.edit()}"
+                    submitActionListener="#{localeDetailController.edit()}"
                     update="localeList:form:dataTable">
 
-        <p:panelGrid rendered="#{localeController.current != null}">
+        <p:panelGrid rendered="#{localeDetailController.current != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="name" value="#{localeController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                    <p:inputText styleClass="field-value" id="name" value="#{localeDetailController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -28,7 +28,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.LanguageCodeLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputText styleClass="field-value" id="languageCode" value="#{localeController.current.languageCode}" title="#{labels.LanguageCodeTitle}"/>
+                    <p:inputText styleClass="field-value" id="languageCode" value="#{localeDetailController.current.languageCode}" title="#{labels.LanguageCodeTitle}"/>
                 </p:column>
             </p:row>
             <p:row>
@@ -36,7 +36,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.LCIDLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputText styleClass="field-value" id="lcid" value="#{localeController.current.lcid}" title="#{labels.LCIDTitle}"/>
+                    <p:inputText styleClass="field-value" id="lcid" value="#{localeDetailController.current.lcid}" title="#{labels.LCIDTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

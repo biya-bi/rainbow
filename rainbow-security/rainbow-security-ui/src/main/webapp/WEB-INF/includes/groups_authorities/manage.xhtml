@@ -32,7 +32,7 @@
 						<p:dataTable id="authorityList" scrollHeight="200"
 							scrollWidth="500" widgetVar="authorityDataTable"
 							rowSelectMode="checkbox" var="item"
-							value="#{authorityLazyDataModel}"
+							value="#{authorityListController}"
 							selection="#{groupAuthorityController.authorities}" lazy="true"
 							paginator="true"
 							paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"
@@ -55,12 +55,12 @@
 
 							<p:column headerText="#{labels.AuthorityTitle}"
 								filterBy="#{item.name}" sortBy="#{item.name}"
-								filterValue="#{authorityLazyDataModel.nameFilter.value}">
+								filterValue="#{authorityListController.nameFilter.value}">
 								<h:outputText value="#{item.name}" />
 								<f:facet name="footer">
 									<cps:stringFilterSelectOneMenu
 										changeUpdate="manageGroupsAuthoritiesForm:authorityList"
-										selectedValue="#{authorityLazyDataModel.nameFilter.operator}"
+										selectedValue="#{authorityListController.nameFilter.operator}"
 										changeWidgetVar="authorityDataTable" />
 								</f:facet>
 							</p:column>
@@ -68,12 +68,12 @@
 							<p:column headerText="#{labels.ApplicationTitle}"
 								filterBy="#{item.application.name}"
 								sortBy="#{item.application.name}"
-								filterValue="#{authorityLazyDataModel.applicationNameFilter.value}">
+								filterValue="#{authorityListController.applicationNameFilter.value}">
 								<h:outputText value="#{item.application.name}" />
 								<f:facet name="footer">
 									<cps:stringFilterSelectOneMenu
 										changeUpdate="manageGroupsAuthoritiesForm:authorityList"
-										selectedValue="#{authorityLazyDataModel.applicationNameFilter.operator}"
+										selectedValue="#{authorityListController.applicationNameFilter.operator}"
 										changeWidgetVar="authorityDataTable" />
 								</f:facet>
 							</p:column>
@@ -82,7 +82,7 @@
 					<p:scrollPanel style="width:500px;height:400px">
 						<p:dataTable id="groupList" scrollHeight="200" scrollWidth="500"
 							widgetVar="groupDataTable" rowSelectMode="checkbox" var="item"
-							value="#{groupLazyDataModel}"
+							value="#{groupListController}"
 							selection="#{groupAuthorityController.groups}" lazy="true"
 							paginator="true"
 							paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"
@@ -105,12 +105,12 @@
 
 							<p:column headerText="#{labels.GroupTitle}"
 								filterBy="#{item.name}" sortBy="#{item.name}"
-								filterValue="#{groupLazyDataModel.nameFilter.value}">
+								filterValue="#{groupListController.nameFilter.value}">
 								<h:outputText value="#{item.name}" />
 								<f:facet name="footer">
 									<cps:stringFilterSelectOneMenu
 										changeUpdate="manageGroupsAuthoritiesForm:groupList"
-										selectedValue="#{groupLazyDataModel.nameFilter.operator}"
+										selectedValue="#{groupListController.nameFilter.operator}"
 										changeWidgetVar="groupDataTable" />
 								</f:facet>
 							</p:column>
@@ -118,12 +118,12 @@
 							<p:column headerText="#{labels.ApplicationTitle}"
 								filterBy="#{item.application.name}"
 								sortBy="#{item.application.name}"
-								filterValue="#{groupLazyDataModel.applicationNameFilter.value}">
+								filterValue="#{groupListController.applicationNameFilter.value}">
 								<h:outputText value="#{item.application.name}" />
 								<f:facet name="footer">
 									<cps:stringFilterSelectOneMenu
 										changeUpdate="manageGroupsAuthoritiesForm:groupList"
-										selectedValue="#{groupLazyDataModel.applicationNameFilter.operator}"
+										selectedValue="#{groupListController.applicationNameFilter.operator}"
 										changeWidgetVar="groupDataTable" />
 								</f:facet>
 							</p:column>

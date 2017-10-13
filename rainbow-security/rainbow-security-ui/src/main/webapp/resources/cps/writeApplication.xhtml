@@ -10,7 +10,7 @@
 
 <composite:implementation>
 	<p:panelGrid>
-		<p:panelGrid rendered="#{applicationController.current != null}">
+		<p:panelGrid rendered="#{applicationDetailController.current != null}">
 			<p:row>
 				<p:column>
 					<p:outputLabel styleClass="field-label" value="#{labels.NameLabel}"
@@ -18,7 +18,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText styleClass="field-value" id="name"
-						value="#{applicationController.current.name}"
+						value="#{applicationDetailController.current.name}"
 						title="#{labels.NameTitle}" required="true"
 						requiredMessage="#{valMsg.NameRequired}">
 						<p:clientValidator event="keyup" />
@@ -35,12 +35,12 @@
 				</p:column>
 				<p:column>
 					<p:inputTextarea styleClass="field-value"
-						value="#{applicationController.current.description}"
+						value="#{applicationDetailController.current.description}"
 						title="#{labels.DescriptionTitle}" />
 				</p:column>
 			</p:row>
 		</p:panelGrid>
-		<p:tabView rendered="#{applicationController.current != null}">
+		<p:tabView rendered="#{applicationDetailController.current != null}">
 			<p:tab title="#{labels.PasswordPolicyTitle}">
 				<p:panelGrid>
 					<p:row>
@@ -50,7 +50,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="minAge" styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minAge}"
+								value="#{applicationDetailController.current.passwordPolicy.minAge}"
 								title="#{labels.MinimumPasswordAgeTitle}" required="true"
 								requiredMessage="#{valMsg.MinimumPasswordAgeRequired}"
 								converterMessage="#{valMsg.MinimumPasswordAgeMustBeANumber}"
@@ -73,7 +73,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="maxAge" styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.maxAge}"
+								value="#{applicationDetailController.current.passwordPolicy.maxAge}"
 								title="#{labels.MaximumPasswordAgeTitle}" required="true"
 								requiredMessage="#{valMsg.MaximumPasswordAgeRequired}"
 								converterMessage="#{valMsg.MaximumPasswordAgeMustBeANumber}"
@@ -96,7 +96,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="minLength" styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minLength}"
+								value="#{applicationDetailController.current.passwordPolicy.minLength}"
 								title="#{labels.MinimumPasswordLengthTitle}" required="true"
 								requiredMessage="#{valMsg.MinimumPasswordLengthRequired}"
 								converterMessage="#{valMsg.MinimumPasswordLengthMustBeANumber}"
@@ -116,7 +116,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="maxLength" styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.maxLength}"
+								value="#{applicationDetailController.current.passwordPolicy.maxLength}"
 								title="#{labels.MaximumPasswordLengthTitle}" required="true"
 								requiredMessage="#{valMsg.MaximumPasswordLengthRequired}"
 								converterMessage="#{valMsg.MaximumPasswordLengthMustBeANumber}"
@@ -138,7 +138,7 @@
 						<p:column>
 							<p:inputText id="minimumNumberOfLowercaseCharacters"
 								styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minLowercaseCharsCount}"
+								value="#{applicationDetailController.current.passwordPolicy.minLowercaseCharsCount}"
 								title="#{labels.MinimumNumberOfLowercaseCharactersTitle}"
 								required="true"
 								requiredMessage="#{valMsg.MinimumNumberOfLowerCaseCharactersRequired}"
@@ -161,7 +161,7 @@
 						<p:column>
 							<p:inputText id="minimumNumberOfUppercaseCharacters"
 								styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minUppercaseCharsCount}"
+								value="#{applicationDetailController.current.passwordPolicy.minUppercaseCharsCount}"
 								title="#{labels.MinimumNumberOfUpperCaseCharactersTitle}"
 								required="true"
 								requiredMessage="#{valMsg.MinimumNumberOfUppercaseCharactersRequired}"
@@ -183,7 +183,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="minimumNumberOfDigits" styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minNumericCount}"
+								value="#{applicationDetailController.current.passwordPolicy.minNumericCount}"
 								title="#{labels.MinimumNumberOfDigitsTitle}" required="true"
 								requiredMessage="#{valMsg.MinimumNumberOfDigitsRequired}"
 								converterMessage="#{valMsg.MinimumNumberOfDigitsMustBeANumber}"
@@ -205,7 +205,7 @@
 						<p:column>
 							<p:inputText id="minimumNumberOfSpecialCharacters"
 								styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.minSpecialCharsCount}"
+								value="#{applicationDetailController.current.passwordPolicy.minSpecialCharsCount}"
 								title="#{labels.MinimumNumberOfSpecialCharactersTitle}"
 								required="true"
 								requiredMessage="#{valMsg.MinimumNumberOfSpecialCharactersRequired}"
@@ -228,7 +228,7 @@
 						<p:column>
 							<p:inputText id="passwordHistoryThreshold"
 								styleClass="field-value"
-								value="#{applicationController.current.passwordPolicy.historyThreshold}"
+								value="#{applicationDetailController.current.passwordPolicy.historyThreshold}"
 								title="#{labels.PasswordHistoryThresholdTitle}" required="true"
 								requiredMessage="#{valMsg.PasswordHistoryThresholdRequired}"
 								converterMessage="#{valMsg.PasswordHistoryThresholdMustBeANumber}"
@@ -253,7 +253,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="maximumInvalidAttempts" styleClass="field-value"
-								value="#{applicationController.current.lockoutPolicy.threshold}"
+								value="#{applicationDetailController.current.lockoutPolicy.threshold}"
 								title="#{labels.MaximumInvalidAttemptsTitle}" required="true"
 								requiredMessage="#{valMsg.MaximumInvalidAttemptsRequired}"
 								converterMessage="#{valMsg.MaximumInvalidAttemptsMustBeANumber}"
@@ -273,7 +273,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="attemptWindow" styleClass="field-value"
-								value="#{applicationController.current.lockoutPolicy.attemptWindow}"
+								value="#{applicationDetailController.current.lockoutPolicy.attemptWindow}"
 								title="#{labels.LockoutAttemptWindowTitle}" required="true"
 								requiredMessage="#{valMsg.LockoutAttemptWindowRequired}"
 								converterMessage="#{valMsg.LockoutAttemptWindowMustBeANumber}"
@@ -301,7 +301,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="loginHistoryThreshold" styleClass="field-value"
-								value="#{applicationController.current.loginPolicy.threshold}"
+								value="#{applicationDetailController.current.loginPolicy.threshold}"
 								title="#{labels.LoginHistoryThresholdTitle}" required="true"
 								requiredMessage="#{valMsg.LoginHistoryThresholdRequired}"
 								converterMessage="#{valMsg.LoginHistoryThresholdMustBeANumber}"

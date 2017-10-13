@@ -8,38 +8,38 @@
 
     <cps:submitForm id="purchaseOrderDelete"
                     title="#{labels.DeletePurchaseOrderTitle}"           
-                    submitActionListener="#{purchaseOrderController.delete()}"
+                    submitActionListener="#{purchaseOrderDetailController.delete()}"
                     update="purchaseOrderList:form:dataTable"
                     submitLabel="#{labels.Delete}"
                     submitIcon="ui-icon-trash">
         <h3>#{labels.DeletePurchaseOrderQuestion}</h3>
 
-        <p:panelGrid rendered="#{purchaseOrderController.current != null}">
+        <p:panelGrid rendered="#{purchaseOrderDetailController.current != null}">
             <p:panelGrid columns="2">
                 <p:outputLabel styleClass="field-label" value="#{labels.ReferenceNumberLabel}"/>
-                <h:outputText styleClass="field-value" value="#{purchaseOrderController.current.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
+                <h:outputText styleClass="field-value" value="#{purchaseOrderDetailController.current.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
                 <p:outputLabel id="vendorLabel" styleClass="field-label" value="#{labels.VendorLabel}"/>
-                <p:commandLink title="#{labels.VendorTitle}" styleClass="field-value" immediate="true" value="#{purchaseOrderController.current.vendor.name}" update=":vendorDetails:form" oncomplete="PF('vendorDetailsDialog').show()">
-                    <f:setPropertyActionListener value="#{purchaseOrderController.current.vendor}" target="#{vendorController.current}" />
+                <p:commandLink title="#{labels.VendorTitle}" styleClass="field-value" immediate="true" value="#{purchaseOrderDetailController.current.vendor.name}" update=":vendorDetails:form" oncomplete="PF('vendorDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{purchaseOrderDetailController.current.vendor}" target="#{vendorDetailController.current}" />
                 </p:commandLink>
                 <p:outputLabel id="shipMethodLabel" styleClass="field-label" value="#{labels.ShipMethodLabel}"/>
-                <p:commandLink title="#{labels.ShipMethodTitle}" styleClass="field-value" immediate="true" value="#{purchaseOrderController.current.shipMethod.name}" update=":shipMethodDetails:form" oncomplete="PF('shipMethodDetailsDialog').show()">
-                    <f:setPropertyActionListener value="#{purchaseOrderController.current.shipMethod}" target="#{shipMethodController.current}" />
+                <p:commandLink title="#{labels.ShipMethodTitle}" styleClass="field-value" immediate="true" value="#{purchaseOrderDetailController.current.shipMethod.name}" update=":shipMethodDetails:form" oncomplete="PF('shipMethodDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{purchaseOrderDetailController.current.shipMethod}" target="#{shipMethodDetailController.current}" />
                 </p:commandLink>
                 <p:outputLabel id="locationLabel" styleClass="field-label" value="#{labels.LocationLabel}"/>
-                <p:commandLink title="#{labels.LocationTitle}" styleClass="field-value" immediate="true" value="#{purchaseOrderController.current.location.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
-                    <f:setPropertyActionListener value="#{purchaseOrderController.current.location}" target="#{locationController.current}" />
+                <p:commandLink title="#{labels.LocationTitle}" styleClass="field-value" immediate="true" value="#{purchaseOrderDetailController.current.location.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{purchaseOrderDetailController.current.location}" target="#{locationDetailController.current}" />
                 </p:commandLink>
                 <p:outputLabel styleClass="field-label" value="#{labels.FreightLabel}"/>
-                <h:outputText styleClass="field-value" id="freight" value="#{purchaseOrderController.current.freight}" title="#{labels.FreightTitle}"/>
+                <h:outputText styleClass="field-value" id="freight" value="#{purchaseOrderDetailController.current.freight}" title="#{labels.FreightTitle}"/>
                 <p:outputLabel styleClass="field-label" value="#{labels.TaxAmountLabel}"/>
-                <h:outputText styleClass="field-value" id="taxAmount" value="#{purchaseOrderController.current.taxAmount}" title="#{labels.TaxAmountTitle}"/>
+                <h:outputText styleClass="field-value" id="taxAmount" value="#{purchaseOrderDetailController.current.taxAmount}" title="#{labels.TaxAmountTitle}"/>
                 <p:outputLabel styleClass="field-label" value="#{labels.ShipDateLabel}"/>
-                <h:outputText styleClass="field-value" id="shipDate" value="#{purchaseOrderController.current.shipDate}" title="#{labels.ShipDateTitle}">
+                <h:outputText styleClass="field-value" id="shipDate" value="#{purchaseOrderDetailController.current.shipDate}" title="#{labels.ShipDateTitle}">
                     <f:convertDateTime dateStyle="short" />
                 </h:outputText>
                 <p:outputLabel styleClass="field-label" value="#{labels.StatusLabel}"/>
-                <h:outputText value="#{purchaseOrderController.current.status}">
+                <h:outputText value="#{purchaseOrderDetailController.current.status}">
                     <f:converter converterId="org.rainbow.asset.explorer.faces.converters.PurchaseOrderStatusConverter" />
                 </h:outputText>
             </p:panelGrid>
@@ -47,7 +47,7 @@
                 <f:facet name="header">
                     #{labels.PurchaseOrderDetailsTitle}
                 </f:facet>
-                <p:dataTable style="width: 850px" id="details" widgetVar="details" var="detail" value="#{purchaseOrderController.current.details}">
+                <p:dataTable style="width: 850px" id="details" widgetVar="details" var="detail" value="#{purchaseOrderDetailController.current.details}">
                     <p:column  headerText="#{labels.ProductTitle}" sortBy="#{detail.product.name}" filterBy="#{detail.product.name}" filterMatchMode="contains">
                         <h:outputText value="#{detail.product.name}" />
                     </p:column>

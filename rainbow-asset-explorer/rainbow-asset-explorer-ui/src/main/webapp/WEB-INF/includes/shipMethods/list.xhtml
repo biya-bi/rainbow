@@ -12,10 +12,10 @@
 	<sec:authorize access="hasRole('ROLE_READ_SHIP_METHODS')">
 		<cps:trackableDataGrid id="shipMethodList"
 			title="#{labels.ListShipMethodsTitle}"
-			dataSource="#{shipMethodLazyDataModel}"
-			selectedItem="#{shipMethodController.current}"
+			dataSource="#{shipMethodListController}"
+			selectedItem="#{shipMethodDetailController.current}"
 			selectedValue="#{item.id}"
-			createActionListener="#{shipMethodController.prepareCreate()}"
+			createActionListener="#{shipMethodDetailController.prepareCreate()}"
 			createDialog="shipMethodCreateDialog"
 			createUpdate=":shipMethodCreate:form"
 			editDialog="shipMethodEditDialog" editUpdate=":shipMethodEdit:form"
@@ -27,28 +27,28 @@
 			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_SHIP_METHODS')}"
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_SHIP_METHODS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_SHIP_METHODS')}"
-			columnToggleListener="#{shipMethodController.onToggle}"
-			creatorFilterValue="#{shipMethodLazyDataModel.creatorFilter.value}"
-			creatorFilterOperator="#{shipMethodLazyDataModel.creatorFilter.operator}"
-			updaterFilterValue="#{shipMethodLazyDataModel.updaterFilter.value}"
-			updaterFilterOperator="#{shipMethodLazyDataModel.updaterFilter.operator}"
-			creationDateFilterValue="#{shipMethodLazyDataModel.creationDateFilter.value}"
-			creationDateFilterOperator="#{shipMethodLazyDataModel.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{shipMethodLazyDataModel.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{shipMethodLazyDataModel.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{shipMethodController.auditColumnsStates[1]}"
-			updaterColumnVisible="#{shipMethodController.auditColumnsStates[2]}"
-			creationDateColumnVisible="#{shipMethodController.auditColumnsStates[3]}"
-			lastUpdateDateColumnVisible="#{shipMethodController.auditColumnsStates[4]}">
+			columnToggleListener="#{shipMethodDetailController.onToggle}"
+			creatorFilterValue="#{shipMethodListController.creatorFilter.value}"
+			creatorFilterOperator="#{shipMethodListController.creatorFilter.operator}"
+			updaterFilterValue="#{shipMethodListController.updaterFilter.value}"
+			updaterFilterOperator="#{shipMethodListController.updaterFilter.operator}"
+			creationDateFilterValue="#{shipMethodListController.creationDateFilter.value}"
+			creationDateFilterOperator="#{shipMethodListController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{shipMethodListController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{shipMethodListController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{shipMethodDetailController.auditColumnsStates[1]}"
+			updaterColumnVisible="#{shipMethodDetailController.auditColumnsStates[2]}"
+			creationDateColumnVisible="#{shipMethodDetailController.auditColumnsStates[3]}"
+			lastUpdateDateColumnVisible="#{shipMethodDetailController.auditColumnsStates[4]}">
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{shipMethodLazyDataModel.nameFilter.value}">
+				filterValue="#{shipMethodListController.nameFilter.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="shipMethodList:form:dataTable"
-						selectedValue="#{shipMethodLazyDataModel.nameFilter.operator}"
+						selectedValue="#{shipMethodListController.nameFilter.operator}"
 						changeWidgetVar="shipMethodListDataTable" />
 				</f:facet>
 			</p:column>

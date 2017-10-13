@@ -14,7 +14,7 @@
 	<h:form id="editProductReceiptDetailForm">
 		<h:panelGroup id="panelGroup">
 			<p:panelGrid columns="1"
-				rendered="#{productReceiptController.current != null}">
+				rendered="#{productReceiptDetailController.current != null}">
 				<f:facet name="header">
 					<p:panelGrid columns="2" style="text-align: left;"
 						styleClass="ui-panelgrid-blank">
@@ -37,16 +37,16 @@
 							<t:dropDown styleClass="field-value" id="productDropDown"
 								labelId="productLabel" messageId="productDropDownMessage"
 								rowKey="#{item.id}"
-								selectionText="#{productReceiptController.detail.product.name}"
-								dataSource="#{productLazyDataModel}" itemLabel="#{item.name}"
-								selection="#{productReceiptController.detail.product}"
-								filterValue="#{productLazyDataModel.nameFilter.value}"
+								selectionText="#{productReceiptDetailController.detail.product.name}"
+								dataSource="#{productListController}" itemLabel="#{item.name}"
+								selection="#{productReceiptDetailController.detail.product}"
+								filterValue="#{productListController.nameFilter.value}"
 								required="true" requiredMessage="#{valMsg.ProductRequired}"
 								toolTip="#{labels.ProductTitle}" />
 						</p:column>
 						<p:column>
 							<cps:quickCreateButton
-								actionListener="#{productController.prepareCreate()}"
+								actionListener="#{productDetailController.prepareCreate()}"
 								update=":productCreate:form"
 								dialogWidgetVar="productCreateDialog"
 								title="#{labels.CreateProductTitle}"
@@ -63,7 +63,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="quantity" styleClass="field-value"
-								value="#{productReceiptController.detail.quantity}"
+								value="#{productReceiptDetailController.detail.quantity}"
 								required="true" requiredMessage="#{valMsg.QuantityRequired}"
 								title="#{labels.QuantityTitle}"
 								converterMessage="#{valMsg.QuantityInvalid}"
@@ -83,7 +83,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="unitPrice" styleClass="field-value"
-								value="#{productReceiptController.detail.unitPrice}"
+								value="#{productReceiptDetailController.detail.unitPrice}"
 								required="true" requiredMessage="#{valMsg.UnitPriceRequired}"
 								title="#{labels.UnitPriceTitle}"
 								converterMessage="#{valMsg.UnitPriceInvalid}"

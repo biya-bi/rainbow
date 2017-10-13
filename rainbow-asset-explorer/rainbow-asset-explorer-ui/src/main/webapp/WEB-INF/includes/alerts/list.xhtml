@@ -11,9 +11,9 @@
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_ALERTS')">
 		<cps:trackableDataGrid id="alertList"
-			title="#{labels.ListAlertsTitle}" dataSource="#{alertLazyDataModel}"
-			selectedItem="#{alertController.current}" selectedValue="#{item.id}"
-			createActionListener="#{alertController.prepareCreate()}"
+			title="#{labels.ListAlertsTitle}" dataSource="#{alertListController}"
+			selectedItem="#{alertDetailController.current}" selectedValue="#{item.id}"
+			createActionListener="#{alertDetailController.prepareCreate()}"
 			createDialog="alertCreateDialog" createUpdate=":alertCreate:form"
 			editDialog="alertEditDialog" editUpdate=":alertEdit:form"
 			detailsDialog="alertDetailsDialog" detailsUpdate=":alertDetails:form"
@@ -23,48 +23,48 @@
 			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_ALERTS')}"
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_ALERTS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_ALERTS')}"
-			columnToggleListener="#{alertController.onToggle}"
-			creatorFilterValue="#{alertLazyDataModel.creatorFilter.value}"
-			creatorFilterOperator="#{alertLazyDataModel.creatorFilter.operator}"
-			updaterFilterValue="#{alertLazyDataModel.updaterFilter.value}"
-			updaterFilterOperator="#{alertLazyDataModel.updaterFilter.operator}"
-			creationDateFilterValue="#{alertLazyDataModel.creationDateFilter.value}"
-			creationDateFilterOperator="#{alertLazyDataModel.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{alertLazyDataModel.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{alertLazyDataModel.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{alertController.auditColumnsStates[4]}"
-			updaterColumnVisible="#{alertController.auditColumnsStates[5]}"
-			creationDateColumnVisible="#{alertController.auditColumnsStates[6]}"
-			lastUpdateDateColumnVisible="#{alertController.auditColumnsStates[7]}">
+			columnToggleListener="#{alertDetailController.onToggle}"
+			creatorFilterValue="#{alertListController.creatorFilter.value}"
+			creatorFilterOperator="#{alertListController.creatorFilter.operator}"
+			updaterFilterValue="#{alertListController.updaterFilter.value}"
+			updaterFilterOperator="#{alertListController.updaterFilter.operator}"
+			creationDateFilterValue="#{alertListController.creationDateFilter.value}"
+			creationDateFilterOperator="#{alertListController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{alertListController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{alertListController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{alertDetailController.auditColumnsStates[4]}"
+			updaterColumnVisible="#{alertDetailController.auditColumnsStates[5]}"
+			creationDateColumnVisible="#{alertDetailController.auditColumnsStates[6]}"
+			lastUpdateDateColumnVisible="#{alertDetailController.auditColumnsStates[7]}">
 
 			<f:facet name="postHeader">
 				<p:commandButton id="headerEmailRecipientsButton"
 					value="#{labels.ListEmailRecipientsTitle}"
 					update="alertEmailRecipientsDialog,manageAlertEmailRecipientsForm:emailRecipientList"
 					oncomplete="showDialog('alertEmailRecipientsDialog')"
-					disabled="#{alertController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
+					disabled="#{alertDetailController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
 				<p:commandButton id="headerEmailTemplatesButton"
 					value="#{labels.ListEmailTemplatesTitle}"
 					update="alertEmailTemplatesDialog,manageAlertEmailTemplatesForm:emailTemplateList"
 					oncomplete="showDialog('alertEmailTemplatesDialog')"
-					disabled="#{alertController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
+					disabled="#{alertDetailController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
 			</f:facet>
 			<f:facet name="postFooter">
 				<p:commandButton id="footerEmailRecipientsButton"
 					value="#{labels.ListEmailRecipientsTitle}"
 					update="alertEmailRecipientsDialog,manageAlertEmailRecipientsForm:emailRecipientList"
 					oncomplete="showDialog('alertEmailRecipientsDialog')"
-					disabled="#{alertController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
+					disabled="#{alertDetailController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
 				<p:commandButton id="footerEmailTemplatesButton"
 					value="#{labels.ListEmailTemplatesTitle}"
 					update="alertEmailTemplatesDialog,manageAlertEmailTemplatesForm:emailTemplateList"
 					oncomplete="showDialog('alertEmailTemplatesDialog')"
-					disabled="#{alertController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
+					disabled="#{alertDetailController.current==null or sec:areNotGranted('ROLE_WRITE_ALERTS')}" />
 			</f:facet>
 
 			<p:column headerText="#{labels.AlertTypeTitle}"
 				sortBy="#{item.alertType}" filterBy="#{item.alertType}"
-				filterValue="#{alertLazyDataModel.alertTypeFilter.value}">
+				filterValue="#{alertListController.alertTypeFilter.value}">
 				<f:facet name="filter">
 					<p:selectOneMenu id="alertTypeFilter"
 						onchange="PF('alertListDataTable').filter()">
@@ -82,7 +82,7 @@
 
 			<p:column headerText="#{labels.AlertCategoryTitle}"
 				sortBy="#{item.alertCategory}" filterBy="#{item.alertCategory}"
-				filterValue="#{alertLazyDataModel.alertCategoryFilter.value}">
+				filterValue="#{alertListController.alertCategoryFilter.value}">
 				<f:facet name="filter">
 					<p:selectOneMenu id="alertCategoryFilter"
 						onchange="PF('alertListDataTable').filter()">
@@ -100,11 +100,11 @@
 
 			<p:column headerText="#{labels.EnabledTitle}"
 				sortBy="#{item.enabled}"
-				filterValue="#{alertLazyDataModel.enabledFilter.value}">
+				filterValue="#{alertListController.enabledFilter.value}">
 				<f:facet name="footer">
 					<cps:booleanFilterSelectOneMenu
 						changeUpdate="alertList:form:dataTable"
-						selectedValue="#{alertLazyDataModel.enabledFilter.value}"
+						selectedValue="#{alertListController.enabledFilter.value}"
 						changeWidgetVar="alertListDataTable" />
 				</f:facet>
 				<h:selectBooleanCheckbox disabled="true" readonly="false"
@@ -112,11 +112,11 @@
 			</p:column>
 			<p:column headerText="#{labels.ImmediateTitle}"
 				sortBy="#{item.immediate}"
-				filterValue="#{alertLazyDataModel.immediateFilter.value}">
+				filterValue="#{alertListController.immediateFilter.value}">
 				<f:facet name="footer">
 					<cps:booleanFilterSelectOneMenu
 						changeUpdate="alertList:form:dataTable"
-						selectedValue="#{alertLazyDataModel.immediateFilter.value}"
+						selectedValue="#{alertListController.immediateFilter.value}"
 						changeWidgetVar="alertListDataTable" />
 				</f:facet>
 				<h:selectBooleanCheckbox disabled="true" readonly="false"

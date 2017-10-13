@@ -9,11 +9,11 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid columns="2" rendered="#{assetTypeController.current != null}">
+        <p:panelGrid columns="2" rendered="#{assetTypeDetailController.current != null}">
             <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
-            <h:outputText styleClass="field-value" id="name" value="#{assetTypeController.current.name}" title="#{labels.NameTitle}"/>
+            <h:outputText styleClass="field-value" id="name" value="#{assetTypeDetailController.current.name}" title="#{labels.NameTitle}"/>
             <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
-            <h:outputText styleClass="field-value" id="description" value="#{assetTypeController.current.description}" title="#{labels.DescriptionTitle}"/>
+            <h:outputText styleClass="field-value" id="description" value="#{assetTypeDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
         </p:panelGrid>
     </composite:implementation>
 </html>

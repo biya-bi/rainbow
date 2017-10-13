@@ -9,7 +9,7 @@
             <h:panelGroup id="panelGroup">
                 <p:messages globalOnly="true" />
                 <p:panelGrid columns="1">
-                    <p:fileUpload update=":productList:form:dataTable,panelGroup" fileUploadListener="#{productController.bulkCreate()}" oncomplete="if (!args.validationFailed &amp;&amp; args.committed) handleSubmit(args,'productBulkCreateDialog');"/>
+                    <p:fileUpload update=":productList:form:dataTable,panelGroup" fileUploadListener="#{productDetailController.bulkCreate()}" oncomplete="if (!args.validationFailed &amp;&amp; args.committed) handleSubmit(args,'productBulkCreateDialog');"/>
                 </p:panelGrid>
             </h:panelGroup>
         </h:form>

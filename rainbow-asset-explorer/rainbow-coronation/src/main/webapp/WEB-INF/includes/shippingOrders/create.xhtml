@@ -9,10 +9,10 @@
 
 <cps:submitForm id="shippingOrderCreate"
 	title="#{labels.CreateShippingOrderTitle}"
-	submitActionListener="#{shippingOrderController.create()}"
+	submitActionListener="#{shippingOrderDetailController.create()}"
 	update="shippingOrderList:form:dataTable">
 
-	<p:panelGrid rendered="#{shippingOrderController.current != null}">
+	<p:panelGrid rendered="#{shippingOrderDetailController.current != null}">
 		<p:panelGrid>
 			<p:row>
 				<p:column>
@@ -21,7 +21,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText styleClass="field-value" id="referenceNumber"
-						value="#{shippingOrderController.current.referenceNumber}"
+						value="#{shippingOrderDetailController.current.referenceNumber}"
 						title="#{labels.ReferenceNumberTitle}" required="true"
 						requiredMessage="#{valMsg.ReferenceNumberRequired}">
 						<p:clientValidator event="keyup" />
@@ -40,10 +40,10 @@
 					<t:dropDown styleClass="field-value" id="sourceLocationDropDown"
 						labelId="sourceLocationLabel"
 						messageId="sourceLocationDropDownMessage" rowKey="#{item.id}"
-						selectionText="#{shippingOrderController.current.sourceLocation.name}"
-						dataSource="#{locationLazyDataModel}" itemLabel="#{item.name}"
-						selection="#{shippingOrderController.current.sourceLocation}"
-						filterValue="#{locationLazyDataModel.nameFilter.value}"
+						selectionText="#{shippingOrderDetailController.current.sourceLocation.name}"
+						dataSource="#{locationListController}" itemLabel="#{item.name}"
+						selection="#{shippingOrderDetailController.current.sourceLocation}"
+						filterValue="#{locationListController.nameFilter.value}"
 						required="true" requiredMessage="#{valMsg.SourceLocationRequired}"
 						toolTip="#{labels.SourceLocationTitle}" />
 				</p:column>
@@ -61,10 +61,10 @@
 					<t:dropDown styleClass="field-value" id="targetLocationDropDown"
 						labelId="targetLocationLabel"
 						messageId="targetLocationDropDownMessage" rowKey="#{item.id}"
-						selectionText="#{shippingOrderController.current.targetLocation.name}"
-						dataSource="#{locationLazyDataModel}" itemLabel="#{item.name}"
-						selection="#{shippingOrderController.current.targetLocation}"
-						filterValue="#{locationLazyDataModel.nameFilter.value}"
+						selectionText="#{shippingOrderDetailController.current.targetLocation.name}"
+						dataSource="#{locationListController}" itemLabel="#{item.name}"
+						selection="#{shippingOrderDetailController.current.targetLocation}"
+						filterValue="#{locationListController.nameFilter.value}"
 						required="true" requiredMessage="#{valMsg.SourceLocationRequired}"
 						toolTip="#{labels.SourceLocationTitle}" />
 				</p:column>
@@ -82,10 +82,10 @@
 					<t:dropDown styleClass="field-value" id="shipMethodDropDown"
 						labelId="shipMethodLabel" messageId="shipMethodDropDownMessage"
 						rowKey="#{item.id}"
-						selectionText="#{shippingOrderController.current.shipMethod.name}"
-						dataSource="#{shipMethodLazyDataModel}" itemLabel="#{item.name}"
-						selection="#{shippingOrderController.current.shipMethod}"
-						filterValue="#{shipMethodLazyDataModel.nameFilter.value}"
+						selectionText="#{shippingOrderDetailController.current.shipMethod.name}"
+						dataSource="#{shipMethodListController}" itemLabel="#{item.name}"
+						selection="#{shippingOrderDetailController.current.shipMethod}"
+						filterValue="#{shipMethodListController.nameFilter.value}"
 						required="true" requiredMessage="#{valMsg.ShipMethodRequired}"
 						toolTip="#{labels.ShipMethodTitle}" />
 				</p:column>
@@ -100,7 +100,7 @@
 				</p:column>
 				<p:column>
 					<p:calendar styleClass="field-value" id="shipDate"
-						value="#{shippingOrderController.current.shipDate}"
+						value="#{shippingOrderDetailController.current.shipDate}"
 						title="#{labels.ShipDateTitle}">
 						<p:ajax event="dateSelect" />
 						<p:clientValidator event="shipDate" />
@@ -113,7 +113,7 @@
 						value="#{labels.StatusLabel}" />
 				</p:column>
 				<p:column>
-					<h:outputText value="#{shippingOrderController.current.status}">
+					<h:outputText value="#{shippingOrderDetailController.current.status}">
 						<f:converter
 							converterId="org.rainbow.asset.explorer.faces.converters.ShippingOrderStatusConverter" />
 					</h:outputText>
@@ -125,10 +125,10 @@
                     #{labels.ShippingOrderDetailsTitle}
                 </f:facet>
 			<p:dataTable style="width: 700px" id="details" widgetVar="details"
-				var="detail" value="#{shippingOrderController.current.details}">
+				var="detail" value="#{shippingOrderDetailController.current.details}">
 				<f:facet name="header">
 					<p:commandButton
-						actionListener="#{shippingOrderController.prepareDetail()}"
+						actionListener="#{shippingOrderDetailController.prepareDetail()}"
 						icon="ui-icon-plus"
 						oncomplete="PF('addShippingOrderDetailDialog').show()"
 						update=":addShippingOrderDetailForm" />
@@ -152,14 +152,14 @@
 						oncomplete="PF('editShippingOrderDetailDialog').show()">
 						<h:outputText styleClass="ui-icon ui-icon-pencil" />
 						<f:setPropertyActionListener value="#{detail}"
-							target="#{shippingOrderController.detail}" />
+							target="#{shippingOrderDetailController.detail}" />
 					</p:commandLink>
 					<p:commandLink style="display: inline-block"
-						action="#{shippingOrderController.removeDetail}"
+						action="#{shippingOrderDetailController.removeDetail}"
 						update=":shippingOrderEdit:form:details">
 						<h:outputText styleClass="ui-icon ui-icon-close" />
 						<f:setPropertyActionListener value="#{detail}"
-							target="#{shippingOrderController.detail}" />
+							target="#{shippingOrderDetailController.detail}" />
 					</p:commandLink>
 
 				</p:column>

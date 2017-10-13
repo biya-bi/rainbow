@@ -5,7 +5,7 @@
 				http://www.springframework.org/schema/jee
 http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-	<jee:jndi-lookup id="rainbowSecurityDataSource"
+	<jee:jndi-lookup id="RainbowSecurityDataSource"
 		jndi-name="${rainbow.security.jdbc}" lookup-on-startup="true" cache="true" />
 
 	<bean
@@ -20,11 +20,11 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 		</property>
 	</bean>
 
-	<bean id="rainbowSecurityEntityManagerFactory"
+	<bean id="RainbowSecurityEntityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="RainbowSecurityPersistenceUnit" />
 		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
-		<property name="dataSource" ref="rainbowSecurityDataSource" />
+		<property name="dataSource" ref="RainbowSecurityDataSource" />
 		<property name="packagesToScan">
 			<list>
 				<value>org.rainbow</value>
@@ -49,9 +49,9 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 		</property>
 	</bean>
 
-	<bean id="rainbowSecurityTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="rainbowSecurityEntityManagerFactory" />
-		<property name="dataSource" ref="rainbowSecurityDataSource" />
+	<bean id="RainbowSecurityTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="RainbowSecurityEntityManagerFactory" />
+		<property name="dataSource" ref="RainbowSecurityDataSource" />
 	</bean>
 
 
