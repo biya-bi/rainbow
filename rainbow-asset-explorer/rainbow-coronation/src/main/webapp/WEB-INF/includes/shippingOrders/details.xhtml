@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <cps:submitForm id="shippingOrderDetails"
+                    title="#{labels.DetailShippingOrderTitle}"           
+                    showSubmitButton="false"
+                    cancelLabel="#{labels.Close}">
+
+        <p:panelGrid rendered="#{shippingOrderController.current != null}">
+            <p:panelGrid columns="2">
+                <p:outputLabel styleClass="field-label" value="#{labels.ReferenceNumberLabel}"/>
+                <h:outputText styleClass="field-value" value="#{shippingOrderController.current.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
+                <p:outputLabel id="sourceLocationLabel" styleClass="field-label" value="#{labels.SourceLocationLabel}"/>
+                <p:commandLink title="#{labels.SourceLocationTitle}" styleClass="field-value" immediate="true" value="#{shippingOrderController.current.sourceLocation.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{shippingOrderController.current.sourceLocation}" target="#{locationController.current}" />
+                </p:commandLink>
+                <p:outputLabel id="targetLocationLabel" styleClass="field-label" value="#{labels.TargetLocationLabel}"/>
+                <p:commandLink title="#{labels.TargetLocationTitle}" styleClass="field-value" immediate="true" value="#{shippingOrderController.current.targetLocation.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{shippingOrderController.current.targetLocation}" target="#{locationController.current}" />
+                </p:commandLink>
+                <p:outputLabel id="shipMethodLabel" styleClass="field-label" value="#{labels.ShipMethodLabel}"/>
+                <p:commandLink title="#{labels.ShipMethodTitle}" styleClass="field-value" immediate="true" value="#{shippingOrderController.current.shipMethod.name}" update=":shipMethodDetails:form" oncomplete="PF('shipMethodDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{shippingOrderController.current.shipMethod}" target="#{shipMethodController.current}" />
+                </p:commandLink>
+                <p:outputLabel styleClass="field-label" value="#{labels.ShipDateLabel}"/>
+                <h:outputText styleClass="field-value" id="shipDate" value="#{shippingOrderController.current.shipDate}" title="#{labels.ShipDateTitle}">
+                    <f:convertDateTime dateStyle="short" />
+                </h:outputText>
+                <p:outputLabel styleClass="field-label" value="#{labels.DeliveryDateLabel}"/>
+                <h:outputText styleClass="field-value" id="deliveryDate" value="#{shippingOrderController.current.deliveryDate}" title="#{labels.DeliveryDateTitle}">
+                    <f:convertDateTime dateStyle="short" />
+                </h:outputText>
+                <p:outputLabel styleClass="field-label" value="#{labels.StatusLabel}"/>
+                <h:outputText value="#{shippingOrderController.current.status}">
+                    <f:converter converterId="org.rainbow.asset.explorer.faces.converters.ShippingOrderStatusConverter" />
+                </h:outputText>
+            </p:panelGrid>
+            <p:panel>
+                <f:facet name="header">
+                    #{labels.ShippingOrderDetailsTitle}
+                </f:facet>
+                <p:dataTable style="width: 850px" id="details" widgetVar="details" var="detail" value="#{shippingOrderController.current.details}">
+                    <p:column  headerText="#{labels.ProductTitle}" sortBy="#{detail.product.name}" filterBy="#{detail.product.name}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.product.name}" />
+                    </p:column>
+
+                    <p:column headerText="#{labels.ShippedQuantityTitle}" sortBy="#{detail.shippedQuantity}" filterBy="#{detail.shippedQuantity}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.shippedQuantity}" />
+                    </p:column>
+
+                    <p:column headerText="#{labels.ReceivedQuantityTitle}" sortBy="#{detail.receivedQuantity}" filterBy="#{detail.receivedQuantity}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.receivedQuantity}" />
+                    </p:column>
+
+                    <p:column headerText="#{labels.RejectedQuantityTitle}" sortBy="#{detail.rejectedQuantity}" filterBy="#{detail.rejectedQuantity}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.rejectedQuantity}" />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </p:panelGrid>
+    </cps:submitForm>
+
+
+</html>

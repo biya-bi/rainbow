@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<sec:authorize access="hasRole('ROLE_READ_PRODUCT_RECEIPTS')">
+		<cps:trackableDataGrid id="productReceiptList"
+			title="#{labels.ListProductReceiptsTitle}"
+			dataSource="#{productReceiptLazyDataModel}"
+			selectedItem="#{productReceiptController.current}"
+			selectedValue="#{item.id}"
+			createActionListener="#{productReceiptController.prepareCreate()}"
+			createDialog="productReceiptCreateDialog"
+			createUpdate=":productReceiptCreate:form"
+			editDialog="productReceiptEditDialog"
+			editActionListener="#{productReceiptController.setDetails()}"
+			editUpdate=":productReceiptEdit:form"
+			detailsActionListener="#{productReceiptController.setDetails()}"
+			detailsDialog="productReceiptDetailsDialog"
+			detailsUpdate=":productReceiptDetails:form"
+			deleteActionListener="#{productReceiptController.setDetails()}"
+			deleteDialog="productReceiptDeleteDialog"
+			deleteUpdate=":productReceiptDelete:form"
+			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_PRODUCT_RECEIPTS')}"
+			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_PRODUCT_RECEIPTS')}"
+			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_PRODUCT_RECEIPTS')}"
+			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_PRODUCT_RECEIPTS')}"
+			columnToggleListener="#{productReceiptController.onToggle}"
+			creatorFilterValue="#{productReceiptLazyDataModel.creatorFilter.value}"
+			creatorFilterOperator="#{productReceiptLazyDataModel.creatorFilter.operator}"
+			updaterFilterValue="#{productReceiptLazyDataModel.updaterFilter.value}"
+			updaterFilterOperator="#{productReceiptLazyDataModel.updaterFilter.operator}"
+			creationDateFilterValue="#{productReceiptLazyDataModel.creationDateFilter.value}"
+			creationDateFilterOperator="#{productReceiptLazyDataModel.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{productReceiptLazyDataModel.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{productReceiptLazyDataModel.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{productReceiptController.auditColumnsStates[5]}"
+			updaterColumnVisible="#{productReceiptController.auditColumnsStates[6]}"
+			creationDateColumnVisible="#{productReceiptController.auditColumnsStates[7]}"
+			lastUpdateDateColumnVisible="#{productReceiptController.auditColumnsStates[8]}">
+
+
+			<p:column headerText="#{labels.ReferenceNumberTitle}"
+				filterBy="#{item.referenceNumber}" sortBy="#{item.referenceNumber}"
+				filterValue="#{productReceiptLazyDataModel.referenceNumberFilter.value}">
+				<h:outputText value="#{item.referenceNumber}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="productReceiptList:form:dataTable"
+						selectedValue="#{productReceiptLazyDataModel.referenceNumberFilter.operator}"
+						changeWidgetVar="productReceiptListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.LocationTitle}"
+				sortBy="#{item.location.name}" filterBy="#{item.location.name}"
+				filterValue="#{productReceiptLazyDataModel.locationNameFilter.value}">
+				<p:commandLink update=":locationDetails:form"
+					value="#{item.location.name}"
+					oncomplete="PF('locationDetailsDialog').show()">
+					<f:setPropertyActionListener value="#{item.location}"
+						target="#{locationController.current}" />
+				</p:commandLink>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="productReceiptList:form:dataTable"
+						selectedValue="#{productReceiptLazyDataModel.locationNameFilter.operator}"
+						changeWidgetVar="productReceiptListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.VendorTitle}"
+				sortBy="#{item.vendor.name}" filterBy="#{item.vendor.name}"
+				filterValue="#{productReceiptLazyDataModel.vendorNameFilter.value}">
+				<p:commandLink update=":vendorDetails:form"
+					value="#{item.vendor.name}"
+					oncomplete="PF('vendorDetailsDialog').show()">
+					<f:setPropertyActionListener value="#{item.vendor}"
+						target="#{vendorController.current}" />
+				</p:commandLink>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="productReceiptList:form:dataTable"
+						selectedValue="#{productReceiptLazyDataModel.vendorNameFilter.operator}"
+						changeWidgetVar="productReceiptListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.CurrencyTitle}"
+				sortBy="#{item.currency.name}" filterBy="#{item.currency.name}"
+				filterValue="#{productReceiptLazyDataModel.currencyNameFilter.value}">
+				<h:outputText value="#{item.currency.name}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="productReceiptList:form:dataTable"
+						selectedValue="#{productReceiptLazyDataModel.currencyNameFilter.operator}"
+						changeWidgetVar="productReceiptListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.ReceiptDateTitle}"
+				filterBy="#{item.receiptDate}" sortBy="#{item.receiptDate}"
+				filterValue="#{productReceiptLazyDataModel.receiptDateFilter.value}">
+				<f:facet name="filter">
+					<p:calendar navigator="true">
+						<p:ajax event="dateSelect" update="@this"
+							oncomplete="PF('productReceiptListDataTable').filter()" />
+					</p:calendar>
+				</f:facet>
+				<f:facet name="footer">
+					<cps:comparableFilterSelectOneMenu
+						changeUpdate="productReceiptList:form:dataTable"
+						selectedValue="#{productReceiptLazyDataModel.receiptDateFilter.operator}"
+						changeWidgetVar="productReceiptListDataTable" />
+				</f:facet>
+				<h:outputText value="#{item.receiptDate}">
+					<f:convertDateTime dateStyle="short" />
+				</h:outputText>
+			</p:column>
+
+		</cps:trackableDataGrid>
+
+		<ui:include src="/WEB-INF/includes/productReceipts/create.xhtml" />
+		<ui:include src="/WEB-INF/includes/productReceipts/edit.xhtml" />
+		<ui:include src="/WEB-INF/includes/productReceipts/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/productReceipts/delete.xhtml" />
+
+		<ui:include src="/WEB-INF/includes/productReceipts/addDetail.xhtml" />
+		<ui:include src="/WEB-INF/includes/productReceipts/editDetail.xhtml" />
+
+		<ui:include src="/WEB-INF/includes/locations/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/vendors/details.xhtml" />
+
+		<ui:include src="/WEB-INF/includes/quickCreate/create_product.xhtml" />
+		<ui:include src="/WEB-INF/includes/quickCreate/create_location.xhtml" />
+		<ui:include src="/WEB-INF/includes/quickCreate/create_vendor.xhtml" />
+		<ui:include
+			src="/WEB-INF/includes/quickCreate/create_manufacturer.xhtml" />
+
+	</sec:authorize>
+</h:body>
+</html>
+

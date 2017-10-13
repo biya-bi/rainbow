@@ -1,0 +1,160 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/jee
+http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<jee:jndi-lookup jndi-name="${rainbow.asset.explorer.applicationName}"
+		id="rainbowAssetExplorerApplicationName" lookup-on-startup="true"
+		cache="true" />
+
+	<bean id="alertService"
+		class="org.rainbow.asset.explorer.service.services.AlertServiceImpl">
+		<property name="dao" ref="alertDao" />
+		<property name="alertScheduler" ref="alertScheduler" />
+	</bean>
+
+	<bean id="assetDocumentService"
+		class="org.rainbow.asset.explorer.service.services.AssetDocumentServiceImpl">
+		<property name="dao" ref="assetDocumentDao" />
+	</bean>
+
+	<bean id="assetService"
+		class="org.rainbow.asset.explorer.service.services.AssetServiceImpl">
+		<property name="dao" ref="assetDao" />
+	</bean>
+
+	<bean id="assetTypeService"
+		class="org.rainbow.asset.explorer.service.services.AssetTypeServiceImpl">
+		<property name="dao" ref="assetTypeDao" />
+	</bean>
+
+	<bean id="currencyService"
+		class="org.rainbow.asset.explorer.service.services.CurrencyServiceImpl">
+		<property name="dao" ref="currencyDao" />
+	</bean>
+
+	<bean id="departmentService"
+		class="org.rainbow.asset.explorer.service.services.DepartmentServiceImpl">
+		<property name="dao" ref="departmentDao" />
+	</bean>
+
+	<bean id="emailRecipientService"
+		class="org.rainbow.asset.explorer.service.services.EmailRecipientServiceImpl">
+		<property name="dao" ref="emailRecipientDao" />
+	</bean>
+
+	<bean id="emailTemplateService"
+		class="org.rainbow.asset.explorer.service.services.EmailTemplateServiceImpl">
+		<property name="dao" ref="emailTemplateDao" />
+	</bean>
+
+	<bean id="inventoryManager"
+		class="org.rainbow.asset.explorer.service.services.InventoryManagerImpl">
+		<property name="alertScheduler" ref="alertScheduler" />
+		<property name="locationDao" ref="locationDao" />
+		<property name="productDao" ref="productDao" />
+		<property name="productInventoryDao" ref="productInventoryDao" />
+	</bean>
+	
+	<bean id="localeService"
+		class="org.rainbow.asset.explorer.service.services.LocaleServiceImpl">
+		<property name="dao" ref="localeDao" />
+	</bean>
+
+	<bean id="locationService"
+		class="org.rainbow.asset.explorer.service.services.LocationServiceImpl">
+		<property name="dao" ref="locationDao" />
+	</bean>
+
+	<bean id="manufacturerService"
+		class="org.rainbow.asset.explorer.service.services.ManufacturerServiceImpl">
+		<property name="dao" ref="manufacturerDao" />
+	</bean>
+
+	<bean id="productInventoryService"
+		class="org.rainbow.asset.explorer.service.services.ProductInventoryServiceImpl">
+		<property name="dao" ref="productInventoryDao" />
+	</bean>
+
+	<bean id="productIssueService"
+		class="org.rainbow.asset.explorer.service.services.ProductIssueServiceImpl">
+		<property name="dao" ref="productIssueDao" />
+		<property name="inventoryManager" ref="inventoryManager" />
+	</bean>
+
+	<bean id="productReceiptService"
+		class="org.rainbow.asset.explorer.service.services.ProductReceiptServiceImpl">
+		<property name="dao" ref="productReceiptDao" />
+		<property name="inventoryManager" ref="inventoryManager" />
+	</bean>
+
+	<bean id="productService"
+		class="org.rainbow.asset.explorer.service.services.ProductServiceImpl">
+		<property name="dao" ref="productDao" />
+	</bean>
+
+	<bean id="purchaseOrderService"
+		class="org.rainbow.asset.explorer.service.services.PurchaseOrderServiceImpl">
+		<property name="dao" ref="purchaseOrderDao" />
+	</bean>
+
+	<bean id="shipMethodService"
+		class="org.rainbow.asset.explorer.service.services.ShipMethodServiceImpl">
+		<property name="dao" ref="shipMethodDao" />
+	</bean>
+
+	<bean id="shippingOrderService"
+		class="org.rainbow.asset.explorer.service.services.ShippingOrderServiceImpl">
+		<property name="dao" ref="shippingOrderDao" />
+	</bean>
+
+	<bean id="siteDocumentService"
+		class="org.rainbow.asset.explorer.service.services.SiteDocumentServiceImpl">
+		<property name="dao" ref="siteDocumentDao" />
+	</bean>
+
+	<bean id="siteService"
+		class="org.rainbow.asset.explorer.service.services.SiteServiceImpl">
+		<property name="dao" ref="siteDao" />
+	</bean>
+
+	<bean id="vendorService"
+		class="org.rainbow.asset.explorer.service.services.VendorServiceImpl">
+		<property name="dao" ref="vendorDao" />
+	</bean>
+
+	<bean id="userService" class="org.rainbow.security.service.services.UserServiceImpl">
+		<property name="dao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+	</bean>
+	<bean id="applicationService"
+		class="org.rainbow.security.service.services.ApplicationServiceImpl">
+		<property name="dao" ref="applicationDao" />
+	</bean>
+
+	<bean id="groupService" class="org.rainbow.security.service.services.GroupServiceImpl">
+		<property name="dao" ref="groupDao" />
+	</bean>
+
+	<bean id="userGroupService"
+		class="org.rainbow.security.service.services.UserGroupServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" ref="rainbowAssetExplorerApplicationName" />
+		<property name="authorityDao" ref="authorityDao" />
+		<property name="groupDao" ref="groupDao" />
+	</bean>
+
+	<bean id="userAccountService"
+		class="org.rainbow.security.service.services.UserAccountServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" ref="rainbowAssetExplorerApplicationName" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="userDetailsService" ref="userDetailsService" />
+	</bean>
+
+</beans>

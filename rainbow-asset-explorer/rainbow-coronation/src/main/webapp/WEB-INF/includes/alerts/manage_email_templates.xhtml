@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+    <p:dialog id="manageAlertEmailTemplatesDialog" widgetVar="manageAlertEmailTemplatesDialog" modal="false" resizable="false" appendTo="@(content)" header="#{labels.ManageAlertEmailTemplatesTitle}">
+        <h:form id="manageAlertEmailTemplatesForm">
+            <p:growl sticky="true" showDetail="false" autoUpdate="true" globalOnly="true"/>
+            <h:panelGroup id="panelGroup">
+                <p:panelGrid>
+                    <p:panelGrid columns="2">
+                        <p:commandButton id="headerAddButton" update="manageAlertEmailTemplatesForm,alertEmailTemplatesDialog,alertEmailTemplatesDialog" validateClient="true" disabled="#{empty alertController.selectedEmailTemplates}" icon="ui-icon-plus" value="#{labels.AddEmailTemplatesToAlertLabel}" actionListener="#{alertController.addEmailTemplates()}" oncomplete="handleSubmit(args,'manageAlertEmailTemplatesDialog');"/>
+                        <p:commandButton id="headerRemoveButton" update="manageAlertEmailTemplatesForm,alertEmailTemplatesDialog,alertEmailTemplatesDialog" validateClient="true" disabled="#{empty alertController.selectedEmailTemplates}" icon="ui-icon-minus" value="#{labels.RemoveEmailTemplatesFromAlertLabel}" actionListener="#{alertController.removeEmailTemplates()}" oncomplete="handleSubmit(args,'manageAlertEmailTemplatesDialog');"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2">
+                        <p:dataTable id="emailTemplateList"
+                                     style="max-width: 500px;"
+                                     scrollWidth="500"
+                                     widgetVar="emailTemplateDataTable"
+                                     rowSelectMode="checkbox"
+                                     var="item"
+                                     value="#{emailTemplateLazyDataModel}"
+                                     selection="#{alertController.selectedEmailTemplates}"
+                                     lazy="true" 
+                                     paginator="true"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"
+                                     scrollable="true" 
+                                     rows="20" 
+                                     rowsPerPageTemplate="20,40,60,80,100">
+                            <f:facet name="header">
+                                <p:outputLabel value="#{labels.ListEmailTemplatesTitle}"/>
+                            </f:facet>
+                            <p:column selectionMode="multiple" width="20"/>
+
+                            <p:ajax event="rowSelect" update="manageAlertEmailTemplatesForm:headerAddButton,manageAlertEmailTemplatesForm:headerRemoveButton"/>
+                            <p:ajax event="rowUnselect" update="manageAlertEmailTemplatesForm:headerAddButton,manageAlertEmailTemplatesForm:headerRemoveButton"/>
+                            <p:ajax event="rowSelectCheckbox" update="manageAlertEmailTemplatesForm:headerAddButton,manageAlertEmailTemplatesForm:headerRemoveButton"/>
+                            <p:ajax event="rowUnselectCheckbox" update="manageAlertEmailTemplatesForm:headerAddButton,manageAlertEmailTemplatesForm:headerRemoveButton"/>
+                            <p:ajax event="toggleSelect" update="manageAlertEmailTemplatesForm:headerAddButton,manageAlertEmailTemplatesForm:headerRemoveButton"/>
+
+                            <p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}" sortBy="#{item.name}" filterValue="#{emailTemplateLazyDataModel.nameFilter.value}">
+                                <h:outputText value="#{item.name}" />
+                                <f:facet name="footer">
+                                    <cps:stringFilterSelectOneMenu changeUpdate="manageAlertEmailTemplatesForm:emailTemplateList" selectedValue="#{emailTemplateLazyDataModel.nameFilter.operator}" changeWidgetVar="emailTemplateDataTable" />
+                                </f:facet>
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:panelGrid>
+                </p:panelGrid>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</html>
+

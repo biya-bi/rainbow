@@ -6,7 +6,7 @@
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-		<non-jta-data-source>jdbc/rainbowAssetExplorer</non-jta-data-source>
+		<non-jta-data-source>jdbc/RainbowEtisalatAssetManagement</non-jta-data-source>
 
 		<mapping-file>META-INF/rainbow_asset_explorer_orm.xml</mapping-file>
 		<jar-file>lib/rainbow-asset-explorer-orm-0.0.1-SNAPSHOT.jar</jar-file>

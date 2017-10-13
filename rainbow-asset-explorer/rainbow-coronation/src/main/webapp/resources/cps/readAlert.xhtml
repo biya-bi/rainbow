@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:panelGrid columns="2" rendered="#{alertController.current != null}">
+            <p:outputLabel styleClass="field-label" value="#{labels.AlertTypeLabel}"/>
+            <h:outputText value="#{alertController.current.alertType}">
+                <f:converter converterId="org.rainbow.asset.explorer.faces.converters.AlertTypeConverter" />
+            </h:outputText>
+            <p:outputLabel styleClass="field-label" value="#{labels.AlertCategoryLabel}"/>
+            <h:outputText value="#{alertController.current.alertCategory}">
+                <f:converter converterId="org.rainbow.asset.explorer.faces.converters.AlertCategoryConverter" />
+            </h:outputText>
+            <p:outputLabel styleClass="field-label" value="#{labels.EnabledLabel}"/>
+            <p:selectBooleanCheckbox disabled="true" value="#{alertController.current.enabled}"/>
+            <p:outputLabel styleClass="field-label" value="#{labels.ImmediateLabel}"/>
+            <p:selectBooleanCheckbox disabled="true" value="#{alertController.current.immediate}"/>
+        </p:panelGrid>
+    </composite:implementation>
+</html>
+

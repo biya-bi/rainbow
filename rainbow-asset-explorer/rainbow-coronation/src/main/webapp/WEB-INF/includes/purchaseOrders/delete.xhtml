@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <cps:submitForm id="purchaseOrderDelete"
+                    title="#{labels.DeletePurchaseOrderTitle}"           
+                    submitActionListener="#{purchaseOrderController.delete()}"
+                    update="purchaseOrderList:form:dataTable"
+                    submitLabel="#{labels.Delete}"
+                    submitIcon="ui-icon-trash">
+        <h3>#{labels.DeletePurchaseOrderQuestion}</h3>
+
+        <p:panelGrid rendered="#{purchaseOrderController.current != null}">
+            <p:panelGrid columns="2">
+                <p:outputLabel styleClass="field-label" value="#{labels.ReferenceNumberLabel}"/>
+                <h:outputText styleClass="field-value" value="#{purchaseOrderController.current.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
+                <p:outputLabel id="vendorLabel" styleClass="field-label" value="#{labels.VendorLabel}"/>
+                <p:commandLink title="#{labels.VendorTitle}" styleClass="field-value" immediate="true" value="#{purchaseOrderController.current.vendor.name}" update=":vendorDetails:form" oncomplete="PF('vendorDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{purchaseOrderController.current.vendor}" target="#{vendorController.current}" />
+                </p:commandLink>
+                <p:outputLabel id="shipMethodLabel" styleClass="field-label" value="#{labels.ShipMethodLabel}"/>
+                <p:commandLink title="#{labels.ShipMethodTitle}" styleClass="field-value" immediate="true" value="#{purchaseOrderController.current.shipMethod.name}" update=":shipMethodDetails:form" oncomplete="PF('shipMethodDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{purchaseOrderController.current.shipMethod}" target="#{shipMethodController.current}" />
+                </p:commandLink>
+                <p:outputLabel id="locationLabel" styleClass="field-label" value="#{labels.LocationLabel}"/>
+                <p:commandLink title="#{labels.LocationTitle}" styleClass="field-value" immediate="true" value="#{purchaseOrderController.current.location.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{purchaseOrderController.current.location}" target="#{locationController.current}" />
+                </p:commandLink>
+                <p:outputLabel styleClass="field-label" value="#{labels.FreightLabel}"/>
+                <h:outputText styleClass="field-value" id="freight" value="#{purchaseOrderController.current.freight}" title="#{labels.FreightTitle}"/>
+                <p:outputLabel styleClass="field-label" value="#{labels.TaxAmountLabel}"/>
+                <h:outputText styleClass="field-value" id="taxAmount" value="#{purchaseOrderController.current.taxAmount}" title="#{labels.TaxAmountTitle}"/>
+                <p:outputLabel styleClass="field-label" value="#{labels.ShipDateLabel}"/>
+                <h:outputText styleClass="field-value" id="shipDate" value="#{purchaseOrderController.current.shipDate}" title="#{labels.ShipDateTitle}">
+                    <f:convertDateTime dateStyle="short" />
+                </h:outputText>
+                <p:outputLabel styleClass="field-label" value="#{labels.StatusLabel}"/>
+                <h:outputText value="#{purchaseOrderController.current.status}">
+                    <f:converter converterId="org.rainbow.asset.explorer.faces.converters.PurchaseOrderStatusConverter" />
+                </h:outputText>
+            </p:panelGrid>
+            <p:panel>
+                <f:facet name="header">
+                    #{labels.PurchaseOrderDetailsTitle}
+                </f:facet>
+                <p:dataTable style="width: 850px" id="details" widgetVar="details" var="detail" value="#{purchaseOrderController.current.details}">
+                    <p:column  headerText="#{labels.ProductTitle}" sortBy="#{detail.product.name}" filterBy="#{detail.product.name}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.product.name}" />
+                    </p:column>
+
+                    <p:column headerText="#{labels.OrderedQuantityTitle}" sortBy="#{detail.orderedQuantity}" filterBy="#{detail.orderedQuantity}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.orderedQuantity}" />
+                    </p:column>
+
+                    <p:column headerText="#{labels.UnitPriceTitle}" sortBy="#{detail.unitPrice}" filterBy="#{detail.unitPrice}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.unitPrice}" />
+                    </p:column>
+
+                    <p:column headerText="#{labels.DueDateTitle}" sortBy="#{detail.dueDate}">
+                        <h:outputText value="#{detail.dueDate}" >
+                            <f:convertDateTime dateStyle="short" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column headerText="#{labels.ReceivedQuantityTitle}" sortBy="#{detail.receivedQuantity}" filterBy="#{detail.receivedQuantity}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.receivedQuantity}" />
+                    </p:column>
+
+                    <p:column headerText="#{labels.RejectedQuantityTitle}" sortBy="#{detail.rejectedQuantity}" filterBy="#{detail.rejectedQuantity}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.rejectedQuantity}" />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </p:panelGrid>
+    </cps:submitForm>
+
+
+</html>

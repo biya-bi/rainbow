@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:dialog id="alertEmailTemplatesDialog" widgetVar="alertEmailTemplatesDialog" modal="false" resizable="false" appendTo="@(content)" header="#{labels.AlertEmailTemplatesTitle}">
+        <h:form id="alertEmailTemplatesForm">
+            <h:panelGroup id="panelGroup" rendered="#{alertController.current!=null}">
+                <p:panelGrid columns="2">
+                    <p:outputLabel styleClass="field-label" value="#{labels.AlertTypeLabel}"/>
+                    <h:outputText value="#{alertController.current.alertType}">
+                        <f:converter converterId="org.rainbow.asset.explorer.faces.converters.AlertTypeConverter" />
+                    </h:outputText>
+                    <p:outputLabel styleClass="field-label" value="#{labels.AlertCategoryLabel}"/>
+                    <h:outputText value="#{alertController.current.alertCategory}">
+                        <f:converter converterId="org.rainbow.asset.explorer.faces.converters.AlertCategoryConverter" />
+                    </h:outputText>
+                </p:panelGrid>
+                <p:panelGrid columns="2">
+                    <p:commandButton update="manageAlertEmailTemplatesForm:emailTemplateList" icon="ui-icon-gear" value="#{labels.ManageLabel}" oncomplete="showDialog('manageAlertEmailTemplatesDialog')"/>
+                </p:panelGrid>
+                <p:panelGrid columns="1">
+                    <p:dataTable id="emailTemplateList"
+                                 widgetVar="emailTemplateListDataTable"
+                                 style="max-width: 500px;"
+                                 scrollable="true"
+                                 scrollWidth="500"
+                                 var="item"
+                                 value="#{alertController.current.emailTemplates}">
+                        <f:facet name="header">
+                            <p:outputLabel value="#{labels.ListEmailTemplatesTitle}"/>
+                        </f:facet>
+                        <p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}" sortBy="#{item.name}" filterMatchMode="contains">
+                            <h:outputText value="#{item.name}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panelGrid>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</html>
+

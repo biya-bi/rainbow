@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<sec:authorize access="hasRole('ROLE_READ_SITE_DOCUMENTS')">
+		<cps:trackableDataGrid id="siteDocumentList"
+			title="#{labels.ListSiteDocumentsTitle}"
+			dataSource="#{siteDocumentLazyDataModel}"
+			selectedItem="#{siteDocumentController.current}"
+			selectedValue="#{item.id}"
+			createActionListener="#{siteDocumentController.prepareCreate()}"
+			createDialog="siteDocumentCreateDialog"
+			createUpdate=":siteDocumentCreate:form"
+			editDialog="siteDocumentEditDialog"
+			editUpdate=":siteDocumentEdit:form"
+			detailsDialog="siteDocumentDetailsDialog"
+			detailsUpdate=":siteDocumentDetails:form"
+			deleteDialog="siteDocumentDeleteDialog"
+			deleteUpdate=":siteDocumentDelete:form"
+			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_SITE_DOCUMENTS')}"
+			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_SITE_DOCUMENTS')}"
+			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_SITE_DOCUMENTS')}"
+			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_SITE_DOCUMENTS')}"
+			columnToggleListener="#{siteDocumentController.onToggle}"
+			creatorFilterValue="#{siteDocumentLazyDataModel.creatorFilter.value}"
+			creatorFilterOperator="#{siteDocumentLazyDataModel.creatorFilter.operator}"
+			updaterFilterValue="#{siteDocumentLazyDataModel.updaterFilter.value}"
+			updaterFilterOperator="#{siteDocumentLazyDataModel.updaterFilter.operator}"
+			creationDateFilterValue="#{siteDocumentLazyDataModel.creationDateFilter.value}"
+			creationDateFilterOperator="#{siteDocumentLazyDataModel.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{siteDocumentLazyDataModel.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{siteDocumentLazyDataModel.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{siteDocumentController.auditColumnsStates[5]}"
+			updaterColumnVisible="#{siteDocumentController.auditColumnsStates[6]}"
+			creationDateColumnVisible="#{siteDocumentController.auditColumnsStates[7]}"
+			lastUpdateDateColumnVisible="#{siteDocumentController.auditColumnsStates[8]}">
+
+
+			<p:column headerText="#{labels.FileNameTitle}"
+				filterBy="#{item.fileName}" sortBy="#{item.fileName}"
+				filterValue="#{siteDocumentLazyDataModel.fileNameFilter.value}">
+
+				<p:commandLink value="#{item.fileName}" ajax="false">
+					<f:setPropertyActionListener value="#{item}"
+						target="#{siteDocumentController.current}" />
+					<p:fileDownload value="#{siteDocumentController.file}" />
+				</p:commandLink>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="siteDocumentList:form:dataTable"
+						selectedValue="#{siteDocumentLazyDataModel.fileNameFilter.operator}"
+						changeWidgetVar="siteDocumentListDataTable" />
+				</f:facet>
+			</p:column>
+			<p:column headerText="#{labels.DocumentTypeTitle}"
+				sortBy="#{item.documentType}" filterBy="#{item.documentType}"
+				filterValue="#{siteDocumentLazyDataModel.documentTypeFilter.value}">
+				<h:outputText value="#{item.documentType}">
+					<f:converter
+						converterId="org.rainbow.asset.explorer.faces.converters.DocumentTypeConverter" />
+				</h:outputText>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="siteDocumentList:form:dataTable"
+						selectedValue="#{siteDocumentLazyDataModel.documentTypeFilter.operator}"
+						changeWidgetVar="siteDocumentListDataTable" />
+				</f:facet>
+			</p:column>
+			<p:column headerText="#{labels.SiteNameTitle}"
+				sortBy="#{item.site.name}" filterBy="#{item.site.name}"
+				filterValue="#{siteDocumentLazyDataModel.siteNameFilter.value}">
+				<p:commandLink update=":siteDetails:form" value="#{item.site.name}"
+					oncomplete="PF('siteDetailsDialog').show()">
+					<f:setPropertyActionListener value="#{item.site}"
+						target="#{siteController.current}" />
+				</p:commandLink>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="siteDocumentList:form:dataTable"
+						selectedValue="#{siteDocumentLazyDataModel.siteNameFilter.operator}"
+						changeWidgetVar="siteDocumentListDataTable" />
+				</f:facet>
+			</p:column>
+			<p:column headerText="#{labels.SiteLocationTitle}"
+				sortBy="#{item.site.location}" filterBy="#{item.site.location}"
+				filterValue="#{siteDocumentLazyDataModel.siteLocationFilter.value}">
+				<h:outputText value="#{item.site.location}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="siteDocumentList:form:dataTable"
+						selectedValue="#{siteDocumentLazyDataModel.siteLocationFilter.operator}"
+						changeWidgetVar="siteDocumentListDataTable" />
+				</f:facet>
+			</p:column>
+			<p:column headerText="#{labels.SiteStatusTitle}"
+				sortBy="#{item.site.status}" filterBy="#{item.site.status}"
+				filterValue="#{siteDocumentLazyDataModel.siteStatusFilter.value}">
+				<h:outputText value="#{item.site.status}">
+					<f:converter
+						converterId="org.rainbow.asset.explorer.faces.converters.SiteStatusConverter" />
+				</h:outputText>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="siteDocumentList:form:dataTable"
+						selectedValue="#{siteDocumentLazyDataModel.siteStatusFilter.operator}"
+						changeWidgetVar="siteDocumentListDataTable" />
+				</f:facet>
+			</p:column>
+
+		</cps:trackableDataGrid>
+
+		<ui:include src="/WEB-INF/includes/siteDocuments/create.xhtml" />
+		<ui:include src="/WEB-INF/includes/siteDocuments/edit.xhtml" />
+		<ui:include src="/WEB-INF/includes/siteDocuments/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/siteDocuments/delete.xhtml" />
+
+		<ui:include src="/WEB-INF/includes/sites/details.xhtml" />
+
+		<ui:include
+			src="/WEB-INF/includes/siteDocuments/uploadSiteDocument.xhtml" />
+		<ui:include src="/WEB-INF/includes/quickCreate/create_site.xhtml" />
+	</sec:authorize>
+</h:body>
+</html>
+

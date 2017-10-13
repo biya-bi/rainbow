@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:panelGrid columns="2" rendered="#{productController.current != null}">
+            <p:outputLabel styleClass="field-label" value="#{labels.ProductNumberLabel}" for="number" />
+            <h:outputText styleClass="field-value" id="number" value="#{productController.current.number}" title="#{labels.ProductNumberTitle}"/>
+            <p:outputLabel styleClass="field-label" value="#{labels.ProductNameLabel}" for="name" />
+            <h:outputText styleClass="field-value" id="name" value="#{productController.current.name}" title="#{labels.ProductNameTitle}"/>
+
+            <p:outputLabel styleClass="field-label" value="#{labels.ReorderPointLabel}" for="reorderPoint" />
+            <h:outputText styleClass="field-value" id="reorderPoint" value="#{productController.current.reorderPoint}" title="#{labels.ReorderPointTitle}"/>
+            <p:outputLabel id="manufacturerLabel" styleClass="field-label" value="#{labels.ManufacturerLabel}"/>
+            <p:commandLink title="#{labels.ManufacturerTitle}" styleClass="field-value" immediate="true" value="#{productController.current.manufacturer.name}" update=":manufacturerDetails:form" oncomplete="PF('manufacturerDetailsDialog').show()">
+                <f:setPropertyActionListener value="#{productController.current.manufacturer}" target="#{manufacturerController.current}" />
+            </p:commandLink>
+            <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
+            <h:outputText styleClass="field-value" id="description" value="#{productController.current.description}" title="#{labels.DescriptionTitle}"/>
+        </p:panelGrid>
+    </composite:implementation>
+</html>
+

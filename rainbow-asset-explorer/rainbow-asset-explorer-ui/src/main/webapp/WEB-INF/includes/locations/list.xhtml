@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<sec:authorize access="hasRole('ROLE_READ_LOCATIONS')">
+		<cps:trackableDataGrid id="locationList"
+			title="#{labels.ListLocationsTitle}"
+			dataSource="#{locationLazyDataModel}"
+			selectedItem="#{locationController.current}"
+			selectedValue="#{item.id}"
+			createActionListener="#{locationController.prepareCreate()}"
+			createDialog="locationCreateDialog"
+			createUpdate=":locationCreate:form" editDialog="locationEditDialog"
+			editUpdate=":locationEdit:form" detailsDialog="locationDetailsDialog"
+			detailsUpdate=":locationDetails:form"
+			deleteDialog="locationDeleteDialog"
+			deleteUpdate=":locationDelete:form"
+			selectionUpdate=":locationList:headerInventoryButton,:locationList:footerInventoryButton"
+			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_LOCATIONS')}"
+			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_LOCATIONS')}"
+			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_LOCATIONS')}"
+			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_LOCATIONS')}"
+			columnToggleListener="#{locationController.onToggle}"
+			creatorFilterValue="#{locationLazyDataModel.creatorFilter.value}"
+			creatorFilterOperator="#{locationLazyDataModel.creatorFilter.operator}"
+			updaterFilterValue="#{locationLazyDataModel.updaterFilter.value}"
+			updaterFilterOperator="#{locationLazyDataModel.updaterFilter.operator}"
+			creationDateFilterValue="#{locationLazyDataModel.creationDateFilter.value}"
+			creationDateFilterOperator="#{locationLazyDataModel.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{locationLazyDataModel.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{locationLazyDataModel.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{locationController.auditColumnsStates[1]}"
+			updaterColumnVisible="#{locationController.auditColumnsStates[2]}"
+			creationDateColumnVisible="#{locationController.auditColumnsStates[3]}"
+			lastUpdateDateColumnVisible="#{locationController.auditColumnsStates[4]}">
+
+
+			<f:facet name="postHeader">
+				<p:commandButton id="headerInventoryButton" icon="ui-icon-note"
+					value="#{labels.ViewInventoryLabel}"
+					oncomplete="PF('inventoryDialog').show()" update=":inventoryDialog"
+					disabled="#{locationController.current==null or sec:areNotGranted('ROLE_READ_LOCATIONS') or sec:areNotGranted('ROLE_READ_PRODUCTS')}">
+					<f:setPropertyActionListener value="#{locationController.current.id}"
+						target="#{inventoryLazyDataModel.locationIdFilter.value}" />
+				</p:commandButton>
+			</f:facet>
+
+			<f:facet name="postFooter">
+				<p:commandButton id="footerInventoryButton" icon="ui-icon-note"
+					value="#{labels.ViewInventoryLabel}"
+					oncomplete="PF('inventoryDialog').show()" update=":inventoryDialog"
+					disabled="#{locationController.current==null or sec:areNotGranted('ROLE_READ_LOCATIONS') or sec:areNotGranted('ROLE_READ_PRODUCTS')}">
+					<f:setPropertyActionListener value="#{locationController.current.id}"
+						target="#{inventoryLazyDataModel.locationIdFilter.value}" />
+				</p:commandButton>
+			</f:facet>
+
+			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
+				sortBy="#{item.name}"
+				filterValue="#{locationLazyDataModel.nameFilter.value}">
+				<h:outputText value="#{item.name}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="locationList:form:dataTable"
+						selectedValue="#{locationLazyDataModel.nameFilter.operator}"
+						changeWidgetVar="locationListDataTable" />
+				</f:facet>
+			</p:column>
+
+		</cps:trackableDataGrid>
+
+		<ui:include src="/WEB-INF/includes/locations/create.xhtml" />
+		<ui:include src="/WEB-INF/includes/locations/edit.xhtml" />
+		<ui:include src="/WEB-INF/includes/locations/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/locations/delete.xhtml" />
+
+		<ui:include src="/WEB-INF/includes/locations/inventory.xhtml" />
+	</sec:authorize>
+</h:body>
+</html>
+

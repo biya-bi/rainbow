@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:t="http://asset.explorer.rainbow.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <p:dialog id="editPurchaseOrderReceivedDetailDialog" widgetVar="editPurchaseOrderReceivedDetailDialog" modal="false" resizable="false" header="#{labels.PurchaseOrderDetailTitle}">
+        <h:form id="editPurchaseOrderReceivedDetailForm">
+            <h:panelGroup id="panelGroup">
+                <p:panelGrid columns="1" rendered="#{purchaseOrderController.detail != null}">
+                    <f:facet name="header">
+                        <p:panelGrid columns="2" style="text-align: left;" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="#{labels.OK}" icon="ui-icon-check" validateClient="true" update="panelGroup,:completePurchaseOrderForm" oncomplete="handleSubmit(args,'editPurchaseOrderReceivedDetailDialog');"/>
+                            <p:commandButton value="#{labels.Cancel}" icon="ui-icon-close" onclick="PF('editPurchaseOrderReceivedDetailDialog').hide()" immediate="true"/>
+                        </p:panelGrid>
+                    </f:facet>
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel id="productLabel" styleClass="field-label" value="#{labels.ProductLabel}" for="productDropDown" />
+                            </p:column>
+                            <p:column>
+                                <t:dropDown styleClass="field-value"
+                                            id="productDropDown"
+                                            labelId="productLabel"
+                                            messageId="productDropDownMessage"
+                                            rowKey="#{item.id}"
+                                            selectionText="#{purchaseOrderController.detail.product.name}"
+                                            dataSource="#{productLazyDataModel}" 
+                                            itemLabel="#{item.name}"
+                                            selection="#{purchaseOrderController.detail.product}"
+                                            filterValue="#{productLazyDataModel.nameFilter.value}"
+                                            required="true"
+                                            requiredMessage="#{valMsg.ProductRequired}"
+                                            toolTip="#{labels.ProductTitle}"/>
+                            </p:column>
+                            <p:column>
+                                <p:message id="productDropDownMessage" for="productDropDown"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel styleClass="field-label"  value="#{labels.ReceivedQuantityLabel}" for="receivedQuantity" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="receivedQuantity" styleClass="field-value" value="#{purchaseOrderController.detail.receivedQuantity}" required="true" requiredMessage="#{valMsg.ReceivedQuantityRequired}" title="#{labels.ReceivedQuantityTitle}">
+                                    <p:clientValidator event="keyup" />
+                                </p:inputText>
+                            </p:column>
+                            <p:column>    
+                                <p:message for="receivedQuantity"/>  
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:panelGrid>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</html>

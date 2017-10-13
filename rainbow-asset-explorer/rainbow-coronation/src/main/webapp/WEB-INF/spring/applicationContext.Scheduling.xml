@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/jee
+http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<jee:jndi-lookup id="rainbowAssetExplorerMailSession"
+		jndi-name="${rainbow.asset.explorer.mail}" lookup-on-startup="true"
+		cache="true" />
+
+	<jee:jndi-lookup id="rainbowAssetExplorerApplicationName"
+		jndi-name="${rainbow.asset.explorer.applicationName}"
+		lookup-on-startup="true" cache="true" />
+
+	<bean id="rainbowAssetExplorerMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="session" ref="rainbowAssetExplorerMailSession" />
+	</bean>
+
+	<bean id="schedulerFactoryBean"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="configLocation" value="WEB-INF/quartz.properties" />
+		<property name="waitForJobsToCompleteOnShutdown" value="true" />
+		<property name="schedulerContextAsMap">
+			<map>
+				<entry key="entityManagerFactory" value-ref="rainbowAssetExplorerEntityManagerFactory" />
+				<entry key="mailSender" value-ref="rainbowAssetExplorerMailSender" />
+				<entry key="applicationName" value-ref="rainbowAssetExplorerApplicationName" />
+			</map>
+		</property>
+		<property name="dataSource" ref="rainbowAssetExplorerDataSource" />
+		<property name="nonTransactionalDataSource" ref="rainbowAssetExplorerDataSource" />
+	</bean>
+
+	<bean id="alertScheduler"
+		class="org.rainbow.asset.explorer.scheduling.AlertSchedulerImpl">
+		<property name="scheduler" ref="schedulerFactoryBean" />
+	</bean>
+
+
+</beans>

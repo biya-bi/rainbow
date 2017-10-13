@@ -7,6 +7,9 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,6 +34,8 @@ public class ProductAlertInfo extends Trackable<ProductAlertInfoId> {
 	private Short reorderPoint;
 	private Short availableQuantity;
 	private Date alertDate;
+	private Product product;
+	private Location location;
 
 	public ProductAlertInfo() {
 	}
@@ -93,4 +98,23 @@ public class ProductAlertInfo extends Trackable<ProductAlertInfoId> {
 		this.alertDate = alertDate;
 	}
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "PRODUCT_ID", insertable = false, updatable = false)
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "LOCATION_ID", insertable = false, updatable = false)
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
 }

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+    <cps:submitForm id="siteEdit"
+                    title="#{labels.EditSiteTitle}"           
+                    submitActionListener="#{siteController.edit()}"
+                    update="siteList:form:dataTable">
+
+        <cps:writeSite/>
+
+    </cps:submitForm>
+
+
+</html>

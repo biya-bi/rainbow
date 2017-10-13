@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="RainbowAssetExplorerPersistenceUnit"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+		<non-jta-data-source>jdbc/RainbowAssetExplorer</non-jta-data-source>
+
+		<mapping-file>META-INF/rainbow_asset_explorer_orm.xml</mapping-file>
+		<jar-file>lib/rainbow-asset-explorer-orm-0.0.1-SNAPSHOT.jar</jar-file>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+	</persistence-unit>
+
+</persistence>

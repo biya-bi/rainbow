@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<sec:authorize access="hasRole('ROLE_READ_EMAIL_RECIPIENTS')">
+		<cps:trackableDataGrid id="emailRecipientList"
+			title="#{labels.ListEmailRecipientsTitle}"
+			dataSource="#{emailRecipientLazyDataModel}"
+			selectedItem="#{emailRecipientController.current}"
+			selectedValue="#{item.id}"
+			createActionListener="#{emailRecipientController.prepareCreate()}"
+			createDialog="emailRecipientCreateDialog"
+			createUpdate=":emailRecipientCreate:form"
+			editDialog="emailRecipientEditDialog"
+			editUpdate=":emailRecipientEdit:form"
+			detailsDialog="emailRecipientDetailsDialog"
+			detailsUpdate=":emailRecipientDetails:form"
+			deleteDialog="emailRecipientDeleteDialog"
+			deleteUpdate=":emailRecipientDelete:form"
+			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_EMAIL_RECIPIENTS')}"
+			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_EMAIL_RECIPIENTS')}"
+			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_EMAIL_RECIPIENTS')}"
+			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_EMAIL_RECIPIENTS')}"
+			columnToggleListener="#{emailRecipientController.onToggle}"
+			creatorFilterValue="#{emailRecipientLazyDataModel.creatorFilter.value}"
+			creatorFilterOperator="#{emailRecipientLazyDataModel.creatorFilter.operator}"
+			updaterFilterValue="#{emailRecipientLazyDataModel.updaterFilter.value}"
+			updaterFilterOperator="#{emailRecipientLazyDataModel.updaterFilter.operator}"
+			creationDateFilterValue="#{emailRecipientLazyDataModel.creationDateFilter.value}"
+			creationDateFilterOperator="#{emailRecipientLazyDataModel.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{emailRecipientLazyDataModel.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{emailRecipientLazyDataModel.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{emailRecipientController.auditColumnsStates[2]}"
+			updaterColumnVisible="#{emailRecipientController.auditColumnsStates[3]}"
+			creationDateColumnVisible="#{emailRecipientController.auditColumnsStates[4]}"
+			lastUpdateDateColumnVisible="#{emailRecipientController.auditColumnsStates[5]}">
+
+
+			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
+				sortBy="#{item.name}"
+				filterValue="#{emailRecipientLazyDataModel.nameFilter.value}">
+				<h:outputText value="#{item.name}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="emailRecipientList:form:dataTable"
+						selectedValue="#{emailRecipientLazyDataModel.nameFilter.operator}"
+						changeWidgetVar="emailRecipientListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.EmailTitle}" filterBy="#{item.email}"
+				sortBy="#{item.email}"
+				filterValue="#{emailRecipientLazyDataModel.emailFilter.value}">
+				<h:outputText value="#{item.email}" />
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="emailRecipientList:form:dataTable"
+						selectedValue="#{emailRecipientLazyDataModel.emailFilter.operator}"
+						changeWidgetVar="emailRecipientListDataTable" />
+				</f:facet>
+			</p:column>
+
+		</cps:trackableDataGrid>
+
+		<ui:include src="/WEB-INF/includes/emailRecipients/create.xhtml" />
+		<ui:include src="/WEB-INF/includes/emailRecipients/edit.xhtml" />
+		<ui:include src="/WEB-INF/includes/emailRecipients/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/emailRecipients/delete.xhtml" />
+	</sec:authorize>
+</h:body>
+</html>
+

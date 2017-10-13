@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:panelGrid rendered="#{locationController.current != null}">
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
+                </p:column>
+                <p:column>
+                    <p:inputText styleClass="field-value" id="name" value="#{locationController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                        <p:clientValidator event="keyup" />
+                    </p:inputText>
+                </p:column>
+                <p:column>    
+                    <p:message for="name"/>  
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>  
+                    <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
+                </p:column>
+                <p:column>   
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{locationController.current.description}" title="#{labels.DescriptionTitle}"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </composite:implementation>
+</html>
+

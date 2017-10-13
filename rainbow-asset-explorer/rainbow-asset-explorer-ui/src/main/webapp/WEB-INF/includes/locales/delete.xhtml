@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+    <cps:submitForm id="localeDelete"
+                    title="#{labels.DeleteLocaleTitle}"           
+                    submitActionListener="#{localeController.delete()}"
+                    update="localeList:form:dataTable"
+                    submitLabel="#{labels.Delete}"
+                    submitIcon="ui-icon-trash">
+        <h3>#{labels.DeleteLocaleQuestion}</h3>
+
+        <p:panelGrid columns="2" rendered="#{localeController.current != null}">
+            <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
+            <h:outputText styleClass="field-value" id="name" value="#{localeController.current.name}" title="#{labels.NameTitle}"/>
+            <p:outputLabel styleClass="field-label" value="#{labels.LanguageCodeLabel}"/> 
+            <h:outputText styleClass="field-value" id="languageCode" value="#{localeController.current.languageCode}" title="#{labels.LanguageCodeTitle}"/>
+            <p:outputLabel styleClass="field-label" value="#{labels.LCIDLabel}"/> 
+            <h:outputText styleClass="field-value" id="lcid" value="#{localeController.current.lcid}" title="#{labels.LCIDTitle}"/>
+        </p:panelGrid>
+
+    </cps:submitForm>
+</html>

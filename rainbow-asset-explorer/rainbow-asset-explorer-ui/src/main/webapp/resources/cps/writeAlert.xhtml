@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:panelGrid rendered="#{alertController.current != null}">
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.AlertTypeLabel}" />
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu styleClass="field-value" value="#{alertController.current.alertType}">
+                        <f:selectItem itemLabel="#{labels.Warning}" itemValue="WARNING" />
+                        <f:selectItem itemLabel="#{labels.Recovery}" itemValue="RECOVERY" />
+                    </p:selectOneMenu>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel styleClass="field-label" value="#{labels.AlertCategoryLabel}" />
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu styleClass="field-value" value="#{alertController.current.alertCategory}">
+                        <f:selectItem itemLabel="#{labels.StockLevel}" itemValue="STOCK_LEVEL" />
+                    </p:selectOneMenu>
+                </p:column>
+            </p:row>    
+            <p:row>
+                <p:column>  
+                    <p:outputLabel styleClass="field-label" value="#{labels.EnabledLabel}"/> 
+                </p:column>
+                <p:column>   
+                    <p:selectBooleanCheckbox styleClass="field-value" value="#{alertController.current.enabled}"/> 
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>  
+                    <p:outputLabel styleClass="field-label" value="#{labels.ImmediateLabel}"/> 
+                </p:column>
+                <p:column>   
+                    <p:selectBooleanCheckbox styleClass="field-value" value="#{alertController.current.immediate}"/> 
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="2">
+                    <p:panel header="#{labels.ScheduleTitle}">
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel styleClass="field-label" value="#{labels.TimezoneLabel}" for="timezone" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText styleClass="field-value" id="timezone" value="#{alertController.current.schedule.timezone}" title="#{labels.TimezoneTitle}">
+                                        <p:clientValidator event="keyup" />
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:message for="timezone"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel styleClass="field-label" value="#{labels.HourLabel}" for="hour" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText styleClass="field-value" id="hour" value="#{alertController.current.schedule.hour}" title="#{labels.HourTitle}">
+                                        <p:clientValidator event="keyup" />
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:message for="hour"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel styleClass="field-label" value="#{labels.MinuteLabel}" for="minute" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText styleClass="field-value" id="minute" value="#{alertController.current.schedule.minute}" title="#{labels.MinuteTitle}">
+                                        <p:clientValidator event="keyup" />
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:message for="minute"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel styleClass="field-label" value="#{labels.SecondLabel}" for="second" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText styleClass="field-value" id="second" value="#{alertController.current.schedule.second}" title="#{labels.SecondTitle}">
+                                        <p:clientValidator event="keyup" />
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:message for="second"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel styleClass="field-label" value="#{labels.DayOfWeekLabel}" for="dayOfWeek" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu styleClass="field-value" id="dayOfWeek" value="#{alertController.current.schedule.dayOfWeek}" title="#{labels.DayOfWeekTitle}">
+                                        <p:clientValidator event="change" />
+                                        <f:selectItem itemLabel="#{labels.All}" itemValue="#{null}"/>
+                                        <f:selectItem itemLabel="#{labels.Monday}" itemValue="MONDAY"/>
+                                        <f:selectItem itemLabel="#{labels.Tuesday}" itemValue="TUESDAY"/>
+                                        <f:selectItem itemLabel="#{labels.Wednesday}" itemValue="WEDNESDAY"/>
+                                        <f:selectItem itemLabel="#{labels.Thursday}" itemValue="THURSDAY"/>
+                                        <f:selectItem itemLabel="#{labels.Friday}" itemValue="FRIDAY"/>
+                                        <f:selectItem itemLabel="#{labels.Saturday}" itemValue="SATURDAY"/>
+                                        <f:selectItem itemLabel="#{labels.Sunday}" itemValue="SUNDAY"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <p:message for="dayOfWeek"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel styleClass="field-label" value="#{labels.DayOfMonthLabel}" for="dayOfMonth" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText styleClass="field-value" id="dayOfMonth" value="#{alertController.current.schedule.dayOfMonth}" title="#{labels.DayOfMonthTitle}">
+                                        <p:clientValidator event="keyup" />
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:message for="dayOfMonth"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel styleClass="field-label" value="#{labels.MonthLabel}" for="month" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu styleClass="field-value" id="month" value="#{alertController.current.schedule.month}" title="#{labels.MonthTitle}">
+                                        <p:clientValidator event="change" />
+                                        <f:selectItem itemLabel="#{labels.All}" itemValue="#{null}"/>
+                                        <f:selectItem itemLabel="#{labels.January}" itemValue="JANUARY"/>
+                                        <f:selectItem itemLabel="#{labels.February}" itemValue="FEBRUARY"/>
+                                        <f:selectItem itemLabel="#{labels.March}" itemValue="MARCH"/>
+                                        <f:selectItem itemLabel="#{labels.April}" itemValue="APRIL"/>
+                                        <f:selectItem itemLabel="#{labels.May}" itemValue="MAY"/>
+                                        <f:selectItem itemLabel="#{labels.June}" itemValue="JUNE"/>
+                                        <f:selectItem itemLabel="#{labels.July}" itemValue="JULY"/>
+                                        <f:selectItem itemLabel="#{labels.August}" itemValue="AUSGUST"/>
+                                        <f:selectItem itemLabel="#{labels.September}" itemValue="SEPTEMBER"/>
+                                        <f:selectItem itemLabel="#{labels.October}" itemValue="OCTOBER"/>
+                                        <f:selectItem itemLabel="#{labels.November}" itemValue="NOVEMBER"/>
+                                        <f:selectItem itemLabel="#{labels.December}" itemValue="DECEMBER"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <p:message for="month"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel styleClass="field-label" value="#{labels.YearLabel}" for="year" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText styleClass="field-value" id="year" value="#{alertController.current.schedule.year}" title="#{labels.YearTitle}">
+                                        <p:clientValidator event="keyup" />
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:message for="year"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:panel>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </composite:implementation>
+</html>
+

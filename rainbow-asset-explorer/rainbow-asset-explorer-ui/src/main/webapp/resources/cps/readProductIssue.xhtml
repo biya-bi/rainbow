@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+        <p:panelGrid rendered="#{productIssueController.current != null}">
+            <p:panelGrid columns="2">
+                <p:outputLabel styleClass="field-label" value="#{labels.ReferenceNumberLabel}"/>
+                <h:outputText styleClass="field-value" value="#{productIssueController.current.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
+                <p:outputLabel id="locationLabel" styleClass="field-label" value="#{labels.LocationLabel}"/>
+                <p:commandLink title="#{labels.LocationTitle}" styleClass="field-value" immediate="true" value="#{productIssueController.current.location.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{productIssueController.current.location}" target="#{locationController.current}" />
+                </p:commandLink>
+                <p:outputLabel styleClass="field-label" value="#{labels.RequisitionerLabel}"/>
+                <h:outputText styleClass="field-value" value="#{productIssueController.current.requisitioner}" title="#{labels.RequisitionerTitle}"/>
+                <p:outputLabel styleClass="field-label" value="#{labels.IssueDateLabel}"/>
+                <h:outputText styleClass="field-value" id="issueDate" value="#{productIssueController.current.issueDate}" title="#{labels.IssueDateTitle}">
+                    <f:convertDateTime dateStyle="short" />
+                </h:outputText>
+                <p:outputLabel id="departmentLabel" styleClass="field-label" value="#{labels.DepartmentLabel}"/>
+                <h:outputText styleClass="field-value" id="department" value="#{productIssueController.current.department.name}" title="#{labels.DepartmentTitle}"/>
+                <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
+                <h:outputText styleClass="field-value" id="description" value="#{productIssueController.current.description}" title="#{labels.DescriptionTitle}"/>
+            </p:panelGrid>
+            <p:panel>
+                <f:facet name="header">
+                    #{labels.ProductIssueDetailsTitle}
+                </f:facet>
+                <p:dataTable style="width: 700px" id="details" widgetVar="details" var="detail" value="#{productIssueController.current.details}">
+                    <p:column  headerText="#{labels.ProductTitle}" sortBy="#{detail.product.name}" filterBy="#{detail.product.name}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.product.name}" />
+                    </p:column>
+
+                    <p:column headerText="#{labels.QuantityTitle}" sortBy="#{detail.quantity}" filterBy="#{detail.quantity}" filterMatchMode="contains">
+                        <h:outputText value="#{detail.quantity}" />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+        </p:panelGrid>
+    </composite:implementation>
+</html>
+

@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:body>
+	<sec:authorize access="hasRole('ROLE_READ_ASSET_DOCUMENTS')">
+		<cps:trackableDataGrid id="assetDocumentList"
+			title="#{labels.ListAssetDocumentsTitle}"
+			dataSource="#{assetDocumentLazyDataModel}"
+			selectedItem="#{assetDocumentController.current}"
+			selectedValue="#{item.id}"
+			createActionListener="#{assetDocumentController.prepareCreate()}"
+			createDialog="assetDocumentCreateDialog"
+			createUpdate=":assetDocumentCreate:form"
+			editDialog="assetDocumentEditDialog"
+			editUpdate=":assetDocumentEdit:form"
+			detailsDialog="assetDocumentDetailsDialog"
+			detailsUpdate=":assetDocumentDetails:form"
+			deleteDialog="assetDocumentDeleteDialog"
+			deleteUpdate=":assetDocumentDelete:form"
+			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_ASSET_DOCUMENTS')}"
+			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_ASSET_DOCUMENTS')}"
+			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_ASSET_DOCUMENTS')}"
+			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_ASSET_DOCUMENTS')}"
+			columnToggleListener="#{assetDocumentController.onToggle}"
+			creatorFilterValue="#{assetDocumentLazyDataModel.creatorFilter.value}"
+			creatorFilterOperator="#{assetDocumentLazyDataModel.creatorFilter.operator}"
+			updaterFilterValue="#{assetDocumentLazyDataModel.updaterFilter.value}"
+			updaterFilterOperator="#{assetDocumentLazyDataModel.updaterFilter.operator}"
+			creationDateFilterValue="#{assetDocumentLazyDataModel.creationDateFilter.value}"
+			creationDateFilterOperator="#{assetDocumentLazyDataModel.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{assetDocumentLazyDataModel.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{assetDocumentLazyDataModel.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{assetDocumentController.auditColumnsStates[5]}"
+			updaterColumnVisible="#{assetDocumentController.auditColumnsStates[6]}"
+			creationDateColumnVisible="#{assetDocumentController.auditColumnsStates[7]}"
+			lastUpdateDateColumnVisible="#{assetDocumentController.auditColumnsStates[8]}">
+
+			<p:column headerText="#{labels.FileNameTitle}"
+				filterBy="#{item.fileName}" sortBy="#{item.fileName}"
+				filterValue="#{assetDocumentLazyDataModel.fileNameFilter.value}">
+
+				<p:commandLink value="#{item.fileName}" ajax="false">
+					<f:setPropertyActionListener value="#{item}"
+						target="#{assetDocumentController.current}" />
+					<p:fileDownload value="#{assetDocumentController.file}" />
+				</p:commandLink>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="assetDocumentList:form:dataTable"
+						selectedValue="#{assetDocumentLazyDataModel.fileNameFilter.operator}"
+						changeWidgetVar="assetDocumentListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.DocumentTypeTitle}"
+				sortBy="#{item.documentType}" filterBy="#{item.documentType}"
+				filterValue="#{assetDocumentLazyDataModel.documentTypeFilter.value}">
+				<h:outputText value="#{item.documentType}">
+					<f:converter
+						converterId="org.rainbow.asset.explorer.faces.converters.DocumentTypeConverter" />
+				</h:outputText>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="assetDocumentList:form:dataTable"
+						selectedValue="#{assetDocumentLazyDataModel.documentTypeFilter.operator}"
+						changeWidgetVar="assetDocumentListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.AssetNameTitle}"
+				sortBy="#{item.asset.name}" filterBy="#{item.asset.name}"
+				filterValue="#{assetDocumentLazyDataModel.assetNameFilter.value}">
+				<p:commandLink update=":assetDetails:form"
+					value="#{item.asset.name}"
+					oncomplete="PF('assetDetailsDialog').show()">
+					<f:setPropertyActionListener value="#{item.asset}"
+						target="#{assetController.current}" />
+				</p:commandLink>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="assetDocumentList:form:dataTable"
+						selectedValue="#{assetDocumentLazyDataModel.assetNameFilter.operator}"
+						changeWidgetVar="assetDocumentListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.AssetLocationTitle}"
+				sortBy="#{item.asset.site.name}" filterBy="#{item.asset.site.name}"
+				filterValue="#{assetDocumentLazyDataModel.assetLocationFilter.value}">
+				<p:commandLink update=":siteDetails:form"
+					value="#{item.asset.site.name}"
+					oncomplete="PF('siteDetailsDialog').show()">
+					<f:setPropertyActionListener value="#{item.asset.site}"
+						target="#{siteController.current}" />
+				</p:commandLink>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="assetDocumentList:form:dataTable"
+						selectedValue="#{assetDocumentLazyDataModel.assetLocationFilter.operator}"
+						changeWidgetVar="assetDocumentListDataTable" />
+				</f:facet>
+			</p:column>
+
+			<p:column headerText="#{labels.AssetStateTitle}"
+				sortBy="#{item.asset.state}" filterBy="#{item.asset.state}"
+				filterValue="#{assetDocumentLazyDataModel.assetStateFilter.value}">
+				<h:outputText value="#{item.asset.state}">
+					<f:converter
+						converterId="org.rainbow.asset.explorer.faces.converters.AssetStateConverter" />
+				</h:outputText>
+				<f:facet name="footer">
+					<cps:stringFilterSelectOneMenu
+						changeUpdate="assetDocumentList:form:dataTable"
+						selectedValue="#{assetDocumentLazyDataModel.assetStateFilter.operator}"
+						changeWidgetVar="assetDocumentListDataTable" />
+				</f:facet>
+			</p:column>
+
+		</cps:trackableDataGrid>
+
+		<ui:include src="/WEB-INF/includes/assetDocuments/create.xhtml" />
+		<ui:include src="/WEB-INF/includes/assetDocuments/edit.xhtml" />
+		<ui:include src="/WEB-INF/includes/assetDocuments/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/assetDocuments/delete.xhtml" />
+
+		<ui:include src="/WEB-INF/includes/assets/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/products/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/assetTypes/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/sites/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/manufacturers/details.xhtml" />
+		<ui:include src="/WEB-INF/includes/vendors/details.xhtml" />
+
+		<ui:include
+			src="/WEB-INF/includes/assetDocuments/uploadAssetDocument.xhtml" />
+
+		<ui:include
+			src="/WEB-INF/includes/quickCreate/create_asset_type.xhtml" />
+		<ui:include src="/WEB-INF/includes/quickCreate/create_asset.xhtml" />
+		<ui:include src="/WEB-INF/includes/quickCreate/create_product.xhtml" />
+		<ui:include src="/WEB-INF/includes/quickCreate/create_vendor.xhtml" />
+		<ui:include src="/WEB-INF/includes/quickCreate/create_site.xhtml" />
+		<ui:include
+			src="/WEB-INF/includes/quickCreate/create_manufacturer.xhtml" />
+	</sec:authorize>
+</h:body>
+</html>
+

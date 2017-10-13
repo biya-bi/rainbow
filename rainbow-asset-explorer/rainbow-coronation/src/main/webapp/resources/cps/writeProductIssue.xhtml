@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://asset.explorer.rainbow.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+	<p:panelGrid rendered="#{productIssueController.current != null}">
+		<p:panelGrid>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.ReferenceNumberLabel}" for="referenceNumber" />
+				</p:column>
+				<p:column>
+					<p:inputText styleClass="field-value" id="referenceNumber"
+						value="#{productIssueController.current.referenceNumber}"
+						title="#{labels.ReferenceNumberTitle}" required="true"
+						requiredMessage="#{valMsg.ReferenceNumberRequired}">
+						<p:clientValidator event="keyup" />
+					</p:inputText>
+				</p:column>
+				<p:column />
+				<p:column>
+					<p:message for="referenceNumber" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel id="locationLabel" styleClass="field-label"
+						value="#{labels.LocationLabel}" for="locationDropDown" />
+				</p:column>
+				<p:column>
+					<t:dropDown styleClass="field-value" id="locationDropDown"
+						labelId="locationLabel" messageId="locationDropDownMessage"
+						rowKey="#{item.id}"
+						selectionText="#{productIssueController.current.location.name}"
+						dataSource="#{locationLazyDataModel}" itemLabel="#{item.name}"
+						selection="#{productIssueController.current.location}"
+						filterValue="#{locationLazyDataModel.nameFilter.value}"
+						required="true" requiredMessage="#{valMsg.LocationRequired}"
+						toolTip="#{labels.LocationTitle}" />
+				</p:column>
+				<p:column>
+					<cps:quickCreateButton
+						actionListener="#{locationController.prepareCreate()}"
+						update=":locationCreate:form"
+						dialogWidgetVar="locationCreateDialog"
+						title="#{labels.CreateLocationTitle}"
+						rendered="#{sec:areAnyGranted('ROLE_WRITE_LOCATIONS')}" />
+				</p:column>
+				<p:column>
+					<p:message id="locationDropDownMessage" for="locationDropDown" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.RequisitionerLabel}" for="requisitioner" />
+				</p:column>
+				<p:column>
+					<p:inputText styleClass="field-value" id="requisitioner"
+						value="#{productIssueController.current.requisitioner}"
+						title="#{labels.RequisitionerTitle}" required="true"
+						requiredMessage="#{valMsg.RequisitionerRequired}">
+						<p:clientValidator event="keyup" />
+					</p:inputText>
+				</p:column>
+				<p:column />
+				<p:column>
+					<p:message for="requisitioner" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.IssueDateLabel}" for="issueDate" />
+				</p:column>
+				<p:column>
+					<p:calendar styleClass="field-value" id="issueDate"
+						value="#{productIssueController.current.issueDate}"
+						title="#{labels.IssueDateTitle}" required="true"
+						requiredMessage="#{valMsg.IssueDateRequired}">
+						<p:ajax event="dateSelect" />
+						<p:clientValidator event="dateSelect" />
+						<p:clientValidator event="change" />
+					</p:calendar>
+				</p:column>
+				<p:column />
+				<p:column>
+					<p:message for="issueDate" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel id="departmentLabel" styleClass="field-label"
+						value="#{labels.DepartmentLabel}" for="departmentDropDown" />
+				</p:column>
+				<p:column>
+					<t:dropDown styleClass="field-value" id="departmentDropDown"
+						labelId="departmentLabel" messageId="departmentDropDownMessage"
+						rowKey="#{item.id}"
+						selectionText="#{productIssueController.current.department.name}"
+						dataSource="#{departmentLazyDataModel}" itemLabel="#{item.name}"
+						selection="#{productIssueController.current.department}"
+						filterValue="#{departmentLazyDataModel.nameFilter.value}"
+						required="true" requiredMessage="#{valMsg.DepartmentRequired}"
+						toolTip="#{labels.DepartmentTitle}" />
+				</p:column>
+				<p:column />
+				<p:column>
+					<p:message id="departmentDropDownMessage" for="departmentDropDown" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel styleClass="field-label"
+						value="#{labels.DescriptionLabel}" />
+				</p:column>
+				<p:column>
+					<p:inputTextarea styleClass="field-value" id="description"
+						value="#{productIssueController.current.description}"
+						title="#{labels.DescriptionTitle}" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<p:panel>
+			<f:facet name="header">
+                    #{labels.ProductIssueDetailsTitle}
+                </f:facet>
+
+			<p:dataTable style="width: 700px" id="details" widgetVar="details"
+				var="detail" value="#{productIssueController.current.details}">
+				<f:facet name="header">
+					<p:commandButton
+						actionListener="#{productIssueController.prepareDetail()}"
+						icon="ui-icon-plus"
+						oncomplete="PF('addProductIssueDetailDialog').show()"
+						update=":addProductIssueDetailForm" />
+				</f:facet>
+
+				<p:column headerText="#{labels.ProductTitle}"
+					sortBy="#{detail.product.name}" filterBy="#{detail.product.name}"
+					filterMatchMode="contains">
+					<h:outputText value="#{detail.product.name}" />
+				</p:column>
+
+				<p:column headerText="#{labels.QuantityTitle}"
+					sortBy="#{detail.quantity}" filterBy="#{detail.quantity}"
+					filterMatchMode="contains">
+					<h:outputText value="#{detail.quantity}">
+						<f:convertNumber type="number" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="width:32px">
+					<p:commandLink immediate="true" style="display: inline-block"
+						update=":editProductIssueDetailForm"
+						oncomplete="PF('editProductIssueDetailDialog').show()">
+						<h:outputText styleClass="ui-icon ui-icon-pencil" />
+						<f:setPropertyActionListener value="#{detail}"
+							target="#{productIssueController.detail}" />
+					</p:commandLink>
+					<p:commandLink immediate="true" style="display: inline-block"
+						action="#{productIssueController.removeDetail}" update="details">
+						<h:outputText styleClass="ui-icon ui-icon-close" />
+						<f:setPropertyActionListener value="#{detail}"
+							target="#{productIssueController.detail}" />
+					</p:commandLink>
+
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</p:panelGrid>
+</composite:implementation>
+</html>
+
