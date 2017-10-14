@@ -1,12 +1,11 @@
 package org.rainbow.persistence.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -29,13 +28,14 @@ public abstract class DaoImpl<TEntity extends Object> implements Dao<TEntity> {
 	private final Class<TEntity> entityClass;
 
 	public DaoImpl(Class<TEntity> entityClass) {
-		this.entityClass = entityClass;
+		this.entityClass = Objects.requireNonNull(entityClass);
 	}
 
 	protected abstract EntityManager getEntityManager();
 
 	@Override
 	public void create(TEntity entity) throws Exception {
+		Objects.requireNonNull(entity);
 		onCreate(entity);
 		persist(entity);
 	}
@@ -45,6 +45,8 @@ public abstract class DaoImpl<TEntity extends Object> implements Dao<TEntity> {
 
 	@Override
 	public void create(List<TEntity> entities) throws Exception {
+		Objects.requireNonNull(entities);
+		entities = ensureAtLeastOneNonNull(entities);
 		for (TEntity entity : entities) {
 			onCreate(entity);
 			persist(entity);
@@ -52,17 +54,21 @@ public abstract class DaoImpl<TEntity extends Object> implements Dao<TEntity> {
 	}
 
 	protected void persist(TEntity entity) {
+		Objects.requireNonNull(entity);
 		getEntityManager().persist(entity);
 	}
 
 	@Override
 	public void update(TEntity entity) throws Exception {
+		Objects.requireNonNull(entity);
 		onUpdate(entity);
 		merge(entity);
 	}
 
 	@Override
 	public void update(List<TEntity> entities) throws Exception {
+		Objects.requireNonNull(entities);
+		entities = ensureAtLeastOneNonNull(entities);
 		for (TEntity entity : entities) {
 			onUpdate(entity);
 			merge(entity);
@@ -73,12 +79,13 @@ public abstract class DaoImpl<TEntity extends Object> implements Dao<TEntity> {
 	}
 
 	protected void merge(TEntity entity) {
+		Objects.requireNonNull(entity);
 		getEntityManager().merge(entity);
 	}
 
 	@Override
 	public void delete(TEntity entity) throws Exception {
-		onDelete(entity);
+		Objects.requireNonNull(entity);
 		remove(entity);
 	}
 
@@ -87,25 +94,21 @@ public abstract class DaoImpl<TEntity extends Object> implements Dao<TEntity> {
 
 	@Override
 	public void delete(List<TEntity> entities) throws Exception {
+		Objects.requireNonNull(entities);
+
+		entities = ensureAtLeastOneNonNull(entities);
+
 		EntityManager em = getEntityManager();
-		PersistenceUnitUtil util = em.getEntityManagerFactory().getPersistenceUnitUtil();
-
-		Map<Object, TEntity> entitiesByIds = new HashMap<>();
-
-		for (TEntity entity : entities) {
-			Object id = util.getIdentifier(entity);
-			if (!entitiesByIds.containsKey(id)) {
-				entitiesByIds.put(id, entity);
-			}
-		}
-
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<TEntity> cq = cb.createQuery(entityClass);
 		Root<TEntity> rt = cq.from(entityClass);
 
-		Expression<Boolean> exp = rt.get(rt.getModel().getId(entityClass)).in(entitiesByIds.keySet());
+		Predicate p = cb.equal(rt, entities.get(0));
+		for (int i = 1; i < entities.size(); i++) {
+			p = cb.or(p, cb.equal(rt, entities.get(i)));
+		}
 
-		cq = cq.select(rt).where(exp);
+		cq = cq.select(rt).where(p);
 
 		TypedQuery<TEntity> query = em.createQuery(cq);
 
@@ -118,18 +121,24 @@ public abstract class DaoImpl<TEntity extends Object> implements Dao<TEntity> {
 		}
 
 		for (TEntity persistentEntity : persistentEntities) {
-			Object id = util.getIdentifier(persistentEntity);
-			if (entitiesByIds.containsKey(id)) {
-				onDelete(entitiesByIds.get(id), persistentEntity);
-				em.remove(persistentEntity);
-			}
+			onDelete(entities.get(entities.indexOf(persistentEntity)), persistentEntity);
+			em.remove(persistentEntity);
 		}
+	}
+
+	private List<TEntity> ensureAtLeastOneNonNull(List<TEntity> entities) {
+		entities = entities.stream().filter(x -> x != null).collect(Collectors.toList());
+		if (entities.isEmpty()) {
+			throw new IllegalArgumentException("The entities argument must contain at least one non null entity.");
+		}
+		return entities;
 	}
 
 	protected void onDelete(TEntity entity, TEntity persistentEntity) {
 	}
 
-	protected void remove(TEntity entity) throws Exception {
+	private void remove(TEntity entity) throws Exception {
+		Objects.requireNonNull(entity);
 		onDelete(entity);
 		final EntityManager em = getEntityManager();
 		TEntity persistentEntity = EntityManagerUtil.find(this.getEntityManager(), entityClass, entity);
@@ -139,6 +148,7 @@ public abstract class DaoImpl<TEntity extends Object> implements Dao<TEntity> {
 
 	@Override
 	public TEntity findById(Object id) throws Exception {
+		Objects.requireNonNull(id);
 		return EntityManagerUtil.findById(this.getEntityManager(), entityClass, id);
 	}
 
@@ -151,10 +161,7 @@ public abstract class DaoImpl<TEntity extends Object> implements Dao<TEntity> {
 
 	@Override
 	public List<TEntity> find(SearchOptions searchOptions) {
-		if (searchOptions == null) {
-			throw new IllegalArgumentException("The searchOptions argument cannot be null.");
-		}
-
+		Objects.requireNonNull(searchOptions);
 		Pageable[] annotations = this.getClass().getAnnotationsByType(Pageable.class);
 
 		if (annotations.length == 0) {
@@ -205,46 +212,4 @@ public abstract class DaoImpl<TEntity extends Object> implements Dao<TEntity> {
 		return getEntityManager().createQuery(cq).getSingleResult();
 	}
 
-	public long count() {
-		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-		Root<TEntity> rt = cq.from(entityClass);
-		cq.select(cb.count(rt));
-		TypedQuery<Long> q = getEntityManager().createQuery(cq);
-		return q.getSingleResult();
-	}
-
-	protected boolean exists(String value, String valueAttributeName, String idAttributeName, Object id) {
-		EntityManager em = getEntityManager();
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-		Root<TEntity> rt = cq.from(entityClass);
-		cq.select(cb.count(rt));
-		Predicate p1 = cb.equal(cb.upper(rt.<String>get(valueAttributeName)), value.toUpperCase());
-		Predicate p2 = null;
-		if (id != null) {
-			p2 = cb.notEqual(rt.get(idAttributeName), id);
-		}
-		Predicate p = p2 == null ? p1 : cb.and(p1, p2);
-		cq.where(p);
-		TypedQuery<Long> tq = em.createQuery(cq);
-		return tq.getSingleResult() > 0;
-	}
-
-	public <U> boolean exists(U value, String valueAttributeName) {
-		EntityManager em = getEntityManager();
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-		Root<TEntity> rt = cq.from(entityClass);
-		cq.select(cb.count(rt));
-		Predicate p;
-		if (value instanceof String) {
-			p = cb.equal(cb.upper(rt.<String>get(valueAttributeName)), ((String) value).toUpperCase());
-		} else {
-			p = cb.equal(rt.<U>get(valueAttributeName), value);
-		}
-		cq.where(p);
-		TypedQuery<Long> tq = em.createQuery(cq);
-		return tq.getSingleResult() > 0;
-	}
 }

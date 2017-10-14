@@ -153,7 +153,7 @@ public class InventoryManagerImpl implements InventoryManager {
 								substractedQuantity);
 					}
 					productInventory.setQuantity(remainingQuantity);
-					if (remainingQuantity >= 0) {
+					if (remainingQuantity > 0) {
 						updated_inventories.add(productInventory);
 					} else {
 						deleted_inventories.add(productInventory);
@@ -170,7 +170,7 @@ public class InventoryManagerImpl implements InventoryManager {
 			this.getProductInventoryDao().update(updated_inventories);
 		}
 		if (!deleted_inventories.isEmpty()) {
-			this.getProductInventoryDao().create(deleted_inventories);
+			this.getProductInventoryDao().delete(deleted_inventories);
 		}
 		try {
 			this.getAlertScheduler().schedule(AlertType.WARNING, locationId, productIds);

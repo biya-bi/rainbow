@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -31,7 +30,6 @@ public abstract class Identifiable<T extends Serializable> implements Serializab
 		this.id = id;
 	}
 
-	@Id
 	public T getId() {
 		return id;
 	}

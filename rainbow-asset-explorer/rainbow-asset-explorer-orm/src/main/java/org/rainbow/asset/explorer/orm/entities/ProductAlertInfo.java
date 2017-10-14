@@ -7,7 +7,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -98,7 +97,7 @@ public class ProductAlertInfo extends Trackable<ProductAlertInfoId> {
 		this.alertDate = alertDate;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "PRODUCT_ID", insertable = false, updatable = false)
 	public Product getProduct() {
 		return product;
@@ -108,7 +107,7 @@ public class ProductAlertInfo extends Trackable<ProductAlertInfoId> {
 		this.product = product;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "LOCATION_ID", insertable = false, updatable = false)
 	public Location getLocation() {
 		return location;
