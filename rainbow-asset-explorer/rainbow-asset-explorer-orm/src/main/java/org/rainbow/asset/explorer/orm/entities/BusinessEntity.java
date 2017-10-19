@@ -13,7 +13,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
@@ -22,7 +22,7 @@ import org.rainbow.orm.entities.Trackable;
 @Entity
 @Table(name = "BUSINESS_ENTITY")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class BusinessEntity extends Trackable<Long> {
+public abstract class BusinessEntity extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -49,7 +49,7 @@ public abstract class BusinessEntity extends Trackable<Long> {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Override
 	public Long getId() {
 		return super.getId();

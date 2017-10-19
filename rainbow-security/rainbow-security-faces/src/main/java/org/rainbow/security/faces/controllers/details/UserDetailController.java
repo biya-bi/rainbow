@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
 import  org.rainbow.security.faces.util.ResourceBundles;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName=ResourceBundles.CRUD_MESSAGES,createdMessageKey = "UserCreated", updatedMessageKey = "UserUpdated", deletedMessageKey = "UserDeleted")
-public class UserDetailController extends AbstractAuditableDetailController<User> {
+public class UserDetailController extends AbstractAuditableEntityDetailController<User> {
 
 	/**
 	 * 

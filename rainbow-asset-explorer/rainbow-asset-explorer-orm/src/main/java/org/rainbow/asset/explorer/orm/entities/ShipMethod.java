@@ -6,20 +6,15 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.ShipMethodAudit;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
@@ -27,9 +22,9 @@ import org.rainbow.orm.entities.Trackable;
  */
 @Entity
 @Table(name = "SHIP_METHOD", uniqueConstraints = @UniqueConstraint(columnNames = { "NAME" }))
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = ShipMethodAudit.class)
-public class ShipMethod extends Trackable<Long> {
+
+@Auditable(ShipMethodAudit.class)
+public class ShipMethod extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -64,18 +59,6 @@ public class ShipMethod extends Trackable<Long> {
 	public ShipMethod(String name, Date creationDate, Date lastUpdateDate, long version, Long id) {
 		super(creationDate, lastUpdateDate, version, id);
 		this.name = name;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Override
-	public Long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Long id) {
-		super.setId(id);
 	}
 
 	@Basic(optional = false)

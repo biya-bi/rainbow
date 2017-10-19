@@ -7,9 +7,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -24,7 +21,9 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
+import org.rainbow.security.orm.audit.UserAudit;
 
 /**
  *
@@ -35,7 +34,8 @@ import org.rainbow.orm.entities.Trackable;
 @NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
 		@NamedQuery(name = "User.findByUserName", query = "SELECT u FROM User u WHERE u.userName = :userName"),
 		@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id") })
-public class User extends Trackable<Long> {
+@Auditable(UserAudit.class)
+public class User extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -79,18 +79,6 @@ public class User extends Trackable<Long> {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Override
-	public Long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Long id) {
-		super.setId(id);
 	}
 
 	@Column(name = "LAST_ACTIVITY_DATE")

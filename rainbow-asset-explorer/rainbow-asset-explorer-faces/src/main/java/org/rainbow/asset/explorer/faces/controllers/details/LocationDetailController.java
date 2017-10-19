@@ -13,7 +13,7 @@ import org.rainbow.asset.explorer.faces.util.ResourceBundles;
 import org.rainbow.asset.explorer.orm.entities.Location;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateLocationNameException;
 import org.rainbow.asset.explorer.service.services.LocationService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "LocationCreated", updatedMessageKey = "LocationUpdated", deletedMessageKey = "LocationDeleted")
-public class LocationDetailController extends AbstractAuditableDetailController<Location> {
+public class LocationDetailController extends AbstractAuditableEntityDetailController<Location> {
 
 	/**
 	 * 

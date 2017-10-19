@@ -23,7 +23,7 @@ import org.rainbow.asset.explorer.service.exceptions.ProductReceiptDetailsNullOr
 import org.rainbow.asset.explorer.service.services.LocationService;
 import org.rainbow.asset.explorer.service.services.ProductReceiptService;
 import org.rainbow.asset.explorer.service.services.ProductService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.service.services.Service;
@@ -38,7 +38,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "ProductReceiptCreated", updatedMessageKey = "ProductReceiptUpdated", deletedMessageKey = "ProductReceiptDeleted")
-public class ProductReceiptDetailController extends AbstractAuditableDetailController<ProductReceipt> {
+public class ProductReceiptDetailController extends AbstractAuditableEntityDetailController<ProductReceipt> {
 
 	/**
 	 * 

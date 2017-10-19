@@ -6,7 +6,7 @@ import javax.inject.Named;
 import org.rainbow.asset.explorer.faces.util.ResourceBundles;
 import org.rainbow.asset.explorer.orm.entities.Locale;
 import org.rainbow.asset.explorer.service.services.LocaleService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "LocaleCreated", updatedMessageKey = "LocaleUpdated", deletedMessageKey = "LocaleDeleted")
-public class LocaleDetailController extends AbstractAuditableDetailController<Locale> {
+public class LocaleDetailController extends AbstractAuditableEntityDetailController<Locale> {
 
 	/**
 	 * 

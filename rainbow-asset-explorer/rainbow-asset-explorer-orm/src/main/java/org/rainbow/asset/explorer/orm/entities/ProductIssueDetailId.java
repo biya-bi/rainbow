@@ -17,9 +17,9 @@ public class ProductIssueDetailId implements Serializable {
 	public ProductIssueDetailId() {
 	}
 
-	public ProductIssueDetailId(Long purchaseOrderId, Integer detailId) {
+	public ProductIssueDetailId(Long productIssueId, Integer detailId) {
 		super();
-		this.productIssueId = purchaseOrderId;
+		this.productIssueId = productIssueId;
 		this.detailId = detailId;
 	}
 
@@ -28,8 +28,8 @@ public class ProductIssueDetailId implements Serializable {
 		return productIssueId;
 	}
 
-	public void setProductIssueId(Long userId) {
-		this.productIssueId = userId;
+	public void setProductIssueId(Long productIssueId) {
+		this.productIssueId = productIssueId;
 	}
 
 	@Column(name = "DETAIL_ID")

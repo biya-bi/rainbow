@@ -1,5 +1,7 @@
 package org.rainbow.asset.explorer.orm.audit;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -9,6 +11,8 @@ import javax.validation.constraints.NotNull;
 
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetailId;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -16,12 +20,13 @@ import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetailId;
  */
 @Entity
 @Table(name = "SHIPPING_ORDER_DETAIL_AUDIT")
-public class ShippingOrderDetailAudit extends TrackableAudit<ShippingOrderDetail, ShippingOrderDetailId> {
+public class ShippingOrderDetailAudit extends AbstractAuditableEntityAudit<ShippingOrderDetail, ShippingOrderDetailId> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3675413710142041218L;
+	private Long shippingOrderId;
 	private Long productId;
 	private Short shippedQuantity;
 	private Short receivedQuantity;
@@ -32,6 +37,9 @@ public class ShippingOrderDetailAudit extends TrackableAudit<ShippingOrderDetail
 
 	public ShippingOrderDetailAudit(ShippingOrderDetail shippingOrderDetail, WriteOperation writeOperation) {
 		super(shippingOrderDetail, writeOperation);
+		Objects.requireNonNull(shippingOrderDetail.getShippingOrder());
+		Objects.requireNonNull(shippingOrderDetail.getProduct());
+		this.shippingOrderId = shippingOrderDetail.getShippingOrder().getId();
 		this.productId = shippingOrderDetail.getProduct().getId();
 		this.shippedQuantity = shippingOrderDetail.getShippedQuantity();
 		this.receivedQuantity = shippingOrderDetail.getReceivedQuantity();
@@ -47,6 +55,16 @@ public class ShippingOrderDetailAudit extends TrackableAudit<ShippingOrderDetail
 	@Override
 	public void setId(ShippingOrderDetailId id) {
 		super.setId(id);
+	}
+
+	@NotNull
+	@Column(name = "SHIPPING_ORDER_ID", nullable = false)
+	public Long getShippingOrderId() {
+		return shippingOrderId;
+	}
+
+	public void setShippingOrderId(Long shippingOrderId) {
+		this.shippingOrderId = shippingOrderId;
 	}
 
 	@NotNull
@@ -92,8 +110,4 @@ public class ShippingOrderDetailAudit extends TrackableAudit<ShippingOrderDetail
 		this.rejectedQuantity = rejectedQuantity;
 	}
 
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.ShippingOrderDetailAudit[ auditId=" + getAuditId() + " ]";
-	}
 }

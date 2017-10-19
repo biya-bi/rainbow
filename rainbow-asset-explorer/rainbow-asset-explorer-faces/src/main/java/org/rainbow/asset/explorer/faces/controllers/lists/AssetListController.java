@@ -13,7 +13,7 @@ import org.rainbow.asset.explorer.faces.translation.EnumTranslator;
 import org.rainbow.asset.explorer.orm.entities.Asset;
 import org.rainbow.asset.explorer.service.services.AssetService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableListController;
+import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableEntityListController;
 import org.rainbow.faces.filters.RelationalOperator;
 import org.rainbow.faces.filters.SingleValuedFilter;
 import org.rainbow.faces.util.Filterable;
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class AssetListController extends AbstractNumericIdAuditableListController<Asset, Long> {
+public class AssetListController extends AbstractNumericIdAuditableEntityListController<Asset, Long> {
 
 	/**
 	 * 

@@ -4,12 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -20,10 +16,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
 import org.rainbow.asset.explorer.orm.audit.AssetAudit;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
@@ -34,9 +29,8 @@ import org.rainbow.orm.entities.Trackable;
 @NamedQueries({ @NamedQuery(name = "Asset.findAll", query = "SELECT a FROM Asset a"),
 		@NamedQuery(name = "Asset.findByName", query = "SELECT a FROM Asset a WHERE UPPER(a.name) = :name"),
 		@NamedQuery(name = "Asset.findById", query = "SELECT a FROM Asset a WHERE a.id = :id") })
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = AssetAudit.class)
-public class Asset extends Trackable<Long> {
+@Auditable(AssetAudit.class)
+public class Asset extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -71,18 +65,6 @@ public class Asset extends Trackable<Long> {
 		super(creationDate, lastUpdateDate);
 		this.name = name;
 		this.serialNumber = serialNumber;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Override
-	public Long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Long id) {
-		super.setId(id);
 	}
 
 	@NotNull

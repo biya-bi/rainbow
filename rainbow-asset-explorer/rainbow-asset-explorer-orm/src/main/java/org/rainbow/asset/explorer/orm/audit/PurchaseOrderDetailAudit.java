@@ -1,6 +1,7 @@
 package org.rainbow.asset.explorer.orm.audit;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -13,6 +14,8 @@ import javax.validation.constraints.NotNull;
 
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderDetailId;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -20,12 +23,13 @@ import org.rainbow.asset.explorer.orm.entities.PurchaseOrderDetailId;
  */
 @Entity
 @Table(name = "PURCHASE_ORDER_DETAIL_AUDIT")
-public class PurchaseOrderDetailAudit extends TrackableAudit<PurchaseOrderDetail, PurchaseOrderDetailId> {
+public class PurchaseOrderDetailAudit extends AbstractAuditableEntityAudit<PurchaseOrderDetail, PurchaseOrderDetailId> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2350235378710757398L;
+	private Long purchaseOrderId;
 	private Long productId;
 	private Date dueDate;
 	private Short orderedQuantity;
@@ -38,6 +42,9 @@ public class PurchaseOrderDetailAudit extends TrackableAudit<PurchaseOrderDetail
 
 	public PurchaseOrderDetailAudit(PurchaseOrderDetail purchaseOrderDetail, WriteOperation writeOperation) {
 		super(purchaseOrderDetail, writeOperation);
+		Objects.requireNonNull(purchaseOrderDetail.getPurchaseOrder());
+		Objects.requireNonNull(purchaseOrderDetail.getProduct());
+		this.purchaseOrderId = purchaseOrderDetail.getPurchaseOrder().getId();
 		this.productId = purchaseOrderDetail.getProduct().getId();
 		this.dueDate = purchaseOrderDetail.getDueDate();
 		this.orderedQuantity = purchaseOrderDetail.getOrderedQuantity();
@@ -55,6 +62,16 @@ public class PurchaseOrderDetailAudit extends TrackableAudit<PurchaseOrderDetail
 	@Override
 	public void setId(PurchaseOrderDetailId id) {
 		super.setId(id);
+	}
+
+	@NotNull
+	@Column(name = "PURCHASE_ORDER_ID", nullable = false)
+	public Long getPurchaseOrderId() {
+		return purchaseOrderId;
+	}
+
+	public void setPurchaseOrderId(Long purchaseOrderId) {
+		this.purchaseOrderId = purchaseOrderId;
 	}
 
 	@NotNull
@@ -122,8 +139,4 @@ public class PurchaseOrderDetailAudit extends TrackableAudit<PurchaseOrderDetail
 		this.rejectedQuantity = rejectedQuantity;
 	}
 
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.PurchaseOrderDetailAudit[ auditId=" + getAuditId() + " ]";
-	}
 }

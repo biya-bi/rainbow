@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import org.primefaces.context.RequestContext;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.entities.AbstractAuditableEntity;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.service.services.Service;
 
@@ -22,7 +22,7 @@ import org.rainbow.service.services.Service;
  * @author Biya-Bi
  * @param <TEntity>
  */
-public abstract class AbstractDetailController<TEntity extends Trackable<?>> implements Serializable {
+public abstract class AbstractDetailController<TEntity extends AbstractAuditableEntity<?>> implements Serializable {
 
 	/**
 	 * 

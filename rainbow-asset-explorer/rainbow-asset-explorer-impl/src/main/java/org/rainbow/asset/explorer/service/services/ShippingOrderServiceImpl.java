@@ -10,7 +10,6 @@ import org.rainbow.asset.explorer.orm.entities.Location;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderStatus;
-import org.rainbow.asset.explorer.persistence.dao.LocationDao;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateShippingOrderReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderDeliveredQuantityOutOfRangeException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderDetailsNullOrEmptyException;
@@ -23,18 +22,9 @@ import org.rainbow.util.DaoUtil;
 
 public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> implements ShippingOrderService {
 
-	private LocationDao locationDao;
 	private InventoryManager inventoryManager;
 
 	public ShippingOrderServiceImpl() {
-	}
-
-	public LocationDao getLocationDao() {
-		return locationDao;
-	}
-
-	public void setLocationDao(LocationDao locationDao) {
-		this.locationDao = locationDao;
 	}
 
 	public InventoryManager getInventoryManager() {
@@ -49,7 +39,6 @@ public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> impleme
 	public void approve(ShippingOrder shippingOrder) throws Exception {
 		checkDependencies();
 		final ShippingOrder persistentPurchaseOrder = this.getDao().findById(shippingOrder.getId());
-		persistentPurchaseOrder.setUpdater(shippingOrder.getUpdater());
 		changeStatus(persistentPurchaseOrder, ShippingOrderStatus.APPROVED);
 	}
 
@@ -57,7 +46,6 @@ public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> impleme
 	public void reject(ShippingOrder shippingOrder) throws Exception {
 		checkDependencies();
 		final ShippingOrder persistentPurchaseOrder = this.getDao().findById(shippingOrder.getId());
-		persistentPurchaseOrder.setUpdater(shippingOrder.getUpdater());
 		changeStatus(persistentPurchaseOrder, ShippingOrderStatus.REJECTED);
 	}
 
@@ -65,7 +53,6 @@ public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> impleme
 	public void transit(ShippingOrder shippingOrder) throws Exception {
 		checkDependencies();
 		ShippingOrder persistentShippingOrder = this.getDao().findById(shippingOrder.getId());
-		persistentShippingOrder.setUpdater(shippingOrder.getUpdater());
 		changeStatus(persistentShippingOrder, ShippingOrderStatus.IN_TRANSIT);
 		persistentShippingOrder.setShipDate(new Date());
 
@@ -82,14 +69,13 @@ public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> impleme
 			}
 		}
 
-		this.getInventoryManager().substract(persistentShippingOrder.getSourceLocation().getId(), productsCount);
+		this.getInventoryManager().subtract(persistentShippingOrder.getSourceLocation().getId(), productsCount);
 	}
 
 	@Override
 	public void deliver(ShippingOrder shippingOrder, Map<Long, Short> productsCount) throws Exception {
 		checkDependencies();
 		ShippingOrder persistentShippingOrder = this.getDao().findById(shippingOrder.getId());
-		persistentShippingOrder.setUpdater(shippingOrder.getUpdater());
 		changeStatus(persistentShippingOrder, ShippingOrderStatus.DELIVERED);
 		List<ShippingOrderDetail> details = getDetails(shippingOrder.getId());
 		persistentShippingOrder.setDetails(details);
@@ -99,8 +85,6 @@ public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> impleme
 		persistentShippingOrder.setDeliveryDate(new Date());
 
 		for (ShippingOrderDetail detail : details) {
-			detail.setUpdater(shippingOrder.getUpdater());
-
 			Long productId = detail.getProduct().getId();
 			short deliveredQuantity = 0;
 			if (productsCount.containsKey(productId)) {
@@ -120,7 +104,6 @@ public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> impleme
 
 		persistentShippingOrder = this.getDao().findById(shippingOrder.getId());
 
-		persistentShippingOrder.setUpdater(shippingOrder.getUpdater());
 		changeStatus(persistentShippingOrder, ShippingOrderStatus.RESTITUTED);
 
 		List<ShippingOrderDetail> details = getDetails(shippingOrder.getId());
@@ -185,8 +168,6 @@ public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> impleme
 		final Location sourceLocation = shippingOrder.getSourceLocation();
 		final Location targetLocation = shippingOrder.getTargetLocation();
 
-		shippingOrder.setSourceLocation(this.getLocationDao().findById(sourceLocation.getId()));
-		shippingOrder.setTargetLocation(this.getLocationDao().findById(targetLocation.getId()));
 		if (sourceLocation.equals(targetLocation)) {
 			throw new ShippingOrderLocationException(sourceLocation.getId());
 		}
@@ -264,12 +245,14 @@ public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> impleme
 
 	@Override
 	public void create(ShippingOrder shippingOrder) throws Exception {
+		checkDependencies();
 		onCreate(shippingOrder);
 		super.create(shippingOrder);
 	}
 
 	@Override
 	public void create(List<ShippingOrder> shippingOrders) throws Exception {
+		checkDependencies();
 		shippingOrders.stream().forEach(x -> onCreate(x));
 		super.create(shippingOrders);
 	}
@@ -285,4 +268,11 @@ public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> impleme
 		}
 	}
 
+	@Override
+	protected void checkDependencies() {
+		super.checkDependencies();
+		if (this.getInventoryManager() == null) {
+			throw new IllegalStateException("The inventory manager cannot be null.");
+		}
+	}
 }

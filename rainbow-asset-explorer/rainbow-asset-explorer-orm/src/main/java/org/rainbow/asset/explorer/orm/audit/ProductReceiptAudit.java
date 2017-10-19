@@ -10,6 +10,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.rainbow.asset.explorer.orm.entities.ProductReceipt;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -78,11 +79,6 @@ public class ProductReceiptAudit extends DocumentAudit<ProductReceipt> {
 
 	public void setCurrencyId(Integer currencyId) {
 		this.currencyId = currencyId;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.ProductReceiptAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

@@ -14,7 +14,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
+import org.rainbow.security.orm.audit.PasswordHistoryAudit;
 
 /**
  *
@@ -22,7 +24,8 @@ import org.rainbow.orm.entities.Trackable;
  */
 @Entity
 @Table(name = "PASSWORD_HISTORIES")
-public class PasswordHistory extends Trackable<Long> {
+@Auditable(PasswordHistoryAudit.class)
+public class PasswordHistory extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 

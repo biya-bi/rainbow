@@ -7,14 +7,14 @@ import javax.annotation.PostConstruct;
 
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.entities.AbstractAuditableEntity;
 
 /**
  *
  * @author Biya-Bi
  * @param <TEntity>
  */
-public abstract class AbstractAuditableDetailController<TEntity extends Trackable<?>> extends AbstractDetailController<TEntity> {
+public abstract class AbstractAuditableEntityDetailController<TEntity extends AbstractAuditableEntity<?>> extends AbstractDetailController<TEntity> {
 
 	/**
 	 * 
@@ -22,10 +22,10 @@ public abstract class AbstractAuditableDetailController<TEntity extends Trackabl
 	private static final long serialVersionUID = 6917842044825541623L;
 	private List<Boolean> auditColumnsStates;
 
-	public AbstractAuditableDetailController() {
+	public AbstractAuditableEntityDetailController() {
 	}
 
-	public AbstractAuditableDetailController(Class<TEntity> modelClass) {
+	public AbstractAuditableEntityDetailController(Class<TEntity> modelClass) {
 		super(modelClass);
 	}
 

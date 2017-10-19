@@ -4,25 +4,20 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.LocaleAudit;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
  * @author Biya-Bi
  */
 @Entity
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = LocaleAudit.class)
-public class Locale extends Trackable<Integer> {
+
+@Auditable(LocaleAudit.class)
+public class Locale extends AbstractNumericIdAuditableEntity<Integer> {
 
 	/**
 	 * 
@@ -55,18 +50,6 @@ public class Locale extends Trackable<Integer> {
 		this.name = name;
 		this.languageCode = languageCode;
 		this.lcid = lcid;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Override
-	public Integer getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		super.setId(id);
 	}
 
 	@NotNull

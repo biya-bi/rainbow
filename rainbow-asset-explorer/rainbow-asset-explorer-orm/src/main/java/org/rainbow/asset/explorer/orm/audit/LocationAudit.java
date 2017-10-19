@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.rainbow.asset.explorer.orm.entities.Location;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -14,7 +16,7 @@ import org.rainbow.asset.explorer.orm.entities.Location;
  */
 @Entity
 @Table(name = "LOCATION_AUDIT")
-public class LocationAudit extends TrackableAudit<Location, Long> {
+public class LocationAudit extends AbstractAuditableEntityAudit<Location, Long> {
 
 	/**
 	 * 
@@ -50,11 +52,6 @@ public class LocationAudit extends TrackableAudit<Location, Long> {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.LocationAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

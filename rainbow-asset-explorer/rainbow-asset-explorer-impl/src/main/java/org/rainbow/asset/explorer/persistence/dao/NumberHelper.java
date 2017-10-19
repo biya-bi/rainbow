@@ -3,8 +3,8 @@ package org.rainbow.asset.explorer.persistence.dao;
 import java.util.Collections;
 import java.util.List;
 
-public class NumberHelper {
-	public static int getLeastAvailable(final List<Integer> numbers) {
+class NumberHelper {
+	static int getLeastAvailable(final List<Integer> numbers) {
 		if (numbers.isEmpty()) {
 			return 1;
 		}

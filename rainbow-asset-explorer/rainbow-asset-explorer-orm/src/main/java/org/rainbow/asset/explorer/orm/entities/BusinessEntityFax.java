@@ -2,7 +2,6 @@ package org.rainbow.asset.explorer.orm.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
@@ -12,9 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.BusinessEntityFaxAudit;
+import org.rainbow.orm.audit.Auditable;
 
 /**
  *
@@ -24,8 +22,8 @@ import org.rainbow.asset.explorer.orm.audit.BusinessEntityFaxAudit;
 @Table(name = "BUSINESS_ENTITY_FAX", uniqueConstraints = @UniqueConstraint(columnNames = { "BUSINESS_ENTITY_ID",
 		"FAX_TYPE" }))
 @PrimaryKeyJoinColumn(name = "FAX_ID")
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = BusinessEntityFaxAudit.class)
+
+@Auditable(BusinessEntityFaxAudit.class)
 public class BusinessEntityFax extends Fax {
 
 	/**

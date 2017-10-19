@@ -14,6 +14,8 @@ import javax.validation.constraints.Size;
 
 import org.rainbow.asset.explorer.orm.entities.Site;
 import org.rainbow.asset.explorer.orm.entities.SiteStatus;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -21,7 +23,7 @@ import org.rainbow.asset.explorer.orm.entities.SiteStatus;
  */
 @Entity
 @Table(name = "SITE_AUDIT")
-public class SiteAudit extends TrackableAudit<Site, Long> {
+public class SiteAudit extends AbstractAuditableEntityAudit<Site, Long> {
 
 	/**
 	 * 
@@ -114,11 +116,6 @@ public class SiteAudit extends TrackableAudit<Site, Long> {
 
 	public void setDateOfDecommissioning(Date dateOfDecommissioning) {
 		this.dateOfDecommissioning = dateOfDecommissioning;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.SiteAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

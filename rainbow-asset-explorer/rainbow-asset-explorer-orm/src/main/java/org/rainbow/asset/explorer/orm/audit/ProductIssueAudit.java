@@ -11,6 +11,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.rainbow.asset.explorer.orm.entities.ProductIssue;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -77,11 +78,6 @@ public class ProductIssueAudit extends DocumentAudit<ProductIssue> {
 
 	public void setIssueDate(Date issueDate) {
 		this.issueDate = issueDate;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.ProductIssueAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

@@ -5,17 +5,18 @@ import java.util.Objects;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
  *
  * @author Biya-Bi
  * @param <T>
- *            The type of the Id
+ *            The type of the ID
  */
 @MappedSuperclass
 @Access(value = AccessType.PROPERTY)
-public abstract class Identifiable<T extends Serializable> implements Serializable {
+public abstract class AbstractEntity<T extends Serializable> implements Serializable {
 
 	/**
 	 * 
@@ -23,13 +24,14 @@ public abstract class Identifiable<T extends Serializable> implements Serializab
 	private static final long serialVersionUID = 4674915874082623116L;
 	private T id;
 
-	public Identifiable() {
+	public AbstractEntity() {
 	}
 
-	public Identifiable(T id) {
+	public AbstractEntity(T id) {
 		this.id = id;
 	}
 
+	@Id
 	public T getId() {
 		return id;
 	}
@@ -57,7 +59,7 @@ public abstract class Identifiable<T extends Serializable> implements Serializab
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final Identifiable<?> other = (Identifiable<?>) obj;
+		final AbstractEntity<?> other = (AbstractEntity<?>) obj;
 		return Objects.equals(this.getId(), other.getId());
 	}
 

@@ -6,10 +6,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -18,10 +14,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.LocationAudit;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
@@ -33,9 +28,9 @@ import org.rainbow.orm.entities.Trackable;
 @NamedQueries({ @NamedQuery(name = "Location.findAll", query = "SELECT l FROM Location l"),
 		@NamedQuery(name = "Location.findByName", query = "SELECT l FROM Location l WHERE UPPER(l.name) = :name"),
 		@NamedQuery(name = "Location.findById", query = "SELECT l FROM Location l WHERE l.id = :id") })
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = LocationAudit.class)
-public class Location extends Trackable<Long> {
+
+@Auditable(LocationAudit.class)
+public class Location extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -73,18 +68,6 @@ public class Location extends Trackable<Long> {
 		super(creationDate, lastUpdateDate, version, id);
 		this.name = name;
 		this.description = description;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Override
-	public Long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Long id) {
-		super.setId(id);
 	}
 
 	@Basic(optional = false)

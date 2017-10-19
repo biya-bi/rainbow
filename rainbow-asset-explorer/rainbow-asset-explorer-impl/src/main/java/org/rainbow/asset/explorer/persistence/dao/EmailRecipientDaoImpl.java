@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import org.rainbow.asset.explorer.orm.entities.EmailRecipient;
 import org.rainbow.asset.explorer.orm.entities.Locale;
 import org.rainbow.asset.explorer.util.PersistenceSettings;
+import org.rainbow.persistence.dao.DaoImpl;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.util.EntityManagerUtil;
 
@@ -14,7 +15,7 @@ import org.rainbow.util.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class EmailRecipientDaoImpl extends TrackableDaoImpl<EmailRecipient> implements EmailRecipientDao {
+public class EmailRecipientDaoImpl extends DaoImpl<EmailRecipient> implements EmailRecipientDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

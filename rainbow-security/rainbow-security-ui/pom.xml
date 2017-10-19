@@ -219,6 +219,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.rainbow</groupId>
+			<artifactId>rainbow-orm-eclipselink</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 			<version>${javax.mail.version}</version>

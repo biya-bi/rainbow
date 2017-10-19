@@ -67,7 +67,6 @@
 		class="org.rainbow.asset.explorer.service.services.ProductReceiptServiceImpl">
 		<property name="dao" ref="productReceiptDao" />
 		<property name="inventoryManager" ref="inventoryManager" />
-		<property name="locationDao" ref="locationDao" />
 	</bean>
 
 	<bean id="productService"
@@ -79,7 +78,6 @@
 		class="org.rainbow.asset.explorer.service.services.PurchaseOrderServiceImpl">
 		<property name="dao" ref="purchaseOrderDao" />
 		<property name="vendorDao" ref="vendorDao" />
-		<property name="locationDao" ref="locationDao" />
 		<property name="inventoryManager" ref="inventoryManager" />
 	</bean>
 
@@ -91,7 +89,6 @@
 	<bean id="shippingOrderService"
 		class="org.rainbow.asset.explorer.service.services.ShippingOrderServiceImpl">
 		<property name="dao" ref="shippingOrderDao" />
-		<property name="locationDao" ref="locationDao" />
 		<property name="inventoryManager" ref="inventoryManager" />
 	</bean>
 

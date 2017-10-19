@@ -5,9 +5,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -20,7 +17,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
+import org.rainbow.security.orm.audit.GroupAudit;
 
 /**
  *
@@ -32,7 +31,8 @@ import org.rainbow.orm.entities.Trackable;
 @NamedQueries({ @NamedQuery(name = "Group.findAll", query = "SELECT g FROM Group g"),
 		@NamedQuery(name = "Group.findByName", query = "SELECT g FROM Group g WHERE UPPER(g.name) = :name"),
 		@NamedQuery(name = "Group.findById", query = "SELECT g FROM Group g WHERE g.id = :id") })
-public class Group extends Trackable<Long> {
+@Auditable(GroupAudit.class)
+public class Group extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -54,18 +54,6 @@ public class Group extends Trackable<Long> {
 	public Group(Long id, String name) {
 		super(id);
 		this.name = name;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Override
-	public Long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Long id) {
-		super.setId(id);
 	}
 
 	@Basic(optional = false)

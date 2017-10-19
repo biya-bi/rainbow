@@ -10,6 +10,8 @@ import javax.validation.constraints.NotNull;
 import org.rainbow.asset.explorer.orm.entities.Alert;
 import org.rainbow.asset.explorer.orm.entities.AlertCategory;
 import org.rainbow.asset.explorer.orm.entities.AlertType;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -17,7 +19,7 @@ import org.rainbow.asset.explorer.orm.entities.AlertType;
  */
 @Entity
 @Table(name = "ALERT_AUDIT")
-public class AlertAudit extends TrackableAudit<Alert, Integer> {
+public class AlertAudit extends AbstractAuditableEntityAudit<Alert, Integer> {
 
 	/**
 	 * 
@@ -91,11 +93,6 @@ public class AlertAudit extends TrackableAudit<Alert, Integer> {
 
 	public void setImmediate(boolean immediate) {
 		this.immediate = immediate;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.AlertAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

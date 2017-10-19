@@ -6,12 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -20,10 +16,9 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
 import org.rainbow.asset.explorer.orm.audit.AlertAudit;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
@@ -31,9 +26,8 @@ import org.rainbow.orm.entities.Trackable;
  */
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "ALERT_TYPE", "ALERT_CATEGORY" }) })
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = AlertAudit.class)
-public class Alert extends Trackable<Integer> {
+@Auditable(AlertAudit.class)
+public class Alert extends AbstractNumericIdAuditableEntity<Integer> {
 
 	/**
 	 * 
@@ -69,18 +63,6 @@ public class Alert extends Trackable<Integer> {
 		this.enabled = enabled;
 		this.immediate = immediate;
 		this.schedule = schedule;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Override
-	public Integer getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		super.setId(id);
 	}
 
 	@NotNull

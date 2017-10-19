@@ -127,7 +127,7 @@ public class InventoryManagerImpl implements InventoryManager {
 	}
 
 	@Override
-	public void substract(Long locationId, Map<Long, Short> productIdsQuantities) throws Exception {
+	public void subtract(Long locationId, Map<Long, Short> productIdsQuantities) throws Exception {
 		checkDependencies();
 
 		Objects.requireNonNull(locationId);
@@ -143,14 +143,14 @@ public class InventoryManagerImpl implements InventoryManager {
 		List<ProductInventory> productInventories = getInventory(locationId, productIds);
 		for (Long productId : productIds) {
 			boolean found = false;
-			Short substractedQuantity = productIdsQuantities.get(productId);
+			Short subtractedQuantity = productIdsQuantities.get(productId);
 			for (ProductInventory productInventory : productInventories) {
 				if (productInventory.getId().getProductId().equals(productId)) {
 					short availableQuantity = productInventory.getQuantity();
-					short remainingQuantity = (short) (availableQuantity - substractedQuantity);
+					short remainingQuantity = (short) (availableQuantity - subtractedQuantity);
 					if (remainingQuantity < 0) {
 						throw new InsufficientInventoryException(locationId, productId, availableQuantity,
-								substractedQuantity);
+								subtractedQuantity);
 					}
 					productInventory.setQuantity(remainingQuantity);
 					if (remainingQuantity > 0) {
@@ -163,7 +163,7 @@ public class InventoryManagerImpl implements InventoryManager {
 				}
 			}
 			if (!found) {
-				throw new InsufficientInventoryException(locationId, productId, (short) 0, substractedQuantity);
+				throw new InsufficientInventoryException(locationId, productId, (short) 0, subtractedQuantity);
 			}
 		}
 		if (!updated_inventories.isEmpty()) {

@@ -1,10 +1,10 @@
 package org.rainbow.security.persistence.listeners;
 
-import org.rainbow.orm.listeners.AbstractTrackableListener;
+import org.rainbow.orm.listeners.AbstractAuditableEntityListener;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-public class TrackableListener extends AbstractTrackableListener {
+public class AuditableEntityListener extends AbstractAuditableEntityListener {
 
 	@Override
 	protected String getUserName() {

@@ -23,7 +23,7 @@ import org.rainbow.asset.explorer.orm.entities.PhoneType;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateVendorAccountNumberException;
 import org.rainbow.asset.explorer.service.services.VendorService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "VendorCreated", updatedMessageKey = "VendorUpdated", deletedMessageKey = "VendorDeleted")
-public class VendorDetailController extends AbstractAuditableDetailController<Vendor> {
+public class VendorDetailController extends AbstractAuditableEntityDetailController<Vendor> {
 
 	/**
 	 * 

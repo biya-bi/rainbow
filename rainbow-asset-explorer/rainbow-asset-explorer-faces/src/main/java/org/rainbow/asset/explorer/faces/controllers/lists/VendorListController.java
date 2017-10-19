@@ -11,7 +11,7 @@ import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.service.services.VendorService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableListController;
+import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableEntityListController;
 import org.rainbow.faces.filters.RelationalOperator;
 import org.rainbow.faces.filters.SingleValuedFilter;
 import org.rainbow.faces.util.Filterable;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class VendorListController extends AbstractNumericIdAuditableListController<Vendor, Long> {
+public class VendorListController extends AbstractNumericIdAuditableEntityListController<Vendor, Long> {
 
 	/**
 	 * 

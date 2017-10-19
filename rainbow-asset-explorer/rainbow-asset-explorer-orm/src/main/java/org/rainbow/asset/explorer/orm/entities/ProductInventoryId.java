@@ -1,7 +1,6 @@
 package org.rainbow.asset.explorer.orm.entities;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -11,7 +10,7 @@ import javax.persistence.Embeddable;
  * @author Biya-Bi
  */
 @Embeddable
-public class ProductInventoryId implements Serializable {
+public class ProductInventoryId implements Serializable, Comparable<ProductInventoryId> {
 
 	/**
 	 * 
@@ -48,30 +47,32 @@ public class ProductInventoryId implements Serializable {
 
 	@Override
 	public int hashCode() {
-		int hash = 3;
-		hash = 37 * hash + Objects.hashCode(this.productId);
-		hash = 37 * hash + Objects.hashCode(this.locationId);
-		return hash;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((locationId == null) ? 0 : locationId.hashCode());
+		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-		final ProductInventoryId other = (ProductInventoryId) obj;
-		if (!Objects.equals(this.productId, other.productId)) {
+		ProductInventoryId other = (ProductInventoryId) obj;
+		if (locationId == null) {
+			if (other.locationId != null)
+				return false;
+		} else if (!locationId.equals(other.locationId))
 			return false;
-		}
-		if (!Objects.equals(this.locationId, other.locationId)) {
+		if (productId == null) {
+			if (other.productId != null)
+				return false;
+		} else if (!productId.equals(other.productId))
 			return false;
-		}
 		return true;
 	}
 
@@ -79,4 +80,29 @@ public class ProductInventoryId implements Serializable {
 	public String toString() {
 		return this.getClass().getName() + "[ productId=" + getProductId() + ", locationId=" + getLocationId() + " ]";
 	}
+
+	@Override
+	public int compareTo(ProductInventoryId other) {
+		if (other == null) {
+			return 1;
+		}
+		if (this.productId == other.productId) {
+			if (this.locationId == other.locationId) {
+				return 0;
+			} else if (this.locationId == null && other.locationId != null) {
+				return -1;
+			} else if (this.locationId != null && other.locationId == null) {
+				return 1;
+			}
+			return this.locationId.compareTo(other.locationId);
+		}
+		if (this.productId == null && other.productId != null) {
+			return -1;
+		}
+		if (this.productId != null && other.productId == null) {
+			return 1;
+		}
+		return this.productId.compareTo(other.productId);
+	}
+
 }

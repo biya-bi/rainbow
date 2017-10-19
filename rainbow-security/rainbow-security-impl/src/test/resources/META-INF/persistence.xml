@@ -7,7 +7,7 @@
 		transaction-type="RESOURCE_LOCAL">
 
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<mapping-file>META-INF/orm.xml</mapping-file>
+		<mapping-file>META-INF/rainbow_security_orm.xml</mapping-file>
 		<jar-file>lib/rainbow-security-orm-0.0.1-SNAPSHOT.jar</jar-file>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 

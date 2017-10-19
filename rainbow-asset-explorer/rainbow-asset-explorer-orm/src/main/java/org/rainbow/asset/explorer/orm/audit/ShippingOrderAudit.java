@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 
 import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderStatus;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -107,8 +108,4 @@ public class ShippingOrderAudit extends DocumentAudit<ShippingOrder> {
 		this.deliveryDate = deliveryDate;
 	}
 
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.ShippingOrderAudit[ auditId=" + getAuditId() + " ]";
-	}
 }

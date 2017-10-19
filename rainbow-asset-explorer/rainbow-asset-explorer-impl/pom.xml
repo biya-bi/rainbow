@@ -30,10 +30,9 @@
 		<javaee.version>7.0</javaee.version>
 		<spring.framework.version>4.3.5.RELEASE</spring.framework.version>
 		<spring.context.support.version>4.3.5.RELEASE</spring.context.support.version>
-		<spring.security.version>4.2.1.RELEASE</spring.security.version>
 		<quartz.version>2.2.3</quartz.version>
 		<slf4j.simple.version>1.7.25</slf4j.simple.version>
-		<javax.mail.version>1.5.6</javax.mail.version>
+		<javax.mail.version>1.5.0</javax.mail.version>
 		<aspectjweaver.version>1.8.10</aspectjweaver.version>
 	</properties>
 
@@ -92,38 +91,50 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rainbow-security-impl</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rainbow-orm-eclipselink</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- Spring dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.framework.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.framework.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 			<version>${spring.framework.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.framework.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${spring.context.support.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
 		</dependency>
 
 		<!-- Quartz dependencies -->
@@ -143,7 +154,7 @@
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
-			<version>1.5.0</version>
+			<version>${javax.mail.version}</version>
 			<scope>provided</scope>
 		</dependency>
 

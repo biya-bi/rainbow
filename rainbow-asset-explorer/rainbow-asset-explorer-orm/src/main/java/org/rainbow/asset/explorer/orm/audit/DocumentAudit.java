@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.rainbow.asset.explorer.orm.entities.Document;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -14,7 +16,7 @@ import org.rainbow.asset.explorer.orm.entities.Document;
  * @param <T>
  */
 @MappedSuperclass
-public abstract class DocumentAudit<T extends Document> extends TrackableAudit<T, Long> {
+public abstract class DocumentAudit<T extends Document> extends AbstractAuditableEntityAudit<T, Long> {
 
 	/**
 	 * 
@@ -51,11 +53,6 @@ public abstract class DocumentAudit<T extends Document> extends TrackableAudit<T
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.DocumentAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

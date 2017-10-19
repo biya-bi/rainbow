@@ -8,10 +8,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.rainbow.asset.explorer.orm.entities.Department;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 @Entity
 @Table(name = "DEPARTMENT_AUDIT")
-public class DepartmentAudit extends TrackableAudit<Department, Integer> {
+public class DepartmentAudit extends AbstractAuditableEntityAudit<Department, Integer> {
 	/**
 	 * 
 	 */

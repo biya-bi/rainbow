@@ -11,7 +11,7 @@ import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.orm.entities.AssetType;
 import org.rainbow.asset.explorer.service.services.AssetTypeService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableListController;
+import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableEntityListController;
 import org.rainbow.faces.filters.RelationalOperator;
 import org.rainbow.faces.filters.SingleValuedFilter;
 import org.rainbow.faces.util.Filterable;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class AssetTypeListController extends AbstractNumericIdAuditableListController<AssetType, Long> {
+public class AssetTypeListController extends AbstractNumericIdAuditableEntityListController<AssetType, Long> {
 
 	/**
 	 * 

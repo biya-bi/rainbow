@@ -1,7 +1,6 @@
 package org.rainbow.asset.explorer.persistence.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +20,7 @@ import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetailId;
 import org.rainbow.asset.explorer.util.PersistenceSettings;
+import org.rainbow.persistence.dao.DaoImpl;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.util.EntityManagerUtil;
@@ -30,7 +30,7 @@ import org.rainbow.util.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class ShippingOrderDaoImpl extends TrackableDaoImpl<ShippingOrder> implements ShippingOrderDao {
+public class ShippingOrderDaoImpl extends DaoImpl<ShippingOrder> implements ShippingOrderDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;
@@ -88,11 +88,6 @@ public class ShippingOrderDaoImpl extends TrackableDaoImpl<ShippingOrder> implem
 
 			for (ShippingOrderDetail detail : currentDetails) {
 				detail.setShippingOrder(shippingOrder);
-				detail.setCreator(shippingOrder.getCreator());
-				detail.setUpdater(shippingOrder.getUpdater());
-				detail.setCreationDate(shippingOrder.getCreationDate());
-				detail.setLastUpdateDate(shippingOrder.getLastUpdateDate());
-
 				setProduct(detail, products);
 
 				if (oldDetails == null || !oldDetails.contains(detail)) {
@@ -110,10 +105,6 @@ public class ShippingOrderDaoImpl extends TrackableDaoImpl<ShippingOrder> implem
 			for (ShippingOrderDetail detail : oldDetails) {
 				if (currentDetails != null) {
 					if (!currentDetails.contains(detail)) {
-						detail.setUpdater(shippingOrder.getUpdater());
-						detail.setCreationDate(shippingOrder.getCreationDate());
-						detail.setLastUpdateDate(shippingOrder.getLastUpdateDate());
-
 						em.remove(detail);
 					}
 				} else {
@@ -139,10 +130,6 @@ public class ShippingOrderDaoImpl extends TrackableDaoImpl<ShippingOrder> implem
 	@Override
 	protected void onDelete(ShippingOrder shippingOrder) throws Exception {
 		List<ShippingOrderDetail> details = getDetails(shippingOrder.getId());
-		for (ShippingOrderDetail detail : details) {
-			detail.setUpdater(shippingOrder.getUpdater());
-			detail.setLastUpdateDate(new Date());
-		}
 		shippingOrder.setDetails(details);
 		super.onDelete(shippingOrder);
 	}

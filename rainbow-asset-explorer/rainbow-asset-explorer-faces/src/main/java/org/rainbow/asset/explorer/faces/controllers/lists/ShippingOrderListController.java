@@ -13,7 +13,7 @@ import org.rainbow.asset.explorer.faces.translation.EnumTranslator;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.service.services.ShippingOrderService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableListController;
+import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableEntityListController;
 import org.rainbow.faces.filters.RelationalOperator;
 import org.rainbow.faces.filters.SingleValuedFilter;
 import org.rainbow.faces.util.Filterable;
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class ShippingOrderListController extends AbstractNumericIdAuditableListController<ShippingOrder, Long> {
+public class ShippingOrderListController extends AbstractNumericIdAuditableEntityListController<ShippingOrder, Long> {
 
 	/**
 	 * 

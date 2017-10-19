@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,10 +13,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.PurchaseOrderDetailAudit;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractAuditableEntity;
 
 /**
  *
@@ -25,9 +23,9 @@ import org.rainbow.orm.entities.Trackable;
  */
 @Entity
 @Table(name = "PURCHASE_ORDER_DETAIL")
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = PurchaseOrderDetailAudit.class)
-public class PurchaseOrderDetail extends Trackable<PurchaseOrderDetailId> {
+
+@Auditable(PurchaseOrderDetailAudit.class)
+public class PurchaseOrderDetail extends AbstractAuditableEntity<PurchaseOrderDetailId> {
 
 	/**
 	 * 

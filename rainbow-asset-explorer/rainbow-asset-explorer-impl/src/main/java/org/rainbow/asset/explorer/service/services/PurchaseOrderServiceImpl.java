@@ -9,7 +9,6 @@ import org.rainbow.asset.explorer.orm.entities.PurchaseOrder;
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderStatus;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
-import org.rainbow.asset.explorer.persistence.dao.LocationDao;
 import org.rainbow.asset.explorer.persistence.dao.VendorDao;
 import org.rainbow.asset.explorer.service.exceptions.DuplicatePurchaseOrderReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderCompleteQuantityOutOfRangeException;
@@ -23,7 +22,6 @@ import org.rainbow.util.DaoUtil;
 
 public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> implements PurchaseOrderService {
 	private VendorDao vendorDao;
-	private LocationDao locationDao;
 	private InventoryManager inventoryManager;
 
 	public PurchaseOrderServiceImpl() {
@@ -35,14 +33,6 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> impleme
 
 	public void setVendorDao(VendorDao vendorDao) {
 		this.vendorDao = vendorDao;
-	}
-
-	public LocationDao getLocationDao() {
-		return locationDao;
-	}
-
-	public void setLocationDao(LocationDao locationDao) {
-		this.locationDao = locationDao;
 	}
 
 	public InventoryManager getInventoryManager() {
@@ -57,7 +47,6 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> impleme
 	public void approve(PurchaseOrder purchaseOrder) throws Exception {
 		checkDependencies();
 		final PurchaseOrder persistentPurchaseOrder = this.getDao().findById(purchaseOrder.getId());
-		persistentPurchaseOrder.setUpdater(purchaseOrder.getUpdater());
 		changeStatus(persistentPurchaseOrder, PurchaseOrderStatus.APPROVED);
 	}
 
@@ -65,7 +54,6 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> impleme
 	public void reject(PurchaseOrder purchaseOrder) throws Exception {
 		checkDependencies();
 		final PurchaseOrder persistentPurchaseOrder = this.getDao().findById(purchaseOrder.getId());
-		persistentPurchaseOrder.setUpdater(purchaseOrder.getUpdater());
 		changeStatus(persistentPurchaseOrder, PurchaseOrderStatus.REJECTED);
 	}
 
@@ -75,18 +63,11 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> impleme
 		checkDependencies();
 		PurchaseOrder persistentPurchaseOrder = this.getDao().findById(purchaseOrder.getId());
 
-		persistentPurchaseOrder.setUpdater(purchaseOrder.getUpdater());
-
-		Location persistentLocation = this.getLocationDao().findById(location.getId());
-
 		List<PurchaseOrderDetail> details = getDetails(persistentPurchaseOrder.getId());
 		persistentPurchaseOrder.setDetails(details);
 		validateComplete(persistentPurchaseOrder, productsCount);
-		persistentPurchaseOrder.setLocation(persistentLocation);
 
 		for (PurchaseOrderDetail detail : details) {
-			detail.setUpdater(purchaseOrder.getUpdater());
-
 			Long productId = detail.getProduct().getId();
 			short receivedQuantity = 0;
 			if (productsCount.containsKey(productId)) {
@@ -98,7 +79,7 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> impleme
 
 		changeStatus(persistentPurchaseOrder, PurchaseOrderStatus.COMPLETE);
 
-		this.getInventoryManager().add(persistentLocation.getId(), productsCount);
+		this.getInventoryManager().add(location.getId(), productsCount);
 
 	}
 
@@ -216,12 +197,14 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> impleme
 
 	@Override
 	public void create(PurchaseOrder purchaseOrder) throws Exception {
+		checkDependencies();
 		onCreate(purchaseOrder);
 		super.create(purchaseOrder);
 	}
 
 	@Override
 	public void create(List<PurchaseOrder> purchaseOrders) throws Exception {
+		checkDependencies();
 		purchaseOrders.stream().forEach(x -> onCreate(x));
 		super.create(purchaseOrders);
 	}
@@ -233,6 +216,17 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> impleme
 				x.setReceivedQuantity((short) 0);
 				x.setRejectedQuantity((short) 0);
 			});
+		}
+	}
+
+	@Override
+	protected void checkDependencies() {
+		super.checkDependencies();
+		if (this.getVendorDao() == null) {
+			throw new IllegalStateException("The vendor data access object cannot be null.");
+		}
+		if (this.getInventoryManager() == null) {
+			throw new IllegalStateException("The inventory manager cannot be null.");
 		}
 	}
 }

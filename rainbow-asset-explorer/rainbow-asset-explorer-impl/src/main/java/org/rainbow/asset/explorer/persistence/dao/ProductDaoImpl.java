@@ -11,6 +11,7 @@ import org.rainbow.asset.explorer.util.PersistenceSettings;
 import org.rainbow.criteria.PathImpl;
 import org.rainbow.criteria.PredicateBuilderImpl;
 import org.rainbow.criteria.SearchOptionsImpl;
+import org.rainbow.persistence.dao.DaoImpl;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.util.EntityManagerUtil;
 
@@ -19,7 +20,7 @@ import org.rainbow.util.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class ProductDaoImpl extends TrackableDaoImpl<Product> implements ProductDao {
+public class ProductDaoImpl extends DaoImpl<Product> implements ProductDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

@@ -11,6 +11,8 @@ import javax.validation.constraints.Min;
 import org.rainbow.asset.explorer.orm.entities.DayOfWeek;
 import org.rainbow.asset.explorer.orm.entities.Month;
 import org.rainbow.asset.explorer.orm.entities.Schedule;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -18,7 +20,7 @@ import org.rainbow.asset.explorer.orm.entities.Schedule;
  */
 @Entity
 @Table(name = "SCHEDULE_AUDIT")
-public class ScheduleAudit extends TrackableAudit<Schedule, Integer> {
+public class ScheduleAudit extends AbstractAuditableEntityAudit<Schedule, Integer> {
 
 	/**
 	 * 
@@ -123,8 +125,4 @@ public class ScheduleAudit extends TrackableAudit<Schedule, Integer> {
 		this.year = year;
 	}
 
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.ScheduleAudit[ auditId=" + getAuditId() + " ]";
-	}
 }

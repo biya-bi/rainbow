@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.rainbow.asset.explorer.orm.entities.Manufacturer;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -14,7 +16,7 @@ import org.rainbow.asset.explorer.orm.entities.Manufacturer;
  */
 @Entity
 @Table(name = "MANUFACTURER_AUDIT")
-public class ManufacturerAudit extends TrackableAudit<Manufacturer, Long> {
+public class ManufacturerAudit extends AbstractAuditableEntityAudit<Manufacturer, Long> {
 
 	/**
 	 * 
@@ -50,11 +52,6 @@ public class ManufacturerAudit extends TrackableAudit<Manufacturer, Long> {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.ManufacturerAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 
 import org.rainbow.asset.explorer.orm.entities.AddressType;
 import org.rainbow.asset.explorer.orm.entities.BusinessEntityAddress;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -16,7 +18,7 @@ import org.rainbow.asset.explorer.orm.entities.BusinessEntityAddress;
  */
 @Entity
 @Table(name = "BUSINESS_ENTITY_ADDRESS_AUDIT")
-public class BusinessEntityAddressAudit extends TrackableAudit<BusinessEntityAddress, Long> {
+public class BusinessEntityAddressAudit extends AbstractAuditableEntityAudit<BusinessEntityAddress, Long> {
 
 	/**
 	 * 

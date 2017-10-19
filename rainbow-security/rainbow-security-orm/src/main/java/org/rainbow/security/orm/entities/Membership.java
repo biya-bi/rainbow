@@ -1,6 +1,5 @@
 package org.rainbow.security.orm.entities;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +7,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -20,6 +21,10 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
+import org.rainbow.security.orm.audit.MembershipAudit;
 
 /**
  *
@@ -36,7 +41,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "Membership.findById", query = "SELECT m FROM Membership m WHERE (m.user IS NOT NULL) AND m.user.id = :id"),
 		@NamedQuery(name = "Membership.findByIsEnabled", query = "SELECT m FROM Membership m WHERE m.enabled = :enabled"),
 		@NamedQuery(name = "Membership.findByIsLockedOut", query = "SELECT m FROM Membership m WHERE m.locked = :locked") })
-public class Membership implements Serializable {
+@Auditable(MembershipAudit.class)
+public class Membership extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -45,7 +51,6 @@ public class Membership implements Serializable {
 	private User user;
 	private String password;
 	private boolean enabled = true;
-	private Date creationDate;
 	private boolean locked;
 	private String description;
 	private Date lastPasswordChangeDate;
@@ -76,39 +81,16 @@ public class Membership implements Serializable {
 		this.locked = locked;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Override
-	public String toString() {
-		return this.getClass().getName() + " [user=" + user + "]";
+	public Long getId() {
+		return super.getId();
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((user == null) ? 0 : user.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Membership)) {
-			return false;
-		}
-		Membership other = (Membership) obj;
-		if (user == null) {
-			if (other.user != null) {
-				return false;
-			}
-		} else if (!user.equals(other.user)) {
-			return false;
-		}
-		return true;
+	public void setId(Long id) {
+		super.setId(id);
 	}
 
 	@NotNull
@@ -121,8 +103,7 @@ public class Membership implements Serializable {
 		this.password = password;
 	}
 
-	@Id
-	@JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
+	@JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false, unique = true)
 	@OneToOne(optional = false)
 	public User getUser() {
 		return user;
@@ -141,16 +122,6 @@ public class Membership implements Serializable {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-	}
-
-	@Column(name = "CREATION_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
 	}
 
 	@Column(name = "LOCKED")

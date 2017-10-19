@@ -2,28 +2,23 @@ package org.rainbow.asset.explorer.orm.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.ScheduleAudit;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
  * @author Biya-Bi
  */
 @Entity
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = ScheduleAudit.class)
-public class Schedule extends Trackable<Integer> {
+
+@Auditable(ScheduleAudit.class)
+public class Schedule extends AbstractNumericIdAuditableEntity<Integer> {
 
 	/**
 	 * 
@@ -37,18 +32,6 @@ public class Schedule extends Trackable<Integer> {
 	private DayOfWeek dayOfWeek;
 	private String timezone;
 	private String year;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Override
-	public Integer getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		super.setId(id);
-	}
 
 	@Min(0)
 	@Max(59)

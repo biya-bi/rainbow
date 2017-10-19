@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
@@ -17,9 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.ShippingOrderAudit;
+import org.rainbow.orm.audit.Auditable;
 
 /**
  *
@@ -27,8 +25,8 @@ import org.rainbow.asset.explorer.orm.audit.ShippingOrderAudit;
  */
 @Entity
 @Table(name = "SHIPPING_ORDER")
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = ShippingOrderAudit.class)
+
+@Auditable(ShippingOrderAudit.class)
 public class ShippingOrder extends Document {
 
 	/**

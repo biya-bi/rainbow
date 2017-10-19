@@ -3,10 +3,11 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
 
-	<mapped-superclass class="org.rainbow.orm.entities.Trackable">
+	<mapped-superclass class="org.rainbow.orm.entities.AbstractAuditableEntity">
 		<entity-listeners>
 			<entity-listener
-				class="org.rainbow.asset.explorer.persistence.listeners.TrackableListener" />
+				class="org.rainbow.security.persistence.listeners.AuditableEntityListener" />
+			<entity-listener class="org.rainbow.orm.listeners.WriteEventListener" />
 		</entity-listeners>
 	</mapped-superclass>
 

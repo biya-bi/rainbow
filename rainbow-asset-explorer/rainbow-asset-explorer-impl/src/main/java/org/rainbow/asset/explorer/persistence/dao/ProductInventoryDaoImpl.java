@@ -7,6 +7,7 @@ import org.rainbow.asset.explorer.orm.entities.Location;
 import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.orm.entities.ProductInventory;
 import org.rainbow.asset.explorer.util.PersistenceSettings;
+import org.rainbow.persistence.dao.DaoImpl;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.util.EntityManagerUtil;
 
@@ -15,7 +16,7 @@ import org.rainbow.util.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class ProductInventoryDaoImpl extends TrackableDaoImpl<ProductInventory> implements ProductInventoryDao {
+public class ProductInventoryDaoImpl extends DaoImpl<ProductInventory> implements ProductInventoryDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

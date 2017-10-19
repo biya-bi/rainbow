@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.rainbow.asset.explorer.orm.entities.Contact;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -23,11 +24,6 @@ public class ContactAudit extends PersonAudit<Contact> {
 
 	public ContactAudit(Contact contact, WriteOperation writeOperation) {
 		super(contact, writeOperation);
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.ContactAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

@@ -13,7 +13,7 @@ import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
@@ -21,7 +21,7 @@ import org.rainbow.orm.entities.Trackable;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Document extends Trackable<Long> {
+public abstract class Document extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -66,7 +66,7 @@ public abstract class Document extends Trackable<Long> {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Override
 	public Long getId() {
 		return super.getId();

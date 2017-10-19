@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 
 import org.rainbow.asset.explorer.orm.entities.BusinessEntityFax;
 import org.rainbow.asset.explorer.orm.entities.FaxType;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -16,7 +18,7 @@ import org.rainbow.asset.explorer.orm.entities.FaxType;
  */
 @Entity
 @Table(name = "BUSINESS_ENTITY_FAX_AUDIT")
-public class BusinessEntityFaxAudit extends TrackableAudit<BusinessEntityFax, Long> {
+public class BusinessEntityFaxAudit extends AbstractAuditableEntityAudit<BusinessEntityFax, Long> {
 
 	/**
 	 * 
@@ -74,11 +76,6 @@ public class BusinessEntityFaxAudit extends TrackableAudit<BusinessEntityFax, Lo
 
 	public void setLine(String line) {
 		this.line = line;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.BusinessEntityFaxAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

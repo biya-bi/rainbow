@@ -2,10 +2,10 @@ package org.rainbow.faces.controllers.lists;
 
 import java.util.Objects;
 
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
-public abstract class AbstractNumericIdAuditableListController<TModel extends Trackable<TKey>, TKey extends Number>
-		extends AbstractAuditableListController<TModel> {
+public abstract class AbstractNumericIdAuditableEntityListController<TModel extends AbstractNumericIdAuditableEntity<TKey>, TKey extends Number>
+		extends AbstractAuditableEntityListController<TModel> {
 	/**
 	 * 
 	 */
@@ -13,7 +13,7 @@ public abstract class AbstractNumericIdAuditableListController<TModel extends Tr
 
 	private Class<TKey> keyClass;
 
-	public AbstractNumericIdAuditableListController(Class<TKey> keyClass) {
+	public AbstractNumericIdAuditableEntityListController(Class<TKey> keyClass) {
 		super();
 		this.keyClass = Objects.requireNonNull(keyClass);
 	}

@@ -6,27 +6,21 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.CurrencyAudit;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
  * @author Biya-Bi
  */
 @Entity
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = CurrencyAudit.class)
-public class Currency extends Trackable<Integer> {
+@Auditable(CurrencyAudit.class)
+public class Currency extends AbstractNumericIdAuditableEntity<Integer> {
 
 	/**
 	 * 
@@ -73,18 +67,6 @@ public class Currency extends Trackable<Integer> {
 		super(createdBy, updatedBy, creationDate, lastUpdateDate, version, id);
 		this.name = name;
 		this.description = description;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Override
-	public Integer getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		super.setId(id);
 	}
 
 	@Basic(optional = false)

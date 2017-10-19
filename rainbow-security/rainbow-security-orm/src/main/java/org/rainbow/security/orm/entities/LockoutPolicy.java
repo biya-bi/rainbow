@@ -2,38 +2,27 @@ package org.rainbow.security.orm.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.security.orm.audit.LockoutPolicyAudit;
+
 @Entity
 @Table(name = "LOCKOUT_POLICIES")
+@Auditable(LockoutPolicyAudit.class)
 public class LockoutPolicy extends AccountPolicy {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1315964833824332373L;
-	private Application application;
 	private Integer duration;
 	private Short threshold = 0;
 	private Integer resetTime;
 	private Short attemptWindow = 10;
-
-	@Id
-	@OneToOne
-	@JoinColumn(name = "APPLICATION_ID")
-	public Application getApplication() {
-		return application;
-	}
-
-	public void setApplication(Application application) {
-		this.application = application;
-	}
 
 	/**
 	 * Get the account lockout duration.
@@ -130,7 +119,7 @@ public class LockoutPolicy extends AccountPolicy {
 		return attemptWindow;
 	}
 
-	public void setAttemptWindow(Short passwordAttemptWindow) {
-		this.attemptWindow = passwordAttemptWindow;
+	public void setAttemptWindow(Short attemptWindow) {
+		this.attemptWindow = attemptWindow;
 	}
 }

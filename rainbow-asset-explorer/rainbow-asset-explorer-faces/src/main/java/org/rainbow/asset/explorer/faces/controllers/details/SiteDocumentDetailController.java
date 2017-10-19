@@ -12,7 +12,7 @@ import org.primefaces.model.UploadedFile;
 import org.rainbow.asset.explorer.faces.util.ResourceBundles;
 import org.rainbow.asset.explorer.orm.entities.SiteDocument;
 import org.rainbow.asset.explorer.service.services.SiteDocumentService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "SiteDocumentCreated", updatedMessageKey = "SiteDocumentUpdated", deletedMessageKey = "SiteDocumentDeleted")
-public class SiteDocumentDetailController extends AbstractAuditableDetailController<SiteDocument> {
+public class SiteDocumentDetailController extends AbstractAuditableEntityDetailController<SiteDocument> {
 
 	/**
 	 * 

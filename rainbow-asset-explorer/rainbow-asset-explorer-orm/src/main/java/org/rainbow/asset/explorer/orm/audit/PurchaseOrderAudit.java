@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrder;
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderStatus;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -131,8 +132,4 @@ public class PurchaseOrderAudit extends DocumentAudit<PurchaseOrder> {
 		this.locationId = locationId;
 	}
 
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.PurchaseOrderAudit[ auditId=" + getAuditId() + " ]";
-	}
 }

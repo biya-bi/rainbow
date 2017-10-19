@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,49 +17,59 @@ import javax.validation.constraints.NotNull;
  *
  * @author Biya-Bi
  * @param <T>
- *            The type of the Id
+ *            The type of the ID
  */
 @MappedSuperclass
 @Access(value = AccessType.PROPERTY)
-public abstract class Trackable<T extends Serializable> extends Identifiable<T> {
-
+public abstract class AbstractAuditableEntity<T extends Serializable> extends AbstractEntity<T> {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 291910680942644416L;
+	private static final long serialVersionUID = -7322367081639467874L;
 	private String creator;
 	private String updater;
 	private Date creationDate;
 	private Date lastUpdateDate;
 	private long version;
 
-	public Trackable() {
+	public AbstractAuditableEntity() {
 	}
 
-	public Trackable(T id) {
+	public AbstractAuditableEntity(T id) {
 		super(id);
 	}
 
-	public Trackable(Date creationDate, Date lastUpdateDate) {
+	@Id
+	@Override
+	public T getId() {
+		return super.getId();
+	}
+
+	@Override
+	public void setId(T id) {
+		super.setId(id);
+	}
+
+	public AbstractAuditableEntity(Date creationDate, Date lastUpdateDate) {
 		this.creationDate = creationDate;
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public Trackable(Date creationDate, Date lastUpdateDate, long version, T id) {
+	public AbstractAuditableEntity(Date creationDate, Date lastUpdateDate, long version, T id) {
 		super(id);
 		this.creationDate = creationDate;
 		this.lastUpdateDate = lastUpdateDate;
 		this.version = version;
 	}
 
-	public Trackable(String creator, String updater, Date creationDate, Date lastUpdateDate) {
+	public AbstractAuditableEntity(String creator, String updater, Date creationDate, Date lastUpdateDate) {
 		this.creator = creator;
 		this.updater = updater;
 		this.creationDate = creationDate;
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public Trackable(String creator, String updater, Date creationDate, Date lastUpdateDate, long version, T id) {
+	public AbstractAuditableEntity(String creator, String updater, Date creationDate, Date lastUpdateDate, long version, T id) {
 		super(id);
 		this.creator = creator;
 		this.updater = updater;

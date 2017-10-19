@@ -9,7 +9,7 @@ import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableListController;
+import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableEntityListController;
 import org.rainbow.faces.filters.ListValuedFilter;
 import org.rainbow.faces.filters.RelationalOperator;
 import org.rainbow.faces.filters.SingleValuedFilter;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class GroupListController extends AbstractNumericIdAuditableListController<Group, Long> {
+public class GroupListController extends AbstractNumericIdAuditableEntityListController<Group, Long> {
 
 	/**
 	 * 

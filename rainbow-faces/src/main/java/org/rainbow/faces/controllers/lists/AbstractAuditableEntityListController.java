@@ -10,14 +10,14 @@ import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.filters.RelationalOperator;
 import org.rainbow.faces.filters.SingleValuedFilter;
 import org.rainbow.faces.util.Filterable;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.entities.AbstractAuditableEntity;
 
 /**
  *
  * @author Biya-Bi
  * @param <TModel>
  */
-public abstract class AbstractAuditableListController<TModel extends Trackable<?>> extends AbstractListController<TModel> {
+public abstract class AbstractAuditableEntityListController<TModel extends AbstractAuditableEntity<?>> extends AbstractListController<TModel> {
 
 	/**
 	 * 
@@ -33,7 +33,7 @@ public abstract class AbstractAuditableListController<TModel extends Trackable<?
 	private final SingleValuedFilter<Date> creationDateFilter;
 	private final SingleValuedFilter<Date> lastUpdateDateFilter;
 
-	public AbstractAuditableListController() {
+	public AbstractAuditableEntityListController() {
 		creatorFilter = new SingleValuedFilter<>(CREATOR_FILTER, RelationalOperator.CONTAINS, "");
 		updaterFilter = new SingleValuedFilter<>(UPDATER_FILTER, RelationalOperator.CONTAINS, "");
 		creationDateFilter = new SingleValuedFilter<>(CREATION_DATE_FILTER, RelationalOperator.EQUAL, null);

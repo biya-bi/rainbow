@@ -29,29 +29,29 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 	private PasswordEncoder passwordEncoder;
 	private String applicationName;
 
-	private static final String selectQuery = "SELECT m.USER_ID,m.PASSWORD,m.FAILED_PWD_ATMPT_WIN_START,m.FAILED_PWD_ATMPT_CNT, lp.ATTEMPT_WINDOW, lp.THRESHOLD AS LOCK_OUT_THRESHOLD, lgp.THRESHOLD AS LOGIN_HISTORY_THRESHOLD "
+	private static final String SELECT_QUERY = "SELECT m.USER_ID,m.ID AS MEMBERSHIP_ID,m.PASSWORD,m.FAILED_PWD_ATMPT_WIN_START,m.FAILED_PWD_ATMPT_CNT, lp.ATTEMPT_WINDOW, lp.THRESHOLD AS LOCK_OUT_THRESHOLD, lgp.THRESHOLD AS LOGIN_HISTORY_THRESHOLD "
 			+ "FROM MEMBERSHIPS m INNER JOIN USERS u ON m.USER_ID=u.ID INNER JOIN APPLICATIONS a "
 			+ "ON u.APPLICATION_ID=a.ID INNER JOIN PASSWORD_POLICIES pp ON a.ID=pp.APPLICATION_ID INNER JOIN LOCKOUT_POLICIES lp ON lp.APPLICATION_ID=pp.APPLICATION_ID "
 			+ "INNER JOIN LOGIN_POLICIES lgp ON lgp.APPLICATION_ID=lp.APPLICATION_ID "
 			+ "WHERE u.USER_NAME=? AND a.NAME=?";
 
-	private static final String FAILED_PASSWORD_ATTEMPT_UPDATE_QUERY = "UPDATE MEMBERSHIPS SET FAILED_PWD_ATMPT_WIN_START = ?, FAILED_PWD_ATMPT_CNT=? WHERE USER_ID=?";
+	private static final String FAILED_PASSWORD_ATTEMPT_UPDATE_QUERY = "UPDATE MEMBERSHIPS SET FAILED_PWD_ATMPT_WIN_START = ?, FAILED_PWD_ATMPT_CNT=? WHERE ID=?";
 
-	private static final String FAILED_PASSWORD_ATTEMPT_COUNT_UPDATE_QUERY = "UPDATE MEMBERSHIPS SET FAILED_PWD_ATMPT_CNT=? WHERE USER_ID=?";
+	private static final String FAILED_PASSWORD_ATTEMPT_COUNT_UPDATE_QUERY = "UPDATE MEMBERSHIPS SET FAILED_PWD_ATMPT_CNT=? WHERE ID=?";
 
-	private static final String LOCK_UPDATE_QUERY = "UPDATE MEMBERSHIPS SET LOCKED=?, LAST_LOCK_OUT_DATE=? WHERE USER_ID=?";
+	private static final String LOCK_UPDATE_QUERY = "UPDATE MEMBERSHIPS SET LOCKED=?, LAST_LOCK_OUT_DATE=? WHERE ID=?";
 
 	private static final String USER_UPDATE_QUERY = "UPDATE USERS SET LAST_ACTIVITY_DATE=?, LAST_UPDATE_DATE=?, UPDATER=? WHERE ID=?";
 
-	private static final String COUNT_APPLICATIONS_QUERY = "SELECT COUNT(ID) FROM applications WHERE name=?";
+	private static final String COUNT_APPLICATIONS_QUERY = "SELECT COUNT(ID) FROM APPLICATIONS WHERE NAME=?";
 
-	private static final String COUNT_MEMBERSHIPS_QUERY = "SELECT COUNT(m.USER_ID) FROM memberships m INNER JOIN users u ON m.USER_ID=u.ID INNER JOIN applications a on u.APPLICATION_ID=a.ID WHERE u.USER_NAME=? AND a.name=?";
+	private static final String COUNT_MEMBERSHIPS_QUERY = "SELECT COUNT(m.ID) FROM MEMBERSHIPS m INNER JOIN USERS u ON m.USER_ID=u.ID INNER JOIN applications a on u.APPLICATION_ID=a.ID WHERE u.USER_NAME=? AND a.name=?";
 
-	private static final String LOGIN_HISTORY_SELECT_QUERY = "SELECT HISTORY_ID FROM LOGIN_HISTORIES WHERE USER_ID=? ORDER BY LOGIN_DATE DESC";
+	private static final String LOGIN_HISTORY_SELECT_QUERY = "SELECT HISTORY_ID FROM LOGIN_HISTORIES WHERE MEMBERSHIP_ID=? ORDER BY LOGIN_DATE DESC";
 
-	private static final String LOGIN_HISTORY_INSERT_QUERY = "INSERT INTO LOGIN_HISTORIES(USER_ID,HISTORY_ID,LOGIN_DATE) values (?,?,?)";
+	private static final String LOGIN_HISTORY_INSERT_QUERY = "INSERT INTO LOGIN_HISTORIES(MEMBERSHIP_ID,HISTORY_ID,LOGIN_DATE) values (?,?,?)";
 
-	private static final String LOGIN_HISTORY_DELETE_QUERY = "DELETE FROM LOGIN_HISTORIES WHERE USER_ID=:userId AND HISTORY_ID IN (:history_ids)";
+	private static final String LOGIN_HISTORY_DELETE_QUERY = "DELETE FROM LOGIN_HISTORIES WHERE MEMBERSHIP_ID=:membership_id AND HISTORY_ID IN (:history_ids)";
 
 	private static final int MIN = 1;
 	private static final int SML = 4;
@@ -107,11 +107,12 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 			throw new CredentialsNotFoundException(userName);
 		}
 		final PasswordEncoder pwdEncoder = this.getPasswordEncoder();
-		getJdbcTemplate().query(selectQuery, new String[] { userName, this.getApplicationName() },
+		getJdbcTemplate().query(SELECT_QUERY, new String[] { userName, this.getApplicationName() },
 				new RowCallbackHandler() {
 					@Override
 					public void processRow(ResultSet rs) throws SQLException {
 						final long userId = rs.getLong("USER_ID");
+						final long membershipId = rs.getLong("MEMBERSHIP_ID");
 						final String encodedPassword = rs.getString("PASSWORD");
 						final Timestamp failedPasswordAttemptWindowStart = rs
 								.getTimestamp("FAILED_PWD_ATMPT_WIN_START");
@@ -135,7 +136,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 												.prepareStatement(FAILED_PASSWORD_ATTEMPT_UPDATE_QUERY);
 										preparedStatement.setTimestamp(1, now);
 										preparedStatement.setInt(2, 1);
-										preparedStatement.setLong(3, userId);
+										preparedStatement.setLong(3, membershipId);
 										return preparedStatement;
 									}
 								});
@@ -148,7 +149,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 										PreparedStatement preparedStatement = con
 												.prepareStatement(FAILED_PASSWORD_ATTEMPT_COUNT_UPDATE_QUERY);
 										preparedStatement.setInt(1, failedPasswordAttemptCount + 1);
-										preparedStatement.setLong(2, userId);
+										preparedStatement.setLong(2, membershipId);
 										return preparedStatement;
 									}
 								});
@@ -164,7 +165,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 										PreparedStatement preparedStatement = con.prepareStatement(LOCK_UPDATE_QUERY);
 										preparedStatement.setBoolean(1, true);
 										preparedStatement.setTimestamp(2, now);
-										preparedStatement.setLong(3, userId);
+										preparedStatement.setLong(3, membershipId);
 										return preparedStatement;
 									}
 								});
@@ -189,7 +190,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 							final List<Integer> undeletable_history_ids = new ArrayList<>();
 							final List<Integer> deletable_history_ids = new ArrayList<>();
 
-							getJdbcTemplate().query(LOGIN_HISTORY_SELECT_QUERY, new Long[] { userId },
+							getJdbcTemplate().query(LOGIN_HISTORY_SELECT_QUERY, new Long[] { membershipId },
 									new RowCallbackHandler() {
 										@Override
 										public void processRow(ResultSet rs) throws SQLException {
@@ -203,7 +204,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 									});
 
 							if (!deletable_history_ids.isEmpty()) {
-								deleteLoginHistories(userId, deletable_history_ids);
+								deleteLoginHistories(membershipId, deletable_history_ids);
 							}
 
 							getJdbcTemplate().update(new PreparedStatementCreator() {
@@ -211,7 +212,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 								public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 									PreparedStatement preparedStatement = con
 											.prepareStatement(LOGIN_HISTORY_INSERT_QUERY);
-									preparedStatement.setLong(1, userId);
+									preparedStatement.setLong(1, membershipId);
 									preparedStatement.setInt(2, getLeastAvailable(undeletable_history_ids));
 									preparedStatement.setTimestamp(3, now);
 									return preparedStatement;
@@ -243,7 +244,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 		}
 	}
 
-	private void deleteLoginHistories(Long userId, List<Integer> historyIds) {
+	private void deleteLoginHistories(Long membershipId, List<Integer> historyIds) {
 		getJdbcTemplate().execute((Connection con) -> {
 
 			LinkedList<Integer> ids = new LinkedList<>(historyIds);
@@ -274,7 +275,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 				}
 
 				PreparedStatement ps = con.prepareStatement(LOGIN_HISTORY_DELETE_QUERY
-						.replace(":userId", String.valueOf(userId)).replace(":history_ids", inClause.toString()));
+						.replace(":membership_Id", String.valueOf(membershipId)).replace(":history_ids", inClause.toString()));
 				for (int i = 0; i < batchSize; i++) {
 					ps.setInt(i + 1, ids.pop());
 				}

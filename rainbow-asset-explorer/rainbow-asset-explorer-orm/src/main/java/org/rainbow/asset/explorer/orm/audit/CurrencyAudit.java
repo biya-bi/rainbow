@@ -8,10 +8,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.rainbow.asset.explorer.orm.entities.Currency;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 @Entity
 @Table(name = "CURRENCY_AUDIT")
-public class CurrencyAudit extends TrackableAudit<Currency, Integer> {
+public class CurrencyAudit extends AbstractAuditableEntityAudit<Currency, Integer> {
 
 	/**
 	 * 

@@ -1,7 +1,6 @@
 package org.rainbow.asset.explorer.persistence.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,6 +21,7 @@ import org.rainbow.asset.explorer.orm.entities.ProductReceiptDetail;
 import org.rainbow.asset.explorer.orm.entities.ProductReceiptDetailId;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.util.PersistenceSettings;
+import org.rainbow.persistence.dao.DaoImpl;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.util.EntityManagerUtil;
@@ -31,7 +31,7 @@ import org.rainbow.util.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class ProductReceiptDaoImpl extends TrackableDaoImpl<ProductReceipt> implements ProductReceiptDao {
+public class ProductReceiptDaoImpl extends DaoImpl<ProductReceipt> implements ProductReceiptDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;
@@ -73,10 +73,6 @@ public class ProductReceiptDaoImpl extends TrackableDaoImpl<ProductReceipt> impl
 	@Override
 	protected void onDelete(ProductReceipt productReceipt) throws Exception {
 		List<ProductReceiptDetail> details = getDetails(productReceipt.getId());
-		for (ProductReceiptDetail detail : details) {
-			detail.setUpdater(productReceipt.getUpdater());
-			detail.setLastUpdateDate(new Date());
-		}
 		productReceipt.setDetails(details);
 		super.onDelete(productReceipt);
 	}
@@ -113,11 +109,6 @@ public class ProductReceiptDaoImpl extends TrackableDaoImpl<ProductReceipt> impl
 
 			for (ProductReceiptDetail detail : currentDetails) {
 				detail.setProductReceipt(productReceipt);
-				detail.setCreator(productReceipt.getCreator());
-				detail.setUpdater(productReceipt.getUpdater());
-				detail.setCreationDate(productReceipt.getCreationDate());
-				detail.setLastUpdateDate(productReceipt.getLastUpdateDate());
-
 				setProduct(detail, products);
 
 				if (oldDetails == null || !oldDetails.contains(detail)) {
@@ -135,10 +126,6 @@ public class ProductReceiptDaoImpl extends TrackableDaoImpl<ProductReceipt> impl
 			for (ProductReceiptDetail detail : oldDetails) {
 				if (currentDetails != null) {
 					if (!currentDetails.contains(detail)) {
-						detail.setUpdater(productReceipt.getUpdater());
-						detail.setCreationDate(productReceipt.getCreationDate());
-						detail.setLastUpdateDate(productReceipt.getLastUpdateDate());
-
 						em.remove(detail);
 					}
 				} else {
@@ -148,13 +135,16 @@ public class ProductReceiptDaoImpl extends TrackableDaoImpl<ProductReceipt> impl
 		}
 
 		if (productReceipt.getCurrency() != null) {
-			productReceipt.setCurrency(EntityManagerUtil.find(this.getEntityManager(), Currency.class, productReceipt.getCurrency()));
+			productReceipt.setCurrency(
+					EntityManagerUtil.find(this.getEntityManager(), Currency.class, productReceipt.getCurrency()));
 		}
 		if (productReceipt.getVendor() != null) {
-			productReceipt.setVendor(EntityManagerUtil.find(this.getEntityManager(), Vendor.class, productReceipt.getVendor()));
+			productReceipt.setVendor(
+					EntityManagerUtil.find(this.getEntityManager(), Vendor.class, productReceipt.getVendor()));
 		}
 		if (productReceipt.getLocation() != null) {
-			productReceipt.setLocation(EntityManagerUtil.find(this.getEntityManager(), Location.class, productReceipt.getLocation()));
+			productReceipt.setLocation(
+					EntityManagerUtil.find(this.getEntityManager(), Location.class, productReceipt.getLocation()));
 		}
 	}
 

@@ -1,4 +1,4 @@
-package org.rainbow.asset.explorer.orm.audit;
+package org.rainbow.orm.audit;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -13,6 +13,5 @@ import java.lang.annotation.Target;
 @Target({ TYPE })
 @Retention(RUNTIME)
 public @interface Auditable {
-
-	Class<?> audit();
+	Class<?> value();
 }

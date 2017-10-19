@@ -1,7 +1,6 @@
 package org.rainbow.asset.explorer.persistence.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +20,7 @@ import org.rainbow.asset.explorer.orm.entities.PurchaseOrderDetailId;
 import org.rainbow.asset.explorer.orm.entities.ShipMethod;
 import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.util.PersistenceSettings;
+import org.rainbow.persistence.dao.DaoImpl;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.util.EntityManagerUtil;
@@ -30,7 +30,7 @@ import org.rainbow.util.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class PurchaseOrderDaoImpl extends TrackableDaoImpl<PurchaseOrder> implements PurchaseOrderDao {
+public class PurchaseOrderDaoImpl extends DaoImpl<PurchaseOrder> implements PurchaseOrderDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;
@@ -72,10 +72,6 @@ public class PurchaseOrderDaoImpl extends TrackableDaoImpl<PurchaseOrder> implem
 	@Override
 	protected void onDelete(PurchaseOrder purchaseOrder) throws Exception {
 		List<PurchaseOrderDetail> details = getDetails(purchaseOrder.getId());
-		for (PurchaseOrderDetail detail : details) {
-			detail.setUpdater(purchaseOrder.getUpdater());
-			detail.setLastUpdateDate(new Date());
-		}
 		purchaseOrder.setDetails(details);
 		super.onDelete(purchaseOrder);
 	}
@@ -112,11 +108,6 @@ public class PurchaseOrderDaoImpl extends TrackableDaoImpl<PurchaseOrder> implem
 
 			for (PurchaseOrderDetail detail : currentDetails) {
 				detail.setPurchaseOrder(purchaseOrder);
-				detail.setCreator(purchaseOrder.getCreator());
-				detail.setUpdater(purchaseOrder.getUpdater());
-				detail.setCreationDate(purchaseOrder.getCreationDate());
-				detail.setLastUpdateDate(purchaseOrder.getLastUpdateDate());
-
 				setProduct(detail, products);
 
 				if (oldDetails == null || !oldDetails.contains(detail)) {
@@ -134,10 +125,6 @@ public class PurchaseOrderDaoImpl extends TrackableDaoImpl<PurchaseOrder> implem
 			for (PurchaseOrderDetail detail : oldDetails) {
 				if (currentDetails != null) {
 					if (!currentDetails.contains(detail)) {
-						detail.setUpdater(purchaseOrder.getUpdater());
-						detail.setCreationDate(purchaseOrder.getCreationDate());
-						detail.setLastUpdateDate(purchaseOrder.getLastUpdateDate());
-
 						em.remove(detail);
 					}
 				} else {

@@ -32,6 +32,7 @@ public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue> implement
 
 	@Override
 	public List<ProductIssueDetail> getDetails(Object productIssueId) throws Exception {
+		checkDependencies();
 		return this.getDao().findById(productIssueId).getDetails();
 	}
 
@@ -73,12 +74,14 @@ public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue> implement
 
 	@Override
 	public void update(ProductIssue productIssue) throws Exception {
+		checkDependencies();
 		onUpdate(productIssue);
 		super.update(productIssue);
 	}
 
 	@Override
 	public void update(List<ProductIssue> productIssues) throws Exception {
+		checkDependencies();
 		for (ProductIssue productIssue : productIssues) {
 			onUpdate(productIssue);
 		}
@@ -87,12 +90,14 @@ public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue> implement
 
 	@Override
 	public void delete(ProductIssue productIssue) throws Exception {
+		checkDependencies();
 		onDelete(productIssue);
 		super.delete(productIssue);
 	}
 
 	@Override
 	public void delete(List<ProductIssue> productIssues) throws Exception {
+		checkDependencies();
 		for (ProductIssue productIssue : productIssues) {
 			onDelete(productIssue);
 		}
@@ -113,7 +118,7 @@ public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue> implement
 				}
 			}
 			final Long locationId = productIssue.getLocation().getId();
-			this.getInventoryManager().substract(locationId, productsCount);
+			this.getInventoryManager().subtract(locationId, productsCount);
 		}
 	}
 
@@ -189,7 +194,7 @@ public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue> implement
 			}
 
 			if (!removals.isEmpty()) {
-				this.getInventoryManager().substract(oldLocationId, removals);
+				this.getInventoryManager().subtract(oldLocationId, removals);
 			}
 			if (!additions.isEmpty()) {
 				this.getInventoryManager().add(oldLocationId, additions);
@@ -198,9 +203,9 @@ public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue> implement
 			// First, we have to restitute the products that were removed from
 			// the inventory of the old location.
 			this.getInventoryManager().add(oldLocationId, oldProductsCount);
-			// Now, we have to substract the products from the inventory of the
+			// Now, we have to subtract the products from the inventory of the
 			// new location.
-			this.getInventoryManager().substract(newLocationId, newProductsCount);
+			this.getInventoryManager().subtract(newLocationId, newProductsCount);
 		}
 	}
 
@@ -223,4 +228,11 @@ public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue> implement
 		this.getInventoryManager().add(locationId, additions);
 	}
 
+	@Override
+	protected void checkDependencies() {
+		super.checkDependencies();
+		if (this.getInventoryManager() == null) {
+			throw new IllegalStateException("The inventory manager cannot be null.");
+		}
+	}
 }

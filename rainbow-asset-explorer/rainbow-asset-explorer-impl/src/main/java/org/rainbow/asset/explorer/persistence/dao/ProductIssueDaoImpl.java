@@ -1,7 +1,6 @@
 package org.rainbow.asset.explorer.persistence.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +20,7 @@ import org.rainbow.asset.explorer.orm.entities.ProductIssue;
 import org.rainbow.asset.explorer.orm.entities.ProductIssueDetail;
 import org.rainbow.asset.explorer.orm.entities.ProductIssueDetailId;
 import org.rainbow.asset.explorer.util.PersistenceSettings;
+import org.rainbow.persistence.dao.DaoImpl;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.util.EntityManagerUtil;
@@ -30,7 +30,7 @@ import org.rainbow.util.EntityManagerUtil;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class ProductIssueDaoImpl extends TrackableDaoImpl<ProductIssue> implements ProductIssueDao {
+public class ProductIssueDaoImpl extends DaoImpl<ProductIssue> implements ProductIssueDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;
@@ -72,10 +72,6 @@ public class ProductIssueDaoImpl extends TrackableDaoImpl<ProductIssue> implemen
 	@Override
 	protected void onDelete(ProductIssue productIssue) throws Exception {
 		List<ProductIssueDetail> details = getDetails(productIssue.getId());
-		for (ProductIssueDetail detail : details) {
-			detail.setUpdater(productIssue.getUpdater());
-			detail.setLastUpdateDate(new Date());
-		}
 		productIssue.setDetails(details);
 		super.onDelete(productIssue);
 	}
@@ -112,11 +108,6 @@ public class ProductIssueDaoImpl extends TrackableDaoImpl<ProductIssue> implemen
 
 			for (ProductIssueDetail detail : currentDetails) {
 				detail.setProductIssue(productIssue);
-				detail.setCreator(productIssue.getCreator());
-				detail.setUpdater(productIssue.getUpdater());
-				detail.setCreationDate(productIssue.getCreationDate());
-				detail.setLastUpdateDate(productIssue.getLastUpdateDate());
-
 				setProduct(detail, products);
 
 				if (oldDetails == null || !oldDetails.contains(detail)) {
@@ -134,10 +125,6 @@ public class ProductIssueDaoImpl extends TrackableDaoImpl<ProductIssue> implemen
 			for (ProductIssueDetail detail : oldDetails) {
 				if (currentDetails != null) {
 					if (!currentDetails.contains(detail)) {
-						detail.setUpdater(productIssue.getUpdater());
-						detail.setCreationDate(productIssue.getCreationDate());
-						detail.setLastUpdateDate(productIssue.getLastUpdateDate());
-
 						em.remove(detail);
 					}
 				} else {
@@ -147,10 +134,12 @@ public class ProductIssueDaoImpl extends TrackableDaoImpl<ProductIssue> implemen
 		}
 
 		if (productIssue.getDepartment() != null) {
-			productIssue.setDepartment(EntityManagerUtil.find(this.getEntityManager(), Department.class, productIssue.getDepartment()));
+			productIssue.setDepartment(
+					EntityManagerUtil.find(this.getEntityManager(), Department.class, productIssue.getDepartment()));
 		}
 		if (productIssue.getLocation() != null) {
-			productIssue.setLocation(EntityManagerUtil.find(this.getEntityManager(), Location.class, productIssue.getLocation()));
+			productIssue.setLocation(
+					EntityManagerUtil.find(this.getEntityManager(), Location.class, productIssue.getLocation()));
 		}
 	}
 

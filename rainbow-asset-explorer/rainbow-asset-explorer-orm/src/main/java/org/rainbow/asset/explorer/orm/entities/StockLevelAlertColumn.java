@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.orm.entities.Identifiable;
+import org.rainbow.orm.entities.AbstractEntity;
 
 /**
  *
@@ -22,7 +22,7 @@ import org.rainbow.orm.entities.Identifiable;
 @Entity
 @Table(name = "STOCK_LEVEL_ALERT_COLUMN", uniqueConstraints = @UniqueConstraint(columnNames = { "COLUMN_TYPE",
 		"LOCALE_ID" }))
-public class StockLevelAlertColumn extends Identifiable<Integer> {
+public class StockLevelAlertColumn extends AbstractEntity<Integer> {
 
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class StockLevelAlertColumn extends Identifiable<Integer> {
 	private String headerText;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Override
 	public Integer getId() {
 		return super.getId();

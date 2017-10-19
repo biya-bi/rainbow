@@ -8,7 +8,6 @@ import java.util.Map;
 import org.rainbow.asset.explorer.orm.entities.Location;
 import org.rainbow.asset.explorer.orm.entities.ProductReceipt;
 import org.rainbow.asset.explorer.orm.entities.ProductReceiptDetail;
-import org.rainbow.asset.explorer.persistence.dao.LocationDao;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductReceiptReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.ProductReceiptDetailsNullOrEmptyException;
 import org.rainbow.service.ServiceImpl;
@@ -18,7 +17,6 @@ import org.rainbow.util.DaoUtil;
 public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt> implements ProductReceiptService {
 
 	private InventoryManager inventoryManager;
-	private LocationDao locationDao;
 
 	public ProductReceiptServiceImpl() {
 	}
@@ -31,16 +29,9 @@ public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt> imple
 		this.inventoryManager = inventoryManager;
 	}
 
-	public LocationDao getLocationDao() {
-		return locationDao;
-	}
-
-	public void setLocationDao(LocationDao locationDao) {
-		this.locationDao = locationDao;
-	}
-
 	@Override
 	public List<ProductReceiptDetail> getDetails(Object productReceiptId) throws Exception {
+		checkDependencies();
 		return this.getDao().findById(productReceiptId).getDetails();
 	}
 
@@ -82,12 +73,14 @@ public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt> imple
 
 	@Override
 	public void update(ProductReceipt productReceipt) throws Exception {
+		checkDependencies();
 		onUpdate(productReceipt);
 		super.update(productReceipt);
 	}
 
 	@Override
 	public void update(List<ProductReceipt> productReceipts) throws Exception {
+		checkDependencies();
 		for (ProductReceipt productReceipt : productReceipts) {
 			onUpdate(productReceipt);
 		}
@@ -96,12 +89,14 @@ public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt> imple
 
 	@Override
 	public void delete(ProductReceipt productReceipt) throws Exception {
+		checkDependencies();
 		onDelete(productReceipt);
 		super.delete(productReceipt);
 	}
 
 	@Override
 	public void delete(List<ProductReceipt> productReceipts) throws Exception {
+		checkDependencies();
 		for (ProductReceipt productReceipt : productReceipts) {
 			onDelete(productReceipt);
 		}
@@ -126,7 +121,7 @@ public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt> imple
 	}
 
 	private void onUpdate(ProductReceipt productReceipt) throws Exception {
-		final Location newLocation = this.getLocationDao().findById(productReceipt.getLocation().getId());
+		final Location newLocation = productReceipt.getLocation();
 		final Long newLocationId = newLocation.getId();
 		final List<Long> productIds = new ArrayList<>();
 		final Map<Long, Short> newProductsCount = new HashMap<>();
@@ -196,7 +191,7 @@ public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt> imple
 			}
 
 			if (!removals.isEmpty()) {
-				this.getInventoryManager().substract(oldLocationId, removals);
+				this.getInventoryManager().subtract(oldLocationId, removals);
 			}
 			if (!additions.isEmpty()) {
 				this.getInventoryManager().add(oldLocationId, additions);
@@ -204,7 +199,7 @@ public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt> imple
 		} else {
 			// First, we have to subtract the products that were added to the
 			// inventory of the old location.
-			this.getInventoryManager().substract(oldLocationId, oldProductsCount);
+			this.getInventoryManager().subtract(oldLocationId, oldProductsCount);
 			// Now, we have to add the products to the inventory of the new
 			// location.
 			this.getInventoryManager().add(newLocationId, newProductsCount);
@@ -226,7 +221,15 @@ public class ProductReceiptServiceImpl extends ServiceImpl<ProductReceipt> imple
 					removals.replace(productId, (short) (removals.get(productId) + detail.getQuantity()));
 				}
 			}
-			this.getInventoryManager().substract(locationId, removals);
+			this.getInventoryManager().subtract(locationId, removals);
+		}
+	}
+
+	@Override
+	protected void checkDependencies() {
+		super.checkDependencies();
+		if (this.getInventoryManager() == null) {
+			throw new IllegalStateException("The inventory manager cannot be null.");
 		}
 	}
 }

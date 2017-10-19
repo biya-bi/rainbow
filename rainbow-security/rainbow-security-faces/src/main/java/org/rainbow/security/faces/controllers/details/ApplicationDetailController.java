@@ -15,7 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.security.faces.util.ResourceBundles;
@@ -46,7 +46,7 @@ import org.xml.sax.SAXException;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName=ResourceBundles.CRUD_MESSAGES, createdMessageKey = "ApplicationCreated", updatedMessageKey = "ApplicationUpdated", deletedMessageKey = "ApplicationDeleted")
-public class ApplicationDetailController extends AbstractAuditableDetailController<Application> {
+public class ApplicationDetailController extends AbstractAuditableEntityDetailController<Application> {
 
 	/**
 	 * 

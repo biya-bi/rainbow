@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.entities.AbstractAuditableEntity;
 
 /**
  *
@@ -23,7 +23,7 @@ import org.rainbow.orm.entities.Trackable;
  */
 @Entity
 @Table(name = "PRODUCT_ALERT_INFO")
-public class ProductAlertInfo extends Trackable<ProductAlertInfoId> {
+public class ProductAlertInfo extends AbstractAuditableEntity<ProductAlertInfoId> {
 
 	/**
 	 * 

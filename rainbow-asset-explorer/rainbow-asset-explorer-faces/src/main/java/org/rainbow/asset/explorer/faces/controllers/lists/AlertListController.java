@@ -12,7 +12,7 @@ import org.rainbow.asset.explorer.faces.translation.EnumTranslator;
 import org.rainbow.asset.explorer.orm.entities.Alert;
 import org.rainbow.asset.explorer.service.services.AlertService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableListController;
+import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableEntityListController;
 import org.rainbow.faces.filters.RelationalOperator;
 import org.rainbow.faces.filters.SingleValuedFilter;
 import org.rainbow.faces.util.Filterable;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class AlertListController extends AbstractNumericIdAuditableListController<Alert, Integer> {
+public class AlertListController extends AbstractNumericIdAuditableEntityListController<Alert, Integer> {
 
 	/**
 	 *

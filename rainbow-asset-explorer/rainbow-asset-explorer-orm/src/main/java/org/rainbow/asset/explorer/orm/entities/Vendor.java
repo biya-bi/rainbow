@@ -6,16 +6,14 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.VendorAudit;
+import org.rainbow.orm.audit.Auditable;
 
 /**
  *
@@ -23,8 +21,8 @@ import org.rainbow.asset.explorer.orm.audit.VendorAudit;
  */
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "ACCOUNT_NUMBER" }) })
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = VendorAudit.class)
+
+@Auditable(VendorAudit.class)
 public class Vendor extends BusinessEntity {
 
 	/**

@@ -13,7 +13,7 @@ import org.rainbow.asset.explorer.faces.util.ResourceBundles;
 import org.rainbow.asset.explorer.orm.entities.EmailTemplate;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateEmailTemplateNameException;
 import org.rainbow.asset.explorer.service.services.EmailTemplateService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "EmailTemplateCreated", updatedMessageKey = "EmailTemplateUpdated", deletedMessageKey = "EmailTemplateDeleted")
-public class EmailTemplateDetailController extends AbstractAuditableDetailController<EmailTemplate> {
+public class EmailTemplateDetailController extends AbstractAuditableEntityDetailController<EmailTemplate> {
 
 	/**
 	 * 

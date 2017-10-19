@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.rainbow.asset.explorer.orm.entities.Vendor;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -15,7 +17,7 @@ import org.rainbow.asset.explorer.orm.entities.Vendor;
  */
 @Entity
 @Table(name = "VENDOR_AUDIT")
-public class VendorAudit extends TrackableAudit<Vendor, Long> {
+public class VendorAudit extends AbstractAuditableEntityAudit<Vendor, Long> {
 
 	/**
 	 * 
@@ -77,11 +79,6 @@ public class VendorAudit extends TrackableAudit<Vendor, Long> {
 
 	public void setPurchasingUrl(String purchasingUrl) {
 		this.purchasingUrl = purchasingUrl;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.VendorAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

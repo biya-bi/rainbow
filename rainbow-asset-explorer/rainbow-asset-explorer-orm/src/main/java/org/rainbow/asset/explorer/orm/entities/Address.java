@@ -7,11 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Address extends Trackable<Long> {
+public abstract class Address extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -30,7 +30,7 @@ public abstract class Address extends Trackable<Long> {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Override
 	public Long getId() {
 		return super.getId();

@@ -13,6 +13,7 @@
 /rainbow-journal/rainbow-journal-server/target/
 /rainbow-journal/rainbow-journal-ui-web/target/
 /rainbow-orm/target/
+/rainbow-orm-eclipselink/target/
 /rainbow-security/rainbow-security-api/target/
 /rainbow-security/rainbow-security-auth-faces/target/
 /rainbow-security/rainbow-security-faces/target/

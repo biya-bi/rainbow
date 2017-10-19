@@ -5,6 +5,7 @@ import javax.persistence.PersistenceContext;
 
 import org.rainbow.asset.explorer.orm.entities.Department;
 import org.rainbow.asset.explorer.util.PersistenceSettings;
+import org.rainbow.persistence.dao.DaoImpl;
 import org.rainbow.persistence.dao.Pageable;
 
 /**
@@ -12,7 +13,7 @@ import org.rainbow.persistence.dao.Pageable;
  * @author Biya-Bi
  */
 @Pageable(attributeName = "id")
-public class DepartmentDaoImpl extends TrackableDaoImpl<Department> implements DepartmentDao {
+public class DepartmentDaoImpl extends DaoImpl<Department> implements DepartmentDao {
 
 	@PersistenceContext(unitName = PersistenceSettings.PERSISTENCE_UNIT_NAME)
 	private EntityManager em;

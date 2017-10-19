@@ -4,45 +4,48 @@
 		<wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-		<dependent-module archiveName="rainbow-security-impl-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-impl/rainbow-security-impl">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-common-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-common/rainbow-common">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-impl-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-impl/rainbow-impl">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-api-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-api/rainbow-api">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-security-api-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-api/rainbow-security-api">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-security-orm-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-orm/rainbow-security-orm">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-orm-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-orm/rainbow-orm">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-asset-explorer-orm-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-orm/rainbow-asset-explorer-orm">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-asset-explorer-impl-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-impl/rainbow-asset-explorer-impl">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-asset-explorer-api-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-api/rainbow-asset-explorer-api">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-asset-explorer-faces-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-faces/rainbow-asset-explorer-faces">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-faces-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-faces/rainbow-faces">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
-		<dependent-module archiveName="rainbow-security-auth-faces-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-auth-faces/rainbow-security-auth-faces">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
+        <dependent-module archiveName="rainbow-security-impl-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-impl/rainbow-security-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-common-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-common/rainbow-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-impl-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-impl/rainbow-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-api-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-api/rainbow-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-security-api-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-api/rainbow-security-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-security-orm-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-orm/rainbow-security-orm">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-orm-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-orm/rainbow-orm">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-asset-explorer-orm-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-orm/rainbow-asset-explorer-orm">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-asset-explorer-impl-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-impl/rainbow-asset-explorer-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-asset-explorer-api-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-api/rainbow-asset-explorer-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-asset-explorer-faces-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-asset-explorer-faces/rainbow-asset-explorer-faces">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-faces-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-faces/rainbow-faces">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-orm-eclipselink-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-orm-eclipselink/rainbow-orm-eclipselink">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rainbow-security-auth-faces-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-auth-faces/rainbow-security-auth-faces">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
 		<property name="java-output-path" value="/rainbow-coronation/target/classes"/>
         <property name="context-root" value="rainbow-coronation"/>
 	</wb-module>

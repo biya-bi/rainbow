@@ -33,7 +33,7 @@ public abstract class AbstractServiceTest {
 	@AfterClass
 	public static void cleanUp() throws FileNotFoundException, SQLException, IOException {
 		final Database database = DatabaseProvider.getDatabase();
-		 database.execute(CLEAR_DATA);
+		database.execute(CLEAR_DATA);
 	}
 
 	private static void initilize(Database db) throws FileNotFoundException, SQLException, IOException {

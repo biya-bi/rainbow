@@ -11,6 +11,8 @@ import javax.validation.constraints.Size;
 
 import org.rainbow.asset.explorer.orm.entities.AssetDocument;
 import org.rainbow.asset.explorer.orm.entities.DocumentType;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -18,7 +20,7 @@ import org.rainbow.asset.explorer.orm.entities.DocumentType;
  */
 @Entity
 @Table(name = "ASSET_DOCUMENT_AUDIT")
-public class AssetDocumentAudit extends TrackableAudit<AssetDocument, Long> {
+public class AssetDocumentAudit extends AbstractAuditableEntityAudit<AssetDocument, Long> {
 
 	/**
 	 * 
@@ -90,11 +92,6 @@ public class AssetDocumentAudit extends TrackableAudit<AssetDocument, Long> {
 
 	public void setDocumentType(DocumentType documentType) {
 		this.documentType = documentType;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.AssetDocumentAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

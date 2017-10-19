@@ -1,4 +1,4 @@
-package org.rainbow.asset.explorer.orm.audit;
+package org.rainbow.orm.audit;
 
 /**
  *

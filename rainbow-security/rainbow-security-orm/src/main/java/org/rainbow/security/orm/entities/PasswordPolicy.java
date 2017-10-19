@@ -2,13 +2,13 @@ package org.rainbow.security.orm.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.security.orm.audit.PasswordPolicyAudit;
 
 /**
  *
@@ -16,13 +16,13 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "PASSWORD_POLICIES")
+@Auditable(PasswordPolicyAudit.class)
 public class PasswordPolicy extends AccountPolicy {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6898206236783268070L;
-	private Application application;
 	private Short minAge = 0;
 	private Short maxAge = 30;
 	private Short minLength = 1;
@@ -34,17 +34,6 @@ public class PasswordPolicy extends AccountPolicy {
 	private Short minNumericCount = 0;
 
 	public PasswordPolicy() {
-	}
-
-	@Id
-	@OneToOne
-	@JoinColumn(name = "APPLICATION_ID")
-	public Application getApplication() {
-		return application;
-	}
-
-	public void setApplication(Application application) {
-		this.application = application;
 	}
 
 	@NotNull

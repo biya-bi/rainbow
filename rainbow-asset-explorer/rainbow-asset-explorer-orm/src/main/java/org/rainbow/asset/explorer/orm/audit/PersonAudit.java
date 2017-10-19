@@ -13,6 +13,8 @@ import javax.validation.constraints.Size;
 
 import org.rainbow.asset.explorer.orm.entities.Gender;
 import org.rainbow.asset.explorer.orm.entities.Person;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -20,7 +22,7 @@ import org.rainbow.asset.explorer.orm.entities.Person;
  * @param <T>
  */
 @MappedSuperclass
-public abstract class PersonAudit<T extends Person> extends TrackableAudit<T, Long> {
+public abstract class PersonAudit<T extends Person> extends AbstractAuditableEntityAudit<T, Long> {
 
 	/**
 	 * 
@@ -123,11 +125,6 @@ public abstract class PersonAudit<T extends Person> extends TrackableAudit<T, Lo
 
 	public void setNameStyle(boolean nameStyle) {
 		this.nameStyle = nameStyle;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.PersonAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

@@ -10,6 +10,7 @@
 		<module>rainbow-api</module>
 		<module>rainbow-impl</module>
 		<module>rainbow-orm</module>
+		<module>rainbow-orm-eclipselink</module>
 		<module>rainbow-asset-explorer</module>
 		<module>rainbow-common</module>
 		<module>rainbow-faces</module>

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -15,9 +14,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.ProductIssueAudit;
+import org.rainbow.orm.audit.Auditable;
 
 /**
  *
@@ -25,8 +23,7 @@ import org.rainbow.asset.explorer.orm.audit.ProductIssueAudit;
  */
 @Entity
 @Table(name = "PRODUCT_ISSUE")
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = ProductIssueAudit.class)
+@Auditable(ProductIssueAudit.class)
 public class ProductIssue extends Document {
 
 	/**

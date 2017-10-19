@@ -27,7 +27,7 @@ import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateAssetSerialNumberException;
 import org.rainbow.asset.explorer.service.services.AssetService;
 import org.rainbow.asset.explorer.service.services.ProductService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ import org.xml.sax.SAXException;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "AssetCreated", updatedMessageKey = "AssetUpdated", deletedMessageKey = "AssetDeleted")
-public class AssetDetailController extends AbstractAuditableDetailController<Asset> {
+public class AssetDetailController extends AbstractAuditableEntityDetailController<Asset> {
 
 	/**
 	 * 

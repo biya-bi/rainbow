@@ -12,7 +12,7 @@ import org.primefaces.model.UploadedFile;
 import org.rainbow.asset.explorer.faces.util.ResourceBundles;
 import org.rainbow.asset.explorer.orm.entities.AssetDocument;
 import org.rainbow.asset.explorer.service.services.AssetDocumentService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "AssetDocumentCreated", updatedMessageKey = "AssetDocumentUpdated", deletedMessageKey = "AssetDocumentDeleted")
-public class AssetDocumentDetailController extends AbstractAuditableDetailController<AssetDocument> {
+public class AssetDocumentDetailController extends AbstractAuditableEntityDetailController<AssetDocument> {
 
 	/**
 	 * 

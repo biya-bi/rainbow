@@ -13,12 +13,14 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
+import org.rainbow.security.orm.audit.RecoveryInformationAudit;
 
 @Entity
-@Table(name = "RECOVERY_INFORMATION", uniqueConstraints = @UniqueConstraint(columnNames = { "USER_ID",
-		"QUESTION" }))
-public class RecoveryInformation extends Trackable<Long> {
+@Table(name = "RECOVERY_INFORMATION", uniqueConstraints = @UniqueConstraint(columnNames = { "USER_ID", "QUESTION" }))
+@Auditable(RecoveryInformationAudit.class)
+public class RecoveryInformation extends AbstractNumericIdAuditableEntity<Long> {
 	/**
 	 * 
 	 */
@@ -49,7 +51,7 @@ public class RecoveryInformation extends Trackable<Long> {
 	}
 
 	@NotNull
-	@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", nullable = false)
+	@JoinColumn(name = "MEMBERSHIP_ID", referencedColumnName = "ID", nullable = false)
 	@ManyToOne(optional = false)
 	public Membership getMembership() {
 		return membership;

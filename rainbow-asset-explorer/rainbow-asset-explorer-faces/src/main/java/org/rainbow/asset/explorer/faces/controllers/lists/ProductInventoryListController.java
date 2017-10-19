@@ -11,7 +11,7 @@ import org.primefaces.model.SortOrder;
 import org.rainbow.asset.explorer.orm.entities.ProductInventory;
 import org.rainbow.asset.explorer.service.services.ProductInventoryService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.faces.controllers.lists.AbstractAuditableListController;
+import org.rainbow.faces.controllers.lists.AbstractAuditableEntityListController;
 import org.rainbow.faces.filters.RelationalOperator;
 import org.rainbow.faces.filters.SingleValuedFilter;
 import org.rainbow.faces.util.Filterable;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class ProductInventoryListController extends AbstractAuditableListController<ProductInventory> {
+public class ProductInventoryListController extends AbstractAuditableEntityListController<ProductInventory> {
 
 	/**
 	 * 

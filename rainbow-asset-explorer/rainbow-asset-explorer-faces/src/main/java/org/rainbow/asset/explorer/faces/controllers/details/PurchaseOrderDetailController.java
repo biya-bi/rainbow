@@ -14,7 +14,7 @@ import org.rainbow.asset.explorer.orm.entities.PurchaseOrder;
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.PurchaseOrderStatus;
 import org.rainbow.asset.explorer.service.services.PurchaseOrderService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "PurchaseOrderCreated", updatedMessageKey = "PurchaseOrderUpdated", deletedMessageKey = "PurchaseOrderDeleted")
-public class PurchaseOrderDetailController extends AbstractAuditableDetailController<PurchaseOrder> {
+public class PurchaseOrderDetailController extends AbstractAuditableEntityDetailController<PurchaseOrder> {
 	/**
 	 * 
 	 */

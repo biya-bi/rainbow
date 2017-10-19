@@ -6,12 +6,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -22,10 +18,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.SiteAudit;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
@@ -37,9 +32,9 @@ import org.rainbow.orm.entities.Trackable;
 @NamedQueries({ @NamedQuery(name = "Site.findAll", query = "SELECT s FROM Site s"),
 		@NamedQuery(name = "Site.findByName", query = "SELECT s FROM Site s WHERE UPPER(s.name) = :name"),
 		@NamedQuery(name = "Site.findById", query = "SELECT s FROM Site s WHERE s.id = :id") })
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = SiteAudit.class)
-public class Site extends Trackable<Long> {
+
+@Auditable(SiteAudit.class)
+public class Site extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -81,18 +76,6 @@ public class Site extends Trackable<Long> {
 		super(creationDate, lastUpdateDate, version, id);
 		this.name = name;
 		this.description = description;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Override
-	public Long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Long id) {
-		super.setId(id);
 	}
 
 	@Basic(optional = false)

@@ -1,4 +1,4 @@
-package org.rainbow.asset.explorer.orm.adapters;
+package org.rainbow.orm.listeners;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -8,14 +8,14 @@ import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.descriptors.DescriptorEvent;
 import org.eclipse.persistence.descriptors.DescriptorEventAdapter;
 import org.eclipse.persistence.queries.InsertObjectQuery;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
-import org.rainbow.asset.explorer.orm.audit.WriteOperation;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
  * @author Biya-Bi
  */
-public class AuditAdapter extends DescriptorEventAdapter implements DescriptorCustomizer {
+public class WriteEventListener extends DescriptorEventAdapter implements DescriptorCustomizer {
 
 	@Override
 	public void customize(ClassDescriptor descriptor) {
@@ -23,16 +23,16 @@ public class AuditAdapter extends DescriptorEventAdapter implements DescriptorCu
 	}
 
 	/**
-	 * This is where the real work of this class happens. For any INSERT or
-	 * UPDATE operation an INSERT of a new history object is forced.
+	 * This is where the real work of this class happens. For any INSERT,
+	 * UPDATE or DELETE operation an INSERT of a new history object is forced.
 	 */
-	private void insertAudit(DescriptorEvent event, WriteOperation writeOperation) {
+	private void insertHistory(DescriptorEvent event, WriteOperation writeOperation) {
 		Object source = event.getSource();
 		Class<? extends Object> sourceClass = source.getClass();
 		Auditable auditable = sourceClass.getAnnotation(Auditable.class);
-		if (auditable != null && auditable.audit() != null) {
+		if (auditable != null && auditable.value() != null) {
 			try {
-				Constructor<?> constructor = auditable.audit().getConstructor(sourceClass, WriteOperation.class);
+				Constructor<?> constructor = auditable.value().getConstructor(sourceClass, WriteOperation.class);
 				if (constructor != null) {
 					Object audit = constructor.newInstance(source, writeOperation);
 					InsertObjectQuery insertQuery = new InsertObjectQuery(audit);
@@ -47,19 +47,19 @@ public class AuditAdapter extends DescriptorEventAdapter implements DescriptorCu
 
 	@Override
 	public void postInsert(DescriptorEvent event) {
-		insertAudit(event, WriteOperation.INSERT);
+		insertHistory(event, WriteOperation.INSERT);
 		super.postInsert(event);
 	}
 
 	@Override
 	public void postUpdate(DescriptorEvent event) {
-		insertAudit(event, WriteOperation.UPDATE);
+		insertHistory(event, WriteOperation.UPDATE);
 		super.postUpdate(event);
 	}
 
 	@Override
 	public void aboutToDelete(DescriptorEvent event) {
-		insertAudit(event, WriteOperation.DELETE);
+		insertHistory(event, WriteOperation.DELETE);
 		super.aboutToDelete(event);
 	}
 }

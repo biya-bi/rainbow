@@ -5,20 +5,15 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.EmailTemplateAudit;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
@@ -26,9 +21,9 @@ import org.rainbow.orm.entities.Trackable;
  */
 @Entity
 @Table(name = "EMAIL_TEMPLATE")
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = EmailTemplateAudit.class)
-public class EmailTemplate extends Trackable<Integer> {
+
+@Auditable(EmailTemplateAudit.class)
+public class EmailTemplate extends AbstractNumericIdAuditableEntity<Integer> {
 
 	/**
 	 * 
@@ -62,18 +57,6 @@ public class EmailTemplate extends Trackable<Integer> {
 		this.subject = subject;
 		this.content = content;
 		this.locale = locale;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Override
-	public Integer getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Integer id) {
-		super.setId(id);
 	}
 
 	@NotNull

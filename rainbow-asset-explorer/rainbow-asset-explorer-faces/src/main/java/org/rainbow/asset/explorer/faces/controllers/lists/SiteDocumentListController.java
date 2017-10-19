@@ -12,7 +12,7 @@ import org.rainbow.asset.explorer.faces.translation.EnumTranslator;
 import org.rainbow.asset.explorer.orm.entities.SiteDocument;
 import org.rainbow.asset.explorer.service.services.SiteDocumentService;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableListController;
+import org.rainbow.faces.controllers.lists.AbstractNumericIdAuditableEntityListController;
 import org.rainbow.faces.filters.RelationalOperator;
 import org.rainbow.faces.filters.SingleValuedFilter;
 import org.rainbow.faces.util.Filterable;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Named
 @ViewScoped
-public class SiteDocumentListController extends AbstractNumericIdAuditableListController<SiteDocument, Long> {
+public class SiteDocumentListController extends AbstractNumericIdAuditableEntityListController<SiteDocument, Long> {
 
 	/**
 	 * 

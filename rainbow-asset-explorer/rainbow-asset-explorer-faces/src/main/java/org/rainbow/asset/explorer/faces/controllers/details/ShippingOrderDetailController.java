@@ -13,7 +13,7 @@ import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderDetail;
 import org.rainbow.asset.explorer.orm.entities.ShippingOrderStatus;
 import org.rainbow.asset.explorer.service.services.ShippingOrderService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "ShippingOrderCreated", updatedMessageKey = "ShippingOrderUpdated", deletedMessageKey = "ShippingOrderDeleted")
-public class ShippingOrderDetailController extends AbstractAuditableDetailController<ShippingOrder> {
+public class ShippingOrderDetailController extends AbstractAuditableEntityDetailController<ShippingOrder> {
 
 	/**
 	 * 

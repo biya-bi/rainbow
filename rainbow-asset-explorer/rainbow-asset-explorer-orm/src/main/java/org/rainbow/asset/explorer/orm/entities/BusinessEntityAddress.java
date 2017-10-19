@@ -2,7 +2,6 @@ package org.rainbow.asset.explorer.orm.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
@@ -12,9 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.BusinessEntityAddressAudit;
+import org.rainbow.orm.audit.Auditable;
 
 /**
  *
@@ -24,8 +22,7 @@ import org.rainbow.asset.explorer.orm.audit.BusinessEntityAddressAudit;
 @Table(name = "BUSINESS_ENTITY_ADDRESS", uniqueConstraints = @UniqueConstraint(columnNames = { "BUSINESS_ENTITY_ID",
 		"ADDRESS_TYPE" }))
 @PrimaryKeyJoinColumn(name = "ADDRESS_ID")
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = BusinessEntityAddressAudit.class)
+@Auditable(BusinessEntityAddressAudit.class)
 public class BusinessEntityAddress extends Address {
 
 	/**

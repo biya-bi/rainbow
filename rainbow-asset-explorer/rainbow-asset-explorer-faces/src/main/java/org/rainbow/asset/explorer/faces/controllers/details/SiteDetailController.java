@@ -24,7 +24,7 @@ import org.rainbow.asset.explorer.orm.entities.SiteStatus;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateSiteNameException;
 import org.rainbow.asset.explorer.service.services.SiteService;
 import org.rainbow.common.util.DateTime;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ import org.xml.sax.SAXException;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "SiteCreated", updatedMessageKey = "SiteUpdated", deletedMessageKey = "SiteDeleted")
-public class SiteDetailController extends AbstractAuditableDetailController<Site> {
+public class SiteDetailController extends AbstractAuditableEntityDetailController<Site> {
 
 	/**
 	 * 

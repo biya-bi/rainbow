@@ -5,17 +5,15 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.ProductIssueDetailAudit;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractAuditableEntity;
 
 /**
  *
@@ -23,9 +21,9 @@ import org.rainbow.orm.entities.Trackable;
  */
 @Entity
 @Table(name = "PRODUCT_ISSUE_DETAIL")
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = ProductIssueDetailAudit.class)
-public class ProductIssueDetail extends Trackable<ProductIssueDetailId> {
+
+@Auditable(ProductIssueDetailAudit.class)
+public class ProductIssueDetail extends AbstractAuditableEntity<ProductIssueDetailId> {
 
 	/**
 	 * 

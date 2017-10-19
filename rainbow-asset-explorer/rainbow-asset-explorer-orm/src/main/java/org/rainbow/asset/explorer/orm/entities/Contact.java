@@ -1,19 +1,17 @@
 package org.rainbow.asset.explorer.orm.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
 import org.rainbow.asset.explorer.orm.audit.ContactAudit;
+import org.rainbow.orm.audit.Auditable;
 
 /**
  *
  * @author Biya-Bi
  */
 @Entity
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = ContactAudit.class)
+
+@Auditable(ContactAudit.class)
 public class Contact extends Person {
 
 	/**

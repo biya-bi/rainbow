@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.entities.AbstractAuditableEntity;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.rainbow.orm.entities.Trackable;
  */
 @Entity
 @Table(name = "PRODUCT_INVENTORY")
-public class ProductInventory extends Trackable<ProductInventoryId> {
+public class ProductInventory extends AbstractAuditableEntity<ProductInventoryId> {
 
 	/**
 	 * 

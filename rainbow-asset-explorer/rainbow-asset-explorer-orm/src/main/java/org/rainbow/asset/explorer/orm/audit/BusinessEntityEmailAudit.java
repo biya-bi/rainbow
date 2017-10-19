@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 
 import org.rainbow.asset.explorer.orm.entities.BusinessEntityEmail;
 import org.rainbow.asset.explorer.orm.entities.EmailType;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -16,7 +18,7 @@ import org.rainbow.asset.explorer.orm.entities.EmailType;
  */
 @Entity
 @Table(name = "BUSINESS_ENTITY_EMAIL_AUDIT")
-public class BusinessEntityEmailAudit extends TrackableAudit<BusinessEntityEmail, Long> {
+public class BusinessEntityEmailAudit extends AbstractAuditableEntityAudit<BusinessEntityEmail, Long> {
 
 	/**
 	 * 
@@ -74,11 +76,6 @@ public class BusinessEntityEmailAudit extends TrackableAudit<BusinessEntityEmail
 
 	public void setLine(String line) {
 		this.line = line;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.BusinessEntityEmailAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

@@ -6,6 +6,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.rainbow.asset.explorer.orm.entities.EmailRecipient;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -13,7 +15,7 @@ import org.rainbow.asset.explorer.orm.entities.EmailRecipient;
  */
 @Entity
 @Table(name = "EMAIL_RECIPIENT_AUDIT")
-public class EmailRecipientAudit extends TrackableAudit<EmailRecipient, Integer> {
+public class EmailRecipientAudit extends AbstractAuditableEntityAudit<EmailRecipient, Integer> {
 
 	/**
 	 * 
@@ -71,11 +73,6 @@ public class EmailRecipientAudit extends TrackableAudit<EmailRecipient, Integer>
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.EmailRecipientAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

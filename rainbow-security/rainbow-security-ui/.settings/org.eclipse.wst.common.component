@@ -34,6 +34,9 @@
         <dependent-module archiveName="rainbow-security-auth-faces-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-security-auth-faces/rainbow-security-auth-faces">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="rainbow-orm-eclipselink-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-orm-eclipselink/rainbow-orm-eclipselink">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="rainbow-security-ui"/>
         <property name="java-output-path" value="/rainbow-security-ui/target/classes"/>
     </wb-module>

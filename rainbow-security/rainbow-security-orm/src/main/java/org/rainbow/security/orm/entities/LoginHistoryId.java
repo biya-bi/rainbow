@@ -11,16 +11,16 @@ public class LoginHistoryId implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -8186621462023851884L;
-	private Long userId;
+	private Long membershipId;
 	private Integer historyId;
 
-	@Column(name = "USER_ID")
-	public Long getUserId() {
-		return userId;
+	@Column(name = "MEMBERSHIP_ID")
+	public Long getMembershipId() {
+		return membershipId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setMembershipId(Long userId) {
+		this.membershipId = userId;
 	}
 
 	@Column(name = "HISTORY_ID")
@@ -42,7 +42,7 @@ public class LoginHistoryId implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((historyId == null) ? 0 : historyId.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + ((membershipId == null) ? 0 : membershipId.hashCode());
 		return result;
 	}
 
@@ -70,11 +70,11 @@ public class LoginHistoryId implements Serializable {
 		} else if (!historyId.equals(other.historyId)) {
 			return false;
 		}
-		if (userId == null) {
-			if (other.userId != null) {
+		if (membershipId == null) {
+			if (other.membershipId != null) {
 				return false;
 			}
-		} else if (!userId.equals(other.userId)) {
+		} else if (!membershipId.equals(other.membershipId)) {
 			return false;
 		}
 		return true;
@@ -87,7 +87,7 @@ public class LoginHistoryId implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return this.getClass().getName() + "[ userId=" + getUserId() + ", historyId=" + getHistoryId() + " ]";
+		return this.getClass().getName() + "[ membershipId=" + getMembershipId() + ", historyId=" + getHistoryId() + " ]";
 	}
 
 }

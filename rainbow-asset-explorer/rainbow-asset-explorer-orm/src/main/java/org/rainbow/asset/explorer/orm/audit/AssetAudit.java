@@ -16,6 +16,8 @@ import org.rainbow.asset.explorer.orm.entities.Asset;
 import org.rainbow.asset.explorer.orm.entities.AssetState;
 import org.rainbow.asset.explorer.orm.entities.DepreciationMethod;
 import org.rainbow.asset.explorer.orm.entities.ManufacturerBusinessImpact;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -23,7 +25,7 @@ import org.rainbow.asset.explorer.orm.entities.ManufacturerBusinessImpact;
  */
 @Entity
 @Table(name = "ASSET_AUDIT")
-public class AssetAudit extends TrackableAudit<Asset, Long> {
+public class AssetAudit extends AbstractAuditableEntityAudit<Asset, Long> {
 
 	/**
 	 * 
@@ -238,11 +240,6 @@ public class AssetAudit extends TrackableAudit<Asset, Long> {
 
 	public void setTag(String tag) {
 		this.tag = tag;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.AssetAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

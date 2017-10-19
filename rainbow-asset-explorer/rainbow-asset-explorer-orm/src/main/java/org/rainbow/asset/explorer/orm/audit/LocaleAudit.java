@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.rainbow.asset.explorer.orm.entities.Locale;
+import org.rainbow.orm.audit.AbstractAuditableEntityAudit;
+import org.rainbow.orm.audit.WriteOperation;
 
 /**
  *
@@ -14,7 +16,7 @@ import org.rainbow.asset.explorer.orm.entities.Locale;
  */
 @Entity
 @Table(name = "LOCALE_AUDIT")
-public class LocaleAudit extends TrackableAudit<Locale, Integer> {
+public class LocaleAudit extends AbstractAuditableEntityAudit<Locale, Integer> {
 
 	/**
 	 * 
@@ -61,11 +63,6 @@ public class LocaleAudit extends TrackableAudit<Locale, Integer> {
 
 	public void setLcid(String lcid) {
 		this.lcid = lcid;
-	}
-
-	@Override
-	public String toString() {
-		return "org.rainbow.asset.explorer.core.audit.LocaleAudit[ auditId=" + getAuditId() + " ]";
 	}
 
 }

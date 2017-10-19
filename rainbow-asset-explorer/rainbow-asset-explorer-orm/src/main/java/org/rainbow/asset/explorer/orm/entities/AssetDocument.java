@@ -5,12 +5,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -21,10 +17,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.rainbow.asset.explorer.orm.adapters.AuditAdapter;
 import org.rainbow.asset.explorer.orm.audit.AssetDocumentAudit;
-import org.rainbow.asset.explorer.orm.audit.Auditable;
-import org.rainbow.orm.entities.Trackable;
+import org.rainbow.orm.audit.Auditable;
+import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 
 /**
  *
@@ -36,9 +31,8 @@ import org.rainbow.orm.entities.Trackable;
 @NamedQueries({ @NamedQuery(name = "AssetDocument.findAll", query = "SELECT d FROM AssetDocument d"),
 		@NamedQuery(name = "AssetDocument.findByFileName", query = "SELECT d FROM AssetDocument d WHERE UPPER(d.fileName) = :fileName"),
 		@NamedQuery(name = "AssetDocument.findById", query = "SELECT d FROM AssetDocument d WHERE d.id = :id") })
-@EntityListeners(AuditAdapter.class)
-@Auditable(audit = AssetDocumentAudit.class)
-public class AssetDocument extends Trackable<Long> {
+@Auditable(AssetDocumentAudit.class)
+public class AssetDocument extends AbstractNumericIdAuditableEntity<Long> {
 
 	/**
 	 * 
@@ -79,18 +73,6 @@ public class AssetDocument extends Trackable<Long> {
 		super(creationDate, lastUpdateDate, version, id);
 		this.fileName = fileName;
 		this.description = description;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Override
-	public Long getId() {
-		return super.getId();
-	}
-
-	@Override
-	public void setId(Long id) {
-		super.setId(id);
 	}
 
 	@Basic(optional = false)

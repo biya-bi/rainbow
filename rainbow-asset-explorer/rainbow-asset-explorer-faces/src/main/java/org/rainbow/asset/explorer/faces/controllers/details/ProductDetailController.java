@@ -23,7 +23,7 @@ import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNameException;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNumberException;
 import org.rainbow.asset.explorer.service.services.ProductService;
-import org.rainbow.faces.controllers.details.AbstractAuditableDetailController;
+import org.rainbow.faces.controllers.details.AbstractAuditableEntityDetailController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
 import org.rainbow.service.services.Service;
@@ -42,7 +42,7 @@ import org.xml.sax.SAXException;
 @Named
 @ViewScoped
 @CrudNotificationInfo(baseName = ResourceBundles.CRUD_MESSAGES, createdMessageKey = "ProductCreated", updatedMessageKey = "ProductUpdated", deletedMessageKey = "ProductDeleted")
-public class ProductDetailController extends AbstractAuditableDetailController<Product> {
+public class ProductDetailController extends AbstractAuditableEntityDetailController<Product> {
 
 	/**
 	 * 
