@@ -10,9 +10,9 @@
 
     <composite:implementation>
 
-        <p:panelGrid columns="2" rendered="#{userDetailController.current != null}">
+        <p:panelGrid columns="2" rendered="#{userWriteController.model != null}">
             <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
-            <h:outputText styleClass="field-value" id="name" value="#{userDetailController.current.userName}" title="#{labels.NameTitle}"/> 
+            <h:outputText styleClass="field-value" id="name" value="#{userWriteController.model.userName}" title="#{labels.NameTitle}"/> 
         </p:panelGrid>
 
     </composite:implementation>

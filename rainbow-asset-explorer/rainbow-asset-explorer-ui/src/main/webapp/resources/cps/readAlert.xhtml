@@ -10,19 +10,19 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid columns="2" rendered="#{alertDetailController.current != null}">
+        <p:panelGrid columns="2" rendered="#{alertWriteController.model != null}">
             <p:outputLabel styleClass="field-label" value="#{labels.AlertTypeLabel}"/>
-            <h:outputText value="#{alertDetailController.current.alertType}">
+            <h:outputText value="#{alertWriteController.model.alertType}">
                 <f:converter converterId="org.rainbow.asset.explorer.faces.converters.AlertTypeConverter" />
             </h:outputText>
             <p:outputLabel styleClass="field-label" value="#{labels.AlertCategoryLabel}"/>
-            <h:outputText value="#{alertDetailController.current.alertCategory}">
+            <h:outputText value="#{alertWriteController.model.alertCategory}">
                 <f:converter converterId="org.rainbow.asset.explorer.faces.converters.AlertCategoryConverter" />
             </h:outputText>
             <p:outputLabel styleClass="field-label" value="#{labels.EnabledLabel}"/>
-            <p:selectBooleanCheckbox disabled="true" value="#{alertDetailController.current.enabled}"/>
+            <p:selectBooleanCheckbox disabled="true" value="#{alertWriteController.model.enabled}"/>
             <p:outputLabel styleClass="field-label" value="#{labels.ImmediateLabel}"/>
-            <p:selectBooleanCheckbox disabled="true" value="#{alertDetailController.current.immediate}"/>
+            <p:selectBooleanCheckbox disabled="true" value="#{alertWriteController.model.immediate}"/>
         </p:panelGrid>
     </composite:implementation>
 </html>

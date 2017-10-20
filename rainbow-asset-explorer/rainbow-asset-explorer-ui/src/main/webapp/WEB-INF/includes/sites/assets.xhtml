@@ -6,12 +6,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
 
-    <p:dialog id="siteAssetsDialog" widgetVar="siteAssetsDialog" modal="false" resizable="false" appendTo="@(content)" header="#{siteDetailController.current.name} #{labels.SiteAssetsTitleSuffix}">
+    <p:dialog id="siteAssetsDialog" widgetVar="siteAssetsDialog" modal="false" resizable="false" appendTo="@(content)" header="#{siteWriteController.model.name} #{labels.SiteAssetsTitleSuffix}">
         <h:form id="siteAssetsForm">
-            <h:panelGroup id="panelGroup" rendered="#{siteDetailController.current!=null}">
+            <h:panelGroup id="panelGroup" rendered="#{siteWriteController.model!=null}">
                 <p:dataTable id="siteAssetsList"
                              widgetVar="siteAssetsDataTable"
-                             value="#{assetListController}"
+                             value="#{assetReadController}"
                              stickyHeader="false"
                              lazy="true" 
                              paginator="true"
@@ -21,24 +21,24 @@
                              rowsPerPageTemplate="20,40,60,80,100" 
                              var="item">
 
-                    <p:column  headerText="#{labels.SerialNumberTitle}" filterBy="#{item.serialNumber}" sortBy="#{item.serialNumber}" filterValue="#{assetListController.serialNumberFilter.value}">
+                    <p:column  headerText="#{labels.SerialNumberTitle}" filterBy="#{item.serialNumber}" sortBy="#{item.serialNumber}" filterValue="#{assetReadController.serialNumberFilter.value}">
                         <h:outputText value="#{item.serialNumber}" />
                     </p:column>
 
-                    <p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}" sortBy="#{item.name}" filterValue="#{assetListController.nameFilter.value}">
+                    <p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}" sortBy="#{item.name}" filterValue="#{assetReadController.nameFilter.value}">
                         <h:outputText value="#{item.name}" />
                     </p:column>
 
-                    <p:column headerText="#{labels.AssetTypeTitle}" sortBy="#{item.assetType.name}" filterBy="#{item.assetType.name}" filterValue="#{assetListController.assetTypeFilter.value}">
+                    <p:column headerText="#{labels.AssetTypeTitle}" sortBy="#{item.assetType.name}" filterBy="#{item.assetType.name}" filterValue="#{assetReadController.assetTypeFilter.value}">
                         <p:commandLink  update=":assetTypeDetails:form" value="#{item.assetType.name}" oncomplete="PF('assetTypeDetailsDialog').show()">
-                            <f:setPropertyActionListener value="#{item.assetType}" target="#{assetTypeDetailController.current}" />
+                            <f:setPropertyActionListener value="#{item.assetType}" target="#{assetTypeWriteController.model}" />
                         </p:commandLink>
                         <f:facet name="footer">
-                            <cps:stringFilterSelectOneMenu changeUpdate="siteAssetsForm:siteAssetsList" selectedValue="#{assetListController.assetTypeFilter.operator}" changeWidgetVar="assetListDataTable" />
+                            <cps:stringFilterSelectOneMenu changeUpdate="siteAssetsForm:siteAssetsList" selectedValue="#{assetReadController.assetTypeFilter.operator}" changeWidgetVar="assetListDataTable" />
                         </f:facet>
                     </p:column>
                     
-                    <p:column headerText="#{labels.AssetStateTitle}" sortBy="#{item.state}" filterBy="#{item.state}" filterValue="#{assetListController.stateFilter.value}">
+                    <p:column headerText="#{labels.AssetStateTitle}" sortBy="#{item.state}" filterBy="#{item.state}" filterValue="#{assetReadController.stateFilter.value}">
                         <f:facet name="filter">
                             <p:selectOneMenu id="stateFilter" onchange="PF('siteAssetsDataTable').filter()">
                                 <f:selectItem itemLabel="#{labels.All}" itemValue="#{null}"/>

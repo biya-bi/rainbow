@@ -10,23 +10,23 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{vendorDetailController.current != null}">
+        <p:panelGrid rendered="#{vendorWriteController.model != null}">
             <p:panelGrid columns="2">
                 <p:outputLabel styleClass="field-label" value="#{labels.AccountNumberLabel}" for="accountNumber" />
-                <h:outputText styleClass="field-value" id="accountNumber" value="#{vendorDetailController.current.accountNumber}" title="#{labels.AccountNumberTitle}"/>
+                <h:outputText styleClass="field-value" id="accountNumber" value="#{vendorWriteController.model.accountNumber}" title="#{labels.AccountNumberTitle}"/>
                 <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
-                <h:outputText styleClass="field-value" id="name" value="#{vendorDetailController.current.name}" title="#{labels.NameTitle}"/>
+                <h:outputText styleClass="field-value" id="name" value="#{vendorWriteController.model.name}" title="#{labels.NameTitle}"/>
                 <p:outputLabel styleClass="field-label" value="#{labels.PurchasingUrlLabel}"/> 
-                <h:outputText styleClass="field-value" id="purchasingUrl" value="#{vendorDetailController.current.purchasingUrl}" title="#{labels.PurchasingUrlTitle}"/>
+                <h:outputText styleClass="field-value" id="purchasingUrl" value="#{vendorWriteController.model.purchasingUrl}" title="#{labels.PurchasingUrlTitle}"/>
                 <p:outputLabel styleClass="field-label" value="#{labels.ActiveLabel}"/>
-                <p:selectBooleanCheckbox disabled="true" value="#{vendorDetailController.current.active}"/>
+                <p:selectBooleanCheckbox disabled="true" value="#{vendorWriteController.model.active}"/>
             </p:panelGrid>
             <p:panelGrid>
                 <p:row>
                     <p:column colspan="3">
                         <p:tabView>
                             <p:tab title="#{labels.AddressesTitle}">
-                                <p:accordionPanel activeIndex="-1" value="#{vendorDetailController.current.addresses}" var="address">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorWriteController.model.addresses}" var="address">
                                     <p:tab>
                                         <f:facet name="title">
                                             <p:outputLabel value="#{address.addressType}">
@@ -43,7 +43,7 @@
                                 </p:accordionPanel>
                             </p:tab>
                             <p:tab title="#{labels.PhonesTitle}">
-                                <p:accordionPanel activeIndex="-1" value="#{vendorDetailController.current.phones}" var="phone">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorWriteController.model.phones}" var="phone">
                                     <p:tab>
                                         <f:facet name="title">
                                             <p:outputLabel value="#{phone.phoneType}">
@@ -58,7 +58,7 @@
                                 </p:accordionPanel>
                             </p:tab>
                             <p:tab title="#{labels.FaxesTitle}">
-                                <p:accordionPanel activeIndex="-1" value="#{vendorDetailController.current.faxes}" var="fax">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorWriteController.model.faxes}" var="fax">
                                     <p:tab>
                                         <f:facet name="title">
                                             <p:outputLabel value="#{fax.faxType}">
@@ -73,7 +73,7 @@
                                 </p:accordionPanel>
                             </p:tab>
                             <p:tab title="#{labels.EmailsTitle}">
-                                <p:accordionPanel activeIndex="-1" value="#{vendorDetailController.current.emails}" var="email">
+                                <p:accordionPanel activeIndex="-1" value="#{vendorWriteController.model.emails}" var="email">
                                     <p:tab>
                                         <f:facet name="title">
                                             <p:outputLabel value="#{email.emailType}">

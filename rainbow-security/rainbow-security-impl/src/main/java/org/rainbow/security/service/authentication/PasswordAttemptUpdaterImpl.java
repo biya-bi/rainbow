@@ -51,7 +51,12 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 
 	private static final String LOGIN_HISTORY_INSERT_QUERY = "INSERT INTO LOGIN_HISTORIES(MEMBERSHIP_ID,HISTORY_ID,LOGIN_DATE) values (?,?,?)";
 
-	private static final String LOGIN_HISTORY_DELETE_QUERY = "DELETE FROM LOGIN_HISTORIES WHERE MEMBERSHIP_ID=:membership_id AND HISTORY_ID IN (:history_ids)";
+	private static final String MEMBERSHIP_ID_PLACEHOLDER = ":membership_id";
+
+	private static final String HISTORY_IDS_PLACEHOLDER = ":history_ids";
+
+	private static final String LOGIN_HISTORY_DELETE_QUERY = "DELETE FROM LOGIN_HISTORIES WHERE MEMBERSHIP_ID="
+			+ MEMBERSHIP_ID_PLACEHOLDER + " AND HISTORY_ID IN (" + HISTORY_IDS_PLACEHOLDER + ")";
 
 	private static final int MIN = 1;
 	private static final int SML = 4;
@@ -274,8 +279,9 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 					inClause.append('?');
 				}
 
-				PreparedStatement ps = con.prepareStatement(LOGIN_HISTORY_DELETE_QUERY
-						.replace(":membership_Id", String.valueOf(membershipId)).replace(":history_ids", inClause.toString()));
+				PreparedStatement ps = con.prepareStatement(
+						LOGIN_HISTORY_DELETE_QUERY.replace(MEMBERSHIP_ID_PLACEHOLDER, String.valueOf(membershipId))
+								.replace(HISTORY_IDS_PLACEHOLDER, inClause.toString()));
 				for (int i = 0; i < batchSize; i++) {
 					ps.setInt(i + 1, ids.pop());
 				}

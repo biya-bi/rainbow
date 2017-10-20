@@ -13,13 +13,13 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{siteDocumentDetailController.current != null}">
+        <p:panelGrid rendered="#{siteDocumentWriteController.model != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.FileNameLabel}"/>
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="fileName" value="#{siteDocumentDetailController.current.fileName}" title="#{labels.FileNameTitle}"/>
+                    <h:outputText styleClass="field-value" id="fileName" value="#{siteDocumentWriteController.model.fileName}" title="#{labels.FileNameTitle}"/>
                 </p:column>
                 <p:column/>
                 <p:column>
@@ -31,7 +31,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DocumentTypeLabel}" for="documentType" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu styleClass="field-value" id="documentType" value="#{siteDocumentDetailController.current.documentType}" title="#{labels.DocumentTypeTitle}" required="true" requiredMessage="#{valMsg.DocumentTypeRequired}">
+                    <p:selectOneMenu styleClass="field-value" id="documentType" value="#{siteDocumentWriteController.model.documentType}" title="#{labels.DocumentTypeTitle}" required="true" requiredMessage="#{valMsg.DocumentTypeRequired}">
                         <p:clientValidator event="change" />
                         <f:selectItem itemLabel="" itemValue="#{null}"/>
                         <f:selectItem itemLabel="#{labels.DocumentTypeLegal}" itemValue="LEGAL_DOCUMENT"/>
@@ -54,17 +54,17 @@
                                 labelId="siteLabel"
                                 messageId="siteDropDownMessage"
                                 rowKey="#{item.id}"
-                                selectionText="#{siteDocumentDetailController.current.site.name}"
-                                dataSource="#{siteListController}" 
+                                selectionText="#{siteDocumentWriteController.model.site.name}"
+                                dataSource="#{siteReadController}" 
                                 itemLabel="#{item.name}"
-                                selection="#{siteDocumentDetailController.current.site}"
-                                filterValue="#{siteListController.nameFilter.value}"
+                                selection="#{siteDocumentWriteController.model.site}"
+                                filterValue="#{siteReadController.nameFilter.value}"
                                 required="true"
                                 requiredMessage="#{valMsg.SiteRequired}"
                                 toolTip="#{labels.SiteTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{siteDetailController.prepareCreate()}" update=":siteCreate:form" dialogWidgetVar="siteCreateDialog" title="#{labels.CreateSiteTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_SITES')}"/>
+                    <cps:quickCreateButton actionListener="#{siteWriteController.prepareCreate()}" update=":siteCreate:form" dialogWidgetVar="siteCreateDialog" title="#{labels.CreateSiteTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_SITES')}"/>
                 </p:column>
                 <p:column>
                     <p:message id="siteDropDownMessage" for="siteDropDown"/>
@@ -75,7 +75,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputTextarea styleClass="field-value" id="description" value="#{siteDocumentDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{siteDocumentWriteController.model.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

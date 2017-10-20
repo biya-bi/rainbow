@@ -4,12 +4,12 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 
-    <p:dialog id="inventoryDialog" widgetVar="inventoryDialog" modal="false" resizable="false" appendTo="@(content)" header="#{locationDetailController.current.name} #{labels.LocationInventoryNameSuffix}">
+    <p:dialog id="inventoryDialog" widgetVar="inventoryDialog" modal="false" resizable="false" appendTo="@(content)" header="#{locationWriteController.model.name} #{labels.LocationInventoryNameSuffix}">
         <h:form id="inventoryForm">
-            <h:panelGroup id="panelGroup" rendered="#{productInventoryListController.locationIdFilter.value!=null}">
+            <h:panelGroup id="panelGroup" rendered="#{productInventoryReadController.locationIdFilter.value!=null}">
                 <p:dataTable id="inventoryList"
                              widgetVar="inventoryDataTable"
-                             value="#{productInventoryListController}"
+                             value="#{productInventoryReadController}"
                              stickyHeader="false"
                              lazy="true" 
                              paginator="true"
@@ -19,11 +19,11 @@
                              rowsPerPageTemplate="20,40,60,80,100" 
                              var="item">
 
-                    <p:column  headerText="#{labels.ProductNumberTitle}" filterBy="#{item.product.number}" sortBy="#{item.product.number}" filterValue="#{productInventoryListController.productNumberFilter.value}">
+                    <p:column  headerText="#{labels.ProductNumberTitle}" filterBy="#{item.product.number}" sortBy="#{item.product.number}" filterValue="#{productInventoryReadController.productNumberFilter.value}">
                         <h:outputText value="#{item.product.number}" />
                     </p:column>
 
-                    <p:column headerText="#{labels.ProductNameTitle}" filterBy="#{item.product.name}" sortBy="#{item.product.name}" filterValue="#{productInventoryListController.productNameFilter.value}">
+                    <p:column headerText="#{labels.ProductNameTitle}" filterBy="#{item.product.name}" sortBy="#{item.product.name}" filterValue="#{productInventoryReadController.productNameFilter.value}">
                         <h:outputText value="#{item.product.name}" />
                     </p:column>
 

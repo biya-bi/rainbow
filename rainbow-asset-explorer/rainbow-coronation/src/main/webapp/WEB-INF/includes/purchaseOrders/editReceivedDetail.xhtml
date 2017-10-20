@@ -9,7 +9,7 @@
     <p:dialog id="editPurchaseOrderReceivedDetailDialog" widgetVar="editPurchaseOrderReceivedDetailDialog" modal="false" resizable="false" header="#{labels.PurchaseOrderDetailTitle}">
         <h:form id="editPurchaseOrderReceivedDetailForm">
             <h:panelGroup id="panelGroup">
-                <p:panelGrid columns="1" rendered="#{purchaseOrderDetailController.detail != null}">
+                <p:panelGrid columns="1" rendered="#{purchaseOrderWriteController.detail != null}">
                     <f:facet name="header">
                         <p:panelGrid columns="2" style="text-align: left;" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="#{labels.OK}" icon="ui-icon-check" validateClient="true" update="panelGroup,:completePurchaseOrderForm" oncomplete="handleSubmit(args,'editPurchaseOrderReceivedDetailDialog');"/>
@@ -27,11 +27,11 @@
                                             labelId="productLabel"
                                             messageId="productDropDownMessage"
                                             rowKey="#{item.id}"
-                                            selectionText="#{purchaseOrderDetailController.detail.product.name}"
-                                            dataSource="#{productListController}" 
+                                            selectionText="#{purchaseOrderWriteController.detail.product.name}"
+                                            dataSource="#{productReadController}" 
                                             itemLabel="#{item.name}"
-                                            selection="#{purchaseOrderDetailController.detail.product}"
-                                            filterValue="#{productListController.nameFilter.value}"
+                                            selection="#{purchaseOrderWriteController.detail.product}"
+                                            filterValue="#{productReadController.nameFilter.value}"
                                             required="true"
                                             requiredMessage="#{valMsg.ProductRequired}"
                                             toolTip="#{labels.ProductTitle}"/>
@@ -45,7 +45,7 @@
                                 <p:outputLabel styleClass="field-label"  value="#{labels.ReceivedQuantityLabel}" for="receivedQuantity" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="receivedQuantity" styleClass="field-value" value="#{purchaseOrderDetailController.detail.receivedQuantity}" required="true" requiredMessage="#{valMsg.ReceivedQuantityRequired}" title="#{labels.ReceivedQuantityTitle}">
+                                <p:inputText id="receivedQuantity" styleClass="field-value" value="#{purchaseOrderWriteController.detail.receivedQuantity}" required="true" requiredMessage="#{valMsg.ReceivedQuantityRequired}" title="#{labels.ReceivedQuantityTitle}">
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
                             </p:column>

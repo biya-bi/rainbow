@@ -9,13 +9,13 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{alertDetailController.current != null}">
+        <p:panelGrid rendered="#{alertWriteController.model != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.AlertTypeLabel}" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu styleClass="field-value" value="#{alertDetailController.current.alertType}">
+                    <p:selectOneMenu styleClass="field-value" value="#{alertWriteController.model.alertType}">
                         <f:selectItem itemLabel="#{labels.Warning}" itemValue="WARNING" />
                         <f:selectItem itemLabel="#{labels.Recovery}" itemValue="RECOVERY" />
                     </p:selectOneMenu>
@@ -26,7 +26,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.AlertCategoryLabel}" />
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu styleClass="field-value" value="#{alertDetailController.current.alertCategory}">
+                    <p:selectOneMenu styleClass="field-value" value="#{alertWriteController.model.alertCategory}">
                         <f:selectItem itemLabel="#{labels.StockLevel}" itemValue="STOCK_LEVEL" />
                     </p:selectOneMenu>
                 </p:column>
@@ -36,7 +36,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.EnabledLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:selectBooleanCheckbox styleClass="field-value" value="#{alertDetailController.current.enabled}"/> 
+                    <p:selectBooleanCheckbox styleClass="field-value" value="#{alertWriteController.model.enabled}"/> 
                 </p:column>
             </p:row>
             <p:row>
@@ -44,7 +44,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.ImmediateLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:selectBooleanCheckbox styleClass="field-value" value="#{alertDetailController.current.immediate}"/> 
+                    <p:selectBooleanCheckbox styleClass="field-value" value="#{alertWriteController.model.immediate}"/> 
                 </p:column>
             </p:row>
             <p:row>
@@ -56,7 +56,7 @@
                                     <p:outputLabel styleClass="field-label" value="#{labels.TimezoneLabel}" for="timezone" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText styleClass="field-value" id="timezone" value="#{alertDetailController.current.schedule.timezone}" title="#{labels.TimezoneTitle}">
+                                    <p:inputText styleClass="field-value" id="timezone" value="#{alertWriteController.model.schedule.timezone}" title="#{labels.TimezoneTitle}">
                                         <p:clientValidator event="keyup" />
                                     </p:inputText>
                                 </p:column>
@@ -69,7 +69,7 @@
                                     <p:outputLabel styleClass="field-label" value="#{labels.HourLabel}" for="hour" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText styleClass="field-value" id="hour" value="#{alertDetailController.current.schedule.hour}" title="#{labels.HourTitle}">
+                                    <p:inputText styleClass="field-value" id="hour" value="#{alertWriteController.model.schedule.hour}" title="#{labels.HourTitle}">
                                         <p:clientValidator event="keyup" />
                                     </p:inputText>
                                 </p:column>
@@ -82,7 +82,7 @@
                                     <p:outputLabel styleClass="field-label" value="#{labels.MinuteLabel}" for="minute" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText styleClass="field-value" id="minute" value="#{alertDetailController.current.schedule.minute}" title="#{labels.MinuteTitle}">
+                                    <p:inputText styleClass="field-value" id="minute" value="#{alertWriteController.model.schedule.minute}" title="#{labels.MinuteTitle}">
                                         <p:clientValidator event="keyup" />
                                     </p:inputText>
                                 </p:column>
@@ -95,7 +95,7 @@
                                     <p:outputLabel styleClass="field-label" value="#{labels.SecondLabel}" for="second" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText styleClass="field-value" id="second" value="#{alertDetailController.current.schedule.second}" title="#{labels.SecondTitle}">
+                                    <p:inputText styleClass="field-value" id="second" value="#{alertWriteController.model.schedule.second}" title="#{labels.SecondTitle}">
                                         <p:clientValidator event="keyup" />
                                     </p:inputText>
                                 </p:column>
@@ -108,7 +108,7 @@
                                     <p:outputLabel styleClass="field-label" value="#{labels.DayOfWeekLabel}" for="dayOfWeek" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu styleClass="field-value" id="dayOfWeek" value="#{alertDetailController.current.schedule.dayOfWeek}" title="#{labels.DayOfWeekTitle}">
+                                    <p:selectOneMenu styleClass="field-value" id="dayOfWeek" value="#{alertWriteController.model.schedule.dayOfWeek}" title="#{labels.DayOfWeekTitle}">
                                         <p:clientValidator event="change" />
                                         <f:selectItem itemLabel="#{labels.All}" itemValue="#{null}"/>
                                         <f:selectItem itemLabel="#{labels.Monday}" itemValue="MONDAY"/>
@@ -129,7 +129,7 @@
                                     <p:outputLabel styleClass="field-label" value="#{labels.DayOfMonthLabel}" for="dayOfMonth" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText styleClass="field-value" id="dayOfMonth" value="#{alertDetailController.current.schedule.dayOfMonth}" title="#{labels.DayOfMonthTitle}">
+                                    <p:inputText styleClass="field-value" id="dayOfMonth" value="#{alertWriteController.model.schedule.dayOfMonth}" title="#{labels.DayOfMonthTitle}">
                                         <p:clientValidator event="keyup" />
                                     </p:inputText>
                                 </p:column>
@@ -142,7 +142,7 @@
                                     <p:outputLabel styleClass="field-label" value="#{labels.MonthLabel}" for="month" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu styleClass="field-value" id="month" value="#{alertDetailController.current.schedule.month}" title="#{labels.MonthTitle}">
+                                    <p:selectOneMenu styleClass="field-value" id="month" value="#{alertWriteController.model.schedule.month}" title="#{labels.MonthTitle}">
                                         <p:clientValidator event="change" />
                                         <f:selectItem itemLabel="#{labels.All}" itemValue="#{null}"/>
                                         <f:selectItem itemLabel="#{labels.January}" itemValue="JANUARY"/>
@@ -168,7 +168,7 @@
                                     <p:outputLabel styleClass="field-label" value="#{labels.YearLabel}" for="year" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText styleClass="field-value" id="year" value="#{alertDetailController.current.schedule.year}" title="#{labels.YearTitle}">
+                                    <p:inputText styleClass="field-value" id="year" value="#{alertWriteController.model.schedule.year}" title="#{labels.YearTitle}">
                                         <p:clientValidator event="keyup" />
                                     </p:inputText>
                                 </p:column>

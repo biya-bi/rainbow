@@ -7,19 +7,19 @@
 
     <cps:submitForm id="localeDelete"
                     title="#{labels.DeleteLocaleTitle}"           
-                    submitActionListener="#{localeDetailController.delete()}"
+                    submitActionListener="#{localeWriteController.delete()}"
                     update="localeList:form:dataTable"
                     submitLabel="#{labels.Delete}"
                     submitIcon="ui-icon-trash">
         <h3>#{labels.DeleteLocaleQuestion}</h3>
 
-        <p:panelGrid columns="2" rendered="#{localeDetailController.current != null}">
+        <p:panelGrid columns="2" rendered="#{localeWriteController.model != null}">
             <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
-            <h:outputText styleClass="field-value" id="name" value="#{localeDetailController.current.name}" title="#{labels.NameTitle}"/>
+            <h:outputText styleClass="field-value" id="name" value="#{localeWriteController.model.name}" title="#{labels.NameTitle}"/>
             <p:outputLabel styleClass="field-label" value="#{labels.LanguageCodeLabel}"/> 
-            <h:outputText styleClass="field-value" id="languageCode" value="#{localeDetailController.current.languageCode}" title="#{labels.LanguageCodeTitle}"/>
+            <h:outputText styleClass="field-value" id="languageCode" value="#{localeWriteController.model.languageCode}" title="#{labels.LanguageCodeTitle}"/>
             <p:outputLabel styleClass="field-label" value="#{labels.LCIDLabel}"/> 
-            <h:outputText styleClass="field-value" id="lcid" value="#{localeDetailController.current.lcid}" title="#{labels.LCIDTitle}"/>
+            <h:outputText styleClass="field-value" id="lcid" value="#{localeWriteController.model.lcid}" title="#{labels.LCIDTitle}"/>
         </p:panelGrid>
 
     </cps:submitForm>

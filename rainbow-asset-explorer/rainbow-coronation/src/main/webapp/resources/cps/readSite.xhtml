@@ -9,11 +9,11 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid columns="2" rendered="#{siteDetailController.current != null}">
+        <p:panelGrid columns="2" rendered="#{siteWriteController.model != null}">
             <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
-            <h:outputText styleClass="field-value" id="name" value="#{siteDetailController.current.name}" title="#{labels.NameTitle}"/>
+            <h:outputText styleClass="field-value" id="name" value="#{siteWriteController.model.name}" title="#{labels.NameTitle}"/>
             <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
-            <h:outputText styleClass="field-value" id="description" value="#{siteDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
+            <h:outputText styleClass="field-value" id="description" value="#{siteWriteController.model.description}" title="#{labels.DescriptionTitle}"/>
         </p:panelGrid>
     </composite:implementation>
 </html>

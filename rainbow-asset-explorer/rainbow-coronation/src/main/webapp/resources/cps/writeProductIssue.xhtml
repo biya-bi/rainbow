@@ -13,7 +13,7 @@
 </composite:interface>
 
 <composite:implementation>
-	<p:panelGrid rendered="#{productIssueDetailController.current != null}">
+	<p:panelGrid rendered="#{productIssueWriteController.model != null}">
 		<p:panelGrid>
 			<p:row>
 				<p:column>
@@ -22,7 +22,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText styleClass="field-value" id="referenceNumber"
-						value="#{productIssueDetailController.current.referenceNumber}"
+						value="#{productIssueWriteController.model.referenceNumber}"
 						title="#{labels.ReferenceNumberTitle}" required="true"
 						requiredMessage="#{valMsg.ReferenceNumberRequired}">
 						<p:clientValidator event="keyup" />
@@ -42,16 +42,16 @@
 					<t:dropDown styleClass="field-value" id="locationDropDown"
 						labelId="locationLabel" messageId="locationDropDownMessage"
 						rowKey="#{item.id}"
-						selectionText="#{productIssueDetailController.current.location.name}"
-						dataSource="#{locationListController}" itemLabel="#{item.name}"
-						selection="#{productIssueDetailController.current.location}"
-						filterValue="#{locationListController.nameFilter.value}"
+						selectionText="#{productIssueWriteController.model.location.name}"
+						dataSource="#{locationReadController}" itemLabel="#{item.name}"
+						selection="#{productIssueWriteController.model.location}"
+						filterValue="#{locationReadController.nameFilter.value}"
 						required="true" requiredMessage="#{valMsg.LocationRequired}"
 						toolTip="#{labels.LocationTitle}" />
 				</p:column>
 				<p:column>
 					<cps:quickCreateButton
-						actionListener="#{locationDetailController.prepareCreate()}"
+						actionListener="#{locationWriteController.prepareCreate()}"
 						update=":locationCreate:form"
 						dialogWidgetVar="locationCreateDialog"
 						title="#{labels.CreateLocationTitle}"
@@ -68,7 +68,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText styleClass="field-value" id="requisitioner"
-						value="#{productIssueDetailController.current.requisitioner}"
+						value="#{productIssueWriteController.model.requisitioner}"
 						title="#{labels.RequisitionerTitle}" required="true"
 						requiredMessage="#{valMsg.RequisitionerRequired}">
 						<p:clientValidator event="keyup" />
@@ -86,7 +86,7 @@
 				</p:column>
 				<p:column>
 					<p:calendar styleClass="field-value" id="issueDate"
-						value="#{productIssueDetailController.current.issueDate}"
+						value="#{productIssueWriteController.model.issueDate}"
 						title="#{labels.IssueDateTitle}" required="true"
 						requiredMessage="#{valMsg.IssueDateRequired}">
 						<p:ajax event="dateSelect" />
@@ -108,10 +108,10 @@
 					<t:dropDown styleClass="field-value" id="departmentDropDown"
 						labelId="departmentLabel" messageId="departmentDropDownMessage"
 						rowKey="#{item.id}"
-						selectionText="#{productIssueDetailController.current.department.name}"
-						dataSource="#{departmentListController}" itemLabel="#{item.name}"
-						selection="#{productIssueDetailController.current.department}"
-						filterValue="#{departmentListController.nameFilter.value}"
+						selectionText="#{productIssueWriteController.model.department.name}"
+						dataSource="#{departmentReadController}" itemLabel="#{item.name}"
+						selection="#{productIssueWriteController.model.department}"
+						filterValue="#{departmentReadController.nameFilter.value}"
 						required="true" requiredMessage="#{valMsg.DepartmentRequired}"
 						toolTip="#{labels.DepartmentTitle}" />
 				</p:column>
@@ -127,7 +127,7 @@
 				</p:column>
 				<p:column>
 					<p:inputTextarea styleClass="field-value" id="description"
-						value="#{productIssueDetailController.current.description}"
+						value="#{productIssueWriteController.model.description}"
 						title="#{labels.DescriptionTitle}" />
 				</p:column>
 			</p:row>
@@ -138,10 +138,10 @@
                 </f:facet>
 
 			<p:dataTable style="width: 700px" id="details" widgetVar="details"
-				var="detail" value="#{productIssueDetailController.current.details}">
+				var="detail" value="#{productIssueWriteController.model.details}">
 				<f:facet name="header">
 					<p:commandButton
-						actionListener="#{productIssueDetailController.prepareDetail()}"
+						actionListener="#{productIssueWriteController.prepareDetail()}"
 						icon="ui-icon-plus"
 						oncomplete="PF('addProductIssueDetailDialog').show()"
 						update=":addProductIssueDetailForm" />
@@ -167,13 +167,13 @@
 						oncomplete="PF('editProductIssueDetailDialog').show()">
 						<h:outputText styleClass="ui-icon ui-icon-pencil" />
 						<f:setPropertyActionListener value="#{detail}"
-							target="#{productIssueDetailController.detail}" />
+							target="#{productIssueWriteController.detail}" />
 					</p:commandLink>
 					<p:commandLink immediate="true" style="display: inline-block"
-						action="#{productIssueDetailController.removeDetail}" update="details">
+						action="#{productIssueWriteController.removeDetail}" update="details">
 						<h:outputText styleClass="ui-icon ui-icon-close" />
 						<f:setPropertyActionListener value="#{detail}"
-							target="#{productIssueDetailController.detail}" />
+							target="#{productIssueWriteController.detail}" />
 					</p:commandLink>
 
 				</p:column>

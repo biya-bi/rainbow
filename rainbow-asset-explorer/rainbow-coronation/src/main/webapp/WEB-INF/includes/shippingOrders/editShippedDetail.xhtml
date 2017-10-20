@@ -9,7 +9,7 @@
     <p:dialog id="editShippingOrderDetailDialog" widgetVar="editShippingOrderDetailDialog" modal="false" resizable="false" header="#{labels.ShippingOrderDetailTitle}">
         <h:form id="editShippingOrderDetailForm">
             <h:panelGroup id="panelGroup">
-                <p:panelGrid columns="1" rendered="#{shippingOrderDetailController.current != null}">
+                <p:panelGrid columns="1" rendered="#{shippingOrderWriteController.model != null}">
                     <f:facet name="header">
                         <p:panelGrid columns="2" style="text-align: left;" styleClass="ui-panelgrid-blank">
                             <p:commandButton value="#{labels.OK}" icon="ui-icon-check" validateClient="true" update="panelGroup,:shippingOrderCreate:form,:shippingOrderEdit:form" oncomplete="handleSubmit(args,'editShippingOrderDetailDialog');"/>
@@ -27,11 +27,11 @@
                                             labelId="productLabel"
                                             messageId="productDropDownMessage"
                                             rowKey="#{item.id}"
-                                            selectionText="#{shippingOrderDetailController.detail.product.name}"
-                                            dataSource="#{productListController}" 
+                                            selectionText="#{shippingOrderWriteController.detail.product.name}"
+                                            dataSource="#{productReadController}" 
                                             itemLabel="#{item.name}"
-                                            selection="#{shippingOrderDetailController.detail.product}"
-                                            filterValue="#{productListController.nameFilter.value}"
+                                            selection="#{shippingOrderWriteController.detail.product}"
+                                            filterValue="#{productReadController.nameFilter.value}"
                                             required="true"
                                             requiredMessage="#{valMsg.ProductRequired}"
                                             toolTip="#{labels.ProductTitle}"/>
@@ -45,7 +45,7 @@
                                 <p:outputLabel styleClass="field-label"  value="#{labels.ShippedQuantityLabel}" for="shippedQuantity" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="shippedQuantity" styleClass="field-value" value="#{shippingOrderDetailController.detail.shippedQuantity}" required="true" requiredMessage="#{valMsg.ShippedQuantityRequired}" title="#{labels.ShippedQuantityTitle}">
+                                <p:inputText id="shippedQuantity" styleClass="field-value" value="#{shippingOrderWriteController.detail.shippedQuantity}" required="true" requiredMessage="#{valMsg.ShippedQuantityRequired}" title="#{labels.ShippedQuantityTitle}">
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
                             </p:column>

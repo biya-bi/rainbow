@@ -9,13 +9,13 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{emailTemplateDetailController.current != null}">
+        <p:panelGrid rendered="#{emailTemplateWriteController.model != null}">
             <p:row>
                 <p:column>  
                     <p:outputLabel styleClass="field-label" value="#{labels.EmailLabel}" for="name" />
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="name" value="#{emailTemplateDetailController.current.name}" title="#{labels.NameTitle}"/>
+                    <h:outputText styleClass="field-value" id="name" value="#{emailTemplateWriteController.model.name}" title="#{labels.NameTitle}"/>
                 </p:column>
             </p:row>
             <p:row>
@@ -23,13 +23,13 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.SubjectLabel}" for="subject" />
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="subject" value="#{emailTemplateDetailController.current.subject}" title="#{labels.SubjectTitle}"/>
+                    <h:outputText styleClass="field-value" id="subject" value="#{emailTemplateWriteController.model.subject}" title="#{labels.SubjectTitle}"/>
                 </p:column>
             </p:row>
             <p:row>
                 <p:column colspan="2">
                     <p:panel header="#{labels.ContentTitle}">
-                        <p:editor disabled="true" value="#{emailTemplateDetailController.current.content}"/>
+                        <p:editor disabled="true" value="#{emailTemplateWriteController.model.content}"/>
                     </p:panel>
                 </p:column>
             </p:row>
@@ -38,7 +38,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="description" value="#{emailTemplateDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <h:outputText styleClass="field-value" id="description" value="#{emailTemplateWriteController.model.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

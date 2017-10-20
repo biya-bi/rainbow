@@ -10,79 +10,79 @@
 <h:body>
 
 	<cps:trackableDataGrid id="userList" title="#{labels.ListUsersTitle}"
-		dataSource="#{userListController}"
-		selectedItem="#{userDetailController.current}" selectedValue="#{item.id}"
-		createActionListener="#{userDetailController.prepareCreate()}"
+		dataSource="#{userReadController}"
+		selectedItem="#{userWriteController.model}" selectedValue="#{item.id}"
+		createActionListener="#{userWriteController.prepareCreate()}"
 		createDialog="userCreateDialog" createUpdate=":userCreate:form"
 		editDialog="userEditDialog" editUpdate=":userEdit:form"
 		detailsDialog="userDetailsDialog" detailsUpdate=":userDetails:form"
 		deleteDialog="userDeleteDialog" deleteUpdate=":userDelete:form"
 		selectionUpdate=":userList:headerGroupsButton,:userList:footerGroupsButton,:userList:headerSetPasswordLink,:userList:footerSetPasswordLink"
-		columnToggleListener="#{userDetailController.onToggle}"
-		creatorFilterValue="#{userListController.creatorFilter.value}"
-		creatorFilterOperator="#{userListController.creatorFilter.operator}"
-		updaterFilterValue="#{userListController.updaterFilter.value}"
-		updaterFilterOperator="#{userListController.updaterFilter.operator}"
-		creationDateFilterValue="#{userListController.creationDateFilter.value}"
-		creationDateFilterOperator="#{userListController.creationDateFilter.operator}"
-		lastUpdateDateFilterValue="#{userListController.lastUpdateDateFilter.value}"
-		lastUpdateDateFilterOperator="#{userListController.lastUpdateDateFilter.operator}">
+		columnToggleListener="#{userReadController.onToggle}"
+		creatorFilterValue="#{userReadController.creatorFilter.value}"
+		creatorFilterOperator="#{userReadController.creatorFilter.operator}"
+		updaterFilterValue="#{userReadController.updaterFilter.value}"
+		updaterFilterOperator="#{userReadController.updaterFilter.operator}"
+		creationDateFilterValue="#{userReadController.creationDateFilter.value}"
+		creationDateFilterOperator="#{userReadController.creationDateFilter.operator}"
+		lastUpdateDateFilterValue="#{userReadController.lastUpdateDateFilter.value}"
+		lastUpdateDateFilterOperator="#{userReadController.lastUpdateDateFilter.operator}">
 
 		<p:column headerText="#{labels.UserNameTitle}"
 			filterBy="#{item.userName}" sortBy="#{item.userName}"
-			filterValue="#{userListController.userNameFilter.value}">
+			filterValue="#{userReadController.userNameFilter.value}">
 			<h:outputText value="#{item.userName}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userListController.userNameFilter.operator}"
+					selectedValue="#{userReadController.userNameFilter.operator}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.ApplicationTitle}"
 			filterBy="#{item.application.name}" sortBy="#{item.application.name}"
-			filterValue="#{userListController.applicationNameFilter.value}">
+			filterValue="#{userReadController.applicationNameFilter.value}">
 			<h:outputText value="#{item.application.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userListController.applicationNameFilter.operator}"
+					selectedValue="#{userReadController.applicationNameFilter.operator}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.EmailTitle}"
 			filterBy="#{item.membership.email}" sortBy="#{item.membership.email}"
-			filterValue="#{userListController.emailFilter.value}">
+			filterValue="#{userReadController.emailFilter.value}">
 			<h:outputText value="#{item.membership.email}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userListController.emailFilter.operator}"
+					selectedValue="#{userReadController.emailFilter.operator}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.PhoneTitle}"
 			filterBy="#{item.membership.phone}" sortBy="#{item.membership.phone}"
-			filterValue="#{userListController.phoneFilter.value}">
+			filterValue="#{userReadController.phoneFilter.value}">
 			<h:outputText value="#{item.membership.phone}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userListController.phoneFilter.operator}"
+					selectedValue="#{userReadController.phoneFilter.operator}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.EnabledTitle}"
 			sortBy="#{item.membership.enabled}"
-			filterValue="#{userListController.enabledFilter.value}">
+			filterValue="#{userReadController.enabledFilter.value}">
 			<f:facet name="footer">
 				<cps:booleanFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userListController.enabledFilter.value}"
+					selectedValue="#{userReadController.enabledFilter.value}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 			<h:selectBooleanCheckbox disabled="true" readonly="false"
@@ -91,11 +91,11 @@
 
 		<p:column headerText="#{labels.LockedTitle}"
 			sortBy="#{item.membership.locked}"
-			filterValue="#{userListController.lockedFilter.value}">
+			filterValue="#{userReadController.lockedFilter.value}">
 			<f:facet name="footer">
 				<cps:booleanFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userListController.lockedFilter.value}"
+					selectedValue="#{userReadController.lockedFilter.value}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 			<h:selectBooleanCheckbox disabled="true" readonly="false"
@@ -107,9 +107,9 @@
 				value="#{labels.ListGroupsTitle}"
 				update="userGroupsDialog"
 				oncomplete="showDialog('userGroupsDialog')"
-				disabled="#{userDetailController.current==null}">
+				disabled="#{userWriteController.model==null}">
 				<f:setPropertyActionListener target="#{userGroupController.user}"
-					value="#{userDetailController.current}" />
+					value="#{userWriteController.model}" />
 			</p:commandButton>
 			<p:commandButton id="headerMoreActionsButton" icon="ui-icon-gear"
 				value="#{labels.MoreActionsLabel}" />
@@ -119,9 +119,9 @@
 					<p:commandLink id="headerSetPasswordLink"
 						value="#{labels.SetPasswordOption}" update=":setPasswordForm"
 						oncomplete="showDialog('setPasswordDialog')"
-						disabled="#{userDetailController.current==null}">
+						disabled="#{userWriteController.model==null}">
 						<f:setPropertyActionListener
-							value="#{userDetailController.current.userName}"
+							value="#{userWriteController.model.userName}"
 							target="#{setPasswordController.userName}" />
 					</p:commandLink>
 				</p:panelGrid>
@@ -132,9 +132,9 @@
 				value="#{labels.ListGroupsTitle}"
 				update="userGroupsDialog"
 				oncomplete="showDialog('userGroupsDialog')"
-				disabled="#{userDetailController.current==null}">
+				disabled="#{userWriteController.model==null}">
 				<f:setPropertyActionListener target="#{userGroupController.user}"
-					value="#{userDetailController.current}" />
+					value="#{userWriteController.model}" />
 			</p:commandButton>
 			<p:commandButton id="footerMoreActionsButton" icon="ui-icon-gear"
 				value="#{labels.MoreActionsLabel}" />
@@ -144,9 +144,9 @@
 					<p:commandLink id="footerSetPasswordLink"
 						value="#{labels.SetPasswordOption}" update=":setPasswordForm"
 						oncomplete="showDialog('setPasswordDialog')"
-						disabled="#{userDetailController.current==null}">
+						disabled="#{userWriteController.model==null}">
 						<f:setPropertyActionListener
-							value="#{userDetailController.current.userName}"
+							value="#{userWriteController.model.userName}"
 							target="#{setPasswordController.userName}" />
 					</p:commandLink>
 				</p:panelGrid>

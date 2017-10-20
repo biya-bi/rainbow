@@ -11,13 +11,13 @@
 
     <composite:implementation>
 
-        <p:panelGrid rendered="#{authorityDetailController.current != null}">
+        <p:panelGrid rendered="#{authorityWriteController.model != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="name" value="#{authorityDetailController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                    <p:inputText styleClass="field-value" id="name" value="#{authorityWriteController.model.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -35,17 +35,17 @@
                                 labelId="applicationLabel"
                                 messageId="applicationDropDownMessage"
                                 rowKey="#{item.id}"
-                                selectionText="#{authorityDetailController.current.application.name}"
-                                dataSource="#{applicationListController}" 
+                                selectionText="#{authorityWriteController.model.application.name}"
+                                dataSource="#{applicationReadController}" 
                                 itemLabel="#{item.name}"
-                                selection="#{authorityDetailController.current.application}"
-                                filterValue="#{applicationListController.nameFilter.value}"
+                                selection="#{authorityWriteController.model.application}"
+                                filterValue="#{applicationReadController.nameFilter.value}"
                                 required="true"
                                 requiredMessage="#{valMsg.ApplicationRequired}"
                                 toolTip="#{labels.ApplicationTitle}"/>
                 </p:column>
                 <p:column>
-                    <cps:quickCreateButton actionListener="#{applicationDetailController.prepareCreate()}" update=":applicationCreate:form" dialogWidgetVar="applicationCreateDialog" title="#{labels.CreateApplicationTitle}" />
+                    <cps:quickCreateButton actionListener="#{applicationWriteController.prepareCreate()}" update=":applicationCreate:form" dialogWidgetVar="applicationCreateDialog" title="#{labels.CreateApplicationTitle}" />
                 </p:column>
                 <p:column>
                     <p:message id="applicationDropDownMessage" for="applicationDropDown"/>
@@ -56,7 +56,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputTextarea styleClass="field-value" id="description" value="#{authorityDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{authorityWriteController.model.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

@@ -8,38 +8,38 @@
 
     <cps:submitForm id="shippingOrderDelete"
                     title="#{labels.DeleteShippingOrderTitle}"           
-                    submitActionListener="#{shippingOrderDetailController.delete()}"
+                    submitActionListener="#{shippingOrderWriteController.delete()}"
                     update="shippingOrderList:form:dataTable"
                     submitLabel="#{labels.Delete}"
                     submitIcon="ui-icon-trash">
         <h3>#{labels.DeleteShippingOrderQuestion}</h3>
 
-        <p:panelGrid rendered="#{shippingOrderDetailController.current != null}">
+        <p:panelGrid rendered="#{shippingOrderWriteController.model != null}">
             <p:panelGrid columns="2">
                 <p:outputLabel styleClass="field-label" value="#{labels.ReferenceNumberLabel}"/>
-                <h:outputText styleClass="field-value" value="#{shippingOrderDetailController.current.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
+                <h:outputText styleClass="field-value" value="#{shippingOrderWriteController.model.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
                 <p:outputLabel id="sourceLocationLabel" styleClass="field-label" value="#{labels.SourceLocationLabel}"/>
-                <p:commandLink title="#{labels.SourceLocationTitle}" styleClass="field-value" immediate="true" value="#{shippingOrderDetailController.current.sourceLocation.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
-                    <f:setPropertyActionListener value="#{shippingOrderDetailController.current.sourceLocation}" target="#{locationDetailController.current}" />
+                <p:commandLink title="#{labels.SourceLocationTitle}" styleClass="field-value" immediate="true" value="#{shippingOrderWriteController.model.sourceLocation.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{shippingOrderWriteController.model.sourceLocation}" target="#{locationWriteController.model}" />
                 </p:commandLink>
                 <p:outputLabel id="targetLocationLabel" styleClass="field-label" value="#{labels.TargetLocationLabel}"/>
-                <p:commandLink title="#{labels.TargetLocationTitle}" styleClass="field-value" immediate="true" value="#{shippingOrderDetailController.current.targetLocation.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
-                    <f:setPropertyActionListener value="#{shippingOrderDetailController.current.targetLocation}" target="#{locationDetailController.current}" />
+                <p:commandLink title="#{labels.TargetLocationTitle}" styleClass="field-value" immediate="true" value="#{shippingOrderWriteController.model.targetLocation.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{shippingOrderWriteController.model.targetLocation}" target="#{locationWriteController.model}" />
                 </p:commandLink>
                 <p:outputLabel id="shipMethodLabel" styleClass="field-label" value="#{labels.ShipMethodLabel}"/>
-                <p:commandLink title="#{labels.ShipMethodTitle}" styleClass="field-value" immediate="true" value="#{shippingOrderDetailController.current.shipMethod.name}" update=":shipMethodDetails:form" oncomplete="PF('shipMethodDetailsDialog').show()">
-                    <f:setPropertyActionListener value="#{shippingOrderDetailController.current.shipMethod}" target="#{shipMethodDetailController.current}" />
+                <p:commandLink title="#{labels.ShipMethodTitle}" styleClass="field-value" immediate="true" value="#{shippingOrderWriteController.model.shipMethod.name}" update=":shipMethodDetails:form" oncomplete="PF('shipMethodDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{shippingOrderWriteController.model.shipMethod}" target="#{shipMethodWriteController.model}" />
                 </p:commandLink>
                 <p:outputLabel styleClass="field-label" value="#{labels.ShipDateLabel}"/>
-                <h:outputText styleClass="field-value" id="shipDate" value="#{shippingOrderDetailController.current.shipDate}" title="#{labels.ShipDateTitle}">
+                <h:outputText styleClass="field-value" id="shipDate" value="#{shippingOrderWriteController.model.shipDate}" title="#{labels.ShipDateTitle}">
                     <f:convertDateTime dateStyle="short" />
                 </h:outputText>
                 <p:outputLabel styleClass="field-label" value="#{labels.DeliveryDateLabel}"/>
-                <h:outputText styleClass="field-value" id="deliveryDate" value="#{shippingOrderDetailController.current.deliveryDate}" title="#{labels.DeliveryDateTitle}">
+                <h:outputText styleClass="field-value" id="deliveryDate" value="#{shippingOrderWriteController.model.deliveryDate}" title="#{labels.DeliveryDateTitle}">
                     <f:convertDateTime dateStyle="short" />
                 </h:outputText>
                 <p:outputLabel styleClass="field-label" value="#{labels.StatusLabel}"/>
-                <h:outputText value="#{shippingOrderDetailController.current.status}">
+                <h:outputText value="#{shippingOrderWriteController.model.status}">
                     <f:converter converterId="org.rainbow.asset.explorer.faces.converters.ShippingOrderStatusConverter" />
                 </h:outputText>
             </p:panelGrid>
@@ -47,7 +47,7 @@
                 <f:facet name="header">
                     #{labels.ShippingOrderDetailsTitle}
                 </f:facet>
-                <p:dataTable style="width: 850px" id="details" widgetVar="details" var="detail" value="#{shippingOrderDetailController.current.details}">
+                <p:dataTable style="width: 850px" id="details" widgetVar="details" var="detail" value="#{shippingOrderWriteController.model.details}">
                     <p:column  headerText="#{labels.ProductTitle}" sortBy="#{detail.product.name}" filterBy="#{detail.product.name}" filterMatchMode="contains">
                         <h:outputText value="#{detail.product.name}" />
                     </p:column>

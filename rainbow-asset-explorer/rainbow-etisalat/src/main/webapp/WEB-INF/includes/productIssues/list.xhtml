@@ -12,84 +12,84 @@
 	<sec:authorize access="hasRole('ROLE_READ_PRODUCT_ISSUES')">
 		<cps:trackableDataGrid id="productIssueList"
 			title="#{labels.ListProductIssuesTitle}"
-			dataSource="#{productIssueListController}"
-			selectedItem="#{productIssueDetailController.current}"
+			dataSource="#{productIssueReadController}"
+			selectedItem="#{productIssueWriteController.model}"
 			selectedValue="#{item.id}"
-			createActionListener="#{productIssueDetailController.prepareCreate()}"
+			createActionListener="#{productIssueWriteController.prepareCreate()}"
 			createDialog="productIssueCreateDialog"
 			createUpdate=":productIssueCreate:form"
 			editDialog="productIssueEditDialog"
-			editActionListener="#{productIssueDetailController.setDetails()}"
+			editActionListener="#{productIssueWriteController.setDetails()}"
 			editUpdate=":productIssueEdit:form"
 			detailsDialog="productIssueDetailsDialog"
-			detailsActionListener="#{productIssueDetailController.setDetails()}"
+			detailsActionListener="#{productIssueWriteController.setDetails()}"
 			detailsUpdate=":productIssueDetails:form"
 			deleteDialog="productIssueDeleteDialog"
-			deleteActionListener="#{productIssueDetailController.setDetails()}"
+			deleteActionListener="#{productIssueWriteController.setDetails()}"
 			deleteUpdate=":productIssueDelete:form"
 			disableCreateButton="#{sec:areNotGranted('ROLE_WRITE_PRODUCT_ISSUES')}"
 			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_PRODUCT_ISSUES')}"
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_PRODUCT_ISSUES')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_PRODUCT_ISSUES')}"
-			columnToggleListener="#{productIssueDetailController.onToggle}"
-			creatorFilterValue="#{productIssueListController.creatorFilter.value}"
-			creatorFilterOperator="#{productIssueListController.creatorFilter.operator}"
-			updaterFilterValue="#{productIssueListController.updaterFilter.value}"
-			updaterFilterOperator="#{productIssueListController.updaterFilter.operator}"
-			creationDateFilterValue="#{productIssueListController.creationDateFilter.value}"
-			creationDateFilterOperator="#{productIssueListController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{productIssueListController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{productIssueListController.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{productIssueDetailController.auditColumnsStates[5]}"
-			updaterColumnVisible="#{productIssueDetailController.auditColumnsStates[6]}"
-			creationDateColumnVisible="#{productIssueDetailController.auditColumnsStates[7]}"
-			lastUpdateDateColumnVisible="#{productIssueDetailController.auditColumnsStates[8]}">
+			columnToggleListener="#{productIssueReadController.onToggle}"
+			creatorFilterValue="#{productIssueReadController.creatorFilter.value}"
+			creatorFilterOperator="#{productIssueReadController.creatorFilter.operator}"
+			updaterFilterValue="#{productIssueReadController.updaterFilter.value}"
+			updaterFilterOperator="#{productIssueReadController.updaterFilter.operator}"
+			creationDateFilterValue="#{productIssueReadController.creationDateFilter.value}"
+			creationDateFilterOperator="#{productIssueReadController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{productIssueReadController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{productIssueReadController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{productIssueReadController.auditColumnsStates[5]}"
+			updaterColumnVisible="#{productIssueReadController.auditColumnsStates[6]}"
+			creationDateColumnVisible="#{productIssueReadController.auditColumnsStates[7]}"
+			lastUpdateDateColumnVisible="#{productIssueReadController.auditColumnsStates[8]}">
 
 
 			<p:column headerText="#{labels.ReferenceNumberTitle}"
 				filterBy="#{item.referenceNumber}" sortBy="#{item.referenceNumber}"
-				filterValue="#{productIssueListController.referenceNumberFilter.value}">
+				filterValue="#{productIssueReadController.referenceNumberFilter.value}">
 				<h:outputText value="#{item.referenceNumber}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productIssueList:form:dataTable"
-						selectedValue="#{productIssueListController.referenceNumberFilter.operator}"
+						selectedValue="#{productIssueReadController.referenceNumberFilter.operator}"
 						changeWidgetVar="productIssueListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.LocationTitle}"
 				sortBy="#{item.location.name}" filterBy="#{item.location.name}"
-				filterValue="#{productIssueListController.locationNameFilter.value}">
+				filterValue="#{productIssueReadController.locationNameFilter.value}">
 				<p:commandLink update=":locationDetails:form"
 					value="#{item.location.name}"
 					oncomplete="PF('locationDetailsDialog').show()">
 					<f:setPropertyActionListener value="#{item.location}"
-						target="#{locationDetailController.current}" />
+						target="#{locationWriteController.model}" />
 				</p:commandLink>
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productIssueList:form:dataTable"
-						selectedValue="#{productIssueListController.locationNameFilter.operator}"
+						selectedValue="#{productIssueReadController.locationNameFilter.operator}"
 						changeWidgetVar="productIssueListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.RequisitionerTitle}"
 				filterBy="#{item.requisitioner}" sortBy="#{item.requisitioner}"
-				filterValue="#{productIssueListController.requisitionerFilter.value}">
+				filterValue="#{productIssueReadController.requisitionerFilter.value}">
 				<h:outputText value="#{item.requisitioner}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productIssueList:form:dataTable"
-						selectedValue="#{productIssueListController.requisitionerFilter.operator}"
+						selectedValue="#{productIssueReadController.requisitionerFilter.operator}"
 						changeWidgetVar="productIssueListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.IssueDateTitle}"
 				filterBy="#{item.issueDate}" sortBy="#{item.issueDate}"
-				filterValue="#{productIssueListController.issueDateFilter.value}">
+				filterValue="#{productIssueReadController.issueDateFilter.value}">
 				<f:facet name="filter">
 					<p:calendar navigator="true">
 						<p:ajax event="dateSelect" update="@this"
@@ -99,7 +99,7 @@
 				<f:facet name="footer">
 					<cps:comparableFilterSelectOneMenu
 						changeUpdate="productIssueList:form:dataTable"
-						selectedValue="#{productIssueListController.issueDateFilter.operator}"
+						selectedValue="#{productIssueReadController.issueDateFilter.operator}"
 						changeWidgetVar="productIssueListDataTable" />
 				</f:facet>
 				<h:outputText value="#{item.issueDate}">
@@ -109,12 +109,12 @@
 
 			<p:column headerText="#{labels.DepartmentTitle}"
 				filterBy="#{item.department.name}" sortBy="#{item.department.name}"
-				filterValue="#{productIssueListController.departmentNameFilter.value}">
+				filterValue="#{productIssueReadController.departmentNameFilter.value}">
 				<h:outputText value="#{item.department.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productIssueList:form:dataTable"
-						selectedValue="#{productIssueListController.departmentNameFilter.operator}"
+						selectedValue="#{productIssueReadController.departmentNameFilter.operator}"
 						changeWidgetVar="productIssueListDataTable" />
 				</f:facet>
 			</p:column>

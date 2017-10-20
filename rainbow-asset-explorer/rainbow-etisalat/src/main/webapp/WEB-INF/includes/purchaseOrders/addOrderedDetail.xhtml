@@ -9,10 +9,10 @@
     <p:dialog id="addPurchaseOrderDetailDialog" widgetVar="addPurchaseOrderDetailDialog" modal="false" resizable="false" header="#{labels.PurchaseOrderDetailTitle}">
         <h:form id="addPurchaseOrderDetailForm">
             <h:panelGroup id="panelGroup">
-                <p:panelGrid columns="1" rendered="#{purchaseOrderDetailController.detail != null}">
+                <p:panelGrid columns="1" rendered="#{purchaseOrderWriteController.detail != null}">
                     <f:facet name="header">
                         <p:panelGrid columns="2" style="text-align: left;" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="#{labels.Add}" icon="ui-icon-plus" action="#{purchaseOrderDetailController.addDetail}" validateClient="true" update="panelGroup,:purchaseOrderCreate:form,:purchaseOrderEdit:form" oncomplete="handleSubmit(args,'addPurchaseOrderDetailDialog');"/>
+                            <p:commandButton value="#{labels.Add}" icon="ui-icon-plus" action="#{purchaseOrderWriteController.addDetail}" validateClient="true" update="panelGroup,:purchaseOrderCreate:form,:purchaseOrderEdit:form" oncomplete="handleSubmit(args,'addPurchaseOrderDetailDialog');"/>
                             <p:commandButton value="#{labels.Cancel}" icon="ui-icon-close" onclick="PF('addPurchaseOrderDetailDialog').hide()" immediate="true"/>
                         </p:panelGrid>
                     </f:facet>
@@ -27,11 +27,11 @@
                                             labelId="productLabel"
                                             messageId="productDropDownMessage"
                                             rowKey="#{item.id}"
-                                            selectionText="#{purchaseOrderDetailController.detail.product.name}"
-                                            dataSource="#{productListController}" 
+                                            selectionText="#{purchaseOrderWriteController.detail.product.name}"
+                                            dataSource="#{productReadController}" 
                                             itemLabel="#{item.name}"
-                                            selection="#{purchaseOrderDetailController.detail.product}"
-                                            filterValue="#{productListController.nameFilter.value}"
+                                            selection="#{purchaseOrderWriteController.detail.product}"
+                                            filterValue="#{productReadController.nameFilter.value}"
                                             required="true"
                                             requiredMessage="#{valMsg.ProductRequired}"
                                             toolTip="#{labels.ProductTitle}"/>
@@ -45,7 +45,7 @@
                                 <p:outputLabel styleClass="field-label"  value="#{labels.OrderedQuantityLabel}" for="orderedQuantity" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="orderedQuantity" styleClass="field-value" value="#{purchaseOrderDetailController.detail.orderedQuantity}" required="true" requiredMessage="#{valMsg.OrderedQuantityRequired}" title="#{labels.OrderedQuantityTitle}">
+                                <p:inputText id="orderedQuantity" styleClass="field-value" value="#{purchaseOrderWriteController.detail.orderedQuantity}" required="true" requiredMessage="#{valMsg.OrderedQuantityRequired}" title="#{labels.OrderedQuantityTitle}">
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
                             </p:column>
@@ -58,7 +58,7 @@
                                 <p:outputLabel styleClass="field-label" value="#{labels.UnitPriceLabel}" for="unitPrice" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="unitPrice" styleClass="field-value" value="#{purchaseOrderDetailController.detail.unitPrice}" required="true" requiredMessage="#{valMsg.UnitPriceRequired}" title="#{labels.UnitPriceTitle}">
+                                <p:inputText id="unitPrice" styleClass="field-value" value="#{purchaseOrderWriteController.detail.unitPrice}" required="true" requiredMessage="#{valMsg.UnitPriceRequired}" title="#{labels.UnitPriceTitle}">
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
                             </p:column>
@@ -71,7 +71,7 @@
                                 <p:outputLabel styleClass="field-label" value="#{labels.DueDateLabel}" for="dueDate" />
                             </p:column>
                             <p:column> 
-                                <p:calendar id="dueDate" value="#{purchaseOrderDetailController.detail.dueDate}" title="#{labels.DueDateTitle}" required="true" requiredMessage="#{valMsg.DueDateRequired}">
+                                <p:calendar id="dueDate" value="#{purchaseOrderWriteController.detail.dueDate}" title="#{labels.DueDateTitle}" required="true" requiredMessage="#{valMsg.DueDateRequired}">
                                     <p:clientValidator event="change"/>
                                     <p:clientValidator event="dateSelect"/>
                                     <p:ajax event="dateSelect" />

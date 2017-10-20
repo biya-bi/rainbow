@@ -10,14 +10,14 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{siteDocumentDetailController.current != null}">
+        <p:panelGrid rendered="#{siteDocumentWriteController.model != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.FileNameLabel}" for="fileName" />
                 </p:column>
                 <p:column>
-                    <p:commandLink styleClass="field-value" id="fileName" ajax="false" value="#{siteDocumentDetailController.current.fileName}" title="#{labels.FileNameTitle}">                
-                        <p:fileDownload value="#{siteDocumentDetailController.file}" />
+                    <p:commandLink styleClass="field-value" id="fileName" ajax="false" value="#{siteDocumentWriteController.model.fileName}" title="#{labels.FileNameTitle}">                
+                        <p:fileDownload value="#{siteDocumentWriteController.file}" />
                     </p:commandLink>
                 </p:column>
             </p:row>
@@ -26,7 +26,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DocumentTypeLabel}" for="documentType" />
                 </p:column>
                 <p:column>
-                    <h:outputText styleClass="field-value" id="documentType" value="#{siteDocumentDetailController.current.documentType}" title="#{labels.DocumentTypeTitle}">
+                    <h:outputText styleClass="field-value" id="documentType" value="#{siteDocumentWriteController.model.documentType}" title="#{labels.DocumentTypeTitle}">
                         <f:converter converterId="org.rainbow.asset.explorer.faces.converters.DocumentTypeConverter" />
                     </h:outputText>
                 </p:column>
@@ -36,8 +36,8 @@
                     <p:outputLabel id="siteLabel" styleClass="field-label" value="#{labels.SiteLabel}"/>
                 </p:column>
                 <p:column>    
-                    <p:commandLink title="#{labels.SiteTitle}" styleClass="field-value" immediate="true" value="#{siteDocumentDetailController.current.site.name}" update=":siteDetails:form" oncomplete="PF('siteDetailsDialog').show()">
-                        <f:setPropertyActionListener value="#{siteDocumentDetailController.current.site}" target="#{siteDetailController.current}" />
+                    <p:commandLink title="#{labels.SiteTitle}" styleClass="field-value" immediate="true" value="#{siteDocumentWriteController.model.site.name}" update=":siteDetails:form" oncomplete="PF('siteDetailsDialog').show()">
+                        <f:setPropertyActionListener value="#{siteDocumentWriteController.model.site}" target="#{siteWriteController.model}" />
                     </p:commandLink>
                 </p:column>             
             </p:row>
@@ -46,7 +46,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <h:outputText styleClass="field-value" id="description" value="#{siteDocumentDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <h:outputText styleClass="field-value" id="description" value="#{siteDocumentWriteController.model.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

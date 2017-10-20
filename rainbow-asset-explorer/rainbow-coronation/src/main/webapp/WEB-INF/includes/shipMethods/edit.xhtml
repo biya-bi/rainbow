@@ -6,16 +6,16 @@
 
     <cps:submitForm id="shipMethodEdit"
                     title="#{labels.EditShipMethodTitle}"           
-                    submitActionListener="#{shipMethodDetailController.edit()}"
+                    submitActionListener="#{shipMethodWriteController.edit()}"
                     update="shipMethodList:form:dataTable">
 
-        <p:panelGrid rendered="#{shipMethodDetailController.current != null}">
+        <p:panelGrid rendered="#{shipMethodWriteController.model != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="name" value="#{shipMethodDetailController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                    <p:inputText styleClass="field-value" id="name" value="#{shipMethodWriteController.model.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -28,7 +28,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputTextarea styleClass="field-value" id="description" value="#{shipMethodDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{shipMethodWriteController.model.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

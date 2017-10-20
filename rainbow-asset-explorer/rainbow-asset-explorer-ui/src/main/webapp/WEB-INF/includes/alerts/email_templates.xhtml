@@ -7,14 +7,14 @@
 
     <p:dialog id="alertEmailTemplatesDialog" widgetVar="alertEmailTemplatesDialog" modal="false" resizable="false" appendTo="@(content)" header="#{labels.AlertEmailTemplatesTitle}">
         <h:form id="alertEmailTemplatesForm">
-            <h:panelGroup id="panelGroup" rendered="#{alertDetailController.current!=null}">
+            <h:panelGroup id="panelGroup" rendered="#{alertWriteController.model!=null}">
                 <p:panelGrid columns="2">
                     <p:outputLabel styleClass="field-label" value="#{labels.AlertTypeLabel}"/>
-                    <h:outputText value="#{alertDetailController.current.alertType}">
+                    <h:outputText value="#{alertWriteController.model.alertType}">
                         <f:converter converterId="org.rainbow.asset.explorer.faces.converters.AlertTypeConverter" />
                     </h:outputText>
                     <p:outputLabel styleClass="field-label" value="#{labels.AlertCategoryLabel}"/>
-                    <h:outputText value="#{alertDetailController.current.alertCategory}">
+                    <h:outputText value="#{alertWriteController.model.alertCategory}">
                         <f:converter converterId="org.rainbow.asset.explorer.faces.converters.AlertCategoryConverter" />
                     </h:outputText>
                 </p:panelGrid>
@@ -28,7 +28,7 @@
                                  scrollable="true"
                                  scrollWidth="500"
                                  var="item"
-                                 value="#{alertDetailController.current.emailTemplates}">
+                                 value="#{alertWriteController.model.emailTemplates}">
                         <f:facet name="header">
                             <p:outputLabel value="#{labels.ListEmailTemplatesTitle}"/>
                         </f:facet>

@@ -12,7 +12,7 @@
 
 <composite:implementation>
 
-	<p:panelGrid rendered="#{userDetailController.current != null}">
+	<p:panelGrid rendered="#{userWriteController.model != null}">
 		<p:row>
 			<p:column>
 				<p:outputLabel styleClass="field-label"
@@ -20,7 +20,7 @@
 			</p:column>
 			<p:column>
 				<p:inputText styleClass="field-value" id="userName"
-					value="#{userDetailController.current.userName}"
+					value="#{userWriteController.model.userName}"
 					title="#{labels.UserNameTitle}" required="true"
 					requiredMessage="#{valMsg.UserNameRequired}">
 					<p:clientValidator event="keyup" />
@@ -41,7 +41,7 @@
 					validatorMessage="#{valMsg.PasswordAndConfirmPasswordDonotMatch}"
 					styleClass="field-value" id="password" label="Password 1"
 					match="confirmPassword"
-					value="#{userDetailController.current.membership.password}"
+					value="#{userWriteController.model.membership.password}"
 					title="#{labels.PasswordTitle}" required="true"
 					requiredMessage="#{valMsg.PasswordRequired}">
 					<p:clientValidator event="keyup" />
@@ -62,7 +62,7 @@
 			<p:column>
 				<p:password styleClass="field-value" id="confirmPassword"
 					label="Password 2"
-					value="#{userDetailController.current.membership.password}"
+					value="#{userWriteController.model.membership.password}"
 					title="#{labels.ConfirmPasswordTitle}" required="true"
 					requiredMessage="#{valMsg.ConfirmPasswordRequired}">
 					<p:clientValidator event="keyup" />
@@ -85,16 +85,16 @@
 				<t:dropDown styleClass="field-value" id="applicationDropDown"
 					labelId="applicationLabel" messageId="applicationDropDownMessage"
 					rowKey="#{item.id}"
-					selectionText="#{userDetailController.current.application.name}"
-					dataSource="#{applicationListController}" itemLabel="#{item.name}"
-					selection="#{userDetailController.current.application}"
-					filterValue="#{applicationListController.nameFilter.value}"
+					selectionText="#{userWriteController.model.application.name}"
+					dataSource="#{applicationReadController}" itemLabel="#{item.name}"
+					selection="#{userWriteController.model.application}"
+					filterValue="#{applicationReadController.nameFilter.value}"
 					required="true" requiredMessage="#{valMsg.ApplicationRequired}"
 					toolTip="#{labels.ApplicationTitle}" />
 			</p:column>
 			<p:column>
 				<cps:quickCreateButton
-					actionListener="#{applicationDetailController.prepareCreate()}"
+					actionListener="#{applicationWriteController.prepareCreate()}"
 					update=":applicationCreate:form"
 					dialogWidgetVar="applicationCreateDialog"
 					title="#{labels.CreateApplicationTitle}" />
@@ -110,7 +110,7 @@
 			</p:column>
 			<p:column>
 				<p:selectBooleanCheckbox styleClass="field-value"
-					value="#{userDetailController.current.membership.enabled}" />
+					value="#{userWriteController.model.membership.enabled}" />
 			</p:column>
 		</p:row>
 		<p:row>
@@ -120,7 +120,7 @@
 			</p:column>
 			<p:column>
 				<p:selectBooleanCheckbox styleClass="field-value"
-					value="#{userDetailController.current.membership.locked}" />
+					value="#{userWriteController.model.membership.locked}" />
 			</p:column>
 		</p:row>
 		<p:row>
@@ -129,7 +129,7 @@
 			</p:column>
 			<p:column>
 				<p:inputText styleClass="field-value" id="email"
-					value="#{userDetailController.current.membership.email}"
+					value="#{userWriteController.model.membership.email}"
 					title="#{labels.EmailTitle}" />
 			</p:column>
 		</p:row>
@@ -139,7 +139,7 @@
 			</p:column>
 			<p:column>
 				<p:inputText styleClass="field-value" id="phone"
-					value="#{userDetailController.current.membership.phone}"
+					value="#{userWriteController.model.membership.phone}"
 					title="#{labels.PhoneTitle}" />
 			</p:column>
 		</p:row>
@@ -150,7 +150,7 @@
 			</p:column>
 			<p:column>
 				<p:inputTextarea styleClass="field-value" id="description"
-					value="#{userDetailController.current.membership.description}"
+					value="#{userWriteController.model.membership.description}"
 					title="#{labels.DescriptionTitle}" />
 			</p:column>
 		</p:row>

@@ -14,12 +14,12 @@
 	<h:form id="addProductIssueDetailForm">
 		<h:panelGroup id="panelGroup">
 			<p:panelGrid columns="1"
-				rendered="#{productIssueDetailController.current != null}">
+				rendered="#{productIssueWriteController.model != null}">
 				<f:facet name="header">
 					<p:panelGrid columns="2" style="text-align: left;"
 						styleClass="ui-panelgrid-blank">
 						<p:commandButton value="#{labels.Add}" icon="ui-icon-plus"
-							action="#{productIssueDetailController.addDetail}"
+							action="#{productIssueWriteController.addDetail}"
 							validateClient="true"
 							update="panelGroup,:productIssueCreate:form:writeProductIssue:details,:productIssueEdit:form:writeProductIssue:details"
 							oncomplete="handleSubmit(args,'addProductIssueDetailDialog');" />
@@ -38,16 +38,16 @@
 							<t:dropDown styleClass="field-value" id="productDropDown"
 								labelId="productLabel" messageId="productDropDownMessage"
 								rowKey="#{item.id}"
-								selectionText="#{productIssueDetailController.detail.product.name}"
-								dataSource="#{productListController}" itemLabel="#{item.name}"
-								selection="#{productIssueDetailController.detail.product}"
-								filterValue="#{productListController.nameFilter.value}"
+								selectionText="#{productIssueWriteController.detail.product.name}"
+								dataSource="#{productReadController}" itemLabel="#{item.name}"
+								selection="#{productIssueWriteController.detail.product}"
+								filterValue="#{productReadController.nameFilter.value}"
 								required="true" requiredMessage="#{valMsg.ProductRequired}"
 								toolTip="#{labels.ProductTitle}" />
 						</p:column>
 						<p:column>
 							<cps:quickCreateButton
-								actionListener="#{productDetailController.prepareCreate()}"
+								actionListener="#{productWriteController.prepareCreate()}"
 								update=":productCreate:form"
 								dialogWidgetVar="productCreateDialog"
 								title="#{labels.CreateProductTitle}"
@@ -64,7 +64,7 @@
 						</p:column>
 						<p:column>
 							<p:inputText id="quantity" styleClass="field-value"
-								value="#{productIssueDetailController.detail.quantity}"
+								value="#{productIssueWriteController.detail.quantity}"
 								required="true" requiredMessage="#{valMsg.QuantityRequired}"
 								title="#{labels.QuantityTitle}"
 								converterMessage="#{valMsg.QuantityInvalid}"

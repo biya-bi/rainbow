@@ -10,20 +10,20 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid columns="2" rendered="#{productDetailController.current != null}">
+        <p:panelGrid columns="2" rendered="#{productWriteController.model != null}">
             <p:outputLabel styleClass="field-label" value="#{labels.ProductNumberLabel}" for="number" />
-            <h:outputText styleClass="field-value" id="number" value="#{productDetailController.current.number}" title="#{labels.ProductNumberTitle}"/>
+            <h:outputText styleClass="field-value" id="number" value="#{productWriteController.model.number}" title="#{labels.ProductNumberTitle}"/>
             <p:outputLabel styleClass="field-label" value="#{labels.ProductNameLabel}" for="name" />
-            <h:outputText styleClass="field-value" id="name" value="#{productDetailController.current.name}" title="#{labels.ProductNameTitle}"/>
+            <h:outputText styleClass="field-value" id="name" value="#{productWriteController.model.name}" title="#{labels.ProductNameTitle}"/>
 
             <p:outputLabel styleClass="field-label" value="#{labels.ReorderPointLabel}" for="reorderPoint" />
-            <h:outputText styleClass="field-value" id="reorderPoint" value="#{productDetailController.current.reorderPoint}" title="#{labels.ReorderPointTitle}"/>
+            <h:outputText styleClass="field-value" id="reorderPoint" value="#{productWriteController.model.reorderPoint}" title="#{labels.ReorderPointTitle}"/>
             <p:outputLabel id="manufacturerLabel" styleClass="field-label" value="#{labels.ManufacturerLabel}"/>
-            <p:commandLink title="#{labels.ManufacturerTitle}" styleClass="field-value" immediate="true" value="#{productDetailController.current.manufacturer.name}" update=":manufacturerDetails:form" oncomplete="PF('manufacturerDetailsDialog').show()">
-                <f:setPropertyActionListener value="#{productDetailController.current.manufacturer}" target="#{manufacturerDetailController.current}" />
+            <p:commandLink title="#{labels.ManufacturerTitle}" styleClass="field-value" immediate="true" value="#{productWriteController.model.manufacturer.name}" update=":manufacturerDetails:form" oncomplete="PF('manufacturerDetailsDialog').show()">
+                <f:setPropertyActionListener value="#{productWriteController.model.manufacturer}" target="#{manufacturerWriteController.model}" />
             </p:commandLink>
             <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
-            <h:outputText styleClass="field-value" id="description" value="#{productDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
+            <h:outputText styleClass="field-value" id="description" value="#{productWriteController.model.description}" title="#{labels.DescriptionTitle}"/>
         </p:panelGrid>
     </composite:implementation>
 </html>

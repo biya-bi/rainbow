@@ -12,10 +12,10 @@
 	<sec:authorize access="hasRole('ROLE_READ_LOCATIONS')">
 		<cps:trackableDataGrid id="locationList"
 			title="#{labels.ListLocationsTitle}"
-			dataSource="#{locationListController}"
-			selectedItem="#{locationDetailController.current}"
+			dataSource="#{locationReadController}"
+			selectedItem="#{locationWriteController.model}"
 			selectedValue="#{item.id}"
-			createActionListener="#{locationDetailController.prepareCreate()}"
+			createActionListener="#{locationWriteController.prepareCreate()}"
 			createDialog="locationCreateDialog"
 			createUpdate=":locationCreate:form" editDialog="locationEditDialog"
 			editUpdate=":locationEdit:form" detailsDialog="locationDetailsDialog"
@@ -27,28 +27,28 @@
 			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_LOCATIONS')}"
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_LOCATIONS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_LOCATIONS')}"
-			columnToggleListener="#{locationDetailController.onToggle}"
-			creatorFilterValue="#{locationListController.creatorFilter.value}"
-			creatorFilterOperator="#{locationListController.creatorFilter.operator}"
-			updaterFilterValue="#{locationListController.updaterFilter.value}"
-			updaterFilterOperator="#{locationListController.updaterFilter.operator}"
-			creationDateFilterValue="#{locationListController.creationDateFilter.value}"
-			creationDateFilterOperator="#{locationListController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{locationListController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{locationListController.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{locationDetailController.auditColumnsStates[1]}"
-			updaterColumnVisible="#{locationDetailController.auditColumnsStates[2]}"
-			creationDateColumnVisible="#{locationDetailController.auditColumnsStates[3]}"
-			lastUpdateDateColumnVisible="#{locationDetailController.auditColumnsStates[4]}">
+			columnToggleListener="#{locationReadController.onToggle}"
+			creatorFilterValue="#{locationReadController.creatorFilter.value}"
+			creatorFilterOperator="#{locationReadController.creatorFilter.operator}"
+			updaterFilterValue="#{locationReadController.updaterFilter.value}"
+			updaterFilterOperator="#{locationReadController.updaterFilter.operator}"
+			creationDateFilterValue="#{locationReadController.creationDateFilter.value}"
+			creationDateFilterOperator="#{locationReadController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{locationReadController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{locationReadController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{locationReadController.auditColumnsStates[1]}"
+			updaterColumnVisible="#{locationReadController.auditColumnsStates[2]}"
+			creationDateColumnVisible="#{locationReadController.auditColumnsStates[3]}"
+			lastUpdateDateColumnVisible="#{locationReadController.auditColumnsStates[4]}">
 
 
 			<f:facet name="postHeader">
 				<p:commandButton id="headerInventoryButton" icon="ui-icon-note"
 					value="#{labels.ViewInventoryLabel}"
 					oncomplete="PF('inventoryDialog').show()" update=":inventoryDialog"
-					disabled="#{locationDetailController.current==null or sec:areNotGranted('ROLE_READ_LOCATIONS') or sec:areNotGranted('ROLE_READ_PRODUCTS')}">
-					<f:setPropertyActionListener value="#{locationDetailController.current.id}"
-						target="#{productInventoryListController.locationIdFilter.value}" />
+					disabled="#{locationWriteController.model==null or sec:areNotGranted('ROLE_READ_LOCATIONS') or sec:areNotGranted('ROLE_READ_PRODUCTS')}">
+					<f:setPropertyActionListener value="#{locationWriteController.model.id}"
+						target="#{productInventoryReadController.locationIdFilter.value}" />
 				</p:commandButton>
 			</f:facet>
 
@@ -56,20 +56,20 @@
 				<p:commandButton id="footerInventoryButton" icon="ui-icon-note"
 					value="#{labels.ViewInventoryLabel}"
 					oncomplete="PF('inventoryDialog').show()" update=":inventoryDialog"
-					disabled="#{locationDetailController.current==null or sec:areNotGranted('ROLE_READ_LOCATIONS') or sec:areNotGranted('ROLE_READ_PRODUCTS')}">
-					<f:setPropertyActionListener value="#{locationDetailController.current.id}"
-						target="#{productInventoryListController.locationIdFilter.value}" />
+					disabled="#{locationWriteController.model==null or sec:areNotGranted('ROLE_READ_LOCATIONS') or sec:areNotGranted('ROLE_READ_PRODUCTS')}">
+					<f:setPropertyActionListener value="#{locationWriteController.model.id}"
+						target="#{productInventoryReadController.locationIdFilter.value}" />
 				</p:commandButton>
 			</f:facet>
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{locationListController.nameFilter.value}">
+				filterValue="#{locationReadController.nameFilter.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="locationList:form:dataTable"
-						selectedValue="#{locationListController.nameFilter.operator}"
+						selectedValue="#{locationReadController.nameFilter.operator}"
 						changeWidgetVar="locationListDataTable" />
 				</f:facet>
 			</p:column>

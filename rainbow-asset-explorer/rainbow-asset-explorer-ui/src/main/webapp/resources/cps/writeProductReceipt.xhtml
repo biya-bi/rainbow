@@ -13,7 +13,7 @@
 </composite:interface>
 
 <composite:implementation>
-	<p:panelGrid rendered="#{productReceiptDetailController.current != null}">
+	<p:panelGrid rendered="#{productReceiptWriteController.model != null}">
 		<p:panelGrid>
 			<p:row>
 				<p:column>
@@ -22,7 +22,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText styleClass="field-value" id="referenceNumber"
-						value="#{productReceiptDetailController.current.referenceNumber}"
+						value="#{productReceiptWriteController.model.referenceNumber}"
 						title="#{labels.ReferenceNumberTitle}" required="true"
 						requiredMessage="#{valMsg.ReferenceNumberRequired}">
 						<p:clientValidator event="keyup" />
@@ -42,16 +42,16 @@
 					<t:dropDown styleClass="field-value" id="locationDropDown"
 						labelId="locationLabel" messageId="locationDropDownMessage"
 						rowKey="#{item.id}"
-						selectionText="#{productReceiptDetailController.current.location.name}"
-						dataSource="#{locationListController}" itemLabel="#{item.name}"
-						selection="#{productReceiptDetailController.current.location}"
-						filterValue="#{locationListController.nameFilter.value}"
+						selectionText="#{productReceiptWriteController.model.location.name}"
+						dataSource="#{locationReadController}" itemLabel="#{item.name}"
+						selection="#{productReceiptWriteController.model.location}"
+						filterValue="#{locationReadController.nameFilter.value}"
 						required="true" requiredMessage="#{valMsg.LocationRequired}"
 						toolTip="#{labels.LocationTitle}" />
 				</p:column>
 				<p:column>
 					<cps:quickCreateButton
-						actionListener="#{locationDetailController.prepareCreate()}"
+						actionListener="#{locationWriteController.prepareCreate()}"
 						update=":locationCreate:form"
 						dialogWidgetVar="locationCreateDialog"
 						title="#{labels.CreateLocationTitle}"
@@ -70,16 +70,16 @@
 					<t:dropDown styleClass="field-value" id="vendorDropDown"
 						labelId="vendorLabel" messageId="vendorDropDownMessage"
 						rowKey="#{item.id}"
-						selectionText="#{productReceiptDetailController.current.vendor.name}"
-						dataSource="#{vendorListController}" itemLabel="#{item.name}"
-						selection="#{productReceiptDetailController.current.vendor}"
-						filterValue="#{vendorListController.nameFilter.value}"
+						selectionText="#{productReceiptWriteController.model.vendor.name}"
+						dataSource="#{vendorReadController}" itemLabel="#{item.name}"
+						selection="#{productReceiptWriteController.model.vendor}"
+						filterValue="#{vendorReadController.nameFilter.value}"
 						required="true" requiredMessage="#{valMsg.VendorRequired}"
 						toolTip="#{labels.VendorTitle}" />
 				</p:column>
 				<p:column>
 					<cps:quickCreateButton
-						actionListener="#{vendorDetailController.prepareCreate()}"
+						actionListener="#{vendorWriteController.prepareCreate()}"
 						update=":vendorCreate:form" dialogWidgetVar="vendorCreateDialog"
 						title="#{labels.CreateVendorTitle}"
 						rendered="#{sec:areAnyGranted('ROLE_WRITE_VENDORS')}" />
@@ -97,10 +97,10 @@
 					<t:dropDown styleClass="field-value" id="currencyDropDown"
 						labelId="currencyLabel" messageId="currencyDropDownMessage"
 						rowKey="#{item.id}"
-						selectionText="#{productReceiptDetailController.current.currency.name}"
-						dataSource="#{currencyListController}" itemLabel="#{item.name}"
-						selection="#{productReceiptDetailController.current.currency}"
-						filterValue="#{currencyListController.nameFilter.value}"
+						selectionText="#{productReceiptWriteController.model.currency.name}"
+						dataSource="#{currencyReadController}" itemLabel="#{item.name}"
+						selection="#{productReceiptWriteController.model.currency}"
+						filterValue="#{currencyReadController.nameFilter.value}"
 						required="true" requiredMessage="#{valMsg.CurrencyRequired}"
 						toolTip="#{labels.CurrencyTitle}" updateId="totalPrice" />
 				</p:column>
@@ -116,7 +116,7 @@
 				</p:column>
 				<p:column>
 					<p:calendar styleClass="field-value" id="receiptDate"
-						value="#{productReceiptDetailController.current.receiptDate}"
+						value="#{productReceiptWriteController.model.receiptDate}"
 						title="#{labels.ReceiptDateTitle}" required="true"
 						requiredMessage="#{valMsg.ReceiptDateRequired}">
 						<p:ajax event="dateSelect" />
@@ -136,10 +136,10 @@
 				</p:column>
 				<p:column>
 					<h:outputText styleClass="field-value" id="totalPrice"
-						value="#{productReceiptDetailController.current.totalPrice}"
+						value="#{productReceiptWriteController.model.totalPrice}"
 						title="#{labels.TotalPriceTitle}">
 						<f:convertNumber
-							currencySymbol="#{productReceiptDetailController.current.currency.symbol}"
+							currencySymbol="#{productReceiptWriteController.model.currency.symbol}"
 							type="currency" />
 					</h:outputText>
 				</p:column>
@@ -151,7 +151,7 @@
 				</p:column>
 				<p:column>
 					<p:inputTextarea styleClass="field-value" id="description"
-						value="#{productReceiptDetailController.current.description}"
+						value="#{productReceiptWriteController.model.description}"
 						title="#{labels.DescriptionTitle}" />
 				</p:column>
 			</p:row>
@@ -161,10 +161,10 @@
                     #{labels.ProductReceiptDetailsTitle}
                 </f:facet>
 			<p:dataTable style="width: 700px" id="details" widgetVar="details"
-				var="detail" value="#{productReceiptDetailController.current.details}">
+				var="detail" value="#{productReceiptWriteController.model.details}">
 				<f:facet name="header">
 					<p:commandButton
-						action="#{productReceiptDetailController.prepareDetail()}"
+						action="#{productReceiptWriteController.prepareDetail()}"
 						icon="ui-icon-plus"
 						oncomplete="PF('addProductReceiptDetailDialog').show()"
 						update=":addProductReceiptDetailForm" />
@@ -189,7 +189,7 @@
 					filterMatchMode="contains">
 					<h:outputText value="#{detail.unitPrice}">
 						<f:convertNumber
-							currencySymbol="#{productReceiptDetailController.current.currency.symbol}"
+							currencySymbol="#{productReceiptWriteController.model.currency.symbol}"
 							type="currency" />
 					</h:outputText>
 				</p:column>
@@ -199,7 +199,7 @@
 					filterMatchMode="contains">
 					<h:outputText value="#{detail.subTotal}">
 						<f:convertNumber
-							currencySymbol="#{productReceiptDetailController.current.currency.symbol}"
+							currencySymbol="#{productReceiptWriteController.model.currency.symbol}"
 							type="currency" />
 					</h:outputText>
 				</p:column>
@@ -210,14 +210,14 @@
 						oncomplete="PF('editProductReceiptDetailDialog').show()">
 						<h:outputText styleClass="ui-icon ui-icon-pencil" />
 						<f:setPropertyActionListener value="#{detail}"
-							target="#{productReceiptDetailController.detail}" />
+							target="#{productReceiptWriteController.detail}" />
 					</p:commandLink>
 					<p:commandLink immediate="true" style="display: inline-block"
-						action="#{productReceiptDetailController.removeDetail}"
+						action="#{productReceiptWriteController.removeDetail}"
 						update="details,:productReceiptCreate:form:writeProductReceipt:totalPrice,:productReceiptEdit:form:writeProductReceipt:totalPrice">
 						<h:outputText styleClass="ui-icon ui-icon-close" />
 						<f:setPropertyActionListener value="#{detail}"
-							target="#{productReceiptDetailController.detail}" />
+							target="#{productReceiptWriteController.detail}" />
 					</p:commandLink>
 
 				</p:column>

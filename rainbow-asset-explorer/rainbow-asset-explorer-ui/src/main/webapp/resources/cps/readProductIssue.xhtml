@@ -10,30 +10,30 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{productIssueDetailController.current != null}">
+        <p:panelGrid rendered="#{productIssueWriteController.model != null}">
             <p:panelGrid columns="2">
                 <p:outputLabel styleClass="field-label" value="#{labels.ReferenceNumberLabel}"/>
-                <h:outputText styleClass="field-value" value="#{productIssueDetailController.current.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
+                <h:outputText styleClass="field-value" value="#{productIssueWriteController.model.referenceNumber}" title="#{labels.ReferenceNumberTitle}"/>
                 <p:outputLabel id="locationLabel" styleClass="field-label" value="#{labels.LocationLabel}"/>
-                <p:commandLink title="#{labels.LocationTitle}" styleClass="field-value" immediate="true" value="#{productIssueDetailController.current.location.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
-                    <f:setPropertyActionListener value="#{productIssueDetailController.current.location}" target="#{locationDetailController.current}" />
+                <p:commandLink title="#{labels.LocationTitle}" styleClass="field-value" immediate="true" value="#{productIssueWriteController.model.location.name}" update=":locationDetails:form" oncomplete="PF('locationDetailsDialog').show()">
+                    <f:setPropertyActionListener value="#{productIssueWriteController.model.location}" target="#{locationWriteController.model}" />
                 </p:commandLink>
                 <p:outputLabel styleClass="field-label" value="#{labels.RequisitionerLabel}"/>
-                <h:outputText styleClass="field-value" value="#{productIssueDetailController.current.requisitioner}" title="#{labels.RequisitionerTitle}"/>
+                <h:outputText styleClass="field-value" value="#{productIssueWriteController.model.requisitioner}" title="#{labels.RequisitionerTitle}"/>
                 <p:outputLabel styleClass="field-label" value="#{labels.IssueDateLabel}"/>
-                <h:outputText styleClass="field-value" id="issueDate" value="#{productIssueDetailController.current.issueDate}" title="#{labels.IssueDateTitle}">
+                <h:outputText styleClass="field-value" id="issueDate" value="#{productIssueWriteController.model.issueDate}" title="#{labels.IssueDateTitle}">
                     <f:convertDateTime dateStyle="short" />
                 </h:outputText>
                 <p:outputLabel id="departmentLabel" styleClass="field-label" value="#{labels.DepartmentLabel}"/>
-                <h:outputText styleClass="field-value" id="department" value="#{productIssueDetailController.current.department.name}" title="#{labels.DepartmentTitle}"/>
+                <h:outputText styleClass="field-value" id="department" value="#{productIssueWriteController.model.department.name}" title="#{labels.DepartmentTitle}"/>
                 <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
-                <h:outputText styleClass="field-value" id="description" value="#{productIssueDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
+                <h:outputText styleClass="field-value" id="description" value="#{productIssueWriteController.model.description}" title="#{labels.DescriptionTitle}"/>
             </p:panelGrid>
             <p:panel>
                 <f:facet name="header">
                     #{labels.ProductIssueDetailsTitle}
                 </f:facet>
-                <p:dataTable style="width: 700px" id="details" widgetVar="details" var="detail" value="#{productIssueDetailController.current.details}">
+                <p:dataTable style="width: 700px" id="details" widgetVar="details" var="detail" value="#{productIssueWriteController.model.details}">
                     <p:column  headerText="#{labels.ProductTitle}" sortBy="#{detail.product.name}" filterBy="#{detail.product.name}" filterMatchMode="contains">
                         <h:outputText value="#{detail.product.name}" />
                     </p:column>

@@ -10,13 +10,13 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:panelGrid rendered="#{siteDetailController.current != null}">
+        <p:panelGrid rendered="#{siteWriteController.model != null}">
             <p:row>
                 <p:column>
                     <p:outputLabel styleClass="field-label" value="#{labels.NameLabel}" for="name" />
                 </p:column>
                 <p:column>
-                    <p:inputText styleClass="field-value" id="name" value="#{siteDetailController.current.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
+                    <p:inputText styleClass="field-value" id="name" value="#{siteWriteController.model.name}" title="#{labels.NameTitle}" required="true" requiredMessage="#{valMsg.NameRequired}">
                         <p:clientValidator event="keyup" />
                     </p:inputText>
                 </p:column>
@@ -29,7 +29,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.LocationLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputText styleClass="field-value" id="location" value="#{siteDetailController.current.location}" title="#{labels.LocationTitle}"/>
+                    <p:inputText styleClass="field-value" id="location" value="#{siteWriteController.model.location}" title="#{labels.LocationTitle}"/>
                 </p:column>
             </p:row>
             <p:row>
@@ -37,7 +37,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.AddressLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputText styleClass="field-value" id="address" value="#{siteDetailController.current.address}" title="#{labels.AddressTitle}"/>
+                    <p:inputText styleClass="field-value" id="address" value="#{siteWriteController.model.address}" title="#{labels.AddressTitle}"/>
                 </p:column>
             </p:row>
             <p:row>
@@ -45,25 +45,25 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.StatusLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <h:outputText styleClass="field-value" id="status" value="#{siteDetailController.current.status}" title="#{labels.StatusTitle}">
+                    <h:outputText styleClass="field-value" id="status" value="#{siteWriteController.model.status}" title="#{labels.StatusTitle}">
                         <f:converter converterId="org.rainbow.asset.explorer.faces.converters.SiteStatusConverter" />
                     </h:outputText>
                 </p:column>
             </p:row>
-            <p:row rendered="#{siteDetailController.current.status=='ACTIVE'}">
+            <p:row rendered="#{siteWriteController.model.status=='ACTIVE'}">
                 <p:column>  
                     <p:outputLabel styleClass="field-label" value="#{labels.DateOfCommissioningLabel}"/> 
                 </p:column>
-                <h:outputText styleClass="field-value" id="dateOfCommissioning" value="#{siteDetailController.current.dateOfCommissioning}" title="#{labels.DateOfCommissioningTitle}">
+                <h:outputText styleClass="field-value" id="dateOfCommissioning" value="#{siteWriteController.model.dateOfCommissioning}" title="#{labels.DateOfCommissioningTitle}">
                     <f:convertDateTime dateStyle="short" />
                 </h:outputText>
             </p:row>
-            <p:row rendered="#{siteDetailController.current.status=='DECOMMISSIONED'}">
+            <p:row rendered="#{siteWriteController.model.status=='DECOMMISSIONED'}">
                 <p:column>  
                     <p:outputLabel styleClass="field-label" value="#{labels.DateOfDecommissioningLabel}"/> 
                 </p:column>
                 <p:column> 
-                    <h:outputText styleClass="field-value" id="dateOfDecommissioning" value="#{siteDetailController.current.dateOfDecommissioning}" title="#{labels.DateOfDecommissioningTitle}">
+                    <h:outputText styleClass="field-value" id="dateOfDecommissioning" value="#{siteWriteController.model.dateOfDecommissioning}" title="#{labels.DateOfDecommissioningTitle}">
                         <f:convertDateTime dateStyle="short" />
                     </h:outputText>
                 </p:column>
@@ -73,7 +73,7 @@
                     <p:outputLabel styleClass="field-label" value="#{labels.DescriptionLabel}"/> 
                 </p:column>
                 <p:column>   
-                    <p:inputTextarea styleClass="field-value" id="description" value="#{siteDetailController.current.description}" title="#{labels.DescriptionTitle}"/>
+                    <p:inputTextarea styleClass="field-value" id="description" value="#{siteWriteController.model.description}" title="#{labels.DescriptionTitle}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

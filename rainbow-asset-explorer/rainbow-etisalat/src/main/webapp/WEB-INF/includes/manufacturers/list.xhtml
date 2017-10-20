@@ -12,10 +12,10 @@
 	<sec:authorize access="hasRole('ROLE_READ_MANUFACTURERS')">
 		<cps:trackableDataGrid id="manufacturerList"
 			title="#{labels.ListManufacturersTitle}"
-			dataSource="#{manufacturerListController}"
-			selectedItem="#{manufacturerDetailController.current}"
+			dataSource="#{manufacturerReadController}"
+			selectedItem="#{manufacturerWriteController.model}"
 			selectedValue="#{item.id}"
-			createActionListener="#{manufacturerDetailController.prepareCreate()}"
+			createActionListener="#{manufacturerWriteController.prepareCreate()}"
 			createDialog="manufacturerCreateDialog"
 			createUpdate=":manufacturerCreate:form"
 			editDialog="manufacturerEditDialog"
@@ -28,29 +28,29 @@
 			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_MANUFACTURERS')}"
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_MANUFACTURERS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_MANUFACTURERS')}"
-			columnToggleListener="#{manufacturerDetailController.onToggle}"
-			creatorFilterValue="#{manufacturerListController.creatorFilter.value}"
-			creatorFilterOperator="#{manufacturerListController.creatorFilter.operator}"
-			updaterFilterValue="#{manufacturerListController.updaterFilter.value}"
-			updaterFilterOperator="#{manufacturerListController.updaterFilter.operator}"
-			creationDateFilterValue="#{manufacturerListController.creationDateFilter.value}"
-			creationDateFilterOperator="#{manufacturerListController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{manufacturerListController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{manufacturerListController.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{manufacturerDetailController.auditColumnsStates[1]}"
-			updaterColumnVisible="#{manufacturerDetailController.auditColumnsStates[2]}"
-			creationDateColumnVisible="#{manufacturerDetailController.auditColumnsStates[3]}"
-			lastUpdateDateColumnVisible="#{manufacturerDetailController.auditColumnsStates[4]}">
+			columnToggleListener="#{manufacturerReadController.onToggle}"
+			creatorFilterValue="#{manufacturerReadController.creatorFilter.value}"
+			creatorFilterOperator="#{manufacturerReadController.creatorFilter.operator}"
+			updaterFilterValue="#{manufacturerReadController.updaterFilter.value}"
+			updaterFilterOperator="#{manufacturerReadController.updaterFilter.operator}"
+			creationDateFilterValue="#{manufacturerReadController.creationDateFilter.value}"
+			creationDateFilterOperator="#{manufacturerReadController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{manufacturerReadController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{manufacturerReadController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{manufacturerReadController.auditColumnsStates[1]}"
+			updaterColumnVisible="#{manufacturerReadController.auditColumnsStates[2]}"
+			creationDateColumnVisible="#{manufacturerReadController.auditColumnsStates[3]}"
+			lastUpdateDateColumnVisible="#{manufacturerReadController.auditColumnsStates[4]}">
 
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{manufacturerListController.nameFilter.value}">
+				filterValue="#{manufacturerReadController.nameFilter.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="manufacturerList:form:dataTable"
-						selectedValue="#{manufacturerListController.nameFilter.operator}"
+						selectedValue="#{manufacturerReadController.nameFilter.operator}"
 						changeWidgetVar="manufacturerListDataTable" />
 				</f:facet>
 			</p:column>

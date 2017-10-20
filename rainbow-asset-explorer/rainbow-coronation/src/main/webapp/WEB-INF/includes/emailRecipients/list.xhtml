@@ -12,10 +12,10 @@
 	<sec:authorize access="hasRole('ROLE_READ_EMAIL_RECIPIENTS')">
 		<cps:trackableDataGrid id="emailRecipientList"
 			title="#{labels.ListEmailRecipientsTitle}"
-			dataSource="#{emailRecipientListController}"
-			selectedItem="#{emailRecipientDetailController.current}"
+			dataSource="#{emailRecipientReadController}"
+			selectedItem="#{emailRecipientWriteController.model}"
 			selectedValue="#{item.id}"
-			createActionListener="#{emailRecipientDetailController.prepareCreate()}"
+			createActionListener="#{emailRecipientWriteController.prepareCreate()}"
 			createDialog="emailRecipientCreateDialog"
 			createUpdate=":emailRecipientCreate:form"
 			editDialog="emailRecipientEditDialog"
@@ -28,41 +28,41 @@
 			disableEditButton="#{sec:areNotGranted('ROLE_WRITE_EMAIL_RECIPIENTS')}"
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_EMAIL_RECIPIENTS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_EMAIL_RECIPIENTS')}"
-			columnToggleListener="#{emailRecipientDetailController.onToggle}"
-			creatorFilterValue="#{emailRecipientListController.creatorFilter.value}"
-			creatorFilterOperator="#{emailRecipientListController.creatorFilter.operator}"
-			updaterFilterValue="#{emailRecipientListController.updaterFilter.value}"
-			updaterFilterOperator="#{emailRecipientListController.updaterFilter.operator}"
-			creationDateFilterValue="#{emailRecipientListController.creationDateFilter.value}"
-			creationDateFilterOperator="#{emailRecipientListController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{emailRecipientListController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{emailRecipientListController.lastUpdateDateFilter.operator}"
-			creatorColumnVisible="#{emailRecipientDetailController.auditColumnsStates[2]}"
-			updaterColumnVisible="#{emailRecipientDetailController.auditColumnsStates[3]}"
-			creationDateColumnVisible="#{emailRecipientDetailController.auditColumnsStates[4]}"
-			lastUpdateDateColumnVisible="#{emailRecipientDetailController.auditColumnsStates[5]}">
+			columnToggleListener="#{emailRecipientReadController.onToggle}"
+			creatorFilterValue="#{emailRecipientReadController.creatorFilter.value}"
+			creatorFilterOperator="#{emailRecipientReadController.creatorFilter.operator}"
+			updaterFilterValue="#{emailRecipientReadController.updaterFilter.value}"
+			updaterFilterOperator="#{emailRecipientReadController.updaterFilter.operator}"
+			creationDateFilterValue="#{emailRecipientReadController.creationDateFilter.value}"
+			creationDateFilterOperator="#{emailRecipientReadController.creationDateFilter.operator}"
+			lastUpdateDateFilterValue="#{emailRecipientReadController.lastUpdateDateFilter.value}"
+			lastUpdateDateFilterOperator="#{emailRecipientReadController.lastUpdateDateFilter.operator}"
+			creatorColumnVisible="#{emailRecipientReadController.auditColumnsStates[2]}"
+			updaterColumnVisible="#{emailRecipientReadController.auditColumnsStates[3]}"
+			creationDateColumnVisible="#{emailRecipientReadController.auditColumnsStates[4]}"
+			lastUpdateDateColumnVisible="#{emailRecipientReadController.auditColumnsStates[5]}">
 
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{emailRecipientListController.nameFilter.value}">
+				filterValue="#{emailRecipientReadController.nameFilter.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="emailRecipientList:form:dataTable"
-						selectedValue="#{emailRecipientListController.nameFilter.operator}"
+						selectedValue="#{emailRecipientReadController.nameFilter.operator}"
 						changeWidgetVar="emailRecipientListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.EmailTitle}" filterBy="#{item.email}"
 				sortBy="#{item.email}"
-				filterValue="#{emailRecipientListController.emailFilter.value}">
+				filterValue="#{emailRecipientReadController.emailFilter.value}">
 				<h:outputText value="#{item.email}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="emailRecipientList:form:dataTable"
-						selectedValue="#{emailRecipientListController.emailFilter.operator}"
+						selectedValue="#{emailRecipientReadController.emailFilter.operator}"
 						changeWidgetVar="emailRecipientListDataTable" />
 				</f:facet>
 			</p:column>

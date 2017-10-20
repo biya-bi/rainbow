@@ -11,10 +11,10 @@
 
 	<cps:trackableDataGrid id="authorityList"
 		title="#{labels.ListAuthoritiesTitle}"
-		dataSource="#{authorityListController}"
-		selectedItem="#{authorityDetailController.current}"
+		dataSource="#{authorityReadController}"
+		selectedItem="#{authorityWriteController.model}"
 		selectedValue="#{item.id}"
-		createActionListener="#{authorityDetailController.prepareCreate()}"
+		createActionListener="#{authorityWriteController.prepareCreate()}"
 		createDialog="authorityCreateDialog"
 		createUpdate=":authorityCreate:form" editDialog="authorityEditDialog"
 		editUpdate=":authorityEdit:form"
@@ -23,36 +23,36 @@
 		deleteDialog="authorityDeleteDialog"
 		deleteUpdate=":authorityDelete:form"
 		selectionUpdate=":authorityList:headerGroupsButton,:authorityList:footerGroupsButton"
-		columnToggleListener="#{authorityDetailController.onToggle}"
-		creatorFilterValue="#{authorityListController.creatorFilter.value}"
-		creatorFilterOperator="#{authorityListController.creatorFilter.operator}"
-		updaterFilterValue="#{authorityListController.updaterFilter.value}"
-		updaterFilterOperator="#{authorityListController.updaterFilter.operator}"
-		creationDateFilterValue="#{authorityListController.creationDateFilter.value}"
-		creationDateFilterOperator="#{authorityListController.creationDateFilter.operator}"
-		lastUpdateDateFilterValue="#{authorityListController.lastUpdateDateFilter.value}"
-		lastUpdateDateFilterOperator="#{authorityListController.lastUpdateDateFilter.operator}">
+		columnToggleListener="#{authorityReadController.onToggle}"
+		creatorFilterValue="#{authorityReadController.creatorFilter.value}"
+		creatorFilterOperator="#{authorityReadController.creatorFilter.operator}"
+		updaterFilterValue="#{authorityReadController.updaterFilter.value}"
+		updaterFilterOperator="#{authorityReadController.updaterFilter.operator}"
+		creationDateFilterValue="#{authorityReadController.creationDateFilter.value}"
+		creationDateFilterOperator="#{authorityReadController.creationDateFilter.operator}"
+		lastUpdateDateFilterValue="#{authorityReadController.lastUpdateDateFilter.value}"
+		lastUpdateDateFilterOperator="#{authorityReadController.lastUpdateDateFilter.operator}">
 
 		<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 			sortBy="#{item.name}"
-			filterValue="#{authorityListController.nameFilter.value}">
+			filterValue="#{authorityReadController.nameFilter.value}">
 			<h:outputText value="#{item.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="authorityList:form:dataTable"
-					selectedValue="#{authorityListController.nameFilter.operator}"
+					selectedValue="#{authorityReadController.nameFilter.operator}"
 					changeWidgetVar="authorityListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.ApplicationTitle}"
 			filterBy="#{item.application.name}" sortBy="#{item.application.name}"
-			filterValue="#{authorityListController.applicationNameFilter.value}">
+			filterValue="#{authorityReadController.applicationNameFilter.value}">
 			<h:outputText value="#{item.application.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="authorityList:form:dataTable"
-					selectedValue="#{authorityListController.applicationNameFilter.operator}"
+					selectedValue="#{authorityReadController.applicationNameFilter.operator}"
 					changeWidgetVar="authorityListDataTable" />
 			</f:facet>
 		</p:column>
@@ -62,10 +62,10 @@
 				value="#{labels.ListGroupsTitle}"
 				update="authorityGroupsDialog,manageGroupsAuthoritiesForm:authorityList"
 				oncomplete="showDialog('authorityGroupsDialog')"
-				disabled="#{authorityDetailController.current==null}">
+				disabled="#{authorityWriteController.model==null}">
 				<f:setPropertyActionListener
 					target="#{groupAuthorityController.authority}"
-					value="#{authorityDetailController.current}" />
+					value="#{authorityWriteController.model}" />
 			</p:commandButton>
 		</f:facet>
 		<f:facet name="postFooter">
@@ -73,10 +73,10 @@
 				value="#{labels.ListGroupsTitle}"
 				update="authorityGroupsDialog,manageGroupsAuthoritiesForm:authorityList"
 				oncomplete="showDialog('authorityGroupsDialog')"
-				disabled="#{authorityDetailController.current==null}">
+				disabled="#{authorityWriteController.model==null}">
 				<f:setPropertyActionListener
 					target="#{groupAuthorityController.authority}"
-					value="#{authorityDetailController.current}" />
+					value="#{authorityWriteController.model}" />
 			</p:commandButton>
 		</f:facet>
 	</cps:trackableDataGrid>

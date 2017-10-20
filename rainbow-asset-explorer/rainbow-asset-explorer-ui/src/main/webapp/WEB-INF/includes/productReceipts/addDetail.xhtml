@@ -11,10 +11,10 @@
     <p:dialog id="addProductReceiptDetailDialog" widgetVar="addProductReceiptDetailDialog" modal="false" resizable="false" header="#{labels.ProductReceiptDetailTitle}">
         <h:form id="addProductReceiptDetailForm">
             <h:panelGroup id="panelGroup">
-                <p:panelGrid columns="1" rendered="#{productReceiptDetailController.current != null}">
+                <p:panelGrid columns="1" rendered="#{productReceiptWriteController.model != null}">
                     <f:facet name="header">
                         <p:panelGrid columns="2" style="text-align: left;" styleClass="ui-panelgrid-blank">
-                            <p:commandButton value="#{labels.Add}" icon="ui-icon-plus" action="#{productReceiptDetailController.addDetail}" validateClient="true" update="panelGroup,:productReceiptCreate:form:writeProductReceipt:details,:productReceiptCreate:form:writeProductReceipt:totalPrice,:productReceiptEdit:form:writeProductReceipt:details,:productReceiptEdit:form:writeProductReceipt:totalPrice" oncomplete="handleSubmit(args,'addProductReceiptDetailDialog');"/>
+                            <p:commandButton value="#{labels.Add}" icon="ui-icon-plus" action="#{productReceiptWriteController.addDetail}" validateClient="true" update="panelGroup,:productReceiptCreate:form:writeProductReceipt:details,:productReceiptCreate:form:writeProductReceipt:totalPrice,:productReceiptEdit:form:writeProductReceipt:details,:productReceiptEdit:form:writeProductReceipt:totalPrice" oncomplete="handleSubmit(args,'addProductReceiptDetailDialog');"/>
                             <p:commandButton value="#{labels.Cancel}" icon="ui-icon-close" onclick="PF('addProductReceiptDetailDialog').hide()" immediate="true"/>
                         </p:panelGrid>
                     </f:facet>
@@ -29,17 +29,17 @@
                                             labelId="productLabel"
                                             messageId="productDropDownMessage"
                                             rowKey="#{item.id}"
-                                            selectionText="#{productReceiptDetailController.detail.product.name}"
-                                            dataSource="#{productListController}" 
+                                            selectionText="#{productReceiptWriteController.detail.product.name}"
+                                            dataSource="#{productReadController}" 
                                             itemLabel="#{item.name}"
-                                            selection="#{productReceiptDetailController.detail.product}"
-                                            filterValue="#{productListController.nameFilter.value}"
+                                            selection="#{productReceiptWriteController.detail.product}"
+                                            filterValue="#{productReadController.nameFilter.value}"
                                             required="true"
                                             requiredMessage="#{valMsg.ProductRequired}"
                                             toolTip="#{labels.ProductTitle}"/>
                             </p:column>
                             <p:column>
-                                <cps:quickCreateButton actionListener="#{productDetailController.prepareCreate()}" update=":productCreate:form" dialogWidgetVar="productCreateDialog" title="#{labels.CreateProductTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_PRODUCTS')}" />
+                                <cps:quickCreateButton actionListener="#{productWriteController.prepareCreate()}" update=":productCreate:form" dialogWidgetVar="productCreateDialog" title="#{labels.CreateProductTitle}" rendered="#{sec:areAnyGranted('ROLE_WRITE_PRODUCTS')}" />
                             </p:column>
                             <p:column>
                                 <p:message id="productDropDownMessage" for="productDropDown"/>
@@ -50,7 +50,7 @@
                                 <p:outputLabel styleClass="field-label"  value="#{labels.QuantityLabel}" for="quantity" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="quantity" styleClass="field-value" value="#{productReceiptDetailController.detail.quantity}" required="true" requiredMessage="#{valMsg.QuantityRequired}" title="#{labels.QuantityTitle}" converterMessage="#{valMsg.QuantityInvalid}" validatorMessage="#{valMsg.QuantityInvalid}">
+                                <p:inputText id="quantity" styleClass="field-value" value="#{productReceiptWriteController.detail.quantity}" required="true" requiredMessage="#{valMsg.QuantityRequired}" title="#{labels.QuantityTitle}" converterMessage="#{valMsg.QuantityInvalid}" validatorMessage="#{valMsg.QuantityInvalid}">
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
                             </p:column>
@@ -64,7 +64,7 @@
                                 <p:outputLabel styleClass="field-label"  value="#{labels.UnitPriceLabel}" for="unitPrice" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="unitPrice" styleClass="field-value" value="#{productReceiptDetailController.detail.unitPrice}" required="true" requiredMessage="#{valMsg.UnitPriceRequired}" title="#{labels.UnitPriceTitle}" converterMessage="#{valMsg.UnitPriceInvalid}" validatorMessage="#{valMsg.UnitPriceInvalid}">
+                                <p:inputText id="unitPrice" styleClass="field-value" value="#{productReceiptWriteController.detail.unitPrice}" required="true" requiredMessage="#{valMsg.UnitPriceRequired}" title="#{labels.UnitPriceTitle}" converterMessage="#{valMsg.UnitPriceInvalid}" validatorMessage="#{valMsg.UnitPriceInvalid}">
                                     <p:clientValidator event="keyup" />
                                 </p:inputText>
                             </p:column>

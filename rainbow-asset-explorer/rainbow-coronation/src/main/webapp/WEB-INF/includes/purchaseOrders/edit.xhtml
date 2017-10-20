@@ -9,10 +9,10 @@
 
 <cps:submitForm id="purchaseOrderEdit"
 	title="#{labels.EditPurchaseOrderTitle}"
-	submitActionListener="#{purchaseOrderDetailController.edit()}"
+	submitActionListener="#{purchaseOrderWriteController.edit()}"
 	update="purchaseOrderList:form:dataTable">
 
-	<p:panelGrid rendered="#{purchaseOrderDetailController.current != null}">
+	<p:panelGrid rendered="#{purchaseOrderWriteController.model != null}">
 		<p:panelGrid>
 			<p:row>
 				<p:column>
@@ -21,7 +21,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText styleClass="field-value" id="referenceNumber"
-						value="#{purchaseOrderDetailController.current.referenceNumber}"
+						value="#{purchaseOrderWriteController.model.referenceNumber}"
 						title="#{labels.ReferenceNumberTitle}" required="true"
 						requiredMessage="#{valMsg.ReferenceNumberRequired}">
 						<p:clientValidator event="keyup" />
@@ -40,10 +40,10 @@
 					<t:dropDown styleClass="field-value" id="vendorDropDown"
 						labelId="vendorLabel" messageId="vendorDropDownMessage"
 						rowKey="#{item.id}"
-						selectionText="#{purchaseOrderDetailController.current.vendor.name}"
-						dataSource="#{vendorListController}" itemLabel="#{item.name}"
-						selection="#{purchaseOrderDetailController.current.vendor}"
-						filterValue="#{vendorListController.nameFilter.value}"
+						selectionText="#{purchaseOrderWriteController.model.vendor.name}"
+						dataSource="#{vendorReadController}" itemLabel="#{item.name}"
+						selection="#{purchaseOrderWriteController.model.vendor}"
+						filterValue="#{vendorReadController.nameFilter.value}"
 						required="true" requiredMessage="#{valMsg.VendorRequired}"
 						toolTip="#{labels.VendorTitle}" />
 				</p:column>
@@ -60,10 +60,10 @@
 					<t:dropDown styleClass="field-value" id="shipMethodDropDown"
 						labelId="shipMethodLabel" messageId="shipMethodDropDownMessage"
 						rowKey="#{item.id}"
-						selectionText="#{purchaseOrderDetailController.current.shipMethod.name}"
-						dataSource="#{shipMethodListController}" itemLabel="#{item.name}"
-						selection="#{purchaseOrderDetailController.current.shipMethod}"
-						filterValue="#{shipMethodListController.nameFilter.value}"
+						selectionText="#{purchaseOrderWriteController.model.shipMethod.name}"
+						dataSource="#{shipMethodReadController}" itemLabel="#{item.name}"
+						selection="#{purchaseOrderWriteController.model.shipMethod}"
+						filterValue="#{shipMethodReadController.nameFilter.value}"
 						toolTip="#{labels.ShipMethodTitle}" />
 				</p:column>
 			</p:row>
@@ -76,10 +76,10 @@
 					<t:dropDown styleClass="field-value" id="locationDropDown"
 						labelId="locationLabel" messageId="locationDropDownMessage"
 						rowKey="#{item.id}"
-						selectionText="#{purchaseOrderDetailController.current.location.name}"
-						dataSource="#{locationListController}" itemLabel="#{item.name}"
-						selection="#{purchaseOrderDetailController.current.location}"
-						filterValue="#{locationListController.nameFilter.value}"
+						selectionText="#{purchaseOrderWriteController.model.location.name}"
+						dataSource="#{locationReadController}" itemLabel="#{item.name}"
+						selection="#{purchaseOrderWriteController.model.location}"
+						filterValue="#{locationReadController.nameFilter.value}"
 						toolTip="#{labels.LocationTitle}" />
 				</p:column>
 			</p:row>
@@ -90,7 +90,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText styleClass="field-value" id="freight"
-						value="#{purchaseOrderDetailController.current.freight}"
+						value="#{purchaseOrderWriteController.model.freight}"
 						title="#{labels.FreightTitle}" required="true"
 						requiredMessage="#{valMsg.FreightRequired}">
 						<p:clientValidator event="keyup" />
@@ -107,7 +107,7 @@
 				</p:column>
 				<p:column>
 					<p:inputText styleClass="field-value" id="taxAmount"
-						value="#{purchaseOrderDetailController.current.taxAmount}"
+						value="#{purchaseOrderWriteController.model.taxAmount}"
 						title="#{labels.TaxAmountTitle}" required="true"
 						requiredMessage="#{valMsg.TaxAmountRequired}">
 						<p:clientValidator event="keyup" />
@@ -124,7 +124,7 @@
 				</p:column>
 				<p:column>
 					<p:calendar styleClass="field-value" id="shipDate"
-						value="#{purchaseOrderDetailController.current.shipDate}"
+						value="#{purchaseOrderWriteController.model.shipDate}"
 						title="#{labels.ShipDateTitle}">
 						<p:ajax event="dateSelect" />
 						<p:clientValidator event="shipDate" />
@@ -137,7 +137,7 @@
 						value="#{labels.StatusLabel}" />
 				</p:column>
 				<p:column>
-					<h:outputText value="#{purchaseOrderDetailController.current.status}">
+					<h:outputText value="#{purchaseOrderWriteController.model.status}">
 						<f:converter
 							converterId="org.rainbow.asset.explorer.faces.converters.PurchaseOrderStatusConverter" />
 					</h:outputText>
@@ -149,10 +149,10 @@
                     #{labels.PurchaseOrderDetailsTitle}
                 </f:facet>
 			<p:dataTable style="width: 700px" id="details" widgetVar="details"
-				var="detail" value="#{purchaseOrderDetailController.current.details}">
+				var="detail" value="#{purchaseOrderWriteController.model.details}">
 				<f:facet name="header">
 					<p:commandButton
-						actionListener="#{purchaseOrderDetailController.prepareDetail()}"
+						actionListener="#{purchaseOrderWriteController.prepareDetail()}"
 						icon="ui-icon-plus"
 						oncomplete="PF('addPurchaseOrderDetailDialog').show()"
 						update=":addPurchaseOrderDetailForm" />
@@ -189,14 +189,14 @@
 						oncomplete="PF('editPurchaseOrderDetailDialog').show()">
 						<h:outputText styleClass="ui-icon ui-icon-pencil" />
 						<f:setPropertyActionListener value="#{detail}"
-							target="#{purchaseOrderDetailController.detail}" />
+							target="#{purchaseOrderWriteController.detail}" />
 					</p:commandLink>
 					<p:commandLink style="display: inline-block"
-						action="#{purchaseOrderDetailController.removeDetail}"
+						action="#{purchaseOrderWriteController.removeDetail}"
 						update=":purchaseOrderEdit:form:details">
 						<h:outputText styleClass="ui-icon ui-icon-close" />
 						<f:setPropertyActionListener value="#{detail}"
-							target="#{purchaseOrderDetailController.detail}" />
+							target="#{purchaseOrderWriteController.detail}" />
 					</p:commandLink>
 
 				</p:column>
