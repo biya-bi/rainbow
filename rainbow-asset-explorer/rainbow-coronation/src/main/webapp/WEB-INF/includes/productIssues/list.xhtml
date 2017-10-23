@@ -10,7 +10,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_PRODUCT_ISSUES')">
-		<cps:trackableDataGrid id="productIssueList"
+		<cps:auditableEntityDataGrid id="productIssueList"
 			title="#{labels.ListProductIssuesTitle}"
 			dataSource="#{productIssueReadController}"
 			selectedItem="#{productIssueWriteController.model}"
@@ -119,7 +119,7 @@
 				</f:facet>
 			</p:column>
 
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/productIssues/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/productIssues/edit.xhtml" />

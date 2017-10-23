@@ -5,8 +5,8 @@ import org.rainbow.asset.explorer.orm.entities.SiteStatus;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateSiteNameException;
 import org.rainbow.asset.explorer.service.exceptions.SiteCommissioningDateNullException;
 import org.rainbow.asset.explorer.service.exceptions.SiteDecommissioningDateNullException;
-import org.rainbow.service.ServiceImpl;
-import org.rainbow.service.UpdateOperation;
+import org.rainbow.service.services.ServiceImpl;
+import org.rainbow.service.services.UpdateOperation;
 import org.rainbow.util.DaoUtil;
 
 public class SiteServiceImpl extends ServiceImpl<Site> implements SiteService {

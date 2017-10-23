@@ -16,8 +16,8 @@ import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderDetailsNullOrE
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderReadOnlyException;
 import org.rainbow.asset.explorer.service.exceptions.PurchaseOrderStatusTransitionException;
 import org.rainbow.asset.explorer.service.exceptions.VendorInactiveException;
-import org.rainbow.service.ServiceImpl;
-import org.rainbow.service.UpdateOperation;
+import org.rainbow.service.services.ServiceImpl;
+import org.rainbow.service.services.UpdateOperation;
 import org.rainbow.util.DaoUtil;
 
 public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrder> implements PurchaseOrderService {

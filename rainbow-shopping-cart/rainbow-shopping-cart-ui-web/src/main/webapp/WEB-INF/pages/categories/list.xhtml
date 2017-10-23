@@ -7,7 +7,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:body>
-	<cps:trackableDataGrid id="categoryList"
+	<cps:auditableEntityDataGrid id="categoryList"
 		title="#{labels.ListCategoriesTitle}"
 		dataSource="#{categoryLazyDataModel}"
 		selectedItem="#{categoryController.current}"
@@ -62,7 +62,7 @@
 					changeWidgetVar="categoryListDataTable" />
 			</f:facet>
 		</p:column>
-	</cps:trackableDataGrid>
+	</cps:auditableEntityDataGrid>
 
 	<ui:include src="/WEB-INF/pages/categories/create.xhtml" />
 	<ui:include src="/WEB-INF/pages/categories/edit.xhtml" />

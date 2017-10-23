@@ -9,7 +9,7 @@ import org.rainbow.criteria.PathImpl;
 import org.rainbow.criteria.Predicate;
 import org.rainbow.criteria.PredicateBuilderImpl;
 import org.rainbow.persistence.dao.Dao;
-import org.rainbow.service.UpdateOperation;
+import org.rainbow.service.services.UpdateOperation;
 
 public class DaoUtil {
 

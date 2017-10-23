@@ -2,8 +2,8 @@ package org.rainbow.asset.explorer.service.services;
 
 import org.rainbow.asset.explorer.orm.entities.Manufacturer;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateManufacturerNameException;
-import org.rainbow.service.ServiceImpl;
-import org.rainbow.service.UpdateOperation;
+import org.rainbow.service.services.ServiceImpl;
+import org.rainbow.service.services.UpdateOperation;
 import org.rainbow.util.DaoUtil;
 
 public class ManufacturerServiceImpl extends ServiceImpl<Manufacturer> implements ManufacturerService {

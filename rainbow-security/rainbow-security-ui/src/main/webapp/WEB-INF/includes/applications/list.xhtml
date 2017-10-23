@@ -8,7 +8,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:body>
-	<cps:trackableDataGrid id="applicationList"
+	<cps:auditableEntityDataGrid id="applicationList"
 		title="#{labels.ListApplicationsTitle}"
 		dataSource="#{applicationReadController}"
 		selectedItem="#{applicationWriteController.model}"
@@ -54,7 +54,7 @@
 			</f:facet>
 		</p:column>
 
-	</cps:trackableDataGrid>
+	</cps:auditableEntityDataGrid>
 
 	<ui:include src="/WEB-INF/includes/applications/create.xhtml" />
 	<ui:include src="/WEB-INF/includes/applications/edit.xhtml" />

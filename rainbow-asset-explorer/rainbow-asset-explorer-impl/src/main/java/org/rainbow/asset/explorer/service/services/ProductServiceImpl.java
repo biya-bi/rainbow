@@ -6,8 +6,8 @@ import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.persistence.dao.ProductDao;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNameException;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductNumberException;
-import org.rainbow.service.ServiceImpl;
-import org.rainbow.service.UpdateOperation;
+import org.rainbow.service.services.ServiceImpl;
+import org.rainbow.service.services.UpdateOperation;
 import org.rainbow.util.DaoUtil;
 
 public class ProductServiceImpl extends ServiceImpl<Product> implements ProductService {

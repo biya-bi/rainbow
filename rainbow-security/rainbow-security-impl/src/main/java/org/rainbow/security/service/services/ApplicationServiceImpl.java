@@ -2,8 +2,8 @@ package org.rainbow.security.service.services;
 
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.service.exceptions.DuplicateApplicationException;
-import org.rainbow.service.ServiceImpl;
-import org.rainbow.service.UpdateOperation;
+import org.rainbow.service.services.ServiceImpl;
+import org.rainbow.service.services.UpdateOperation;
 import org.rainbow.util.DaoUtil;
 
 public class ApplicationServiceImpl extends ServiceImpl<Application> implements ApplicationService {

@@ -16,8 +16,8 @@ import org.rainbow.asset.explorer.service.exceptions.ShippingOrderDetailsNullOrE
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderLocationException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderReadOnlyException;
 import org.rainbow.asset.explorer.service.exceptions.ShippingOrderStatusTransitionException;
-import org.rainbow.service.ServiceImpl;
-import org.rainbow.service.UpdateOperation;
+import org.rainbow.service.services.ServiceImpl;
+import org.rainbow.service.services.UpdateOperation;
 import org.rainbow.util.DaoUtil;
 
 public class ShippingOrderServiceImpl extends ServiceImpl<ShippingOrder> implements ShippingOrderService {

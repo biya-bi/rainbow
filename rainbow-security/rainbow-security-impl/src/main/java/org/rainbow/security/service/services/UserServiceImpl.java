@@ -10,8 +10,8 @@ import org.rainbow.security.persistence.dao.ApplicationDao;
 import org.rainbow.security.service.exceptions.DuplicateUserException;
 import org.rainbow.security.service.exceptions.InvalidPasswordException;
 import org.rainbow.security.utilities.PasswordUtil;
-import org.rainbow.service.ServiceImpl;
-import org.rainbow.service.UpdateOperation;
+import org.rainbow.service.services.ServiceImpl;
+import org.rainbow.service.services.UpdateOperation;
 import org.rainbow.util.DaoUtil;
 
 public class UserServiceImpl extends ServiceImpl<User> implements UserService {

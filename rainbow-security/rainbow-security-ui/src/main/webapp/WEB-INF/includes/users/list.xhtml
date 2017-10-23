@@ -9,7 +9,7 @@
 
 <h:body>
 
-	<cps:trackableDataGrid id="userList" title="#{labels.ListUsersTitle}"
+	<cps:auditableEntityDataGrid id="userList" title="#{labels.ListUsersTitle}"
 		dataSource="#{userReadController}"
 		selectedItem="#{userWriteController.model}" selectedValue="#{item.id}"
 		createActionListener="#{userWriteController.prepareCreate()}"
@@ -153,7 +153,7 @@
 			</p:overlayPanel>
 		</f:facet>
 
-	</cps:trackableDataGrid>
+	</cps:auditableEntityDataGrid>
 
 	<ui:include src="/WEB-INF/includes/users/create.xhtml" />
 	<ui:include src="/WEB-INF/includes/users/edit.xhtml" />

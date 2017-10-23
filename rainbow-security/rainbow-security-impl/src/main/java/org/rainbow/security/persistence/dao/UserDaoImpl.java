@@ -172,7 +172,7 @@ public class UserDaoImpl extends DaoImpl<User> implements UserDao {
 
 	private void fixAssociations(User user) {
 		user.setApplication(EntityManagerUtil.find(this.getEntityManager(), Application.class, user.getApplication()));
-		
+
 		fixGroups(user);
 		fixAuthorities(user);
 	}

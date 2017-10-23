@@ -18,7 +18,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<aop:advisor advice-ref="txAdvice"
 			pointcut="execution(* org.rainbow.asset.explorer.service.services..*(..))" />
 		<aop:advisor advice-ref="txAdvice"
-			pointcut="execution(* org.rainbow.service..*(..))" />
+			pointcut="execution(* org.rainbow.service.services..*(..))" />
 	</aop:config>
 
 </beans>

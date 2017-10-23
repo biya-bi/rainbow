@@ -10,7 +10,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_MANUFACTURERS')">
-		<cps:trackableDataGrid id="manufacturerList"
+		<cps:auditableEntityDataGrid id="manufacturerList"
 			title="#{labels.ListManufacturersTitle}"
 			dataSource="#{manufacturerReadController}"
 			selectedItem="#{manufacturerWriteController.model}"
@@ -55,7 +55,7 @@
 				</f:facet>
 			</p:column>
 
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/manufacturers/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/manufacturers/edit.xhtml" />

@@ -54,7 +54,7 @@ public class AuthorityDaoImpl extends DaoImpl<Authority> implements AuthorityDao
 	private void fixAssociations(Authority authority) {
 		authority.setApplication(
 				EntityManagerUtil.find(this.getEntityManager(), Application.class, authority.getApplication()));
-		
+
 		fixGroups(authority);
 		fixUsers(authority);
 	}

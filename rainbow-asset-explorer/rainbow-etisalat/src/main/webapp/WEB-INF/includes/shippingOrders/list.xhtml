@@ -10,7 +10,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_SHIPPING_ORDERS')">
-		<cps:trackableDataGrid id="shippingOrderList"
+		<cps:auditableEntityDataGrid id="shippingOrderList"
 			title="#{labels.ListShippingOrdersTitle}"
 			dataSource="#{shippingOrderReadController}"
 			selectedItem="#{shippingOrderWriteController.model}"
@@ -254,7 +254,7 @@
 						converterId="org.rainbow.asset.explorer.faces.converters.ShippingOrderStatusConverter" />
 				</h:outputText>
 			</p:column>
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/shippingOrders/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/shippingOrders/edit.xhtml" />

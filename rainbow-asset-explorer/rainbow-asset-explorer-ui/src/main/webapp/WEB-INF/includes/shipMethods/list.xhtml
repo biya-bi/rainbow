@@ -10,7 +10,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_SHIP_METHODS')">
-		<cps:trackableDataGrid id="shipMethodList"
+		<cps:auditableEntityDataGrid id="shipMethodList"
 			title="#{labels.ListShipMethodsTitle}"
 			dataSource="#{shipMethodReadController}"
 			selectedItem="#{shipMethodWriteController.model}"
@@ -53,7 +53,7 @@
 				</f:facet>
 			</p:column>
 
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/shipMethods/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/shipMethods/edit.xhtml" />

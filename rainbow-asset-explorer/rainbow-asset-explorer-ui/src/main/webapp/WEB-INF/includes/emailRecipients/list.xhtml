@@ -10,7 +10,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_EMAIL_RECIPIENTS')">
-		<cps:trackableDataGrid id="emailRecipientList"
+		<cps:auditableEntityDataGrid id="emailRecipientList"
 			title="#{labels.ListEmailRecipientsTitle}"
 			dataSource="#{emailRecipientReadController}"
 			selectedItem="#{emailRecipientWriteController.model}"
@@ -67,7 +67,7 @@
 				</f:facet>
 			</p:column>
 
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/emailRecipients/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/emailRecipients/edit.xhtml" />

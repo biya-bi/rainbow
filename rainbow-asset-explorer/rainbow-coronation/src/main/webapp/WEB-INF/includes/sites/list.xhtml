@@ -9,7 +9,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_SITES')">
-		<cps:trackableDataGrid id="siteList" title="#{labels.ListSitesTitle}"
+		<cps:auditableEntityDataGrid id="siteList" title="#{labels.ListSitesTitle}"
 			dataSource="#{siteReadController}"
 			selectedItem="#{siteWriteController.model}" selectedValue="#{item.id}"
 			createActionListener="#{siteWriteController.prepareCreate()}"
@@ -75,7 +75,7 @@
 				</f:facet>
 			</p:column>
 
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/sites/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/sites/edit.xhtml" />

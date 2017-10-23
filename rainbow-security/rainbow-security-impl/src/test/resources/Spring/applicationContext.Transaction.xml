@@ -19,7 +19,7 @@ org.rainbow.security.service.exceptions.WrongRecoveryAnswerException" />
 		<aop:advisor advice-ref="txAdvice"
 			pointcut="execution(* org.rainbow.security.service..*(..))" />
 		<aop:advisor advice-ref="txAdvice"
-			pointcut="execution(* org.rainbow.service..*(..))" />
+			pointcut="execution(* org.rainbow.service.services..*(..))" />
 	</aop:config>
 
 </beans>

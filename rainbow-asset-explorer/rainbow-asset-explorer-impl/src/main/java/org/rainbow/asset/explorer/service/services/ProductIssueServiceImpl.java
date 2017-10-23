@@ -11,8 +11,8 @@ import org.rainbow.asset.explorer.orm.entities.ProductIssueDetail;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateProductIssueReferenceNumberException;
 import org.rainbow.asset.explorer.service.exceptions.InsufficientInventoryException;
 import org.rainbow.asset.explorer.service.exceptions.ProductIssueDetailsNullOrEmptyException;
-import org.rainbow.service.ServiceImpl;
-import org.rainbow.service.UpdateOperation;
+import org.rainbow.service.services.ServiceImpl;
+import org.rainbow.service.services.UpdateOperation;
 import org.rainbow.util.DaoUtil;
 
 public class ProductIssueServiceImpl extends ServiceImpl<ProductIssue> implements ProductIssueService {

@@ -10,7 +10,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_LOCALES')">
-		<cps:trackableDataGrid id="localeList"
+		<cps:auditableEntityDataGrid id="localeList"
 			title="#{labels.ListLocalesTitle}"
 			dataSource="#{localeReadController}"
 			selectedItem="#{localeWriteController.model}" selectedValue="#{item.id}"
@@ -74,7 +74,7 @@
 				</f:facet>
 			</p:column>
 
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/locales/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/locales/edit.xhtml" />

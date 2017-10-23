@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.rainbow.security.orm.entities.Group;
 import org.rainbow.security.service.exceptions.DuplicateGroupException;
-import org.rainbow.service.ServiceImpl;
-import org.rainbow.service.UpdateOperation;
+import org.rainbow.service.services.ServiceImpl;
+import org.rainbow.service.services.UpdateOperation;
 import org.rainbow.util.DaoUtil;
 
 public class GroupServiceImpl extends ServiceImpl<Group> implements GroupService {

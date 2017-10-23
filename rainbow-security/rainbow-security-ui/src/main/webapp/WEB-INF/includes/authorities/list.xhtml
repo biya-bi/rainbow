@@ -9,7 +9,7 @@
 
 <h:body>
 
-	<cps:trackableDataGrid id="authorityList"
+	<cps:auditableEntityDataGrid id="authorityList"
 		title="#{labels.ListAuthoritiesTitle}"
 		dataSource="#{authorityReadController}"
 		selectedItem="#{authorityWriteController.model}"
@@ -79,7 +79,7 @@
 					value="#{authorityWriteController.model}" />
 			</p:commandButton>
 		</f:facet>
-	</cps:trackableDataGrid>
+	</cps:auditableEntityDataGrid>
 
 	<ui:include src="/WEB-INF/includes/authorities/create.xhtml" />
 	<ui:include src="/WEB-INF/includes/authorities/edit.xhtml" />

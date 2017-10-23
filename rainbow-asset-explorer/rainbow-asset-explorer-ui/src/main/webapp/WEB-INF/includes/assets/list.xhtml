@@ -10,7 +10,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_ASSETS')">
-		<cps:trackableDataGrid id="assetList"
+		<cps:auditableEntityDataGrid id="assetList"
 			title="#{labels.ListAssetsTitle}" dataSource="#{assetReadController}"
 			selectedItem="#{assetWriteController.model}" selectedValue="#{item.id}"
 			createActionListener="#{assetWriteController.prepareCreate()}"
@@ -138,7 +138,7 @@
 				</f:facet>
 			</p:column>
 
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/assets/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/assets/edit.xhtml" />

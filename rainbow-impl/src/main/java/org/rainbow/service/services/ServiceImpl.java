@@ -1,4 +1,4 @@
-package org.rainbow.service;
+package org.rainbow.service.services;
 
 import java.util.List;
 

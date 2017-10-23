@@ -10,7 +10,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_ALERTS')">
-		<cps:trackableDataGrid id="alertList"
+		<cps:auditableEntityDataGrid id="alertList"
 			title="#{labels.ListAlertsTitle}" dataSource="#{alertReadController}"
 			selectedItem="#{alertWriteController.model}" selectedValue="#{item.id}"
 			createActionListener="#{alertWriteController.prepareCreate()}"
@@ -123,7 +123,7 @@
 					value="#{item.immediate}" />
 			</p:column>
 
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/alerts/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/alerts/edit.xhtml" />

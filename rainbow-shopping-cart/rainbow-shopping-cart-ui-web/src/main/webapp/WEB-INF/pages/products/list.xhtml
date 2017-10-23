@@ -7,7 +7,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:body>
-	<cps:trackableDataGrid id="productList"
+	<cps:auditableEntityDataGrid id="productList"
 		title="#{labels.ListProductsTitle}"
 		dataSource="#{productLazyDataModel}"
 		selectedItem="#{productController.current}" selectedValue="#{item.id}"
@@ -85,7 +85,7 @@
 			</f:facet>
 		</p:column>
 
-	</cps:trackableDataGrid>
+	</cps:auditableEntityDataGrid>
 
 	<ui:include src="/WEB-INF/pages/products/create.xhtml" />
 	<ui:include src="/WEB-INF/pages/products/edit.xhtml" />

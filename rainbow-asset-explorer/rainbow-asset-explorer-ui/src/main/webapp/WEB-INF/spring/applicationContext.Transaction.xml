@@ -30,11 +30,11 @@ org.rainbow.security.service.exceptions.WrongRecoveryAnswerException" />
 
 	<aop:config>
 		<aop:advisor advice-ref="rainbowAssetExplorerTxAdvice"
-			pointcut="execution(* org.rainbow.service..*(..))" />
+			pointcut="execution(* org.rainbow.service.services..*(..))" />
 		<aop:advisor advice-ref="rainbowAssetExplorerTxAdvice"
 			pointcut="execution(* org.rainbow.asset.explorer.service.services..*(..))" />
 		<aop:advisor advice-ref="rainbowSecurityTxAdvice"
-			pointcut="execution(* org.rainbow.service..*(..))" />
+			pointcut="execution(* org.rainbow.service.services..*(..))" />
 		<aop:advisor advice-ref="rainbowSecurityTxAdvice"
 			pointcut="execution(* org.rainbow.security.service..*(..))" />
 	</aop:config>

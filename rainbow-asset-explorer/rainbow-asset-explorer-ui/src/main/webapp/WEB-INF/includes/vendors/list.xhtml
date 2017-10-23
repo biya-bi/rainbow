@@ -10,7 +10,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_VENDORS')">
-		<cps:trackableDataGrid id="vendorList"
+		<cps:auditableEntityDataGrid id="vendorList"
 			title="#{labels.ListVendorsTitle}"
 			dataSource="#{vendorReadController}"
 			selectedItem="#{vendorWriteController.model}" selectedValue="#{item.id}"
@@ -86,7 +86,7 @@
 					value="#{item.active}" />
 			</p:column>
 
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/vendors/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/vendors/edit.xhtml" />

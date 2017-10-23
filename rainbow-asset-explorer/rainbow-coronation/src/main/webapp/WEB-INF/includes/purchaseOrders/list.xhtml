@@ -10,7 +10,7 @@
 
 <h:body>
 	<sec:authorize access="hasRole('ROLE_READ_PURCHASE_ORDERS')">
-		<cps:trackableDataGrid id="purchaseOrderList"
+		<cps:auditableEntityDataGrid id="purchaseOrderList"
 			title="#{labels.ListPurchaseOrdersTitle}"
 			dataSource="#{purchaseOrderReadController}"
 			selectedItem="#{purchaseOrderWriteController.model}"
@@ -229,7 +229,7 @@
 				</h:outputText>
 			</p:column>
 
-		</cps:trackableDataGrid>
+		</cps:auditableEntityDataGrid>
 
 		<ui:include src="/WEB-INF/includes/purchaseOrders/create.xhtml" />
 		<ui:include src="/WEB-INF/includes/purchaseOrders/edit.xhtml" />

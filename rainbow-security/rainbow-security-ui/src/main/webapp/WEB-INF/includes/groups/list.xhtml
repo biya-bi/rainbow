@@ -9,7 +9,7 @@
 
 <h:body>
 
-	<cps:trackableDataGrid id="groupList" title="#{labels.ListGroupsTitle}"
+	<cps:auditableEntityDataGrid id="groupList" title="#{labels.ListGroupsTitle}"
 		dataSource="#{groupReadController}"
 		selectedItem="#{groupWriteController.model}" selectedValue="#{item.id}"
 		createActionListener="#{groupWriteController.prepareCreate()}"
@@ -90,7 +90,7 @@
 					value="#{groupWriteController.model}" />
 			</p:commandButton>
 		</f:facet>
-	</cps:trackableDataGrid>
+	</cps:auditableEntityDataGrid>
 
 	<ui:include src="/WEB-INF/includes/groups/create.xhtml" />
 	<ui:include src="/WEB-INF/includes/groups/edit.xhtml" />

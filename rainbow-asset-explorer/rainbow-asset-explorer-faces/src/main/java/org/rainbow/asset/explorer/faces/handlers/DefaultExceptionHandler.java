@@ -35,7 +35,8 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
 
     @Override
     public void handle() throws FacesException {
-        try {
+        final Logger logger = Logger.getLogger(this.getClass().getName());
+		try {
 
             for (Iterator<ExceptionQueuedEvent> i = getUnhandledExceptionQueuedEvents().iterator(); i.hasNext();) {
                 try {
@@ -44,7 +45,7 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
 
                     Throwable t = context.getException();
 
-                    Logger.getLogger(DefaultExceptionHandler.class.getName()).log(Level.SEVERE, null, t);
+                    logger.log(Level.SEVERE, null, t);
 
                     FacesContext fc = FacesContext.getCurrentInstance();
                     ExternalContext externalContext = fc.getExternalContext();
@@ -78,12 +79,12 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
         } catch (Throwable t) {
             FacesContext fc = FacesContext.getCurrentInstance();
 
-            Logger.getLogger(DefaultExceptionHandler.class.getName()).log(Level.SEVERE, null, t);
+            logger.log(Level.SEVERE, null, t);
             String s = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/errors/unexpected_error.xhtml";
             try {
                 fc.getExternalContext().redirect(s);
             } catch (IOException ex) {
-                Logger.getLogger(DefaultExceptionHandler.class.getName()).log(Level.SEVERE, null, ex);
+                logger.log(Level.SEVERE, null, ex);
             }
         }
     }
