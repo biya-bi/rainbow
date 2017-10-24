@@ -1,0 +1,1 @@
+CREATE SCHEMA IF NOT EXISTS `rainbow_etisalat_asset_management` DEFAULT CHARACTER SET utf8 ;

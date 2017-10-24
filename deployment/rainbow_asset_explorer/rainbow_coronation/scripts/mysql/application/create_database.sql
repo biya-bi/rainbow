@@ -1,0 +1,1 @@
+CREATE SCHEMA IF NOT EXISTS `rainbow_coronation_stock_management` DEFAULT CHARACTER SET utf8 ;
