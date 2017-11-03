@@ -16,6 +16,7 @@
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.dependency.plugin.version>3.0.1</maven.dependency.plugin.version>
 
 		<spring.framework.version>4.3.5.RELEASE</spring.framework.version>
 		<spring.security.version>4.2.1.RELEASE</spring.security.version>
@@ -130,7 +131,7 @@
 			<artifactId>all-themes</artifactId>
 			<version>${primefaces.theme.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
@@ -261,6 +262,33 @@
 						<contextPath>/rainbow-coronation</contextPath>
 					</webApp>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${maven.dependency.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>${project.groupId}</groupId>
+									<artifactId>${project.name}</artifactId>
+									<version>${project.version}</version>
+									<type>war</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>../../deployment/wars</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 

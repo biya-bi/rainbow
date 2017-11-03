@@ -23,7 +23,7 @@ import org.rainbow.asset.explorer.orm.entities.Site;
 import org.rainbow.asset.explorer.orm.entities.SiteStatus;
 import org.rainbow.asset.explorer.service.exceptions.DuplicateSiteNameException;
 import org.rainbow.asset.explorer.service.services.SiteService;
-import org.rainbow.common.util.DateTime;
+import org.rainbow.common.util.DateUtil;
 import org.rainbow.faces.controllers.write.AbstractWriteController;
 import org.rainbow.faces.util.CrudNotificationInfo;
 import org.rainbow.faces.util.FacesContextUtil;
@@ -120,12 +120,12 @@ public class SiteWriteController extends AbstractWriteController<Site> {
 								} else if (DATE_OF_COMMISSIONING_NODE_NAME.toUpperCase()
 										.equals(siteNodeChildNode.getNodeName().toUpperCase())) {
 									if (valueNode != null && !valueNode.isEmpty()) {
-										site.setDateOfCommissioning(DateTime.toDate(valueNode));
+										site.setDateOfCommissioning(DateUtil.toDate(valueNode));
 									}
 								} else if (DATE_OF_DECOMMISSIONING_NODE_NAME.toUpperCase()
 										.equals(siteNodeChildNode.getNodeName().toUpperCase())) {
 									if (valueNode != null && !valueNode.isEmpty()) {
-										site.setDateOfDecommissioning(DateTime.toDate(valueNode));
+										site.setDateOfDecommissioning(DateUtil.toDate(valueNode));
 									}
 								}
 							}

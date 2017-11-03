@@ -47,8 +47,9 @@ public class PasswordHistory extends AbstractNumericIdAuditableEntity<Long> {
 		super.setId(id);
 	}
 
+	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "MEMBERSHIP_ID")
+	@JoinColumn(name = "MEMBERSHIP_ID", nullable = false)
 	public Membership getMembership() {
 		return membership;
 	}

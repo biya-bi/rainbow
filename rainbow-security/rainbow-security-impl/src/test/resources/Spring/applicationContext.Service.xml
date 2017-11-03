@@ -120,51 +120,46 @@
 
 	<bean id="userAccountService1"
 		class="org.rainbow.security.service.services.UserAccountServiceImpl">
-		<property name="userDao" ref="userDao" />
-		<property name="applicationDao" ref="applicationDao" />
 		<property name="applicationName" value="Test Application 1" />
 		<property name="passwordEncoder" ref="passwordEncoder" />
 		<property name="authenticationManager" ref="authenticationManager1" />
 		<property name="userDetailsService" ref="userDetailsService1" />
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<bean id="userAccountService2"
 		class="org.rainbow.security.service.services.UserAccountServiceImpl">
-		<property name="userDao" ref="userDao" />
-		<property name="applicationDao" ref="applicationDao" />
 		<property name="applicationName" value="Test Application 2" />
 		<property name="passwordEncoder" ref="passwordEncoder" />
 		<property name="authenticationManager" ref="authenticationManager2" />
 		<property name="userDetailsService" ref="userDetailsService2" />
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<bean id="userAccountService3"
 		class="org.rainbow.security.service.services.UserAccountServiceImpl">
-		<property name="userDao" ref="userDao" />
-		<property name="applicationDao" ref="applicationDao" />
 		<property name="applicationName" value="Test Application 3" />
 		<property name="passwordEncoder" ref="passwordEncoder" />
 		<property name="authenticationManager" ref="authenticationManager3" />
 		<property name="userDetailsService" ref="userDetailsService3" />
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<bean id="userAccountServiceWithMissingApplication"
 		class="org.rainbow.security.service.services.UserAccountServiceImpl">
-		<property name="userDao" ref="userDao" />
-		<property name="applicationDao" ref="applicationDao" />
 		<property name="applicationName" value="Missing Application" />
 		<property name="passwordEncoder" ref="passwordEncoder" />
 		<property name="authenticationManager" ref="authenticationManagerWithMissingApplication" />
 		<property name="userDetailsService" ref="userDetailsServiceWithMissingApplication" />
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<bean id="userAccountService4"
 		class="org.rainbow.security.service.services.UserAccountServiceImpl">
-		<property name="userDao" ref="userDao" />
-		<property name="applicationDao" ref="applicationDao" />
 		<property name="applicationName" value="Test Application 4" />
 		<property name="passwordEncoder" ref="passwordEncoder" />
 		<property name="authenticationManager" ref="authenticationManager4" />
 		<property name="userDetailsService" ref="userDetailsService4" />
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 </beans>

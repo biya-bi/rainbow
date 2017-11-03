@@ -19,6 +19,7 @@ import org.rainbow.security.service.exceptions.RainbowSecurityServiceException;
 import org.rainbow.security.service.exceptions.UserAlreadyInGroupException;
 import org.rainbow.security.service.exceptions.UserNotFoundException;
 import org.rainbow.security.service.exceptions.UserNotInGroupException;
+import org.rainbow.security.util.SearchUtil;
 
 public class UserGroupServiceImpl implements UserGroupService {
 

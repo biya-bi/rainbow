@@ -18,7 +18,7 @@ import org.rainbow.orm.entities.AbstractNumericIdAuditableEntity;
 import org.rainbow.security.orm.audit.RecoveryInformationAudit;
 
 @Entity
-@Table(name = "RECOVERY_INFORMATION", uniqueConstraints = @UniqueConstraint(columnNames = { "USER_ID", "QUESTION" }))
+@Table(name = "RECOVERY_INFORMATION", uniqueConstraints = @UniqueConstraint(columnNames = { "MEMBERSHIP_ID", "QUESTION" }))
 @Auditable(RecoveryInformationAudit.class)
 public class RecoveryInformation extends AbstractNumericIdAuditableEntity<Long> {
 	/**

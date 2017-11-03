@@ -9,7 +9,7 @@ import org.rainbow.security.orm.entities.User;
 import org.rainbow.security.persistence.dao.ApplicationDao;
 import org.rainbow.security.service.exceptions.DuplicateUserException;
 import org.rainbow.security.service.exceptions.InvalidPasswordException;
-import org.rainbow.security.utilities.PasswordUtil;
+import org.rainbow.security.util.PasswordUtil;
 import org.rainbow.service.services.ServiceImpl;
 import org.rainbow.service.services.UpdateOperation;
 import org.rainbow.util.DaoUtil;

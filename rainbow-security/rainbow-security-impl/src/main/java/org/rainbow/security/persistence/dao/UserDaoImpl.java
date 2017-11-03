@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
+import org.rainbow.common.util.DateUtil;
 import org.rainbow.persistence.dao.DaoImpl;
 import org.rainbow.persistence.dao.Pageable;
 import org.rainbow.security.orm.entities.Application;
@@ -23,8 +24,7 @@ import org.rainbow.security.orm.entities.Membership;
 import org.rainbow.security.orm.entities.PasswordHistory;
 import org.rainbow.security.orm.entities.RecoveryInformation;
 import org.rainbow.security.orm.entities.User;
-import org.rainbow.security.utilities.DateUtil;
-import org.rainbow.security.utilities.PersistenceSettings;
+import org.rainbow.security.util.PersistenceSettings;
 import org.rainbow.util.EntityManagerUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

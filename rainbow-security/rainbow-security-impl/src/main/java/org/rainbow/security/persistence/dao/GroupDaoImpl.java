@@ -17,7 +17,7 @@ import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.orm.entities.Authority;
 import org.rainbow.security.orm.entities.Group;
 import org.rainbow.security.orm.entities.User;
-import org.rainbow.security.utilities.PersistenceSettings;
+import org.rainbow.security.util.PersistenceSettings;
 import org.rainbow.util.EntityManagerUtil;
 
 /**

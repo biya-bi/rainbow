@@ -14,7 +14,7 @@ import org.rainbow.security.orm.entities.LockoutPolicy;
 import org.rainbow.security.orm.entities.LoginPolicy;
 import org.rainbow.security.orm.entities.PasswordPolicy;
 import org.rainbow.security.orm.entities.User;
-import org.rainbow.security.utilities.PersistenceSettings;
+import org.rainbow.security.util.PersistenceSettings;
 
 @Pageable(attributeName = "id")
 public class ApplicationDaoImpl extends DaoImpl<Application> implements ApplicationDao {

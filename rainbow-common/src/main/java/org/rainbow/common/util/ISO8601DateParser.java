@@ -36,7 +36,7 @@ public class ISO8601DateParser {
 
     // http://www.cl.cam.ac.uk/~mgk25/iso-time.html
     //    
-    // http://www.intertwingly.net/wiki/pie/DateTime
+    // http://www.intertwingly.net/wiki/pie/DateUtil
     //
     // http://www.w3.org/TR/NOTE-datetime
     //
@@ -123,13 +123,3 @@ public class ISO8601DateParser {
     }
 
 }
-
-   
-    
-    
-    
-    
-  
-
-
-

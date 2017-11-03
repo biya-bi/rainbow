@@ -19,6 +19,7 @@ import org.rainbow.security.service.exceptions.AuthorityNotFoundException;
 import org.rainbow.security.service.exceptions.AuthorityNotGrantedToUserException;
 import org.rainbow.security.service.exceptions.RainbowSecurityServiceException;
 import org.rainbow.security.service.exceptions.UserNotFoundException;
+import org.rainbow.security.util.SearchUtil;
 
 public class UserAuthorityServiceImpl implements UserAuthorityService {
 

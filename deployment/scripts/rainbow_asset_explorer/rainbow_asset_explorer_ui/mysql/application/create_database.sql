@@ -1,0 +1,1 @@
+CREATE SCHEMA IF NOT EXISTS `rainbow_asset_explorer` DEFAULT CHARACTER SET utf8 ;

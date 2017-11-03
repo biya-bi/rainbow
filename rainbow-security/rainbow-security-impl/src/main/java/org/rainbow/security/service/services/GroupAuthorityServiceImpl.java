@@ -20,6 +20,7 @@ import org.rainbow.security.service.exceptions.AuthorityNotGrantedToGroupExcepti
 import org.rainbow.security.service.exceptions.GroupNotFoundException;
 import org.rainbow.security.service.exceptions.RainbowSecurityServiceException;
 import org.rainbow.security.service.exceptions.UserNotFoundException;
+import org.rainbow.security.util.SearchUtil;
 
 public class GroupAuthorityServiceImpl implements GroupAuthorityService {
 

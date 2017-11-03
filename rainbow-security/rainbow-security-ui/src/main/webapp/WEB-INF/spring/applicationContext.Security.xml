@@ -68,7 +68,7 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 				class="org.rainbow.security.service.authentication.PasswordAttemptUpdaterImpl">
 				<property name="applicationName" ref="RainbowSecurityApplicationName" />
 				<property name="passwordEncoder" ref="passwordEncoder" />
-				<property name="dataSource" ref="RainbowSecurityDataSource" />
+				<property name="dataSource" ref="rainbowSecurityDataSource" />
 			</bean>
 		</property>
 		<property name="hideUserNotFoundExceptions" value="false" />
@@ -81,16 +81,16 @@ http://www.springframework.org/schema/jee/spring-jee.xsd">
 
 	<bean id="sensitiveUserDetailsEncrypter"
 		class="org.rainbow.security.service.encryption.SensitiveUserDetailsEncrypterImpl"
-		init-method="encrypt" depends-on="RainbowSecurityDataSource">
+		init-method="encrypt" depends-on="rainbowSecurityDataSource">
 		<property name="passwordEncoder" ref="passwordEncoder" />
 		<property name="applicationName" ref="RainbowSecurityApplicationName" />
-		<property name="dataSource" ref="RainbowSecurityDataSource" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
 	</bean>
 
 	<bean id="userDetailsService"
 		class="org.rainbow.security.service.userdetails.UserDetailsServiceImpl">
 		<constructor-arg name="applicationName" ref="RainbowSecurityApplicationName" />
-		<property name="dataSource" ref="RainbowSecurityDataSource" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
 		<property name="enableAuthorities" value="false" />
 		<property name="enableGroups" value="true" />
 	</bean>

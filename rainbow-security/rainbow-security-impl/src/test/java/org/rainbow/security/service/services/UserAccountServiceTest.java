@@ -785,7 +785,7 @@ public class UserAccountServiceTest extends AbstractServiceTest {
 	}
 
 	@Test(expected = RecoveryQuestionNotFoundException.class)
-	public void deleteRecoveryQuestion_UserDoestRecoveryQuestion_ThrowRecoveryQuestionNotFoundException() {
+	public void deleteRecoveryQuestion_UserDoesNotHaveRecoveryQuestion_ThrowRecoveryQuestionNotFoundException() {
 		final String userName = "sampleUser37";
 		final String password = "P@$$w0rd";
 		final String question = "What is your mother's maiden name?";

@@ -8,12 +8,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.rainbow.common.util.DateUtil;
 import org.rainbow.security.service.exceptions.ApplicationNotFoundException;
 import org.rainbow.security.service.exceptions.CredentialsNotFoundException;
-import org.rainbow.security.utilities.DateUtil;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
@@ -26,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements PasswordAttemptUpdater {
 
+	private static final Date FIRST_JAN_1754 = DateUtil.toDate("1754-01-01");
 	private PasswordEncoder passwordEncoder;
 	private String applicationName;
 
@@ -162,7 +164,10 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 							// We want locking an account to be possible if and
 							// only if
 							// the lockout threshold is greater than 0.
-							if (failedPasswordAttemptCount >= lockoutThreshold && lockoutThreshold > 0) {
+							// Also, we start counting failed attempts at 0.
+							// Therefore, we must lock the account at
+							// lockoutThreshold minus 1.
+							if (failedPasswordAttemptCount >= lockoutThreshold - 1 && lockoutThreshold > 0) {
 								getJdbcTemplate().update(new PreparedStatementCreator() {
 									@Override
 									public PreparedStatement createPreparedStatement(Connection con)
@@ -177,7 +182,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 							}
 						} else {
 							if (failedPasswordAttemptCount > 0) {
-								c.setTime(DateUtil.toDate("1754-01-01"));
+								c.setTime(FIRST_JAN_1754);
 								getJdbcTemplate().update(new PreparedStatementCreator() {
 									@Override
 									public PreparedStatement createPreparedStatement(Connection con)
@@ -186,7 +191,7 @@ public class PasswordAttemptUpdaterImpl extends JdbcDaoSupport implements Passwo
 												.prepareStatement(FAILED_PASSWORD_ATTEMPT_UPDATE_QUERY);
 										preparedStatement.setDate(1, new java.sql.Date(c.getTimeInMillis()));
 										preparedStatement.setInt(2, 0);
-										preparedStatement.setLong(3, userId);
+										preparedStatement.setLong(3, membershipId);
 										return preparedStatement;
 									}
 								});
