@@ -71,7 +71,7 @@ public class NavigationController implements Serializable {
 			HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
 			HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
 
-			if (!this.selectedUrl.toLowerCase().contains("errors/unexpectederror")) {
+			if (!this.selectedUrl.toLowerCase().contains("errors/unexpected_error")) {
 				Cookie cookie = new Cookie(navigationSelectedUrlKey, this.selectedUrl);
 				cookie.setPath(request.getContextPath());
 				cookie.setHttpOnly(true);

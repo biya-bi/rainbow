@@ -20,7 +20,7 @@
             <var>valMsg</var>
         </resource-bundle>
         <resource-bundle>
-            <base-name>org.rainbow.security.faces.Messages</base-name>
+            <base-name>org.rainbow.faces.Messages</base-name>
             <var>msg</var>
         </resource-bundle>
         <resource-bundle>

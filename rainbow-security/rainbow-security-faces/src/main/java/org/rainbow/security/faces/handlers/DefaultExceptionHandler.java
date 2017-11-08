@@ -62,7 +62,7 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
                     else {
                         SecurityException securityException = extractException(t, SecurityException.class);
                         if (securityException != null) {
-                            String s = externalContext.getRequestContextPath() + "/faces/errors/unauthorized.xhtml";
+                            String s = externalContext.getRequestContextPath() + "/errors/unauthorized.xhtml";
                             fc.getExternalContext().redirect(s);
                         }
                         else {
