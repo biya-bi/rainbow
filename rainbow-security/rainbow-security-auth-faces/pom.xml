@@ -9,7 +9,7 @@
 	<url>http://maven.apache.org</url>
 
 	<parent>
-		<groupId>org.rainbow</groupId>
+		<groupId>org.rainbow.security</groupId>
 		<artifactId>rainbow-security</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -19,6 +19,7 @@
 		<javaee.version>7.0</javaee.version>
 		<spring.framework.version>4.3.5.RELEASE</spring.framework.version>
 		<spring.security.version>4.2.1.RELEASE</spring.security.version>
+		<rainbow-faces.version>0.0.1-SNAPSHOT</rainbow-faces.version>
 	</properties>
 
 	<dependencies>
@@ -48,9 +49,9 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.rainbow</groupId>
 			<artifactId>rainbow-faces</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-faces.version}</version>
 		</dependency>
 	</dependencies>
 </project>

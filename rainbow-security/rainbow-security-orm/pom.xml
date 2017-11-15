@@ -9,7 +9,7 @@
 	<url>http://maven.apache.org</url>
 
 	<parent>
-		<groupId>org.rainbow</groupId>
+		<groupId>org.rainbow.security</groupId>
 		<artifactId>rainbow-security</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>

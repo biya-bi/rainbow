@@ -9,20 +9,21 @@
 	<url>http://maven.apache.org</url>
 
 	<parent>
-		<groupId>org.rainbow</groupId>
+		<groupId>org.rainbow.security</groupId>
 		<artifactId>rainbow-security</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<rainbow-api.version>0.0.1-SNAPSHOT</rainbow-api.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.rainbow</groupId>
 			<artifactId>rainbow-api</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>rainbow-security</artifactId>
-		<groupId>org.rainbow</groupId>
+		<groupId>org.rainbow.security</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
@@ -39,6 +39,7 @@
 		<quartz.version>2.2.3</quartz.version>
 		<javax.mail.version>1.5.6</javax.mail.version>
 		<aspectjweaver.version>1.8.10</aspectjweaver.version>
+		<rainbow-orm-eclipselink.version>0.0.1-SNAPSHOT</rainbow-orm-eclipselink.version>
 	</properties>
 
 	<dependencies>
@@ -183,6 +184,7 @@
 			<version>${spring.faces.version}</version>
 		</dependency>
 
+		<!-- Rainbow dependencies -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>rainbow-security-impl</artifactId>
@@ -222,7 +224,7 @@
 		<dependency>
 			<groupId>org.rainbow</groupId>
 			<artifactId>rainbow-orm-eclipselink</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-orm-eclipselink.version}</version>
 		</dependency>
 
 		<dependency>

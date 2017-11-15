@@ -3,7 +3,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.rainbow</groupId>
+		<groupId>org.rainbow.security</groupId>
 		<artifactId>rainbow-security</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -19,6 +19,8 @@
 		<maven.surefire.plugin.version>2.20</maven.surefire.plugin.version>
 		<maven.dependency.plugin.version>3.0.1</maven.dependency.plugin.version>
 		<aspectjweaver.version>1.8.10</aspectjweaver.version>
+		<rainbow-common.version>0.0.1-SNAPSHOT</rainbow-common.version>
+		<rainbow-impl.version>0.0.1-SNAPSHOT</rainbow-impl.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -83,20 +85,20 @@
 		<dependency>
 			<groupId>org.rainbow</groupId>
 			<artifactId>rainbow-common</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-common.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.rainbow</groupId>
 			<artifactId>rainbow-impl</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-impl.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.rainbow</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>rainbow-security-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.rainbow</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>rainbow-security-orm</artifactId>
 			<version>${project.version}</version>
 		</dependency>

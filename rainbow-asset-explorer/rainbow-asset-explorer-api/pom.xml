@@ -10,19 +10,20 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<rainbow-api.version>0.0.1-SNAPSHOT</rainbow-api.version>
 	</properties>
 
 	<parent>
-		<groupId>org.rainbow</groupId>
+		<groupId>org.rainbow.asset.explorer</groupId>
 		<artifactId>rainbow-asset-explorer</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.rainbow</groupId>
 			<artifactId>rainbow-api</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

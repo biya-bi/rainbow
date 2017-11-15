@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>rainbow-asset-explorer</artifactId>
-		<groupId>org.rainbow</groupId>
+		<groupId>org.rainbow.asset.explorer</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
@@ -39,6 +39,10 @@
 		<quartz.version>2.2.3</quartz.version>
 		<javax.mail.version>1.5.0</javax.mail.version>
 		<aspectjweaver.version>1.8.10</aspectjweaver.version>
+
+		<rainbow-security-auth-faces.version>0.0.1-SNAPSHOT</rainbow-security-auth-faces.version>
+		<rainbow-security-impl.version>0.0.1-SNAPSHOT</rainbow-security-impl.version>
+		<rainbow-security-orm.version>0.0.1-SNAPSHOT</rainbow-security-orm.version>
 	</properties>
 
 	<dependencies>
@@ -184,15 +188,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.rainbow.security</groupId>
 			<artifactId>rainbow-security-impl</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-security-impl.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.rainbow.security</groupId>
 			<artifactId>rainbow-security-orm</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-security-orm.version}</version>
 		</dependency>
 
 		<dependency>
@@ -214,9 +218,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.rainbow.security</groupId>
 			<artifactId>rainbow-security-auth-faces</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-security-auth-faces.version}</version>
 		</dependency>
 
 		<dependency>

@@ -7,7 +7,7 @@
 	<name>rainbow-asset-explorer-impl</name>
 
 	<parent>
-		<groupId>org.rainbow</groupId>
+		<groupId>org.rainbow.asset.explorer</groupId>
 		<artifactId>rainbow-asset-explorer</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -34,6 +34,11 @@
 		<slf4j.simple.version>1.7.25</slf4j.simple.version>
 		<javax.mail.version>1.5.0</javax.mail.version>
 		<aspectjweaver.version>1.8.10</aspectjweaver.version>
+		
+		<rainbow-common.version>0.0.1-SNAPSHOT</rainbow-common.version>
+		<rainbow-impl.version>0.0.1-SNAPSHOT</rainbow-impl.version>
+		<rainbow-orm-eclipselink.version>0.0.1-SNAPSHOT</rainbow-orm-eclipselink.version>
+		<rainbow-security-impl.version>0.0.1-SNAPSHOT</rainbow-security-impl.version>
 	</properties>
 
 
@@ -74,15 +79,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.rainbow</groupId>
 			<artifactId>rainbow-impl</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-impl.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.rainbow</groupId>
 			<artifactId>rainbow-common</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-impl.version}</version>
 		</dependency>
 
 		<dependency>
@@ -92,16 +97,16 @@
 		</dependency>
 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.rainbow.security</groupId>
 			<artifactId>rainbow-security-impl</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-security-impl.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>org.rainbow</groupId>
 			<artifactId>rainbow-orm-eclipselink</artifactId>
-			<version>${project.version}</version>
+			<version>${rainbow-orm-eclipselink.version}</version>
 			<scope>test</scope>
 		</dependency>
 
