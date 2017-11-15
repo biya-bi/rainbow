@@ -43,7 +43,7 @@
 						selectionText="#{shippingOrderWriteController.model.sourceLocation.name}"
 						dataSource="#{locationReadController}" itemLabel="#{item.name}"
 						selection="#{shippingOrderWriteController.model.sourceLocation}"
-						filterValue="#{locationReadController.nameFilter.value}"
+						filterValue="#{locationReadController.nameSearchCriterion.value}"
 						required="true" requiredMessage="#{valMsg.SourceLocationRequired}"
 						toolTip="#{labels.SourceLocationTitle}" />
 				</p:column>
@@ -64,7 +64,7 @@
 						selectionText="#{shippingOrderWriteController.model.targetLocation.name}"
 						dataSource="#{locationReadController}" itemLabel="#{item.name}"
 						selection="#{shippingOrderWriteController.model.targetLocation}"
-						filterValue="#{locationReadController.nameFilter.value}"
+						filterValue="#{locationReadController.nameSearchCriterion.value}"
 						required="true" requiredMessage="#{valMsg.SourceLocationRequired}"
 						toolTip="#{labels.SourceLocationTitle}" />
 				</p:column>
@@ -85,7 +85,7 @@
 						selectionText="#{shippingOrderWriteController.model.shipMethod.name}"
 						dataSource="#{shipMethodReadController}" itemLabel="#{item.name}"
 						selection="#{shippingOrderWriteController.model.shipMethod}"
-						filterValue="#{shipMethodReadController.nameFilter.value}"
+						filterValue="#{shipMethodReadController.nameSearchCriterion.value}"
 						required="true" requiredMessage="#{valMsg.ShipMethodRequired}"
 						toolTip="#{labels.ShipMethodTitle}" />
 				</p:column>

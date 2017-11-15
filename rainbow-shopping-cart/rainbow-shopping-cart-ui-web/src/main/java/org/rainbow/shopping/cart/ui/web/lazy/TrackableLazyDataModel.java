@@ -14,9 +14,9 @@ import java.util.List;
 
 import org.primefaces.model.SortOrder;
 import org.rainbow.core.entities.Trackable;
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.shopping.cart.ui.web.utilities.DefaultComparator;
 
 /**
@@ -31,24 +31,24 @@ public abstract class TrackableLazyDataModel<TEntity extends Trackable<?>, TKey 
 	 * 
 	 */
 	private static final long serialVersionUID = 2818461029343555835L;
-	private static final String CREATOR_FILTER = "creator";
-    private static final String UPDATER_FILTER = "updater";
-    private static final String CREATION_DATE_FILTER = "creationDate";
-    private static final String LAST_UPDATE_DATE_FILTER = "lastUpdateDate";
+	private static final String CREATOR_PATH = "creator";
+    private static final String UPDATER_PATH = "updater";
+    private static final String CREATION_DATE_PATH = "creationDate";
+    private static final String LAST_UPDATE_DATE_PATH = "lastUpdateDate";
 
     private final List<Filter<?>> filters;
 
-    private final SingleValuedFilter<String> creatorFilter;
-    private final SingleValuedFilter<String> updaterFilter;
-    private final SingleValuedFilter<Date> creationDateFilter;
-    private final SingleValuedFilter<Date> lastUpdateDateFilter;
+    private final StringSearchCriterion creatorSearchCriterion;
+    private final StringSearchCriterion updaterSearchCriterion;
+    private final SingleValuedFilter<Date> creationDateSearchCriterion;
+    private final SingleValuedFilter<Date> lastUpdateDateSearchCriterion;
 
     public TrackableLazyDataModel() {
 
-        creatorFilter = new SingleValuedFilter<>(CREATOR_FILTER, RelationalOperator.CONTAINS, "");
-        updaterFilter = new SingleValuedFilter<>(UPDATER_FILTER, RelationalOperator.CONTAINS, "");
-        creationDateFilter = new SingleValuedFilter<>(CREATION_DATE_FILTER, RelationalOperator.EQUAL, null);
-        lastUpdateDateFilter = new SingleValuedFilter<>(LAST_UPDATE_DATE_FILTER, RelationalOperator.EQUAL, null);
+        creatorSearchCriterion = new SingleValuedFilter<>(CREATOR_PATH, StringOperator.CONTAINS, null);
+        updaterSearchCriterion = new SingleValuedFilter<>(UPDATER_PATH, StringOperator.CONTAINS, null);
+        creationDateSearchCriterion = new SingleValuedFilter<>(CREATION_DATE_PATH, RelationalOperator.EQUAL, null);
+        lastUpdateDateSearchCriterion = new SingleValuedFilter<>(LAST_UPDATE_DATE_PATH, RelationalOperator.EQUAL, null);
 
         filters = new ArrayList<>();
         filters.add(creatorFilter);
@@ -68,20 +68,20 @@ public abstract class TrackableLazyDataModel<TEntity extends Trackable<?>, TKey 
         return filters;
     }
 
-    public SingleValuedFilter<String> getCreatorFilter() {
-        return creatorFilter;
+    public StringSearchCriterion getCreatorSearchCriterion() {
+        return creatorSearchCriterion;
     }
 
-    public SingleValuedFilter<String> getUpdaterFilter() {
-        return updaterFilter;
+    public StringSearchCriterion getUpdaterSearchCriterion() {
+        return updaterSearchCriterion;
     }
 
-    public SingleValuedFilter<Date> getCreationDateFilter() {
-        return creationDateFilter;
+    public SingleValuedFilter<Date> getCreationDateSearchCriterion() {
+        return creationDateSearchCriterion;
     }
 
-    public SingleValuedFilter<Date> getLastUpdateDateFilter() {
-        return lastUpdateDateFilter;
+    public SingleValuedFilter<Date> getLastUpdateDateSearchCriterion() {
+        return lastUpdateDateSearchCriterion;
     }
 
     @Override
@@ -89,7 +89,7 @@ public abstract class TrackableLazyDataModel<TEntity extends Trackable<?>, TKey 
         final SortOrder order = sortOrder;
         if (null != sortField) {
             switch (sortField) {
-                case CREATOR_FILTER: {
+                case CREATOR_PATH: {
                     final Comparator<String> comparator = DefaultComparator.<String>getInstance();
                     Collections.sort(list, new Comparator<TEntity>() {
                         @Override
@@ -103,7 +103,7 @@ public abstract class TrackableLazyDataModel<TEntity extends Trackable<?>, TKey 
                     });
                     break;
                 }
-                case UPDATER_FILTER: {
+                case UPDATER_PATH: {
                     final Comparator<String> comparator = DefaultComparator.<String>getInstance();
                     Collections.sort(list, new Comparator<TEntity>() {
                         @Override
@@ -118,7 +118,7 @@ public abstract class TrackableLazyDataModel<TEntity extends Trackable<?>, TKey 
                     break;
                 }
 
-                case CREATION_DATE_FILTER: {
+                case CREATION_DATE_PATH: {
                     final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
                     Collections.sort(list, new Comparator<TEntity>() {
                         @Override
@@ -132,7 +132,7 @@ public abstract class TrackableLazyDataModel<TEntity extends Trackable<?>, TKey 
                     });
                     break;
                 }
-                case LAST_UPDATE_DATE_FILTER: {
+                case LAST_UPDATE_DATE_PATH: {
                     final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
                     Collections.sort(list, new Comparator<TEntity>() {
                         @Override

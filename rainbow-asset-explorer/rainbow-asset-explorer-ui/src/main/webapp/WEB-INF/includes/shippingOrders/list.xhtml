@@ -33,14 +33,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_SHIPPING_ORDERS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_SHIPPING_ORDERS')}"
 			columnToggleListener="#{shippingOrderReadController.onToggle}"
-			creatorFilterValue="#{shippingOrderReadController.creatorFilter.value}"
-			creatorFilterOperator="#{shippingOrderReadController.creatorFilter.operator}"
-			updaterFilterValue="#{shippingOrderReadController.updaterFilter.value}"
-			updaterFilterOperator="#{shippingOrderReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{shippingOrderReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{shippingOrderReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{shippingOrderReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{shippingOrderReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{shippingOrderReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{shippingOrderReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{shippingOrderReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{shippingOrderReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{shippingOrderReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{shippingOrderReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{shippingOrderReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{shippingOrderReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{shippingOrderReadController.auditColumnsStates[7]}"
 			updaterColumnVisible="#{shippingOrderReadController.auditColumnsStates[8]}"
 			creationDateColumnVisible="#{shippingOrderReadController.auditColumnsStates[9]}"
@@ -127,12 +127,12 @@
 
 			<p:column headerText="#{labels.ReferenceNumberTitle}"
 				filterBy="#{item.referenceNumber}" sortBy="#{item.referenceNumber}"
-				filterValue="#{shippingOrderReadController.referenceNumberFilter.value}">
+				filterValue="#{shippingOrderReadController.referenceNumberSearchCriterion.value}">
 				<h:outputText value="#{item.referenceNumber}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="shippingOrderList:form:dataTable"
-						selectedValue="#{shippingOrderReadController.referenceNumberFilter.operator}"
+						selectedValue="#{shippingOrderReadController.referenceNumberSearchCriterion.operator}"
 						changeWidgetVar="shippingOrderListDataTable" />
 				</f:facet>
 			</p:column>
@@ -140,7 +140,7 @@
 			<p:column headerText="#{labels.SourceLocationTitle}"
 				sortBy="#{item.sourceLocation.name}"
 				filterBy="#{item.sourceLocation.name}"
-				filterValue="#{shippingOrderReadController.sourceLocationNameFilter.value}">
+				filterValue="#{shippingOrderReadController.sourceLocationNameSearchCriterion.value}">
 				<p:commandLink update=":locationDetails:form"
 					value="#{item.sourceLocation.name}"
 					oncomplete="PF('locationDetailsDialog').show()">
@@ -150,7 +150,7 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="shippingOrderList:form:dataTable"
-						selectedValue="#{shippingOrderReadController.sourceLocationNameFilter.operator}"
+						selectedValue="#{shippingOrderReadController.sourceLocationNameSearchCriterion.operator}"
 						changeWidgetVar="shippingOrderListDataTable" />
 				</f:facet>
 			</p:column>
@@ -158,7 +158,7 @@
 			<p:column headerText="#{labels.TargetLocationTitle}"
 				sortBy="#{item.targetLocation.name}"
 				filterBy="#{item.targetLocation.name}"
-				filterValue="#{shippingOrderReadController.targetLocationNameFilter.value}">
+				filterValue="#{shippingOrderReadController.targetLocationNameSearchCriterion.value}">
 				<p:commandLink update=":locationDetails:form"
 					value="#{item.targetLocation.name}"
 					oncomplete="PF('locationDetailsDialog').show()">
@@ -168,14 +168,14 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="shippingOrderList:form:dataTable"
-						selectedValue="#{shippingOrderReadController.targetLocationNameFilter.operator}"
+						selectedValue="#{shippingOrderReadController.targetLocationNameSearchCriterion.operator}"
 						changeWidgetVar="shippingOrderListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.ShipMethodTitle}"
 				sortBy="#{item.shipMethod.name}" filterBy="#{item.shipMethod.name}"
-				filterValue="#{shippingOrderReadController.shipMethodNameFilter.value}">
+				filterValue="#{shippingOrderReadController.shipMethodNameSearchCriterion.value}">
 				<p:commandLink update=":shipMethodDetails:form"
 					value="#{item.shipMethod.name}"
 					oncomplete="PF('shipMethodDetailsDialog').show()">
@@ -185,14 +185,14 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="shippingOrderList:form:dataTable"
-						selectedValue="#{shippingOrderReadController.shipMethodNameFilter.operator}"
+						selectedValue="#{shippingOrderReadController.shipMethodNameSearchCriterion.operator}"
 						changeWidgetVar="shippingOrderListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.ShipDateTitle}"
 				filterBy="#{item.shipDate}" sortBy="#{item.shipDate}"
-				filterValue="#{shippingOrderReadController.shipDateFilter.value}">
+				filterValue="#{shippingOrderReadController.shipDateSearchCriterion.value}">
 				<f:facet name="filter">
 					<p:calendar navigator="true">
 						<p:ajax event="dateSelect" update="@this"
@@ -202,7 +202,7 @@
 				<f:facet name="footer">
 					<cps:comparableFilterSelectOneMenu
 						changeUpdate="shippingOrderList:form:dataTable"
-						selectedValue="#{shippingOrderReadController.shipDateFilter.operator}"
+						selectedValue="#{shippingOrderReadController.shipDateSearchCriterion.operator}"
 						changeWidgetVar="shippingOrderListDataTable" />
 				</f:facet>
 				<h:outputText value="#{item.shipDate}">
@@ -212,7 +212,7 @@
 
 			<p:column headerText="#{labels.DeliveryDateTitle}"
 				filterBy="#{item.deliveryDate}" sortBy="#{item.deliveryDate}"
-				filterValue="#{shippingOrderReadController.deliveryDateFilter.value}">
+				filterValue="#{shippingOrderReadController.deliveryDateSearchCriterion.value}">
 				<f:facet name="filter">
 					<p:calendar navigator="true">
 						<p:ajax event="dateSelect" update="@this"
@@ -222,7 +222,7 @@
 				<f:facet name="footer">
 					<cps:comparableFilterSelectOneMenu
 						changeUpdate="shippingOrderList:form:dataTable"
-						selectedValue="#{shippingOrderReadController.deliveryDateFilter.operator}"
+						selectedValue="#{shippingOrderReadController.deliveryDateSearchCriterion.operator}"
 						changeWidgetVar="shippingOrderListDataTable" />
 				</f:facet>
 				<h:outputText value="#{item.deliveryDate}">
@@ -232,7 +232,7 @@
 
 			<p:column headerText="#{labels.StatusTitle}" sortBy="#{item.status}"
 				filterBy="#{item.status}"
-				filterValue="#{shippingOrderReadController.statusFilter.value}">
+				filterValue="#{shippingOrderReadController.statusSearchCriterion.value}">
 				<f:facet name="filter">
 					<p:selectOneMenu id="statusFilter"
 						onchange="PF('shippingOrderListDataTable').filter()">

@@ -24,35 +24,35 @@
 		deleteUpdate=":authorityDelete:form"
 		selectionUpdate=":authorityList:headerGroupsButton,:authorityList:footerGroupsButton"
 		columnToggleListener="#{authorityReadController.onToggle}"
-		creatorFilterValue="#{authorityReadController.creatorFilter.value}"
-		creatorFilterOperator="#{authorityReadController.creatorFilter.operator}"
-		updaterFilterValue="#{authorityReadController.updaterFilter.value}"
-		updaterFilterOperator="#{authorityReadController.updaterFilter.operator}"
-		creationDateFilterValue="#{authorityReadController.creationDateFilter.value}"
-		creationDateFilterOperator="#{authorityReadController.creationDateFilter.operator}"
-		lastUpdateDateFilterValue="#{authorityReadController.lastUpdateDateFilter.value}"
-		lastUpdateDateFilterOperator="#{authorityReadController.lastUpdateDateFilter.operator}">
+		creatorFilterValue="#{authorityReadController.creatorSearchCriterion.value}"
+		creatorFilterOperator="#{authorityReadController.creatorSearchCriterion.operator}"
+		updaterFilterValue="#{authorityReadController.updaterSearchCriterion.value}"
+		updaterFilterOperator="#{authorityReadController.updaterSearchCriterion.operator}"
+		creationDateFilterValue="#{authorityReadController.creationDateSearchCriterion.value}"
+		creationDateFilterOperator="#{authorityReadController.creationDateSearchCriterion.operator}"
+		lastUpdateDateFilterValue="#{authorityReadController.lastUpdateDateSearchCriterion.value}"
+		lastUpdateDateFilterOperator="#{authorityReadController.lastUpdateDateSearchCriterion.operator}">
 
 		<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 			sortBy="#{item.name}"
-			filterValue="#{authorityReadController.nameFilter.value}">
+			filterValue="#{authorityReadController.nameSearchCriterion.value}">
 			<h:outputText value="#{item.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="authorityList:form:dataTable"
-					selectedValue="#{authorityReadController.nameFilter.operator}"
+					selectedValue="#{authorityReadController.nameSearchCriterion.operator}"
 					changeWidgetVar="authorityListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.ApplicationTitle}"
 			filterBy="#{item.application.name}" sortBy="#{item.application.name}"
-			filterValue="#{authorityReadController.applicationNameFilter.value}">
+			filterValue="#{authorityReadController.applicationNameSearchCriterion.value}">
 			<h:outputText value="#{item.application.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="authorityList:form:dataTable"
-					selectedValue="#{authorityReadController.applicationNameFilter.operator}"
+					selectedValue="#{authorityReadController.applicationNameSearchCriterion.operator}"
 					changeWidgetVar="authorityListDataTable" />
 			</f:facet>
 		</p:column>

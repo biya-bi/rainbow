@@ -29,14 +29,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_MANUFACTURERS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_MANUFACTURERS')}"
 			columnToggleListener="#{manufacturerReadController.onToggle}"
-			creatorFilterValue="#{manufacturerReadController.creatorFilter.value}"
-			creatorFilterOperator="#{manufacturerReadController.creatorFilter.operator}"
-			updaterFilterValue="#{manufacturerReadController.updaterFilter.value}"
-			updaterFilterOperator="#{manufacturerReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{manufacturerReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{manufacturerReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{manufacturerReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{manufacturerReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{manufacturerReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{manufacturerReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{manufacturerReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{manufacturerReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{manufacturerReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{manufacturerReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{manufacturerReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{manufacturerReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{manufacturerReadController.auditColumnsStates[1]}"
 			updaterColumnVisible="#{manufacturerReadController.auditColumnsStates[2]}"
 			creationDateColumnVisible="#{manufacturerReadController.auditColumnsStates[3]}"
@@ -45,12 +45,12 @@
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{manufacturerReadController.nameFilter.value}">
+				filterValue="#{manufacturerReadController.nameSearchCriterion.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="manufacturerList:form:dataTable"
-						selectedValue="#{manufacturerReadController.nameFilter.operator}"
+						selectedValue="#{manufacturerReadController.nameSearchCriterion.operator}"
 						changeWidgetVar="manufacturerListDataTable" />
 				</f:facet>
 			</p:column>

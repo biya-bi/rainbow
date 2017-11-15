@@ -10,9 +10,9 @@ import javax.inject.Named;
 import org.primefaces.model.SortOrder;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion.Operator;
 import org.rainbow.security.orm.entities.Application;
 import org.rainbow.security.service.services.ApplicationService;
 import org.rainbow.service.services.Service;
@@ -32,33 +32,33 @@ public class ApplicationReadController extends AbstractNumericIdAuditableEntityR
 	 */
 	private static final long serialVersionUID = 5957873059508715867L;
 
-	private static final String NAME_FILTER = "name";
+	private static final String NAME_PATH = "name";
 
-	private final SingleValuedFilter<String> nameFilter;
+	private final StringSearchCriterion nameSearchCriterion;
 
 	@Autowired
 	private ApplicationService applicationService;
 
 	public ApplicationReadController() {
 		super(Long.class);
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, null);
+		nameSearchCriterion = new StringSearchCriterion(NAME_PATH, Operator.CONTAINS, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getNameFilter() {
-		return nameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getNameSearchCriterion() {
+		return nameSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<Application> list) {
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
+			sortField = NAME_PATH; // We want to sort by name if no sort field
 										// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Application>() {
 					@Override

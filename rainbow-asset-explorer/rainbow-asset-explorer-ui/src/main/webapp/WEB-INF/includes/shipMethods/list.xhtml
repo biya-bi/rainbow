@@ -28,14 +28,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_SHIP_METHODS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_SHIP_METHODS')}"
 			columnToggleListener="#{shipMethodReadController.onToggle}"
-			creatorFilterValue="#{shipMethodReadController.creatorFilter.value}"
-			creatorFilterOperator="#{shipMethodReadController.creatorFilter.operator}"
-			updaterFilterValue="#{shipMethodReadController.updaterFilter.value}"
-			updaterFilterOperator="#{shipMethodReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{shipMethodReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{shipMethodReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{shipMethodReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{shipMethodReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{shipMethodReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{shipMethodReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{shipMethodReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{shipMethodReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{shipMethodReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{shipMethodReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{shipMethodReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{shipMethodReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{shipMethodReadController.auditColumnsStates[1]}"
 			updaterColumnVisible="#{shipMethodReadController.auditColumnsStates[2]}"
 			creationDateColumnVisible="#{shipMethodReadController.auditColumnsStates[3]}"
@@ -43,12 +43,12 @@
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{shipMethodReadController.nameFilter.value}">
+				filterValue="#{shipMethodReadController.nameSearchCriterion.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="shipMethodList:form:dataTable"
-						selectedValue="#{shipMethodReadController.nameFilter.operator}"
+						selectedValue="#{shipMethodReadController.nameSearchCriterion.operator}"
 						changeWidgetVar="shipMethodListDataTable" />
 				</f:facet>
 			</p:column>

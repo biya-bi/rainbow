@@ -39,7 +39,7 @@
                                 dataSource="#{applicationReadController}" 
                                 itemLabel="#{item.name}"
                                 selection="#{authorityWriteController.model.application}"
-                                filterValue="#{applicationReadController.nameFilter.value}"
+                                filterValue="#{applicationReadController.nameSearchCriterion.value}"
                                 required="true"
                                 requiredMessage="#{valMsg.ApplicationRequired}"
                                 toolTip="#{labels.ApplicationTitle}"/>

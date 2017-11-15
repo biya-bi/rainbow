@@ -27,14 +27,14 @@
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_PRODUCTS')}"
 			selectionUpdate=":productList:headerImportButton,:productList:footerImportButton"
 			columnToggleListener="#{productReadController.onToggle}"
-			creatorFilterValue="#{productReadController.creatorFilter.value}"
-			creatorFilterOperator="#{productReadController.creatorFilter.operator}"
-			updaterFilterValue="#{productReadController.updaterFilter.value}"
-			updaterFilterOperator="#{productReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{productReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{productReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{productReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{productReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{productReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{productReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{productReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{productReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{productReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{productReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{productReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{productReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{productReadController.auditColumnsStates[4]}"
 			updaterColumnVisible="#{productReadController.auditColumnsStates[5]}"
 			creationDateColumnVisible="#{productReadController.auditColumnsStates[6]}"
@@ -58,36 +58,36 @@
 
 			<p:column headerText="#{labels.ProductNumberTitle}"
 				filterBy="#{item.number}" sortBy="#{item.number}"
-				filterValue="#{productReadController.numberFilter.value}">
+				filterValue="#{productReadController.numberSearchCriterion.value}">
 				<h:outputText value="#{item.number}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productList:form:dataTable"
-						selectedValue="#{productReadController.numberFilter.operator}"
+						selectedValue="#{productReadController.numberSearchCriterion.operator}"
 						changeWidgetVar="productListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.ProductNameTitle}"
 				filterBy="#{item.name}" sortBy="#{item.name}"
-				filterValue="#{productReadController.nameFilter.value}">
+				filterValue="#{productReadController.nameSearchCriterion.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productList:form:dataTable"
-						selectedValue="#{productReadController.nameFilter.operator}"
+						selectedValue="#{productReadController.nameSearchCriterion.operator}"
 						changeWidgetVar="productListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.ReorderPointTitle}"
 				filterBy="#{item.reorderPoint}" sortBy="#{item.reorderPoint}"
-				filterValue="#{productReadController.reorderPointFilter.value}">
+				filterValue="#{productReadController.reorderPointSearchCriterion.value}">
 				<h:outputText value="#{item.reorderPoint}" />
 				<f:facet name="footer">
 					<cps:comparableFilterSelectOneMenu
 						changeUpdate="productList:form:dataTable"
-						selectedValue="#{productReadController.reorderPointFilter.operator}"
+						selectedValue="#{productReadController.reorderPointSearchCriterion.operator}"
 						changeWidgetVar="productListDataTable" />
 				</f:facet>
 			</p:column>
@@ -95,7 +95,7 @@
 			<p:column headerText="#{labels.ManufacturerTitle}"
 				filterBy="#{item.manufacturer.name}"
 				sortBy="#{item.manufacturer.name}"
-				filterValue="#{productReadController.manufacturerNameFilter.value}">
+				filterValue="#{productReadController.manufacturerNameSearchCriterion.value}">
 				<p:commandLink update=":manufacturerDetails:form"
 					value="#{item.manufacturer.name}"
 					oncomplete="PF('manufacturerDetailsDialog').show()">
@@ -105,7 +105,7 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productList:form:dataTable"
-						selectedValue="#{assetReadController.manufacturerNameFilter.operator}"
+						selectedValue="#{assetReadController.manufacturerNameSearchCriterion.operator}"
 						changeWidgetVar="productListDataTable" />
 				</f:facet>
 			</p:column>

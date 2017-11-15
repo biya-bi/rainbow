@@ -10,9 +10,9 @@ import javax.inject.Named;
 import org.primefaces.model.SortOrder;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.security.orm.entities.User;
 import org.rainbow.security.service.services.UserService;
 import org.rainbow.service.services.Service;
@@ -33,73 +33,75 @@ public class UserReadController extends AbstractNumericIdAuditableEntityReadCont
 	 */
 	private static final long serialVersionUID = 3766648975654337021L;
 
-	private static final String USER_NAME_FILTER = "userName";
-	private static final String APPLICATION_NAME_FILTER = "application.name";
-	private static final String ENABLED_FILTER = "membership.enabled";
-	private static final String LOCKED_OUT_FILTER = "membership.locked";
-	private static final String EMAIL_FILTER = "membership.email";
-	private static final String PHONE_FILTER = "membership.phone";
+	private static final String USER_NAME_PATH = "userName";
+	private static final String APPLICATION_NAME_PATH = "application.name";
+	private static final String ENABLED_PATH = "membership.enabled";
+	private static final String LOCKED_OUT_PATH = "membership.locked";
+	private static final String EMAIL_PATH = "membership.email";
+	private static final String PHONE_PATH = "membership.phone";
 
-	private final SingleValuedFilter<String> userNameFilter;
-	private final SingleValuedFilter<String> applicationNameFilter;
-	private final SingleValuedFilter<Boolean> enabledFilter;
-	private final SingleValuedFilter<Boolean> lockedFilter;
-	private final SingleValuedFilter<String> emailFilter;
-	private final SingleValuedFilter<String> phoneFilter;
+	private final StringSearchCriterion userNameSearchCriterion;
+	private final StringSearchCriterion applicationNameSearchCriterion;
+	private final ComparableSearchCriterion<Boolean> enabledSearchCriterion;
+	private final ComparableSearchCriterion<Boolean> lockedSearchCriterion;
+	private final StringSearchCriterion emailSearchCriterion;
+	private final StringSearchCriterion phoneSearchCriterion;
 
 	@Autowired
 	private UserService userService;
 
 	public UserReadController() {
 		super(Long.class);
-		userNameFilter = new SingleValuedFilter<>(USER_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		applicationNameFilter = new SingleValuedFilter<>(APPLICATION_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		enabledFilter = new SingleValuedFilter<>(ENABLED_FILTER, RelationalOperator.EQUAL, null);
-		lockedFilter = new SingleValuedFilter<>(LOCKED_OUT_FILTER, RelationalOperator.EQUAL, null);
-		emailFilter = new SingleValuedFilter<>(EMAIL_FILTER);
-		phoneFilter = new SingleValuedFilter<>(PHONE_FILTER);
+		userNameSearchCriterion = new StringSearchCriterion(USER_NAME_PATH,
+				StringSearchCriterion.Operator.CONTAINS, null);
+		applicationNameSearchCriterion = new StringSearchCriterion(APPLICATION_NAME_PATH,
+				StringSearchCriterion.Operator.CONTAINS, null);
+		enabledSearchCriterion = new ComparableSearchCriterion<>(ENABLED_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
+		lockedSearchCriterion = new ComparableSearchCriterion<>(LOCKED_OUT_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
+		emailSearchCriterion = new StringSearchCriterion(EMAIL_PATH);
+		phoneSearchCriterion = new StringSearchCriterion(PHONE_PATH);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getUserNameFilter() {
-		return userNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getUserNameSearchCriterion() {
+		return userNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getApplicationNameFilter() {
-		return applicationNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getApplicationNameSearchCriterion() {
+		return applicationNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<Boolean> getEnabledFilter() {
-		return enabledFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Boolean> getEnabledSearchCriterion() {
+		return enabledSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<Boolean> getLockedFilter() {
-		return lockedFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Boolean> getLockedSearchCriterion() {
+		return lockedSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getEmailFilter() {
-		return emailFilter;
+	@SearchCriterion
+	public StringSearchCriterion getEmailSearchCriterion() {
+		return emailSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getPhoneFilter() {
-		return phoneFilter;
+	@SearchCriterion
+	public StringSearchCriterion getPhoneSearchCriterion() {
+		return phoneSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<User> list) {
 		if (sortField == null) {
-			sortField = USER_NAME_FILTER; // We want to sort by user name if no
-											// sort field was specified.
+			sortField = USER_NAME_PATH; // We want to sort by user name if no
+										// sort field was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case USER_NAME_FILTER: {
+			case USER_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<User>() {
 					@Override
@@ -113,7 +115,7 @@ public class UserReadController extends AbstractNumericIdAuditableEntityReadCont
 				});
 				break;
 			}
-			case APPLICATION_NAME_FILTER: {
+			case APPLICATION_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<User>() {
 					@Override
@@ -128,7 +130,7 @@ public class UserReadController extends AbstractNumericIdAuditableEntityReadCont
 				});
 				break;
 			}
-			case ENABLED_FILTER: {
+			case ENABLED_PATH: {
 				final Comparator<Boolean> comparator = DefaultComparator.<Boolean>getInstance();
 				Collections.sort(list, new Comparator<User>() {
 					@Override
@@ -152,7 +154,7 @@ public class UserReadController extends AbstractNumericIdAuditableEntityReadCont
 				});
 				break;
 			}
-			case LOCKED_OUT_FILTER: {
+			case LOCKED_OUT_PATH: {
 				final Comparator<Boolean> comparator = DefaultComparator.<Boolean>getInstance();
 				Collections.sort(list, new Comparator<User>() {
 					@Override
@@ -176,7 +178,7 @@ public class UserReadController extends AbstractNumericIdAuditableEntityReadCont
 				});
 				break;
 			}
-			case EMAIL_FILTER: {
+			case EMAIL_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<User>() {
 					@Override
@@ -200,7 +202,7 @@ public class UserReadController extends AbstractNumericIdAuditableEntityReadCont
 				});
 				break;
 			}
-			case PHONE_FILTER: {
+			case PHONE_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<User>() {
 					@Override

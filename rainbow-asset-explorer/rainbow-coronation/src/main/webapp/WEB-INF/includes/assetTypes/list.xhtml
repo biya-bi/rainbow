@@ -27,14 +27,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_ASSET_TYPES')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_ASSET_TYPES')}"
 			columnToggleListener="#{assetTypeReadController.onToggle}"
-			creatorFilterValue="#{assetTypeReadController.creatorFilter.value}"
-			creatorFilterOperator="#{assetTypeReadController.creatorFilter.operator}"
-			updaterFilterValue="#{assetTypeReadController.updaterFilter.value}"
-			updaterFilterOperator="#{assetTypeReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{assetTypeReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{assetTypeReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{assetTypeReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{assetTypeReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{assetTypeReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{assetTypeReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{assetTypeReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{assetTypeReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{assetTypeReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{assetTypeReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{assetTypeReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{assetTypeReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{assetTypeReadController.auditColumnsStates[1]}"
 			updaterColumnVisible="#{assetTypeReadController.auditColumnsStates[2]}"
 			creationDateColumnVisible="#{assetTypeReadController.auditColumnsStates[3]}"
@@ -43,12 +43,12 @@
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{assetTypeReadController.nameFilter.value}">
+				filterValue="#{assetTypeReadController.nameSearchCriterion.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetTypeList:form:dataTable"
-						selectedValue="#{assetTypeReadController.nameFilter.operator}"
+						selectedValue="#{assetTypeReadController.nameSearchCriterion.operator}"
 						changeWidgetVar="assetTypeListDataTable" />
 				</f:facet>
 			</p:column>

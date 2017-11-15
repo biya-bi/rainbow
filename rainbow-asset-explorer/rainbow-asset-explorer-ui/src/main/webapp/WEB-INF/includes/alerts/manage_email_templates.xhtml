@@ -41,10 +41,10 @@
                             <p:ajax event="rowUnselectCheckbox" update="manageAlertEmailTemplatesForm:headerAddButton,manageAlertEmailTemplatesForm:headerRemoveButton"/>
                             <p:ajax event="toggleSelect" update="manageAlertEmailTemplatesForm:headerAddButton,manageAlertEmailTemplatesForm:headerRemoveButton"/>
 
-                            <p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}" sortBy="#{item.name}" filterValue="#{emailTemplateReadController.nameFilter.value}">
+                            <p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}" sortBy="#{item.name}" filterValue="#{emailTemplateReadController.nameSearchCriterion.value}">
                                 <h:outputText value="#{item.name}" />
                                 <f:facet name="footer">
-                                    <cps:stringFilterSelectOneMenu changeUpdate="manageAlertEmailTemplatesForm:emailTemplateList" selectedValue="#{emailTemplateReadController.nameFilter.operator}" changeWidgetVar="emailTemplateDataTable" />
+                                    <cps:stringFilterSelectOneMenu changeUpdate="manageAlertEmailTemplatesForm:emailTemplateList" selectedValue="#{emailTemplateReadController.nameSearchCriterion.operator}" changeWidgetVar="emailTemplateDataTable" />
                                 </f:facet>
                             </p:column>
 

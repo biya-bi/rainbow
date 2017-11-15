@@ -17,10 +17,10 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.core.service.Service;
 import org.rainbow.security.core.entities.Application;
 import org.rainbow.security.core.entities.Group;
@@ -134,7 +134,7 @@ public class UserController extends TrackableController<User, Long, SearchOption
 
 	private Application getApplication() throws Exception {
 		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.EQUAL);
 		filter.setValue(applicationName);
@@ -149,7 +149,7 @@ public class UserController extends TrackableController<User, Long, SearchOption
 
 	private Group getGroup() throws Exception {
 		SearchOptions criteria = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.EQUAL);
 		filter.setValue(defaultStoreWebUserGroupName);

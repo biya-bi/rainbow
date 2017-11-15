@@ -38,7 +38,7 @@
 								selectionText="#{purchaseOrderWriteController.receiptLocation.name}"
 								dataSource="#{locationReadController}" itemLabel="#{item.name}"
 								selection="#{purchaseOrderWriteController.receiptLocation}"
-								filterValue="#{locationReadController.nameFilter.value}"
+								filterValue="#{locationReadController.nameSearchCriterion.value}"
 								required="true" requiredMessage="#{valMsg.LocationRequired}"
 								toolTip="#{labels.SourceLocationTitle}" />
 						</p:column>

@@ -6,7 +6,7 @@
 
     <p:dialog id="inventoryDialog" widgetVar="inventoryDialog" modal="false" resizable="false" appendTo="@(content)" header="#{locationWriteController.model.name} #{labels.LocationInventoryNameSuffix}">
         <h:form id="inventoryForm">
-            <h:panelGroup id="panelGroup" rendered="#{productInventoryReadController.locationIdFilter.value!=null}">
+            <h:panelGroup id="panelGroup" rendered="#{productInventoryReadController.locationIdSearchCriterion.value!=null}">
                 <p:dataTable id="inventoryList"
                              widgetVar="inventoryDataTable"
                              value="#{productInventoryReadController}"
@@ -19,11 +19,11 @@
                              rowsPerPageTemplate="20,40,60,80,100" 
                              var="item">
 
-                    <p:column  headerText="#{labels.ProductNumberTitle}" filterBy="#{item.product.number}" sortBy="#{item.product.number}" filterValue="#{productInventoryReadController.productNumberFilter.value}">
+                    <p:column  headerText="#{labels.ProductNumberTitle}" filterBy="#{item.product.number}" sortBy="#{item.product.number}" filterValue="#{productInventoryReadController.productNumberSearchCriterion.value}">
                         <h:outputText value="#{item.product.number}" />
                     </p:column>
 
-                    <p:column headerText="#{labels.ProductNameTitle}" filterBy="#{item.product.name}" sortBy="#{item.product.name}" filterValue="#{productInventoryReadController.productNameFilter.value}">
+                    <p:column headerText="#{labels.ProductNameTitle}" filterBy="#{item.product.name}" sortBy="#{item.product.name}" filterValue="#{productInventoryReadController.productNameSearchCriterion.value}">
                         <h:outputText value="#{item.product.name}" />
                     </p:column>
 

@@ -45,7 +45,7 @@
 						selectionText="#{productReceiptWriteController.model.location.name}"
 						dataSource="#{locationReadController}" itemLabel="#{item.name}"
 						selection="#{productReceiptWriteController.model.location}"
-						filterValue="#{locationReadController.nameFilter.value}"
+						filterValue="#{locationReadController.nameSearchCriterion.value}"
 						required="true" requiredMessage="#{valMsg.LocationRequired}"
 						toolTip="#{labels.LocationTitle}" />
 				</p:column>
@@ -73,7 +73,7 @@
 						selectionText="#{productReceiptWriteController.model.vendor.name}"
 						dataSource="#{vendorReadController}" itemLabel="#{item.name}"
 						selection="#{productReceiptWriteController.model.vendor}"
-						filterValue="#{vendorReadController.nameFilter.value}"
+						filterValue="#{vendorReadController.nameSearchCriterion.value}"
 						required="true" requiredMessage="#{valMsg.VendorRequired}"
 						toolTip="#{labels.VendorTitle}" />
 				</p:column>
@@ -100,7 +100,7 @@
 						selectionText="#{productReceiptWriteController.model.currency.name}"
 						dataSource="#{currencyReadController}" itemLabel="#{item.name}"
 						selection="#{productReceiptWriteController.model.currency}"
-						filterValue="#{currencyReadController.nameFilter.value}"
+						filterValue="#{currencyReadController.nameSearchCriterion.value}"
 						required="true" requiredMessage="#{valMsg.CurrencyRequired}"
 						toolTip="#{labels.CurrencyTitle}" updateId="totalPrice" />
 				</p:column>

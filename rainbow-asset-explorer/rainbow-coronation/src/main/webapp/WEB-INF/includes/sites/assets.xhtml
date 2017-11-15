@@ -21,24 +21,24 @@
                              rowsPerPageTemplate="20,40,60,80,100" 
                              var="item">
 
-                    <p:column  headerText="#{labels.SerialNumberTitle}" filterBy="#{item.serialNumber}" sortBy="#{item.serialNumber}" filterValue="#{assetReadController.serialNumberFilter.value}">
+                    <p:column  headerText="#{labels.SerialNumberTitle}" filterBy="#{item.serialNumber}" sortBy="#{item.serialNumber}" filterValue="#{assetReadController.serialNumberSearchCriterion.value}">
                         <h:outputText value="#{item.serialNumber}" />
                     </p:column>
 
-                    <p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}" sortBy="#{item.name}" filterValue="#{assetReadController.nameFilter.value}">
+                    <p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}" sortBy="#{item.name}" filterValue="#{assetReadController.nameSearchCriterion.value}">
                         <h:outputText value="#{item.name}" />
                     </p:column>
 
-                    <p:column headerText="#{labels.AssetTypeTitle}" sortBy="#{item.assetType.name}" filterBy="#{item.assetType.name}" filterValue="#{assetReadController.assetTypeFilter.value}">
+                    <p:column headerText="#{labels.AssetTypeTitle}" sortBy="#{item.assetType.name}" filterBy="#{item.assetType.name}" filterValue="#{assetReadController.assetTypeSearchCriterion.value}">
                         <p:commandLink  update=":assetTypeDetails:form" value="#{item.assetType.name}" oncomplete="PF('assetTypeDetailsDialog').show()">
                             <f:setPropertyActionListener value="#{item.assetType}" target="#{assetTypeWriteController.model}" />
                         </p:commandLink>
                         <f:facet name="footer">
-                            <cps:stringFilterSelectOneMenu changeUpdate="siteAssetsForm:siteAssetsList" selectedValue="#{assetReadController.assetTypeFilter.operator}" changeWidgetVar="assetListDataTable" />
+                            <cps:stringFilterSelectOneMenu changeUpdate="siteAssetsForm:siteAssetsList" selectedValue="#{assetReadController.assetTypeSearchCriterion.operator}" changeWidgetVar="assetListDataTable" />
                         </f:facet>
                     </p:column>
                     
-                    <p:column headerText="#{labels.AssetStateTitle}" sortBy="#{item.state}" filterBy="#{item.state}" filterValue="#{assetReadController.stateFilter.value}">
+                    <p:column headerText="#{labels.AssetStateTitle}" sortBy="#{item.state}" filterBy="#{item.state}" filterValue="#{assetReadController.stateSearchCriterion.value}">
                         <f:facet name="filter">
                             <p:selectOneMenu id="stateFilter" onchange="PF('siteAssetsDataTable').filter()">
                                 <f:selectItem itemLabel="#{labels.All}" itemValue="#{null}"/>

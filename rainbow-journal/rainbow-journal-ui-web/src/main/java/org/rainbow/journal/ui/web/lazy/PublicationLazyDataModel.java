@@ -15,10 +15,10 @@ import javax.faces.bean.RequestScoped;
 import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.journal.core.entities.Publication;
 import org.rainbow.journal.ui.web.utilities.DefaultComparator;
 import org.rainbow.service.Service;
@@ -44,20 +44,20 @@ public class PublicationLazyDataModel extends LongIdTrackableLazyDataModel<Publi
 	@Qualifier("publicationService")
 	private Service<Publication, Long, SearchOptions> service;
 
-	private static final String PUBLICATION_DATE_FILTER = "publicationDate";
-	private static final String JOURNAL_NAME_FILTER = "journal.name";
-	private static final String PUBLISHER_USER_NAME_FILTER = "publisherProfile.userName";
+	private static final String PUBLICATION_DATE_PATH = "publicationDate";
+	private static final String JOURNAL_NAME_PATH = "journal.name";
+	private static final String PUBLISHER_USER_NAME_PATH = "publisherProfile.userName";
 
 	private final List<Filter<?>> filters;
 
-	private final SingleValuedFilter<Date> publicationDateFilter;
-	private final SingleValuedFilter<String> journalNameFilter;
-	private final SingleValuedFilter<String> publisherUserNameFilter;
+	private final SingleValuedFilter<Date> publicationDateSearchCriterion;
+	private final StringSearchCriterion journalNameSearchCriterion;
+	private final StringSearchCriterion publisherUserNameSearchCriterion;
 
 	public PublicationLazyDataModel() {
-		publicationDateFilter = new SingleValuedFilter<>(PUBLICATION_DATE_FILTER, RelationalOperator.CONTAINS, null);
-		journalNameFilter = new SingleValuedFilter<>(JOURNAL_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		publisherUserNameFilter = new SingleValuedFilter<>(PUBLISHER_USER_NAME_FILTER,
+		publicationDateSearchCriterion = new SingleValuedFilter<>(PUBLICATION_DATE_PATH, StringOperator.CONTAINS, null);
+		journalNameSearchCriterion = new SingleValuedFilter<>(JOURNAL_NAME_PATH, StringOperator.CONTAINS, null);
+		publisherUserNameSearchCriterion = new SingleValuedFilter<>(PUBLISHER_USER_NAME_PATH,
 				RelationalOperator.CONTAINS, null);
 
 		filters = new ArrayList<>();
@@ -71,16 +71,16 @@ public class PublicationLazyDataModel extends LongIdTrackableLazyDataModel<Publi
 		return service;
 	}
 
-	public SingleValuedFilter<String> getJournalNameFilter() {
-		return journalNameFilter;
+	public StringSearchCriterion getJournalNameSearchCriterion() {
+		return journalNameSearchCriterion;
 	}
 
-	public SingleValuedFilter<Date> getPublicationDateFilter() {
-		return publicationDateFilter;
+	public SingleValuedFilter<Date> getPublicationDateSearchCriterion() {
+		return publicationDateSearchCriterion;
 	}
 
-	public SingleValuedFilter<String> getPublisherUserNameFilter() {
-		return publisherUserNameFilter;
+	public StringSearchCriterion getPublisherUserNameSearchCriterion() {
+		return publisherUserNameSearchCriterion;
 	}
 
 	@Override
@@ -113,12 +113,12 @@ public class PublicationLazyDataModel extends LongIdTrackableLazyDataModel<Publi
 	protected void sort(String sortField, SortOrder sortOrder, List<Publication> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = JOURNAL_NAME_FILTER;
+			sortField = JOURNAL_NAME_PATH;
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case PUBLICATION_DATE_FILTER: {
+			case PUBLICATION_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<Publication>() {
 					@Override
@@ -132,7 +132,7 @@ public class PublicationLazyDataModel extends LongIdTrackableLazyDataModel<Publi
 				});
 				break;
 			}
-			case JOURNAL_NAME_FILTER: {
+			case JOURNAL_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Publication>() {
 					@Override
@@ -155,7 +155,7 @@ public class PublicationLazyDataModel extends LongIdTrackableLazyDataModel<Publi
 				});
 				break;
 			}
-			case PUBLISHER_USER_NAME_FILTER: {
+			case PUBLISHER_USER_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Publication>() {
 					@Override

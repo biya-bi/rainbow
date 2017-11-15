@@ -14,9 +14,9 @@ import org.rainbow.asset.explorer.orm.entities.ShippingOrder;
 import org.rainbow.asset.explorer.service.services.ShippingOrderService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,21 +37,21 @@ public class ShippingOrderReadController extends AbstractNumericIdAuditableEntit
 
 	private final EnumTranslator translator;
 
-	private static final String REFERENCE_NUMBER_FILTER = "referenceNumber";
-	private static final String SOURCE_LOCATION_NAME_FILTER = "sourceLocation.name";
-	private static final String TARGET_LOCATION_NAME_FILTER = "targetLocation.name";
-	private static final String SHIP_METHOD_NAME_FILTER = "shipMethod.name";
-	private static final String STATUS_FILTER = "status";
-	private static final String DELIVERY_DATE_FILTER = "deliveryDate";
-	private static final String SHIP_DATE_FILTER = "shipDate";
+	private static final String REFERENCE_NUMBER_PATH = "referenceNumber";
+	private static final String SOURCE_LOCATION_NAME_PATH = "sourceLocation.name";
+	private static final String TARGET_LOCATION_NAME_PATH = "targetLocation.name";
+	private static final String SHIP_METHOD_NAME_PATH = "shipMethod.name";
+	private static final String STATUS_PATH = "status";
+	private static final String DELIVERY_DATE_PATH = "deliveryDate";
+	private static final String SHIP_DATE_PATH = "shipDate";
 
-	private final SingleValuedFilter<String> referenceNumberFilter;
-	private final SingleValuedFilter<String> sourceLocationNameFilter;
-	private final SingleValuedFilter<String> targetLocationNameFilter;
-	private final SingleValuedFilter<String> shipMethodNameFilter;
-	private final SingleValuedFilter<String> statusFilter;
-	private final SingleValuedFilter<String> deliveryDateFilter;
-	private final SingleValuedFilter<String> shipDateFilter;
+	private final StringSearchCriterion referenceNumberSearchCriterion;
+	private final StringSearchCriterion sourceLocationNameSearchCriterion;
+	private final StringSearchCriterion targetLocationNameSearchCriterion;
+	private final StringSearchCriterion shipMethodNameSearchCriterion;
+	private final StringSearchCriterion statusSearchCriterion;
+	private final ComparableSearchCriterion<Date> deliveryDateSearchCriterion;
+	private final ComparableSearchCriterion<Date> shipDateSearchCriterion;
 
 	@Autowired
 	private ShippingOrderService service;
@@ -60,64 +60,64 @@ public class ShippingOrderReadController extends AbstractNumericIdAuditableEntit
 		super(Long.class);
 		translator = new EnumTranslator();
 
-		referenceNumberFilter = new SingleValuedFilter<>(REFERENCE_NUMBER_FILTER, RelationalOperator.CONTAINS, "");
-		sourceLocationNameFilter = new SingleValuedFilter<>(SOURCE_LOCATION_NAME_FILTER, RelationalOperator.CONTAINS,
-				"");
-		targetLocationNameFilter = new SingleValuedFilter<>(TARGET_LOCATION_NAME_FILTER, RelationalOperator.CONTAINS,
-				"");
-		shipMethodNameFilter = new SingleValuedFilter<>(SHIP_METHOD_NAME_FILTER);
-		statusFilter = new SingleValuedFilter<>(STATUS_FILTER);
-		deliveryDateFilter = new SingleValuedFilter<>(DELIVERY_DATE_FILTER, RelationalOperator.EQUAL, null);
-		shipDateFilter = new SingleValuedFilter<>(SHIP_DATE_FILTER, RelationalOperator.EQUAL, null);
+		referenceNumberSearchCriterion = new StringSearchCriterion(REFERENCE_NUMBER_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		sourceLocationNameSearchCriterion = new StringSearchCriterion(SOURCE_LOCATION_NAME_PATH, StringSearchCriterion.Operator.CONTAINS,
+				null);
+		targetLocationNameSearchCriterion = new StringSearchCriterion(TARGET_LOCATION_NAME_PATH, StringSearchCriterion.Operator.CONTAINS,
+				null);
+		shipMethodNameSearchCriterion = new StringSearchCriterion(SHIP_METHOD_NAME_PATH);
+		statusSearchCriterion = new StringSearchCriterion(STATUS_PATH);
+		deliveryDateSearchCriterion = new ComparableSearchCriterion<>(DELIVERY_DATE_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
+		shipDateSearchCriterion = new ComparableSearchCriterion<>(SHIP_DATE_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getReferenceNumberFilter() {
-		return referenceNumberFilter;
+	@SearchCriterion
+	public StringSearchCriterion getReferenceNumberSearchCriterion() {
+		return referenceNumberSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSourceLocationNameFilter() {
-		return sourceLocationNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getSourceLocationNameSearchCriterion() {
+		return sourceLocationNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getDeliveryDateFilter() {
-		return deliveryDateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Date> getDeliveryDateSearchCriterion() {
+		return deliveryDateSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getTargetLocationNameFilter() {
-		return targetLocationNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getTargetLocationNameSearchCriterion() {
+		return targetLocationNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getShipMethodNameFilter() {
-		return shipMethodNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getShipMethodNameSearchCriterion() {
+		return shipMethodNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getStatusFilter() {
-		return statusFilter;
+	@SearchCriterion
+	public StringSearchCriterion getStatusSearchCriterion() {
+		return statusSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getShipDateFilter() {
-		return shipDateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Date> getShipDateSearchCriterion() {
+		return shipDateSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<ShippingOrder> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = REFERENCE_NUMBER_FILTER; // We want to sort by reference
+			sortField = REFERENCE_NUMBER_PATH; // We want to sort by reference
 													// number if no sort field
 													// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case REFERENCE_NUMBER_FILTER: {
+			case REFERENCE_NUMBER_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ShippingOrder>() {
 					@Override
@@ -131,7 +131,7 @@ public class ShippingOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case SOURCE_LOCATION_NAME_FILTER: {
+			case SOURCE_LOCATION_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ShippingOrder>() {
 					@Override
@@ -146,7 +146,7 @@ public class ShippingOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case TARGET_LOCATION_NAME_FILTER: {
+			case TARGET_LOCATION_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ShippingOrder>() {
 					@Override
@@ -161,7 +161,7 @@ public class ShippingOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case SHIP_METHOD_NAME_FILTER: {
+			case SHIP_METHOD_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ShippingOrder>() {
 					@Override
@@ -175,7 +175,7 @@ public class ShippingOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case DELIVERY_DATE_FILTER: {
+			case DELIVERY_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<ShippingOrder>() {
 					@Override
@@ -189,7 +189,7 @@ public class ShippingOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case SHIP_DATE_FILTER: {
+			case SHIP_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<ShippingOrder>() {
 					@Override
@@ -203,7 +203,7 @@ public class ShippingOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case STATUS_FILTER: {
+			case STATUS_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ShippingOrder>() {
 					@Override

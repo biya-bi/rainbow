@@ -29,14 +29,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_SITE_DOCUMENTS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_SITE_DOCUMENTS')}"
 			columnToggleListener="#{siteDocumentReadController.onToggle}"
-			creatorFilterValue="#{siteDocumentReadController.creatorFilter.value}"
-			creatorFilterOperator="#{siteDocumentReadController.creatorFilter.operator}"
-			updaterFilterValue="#{siteDocumentReadController.updaterFilter.value}"
-			updaterFilterOperator="#{siteDocumentReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{siteDocumentReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{siteDocumentReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{siteDocumentReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{siteDocumentReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{siteDocumentReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{siteDocumentReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{siteDocumentReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{siteDocumentReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{siteDocumentReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{siteDocumentReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{siteDocumentReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{siteDocumentReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{siteDocumentReadController.auditColumnsStates[5]}"
 			updaterColumnVisible="#{siteDocumentReadController.auditColumnsStates[6]}"
 			creationDateColumnVisible="#{siteDocumentReadController.auditColumnsStates[7]}"
@@ -45,7 +45,7 @@
 
 			<p:column headerText="#{labels.FileNameTitle}"
 				filterBy="#{item.fileName}" sortBy="#{item.fileName}"
-				filterValue="#{siteDocumentReadController.fileNameFilter.value}">
+				filterValue="#{siteDocumentReadController.fileNameSearchCriterion.value}">
 
 				<p:commandLink value="#{item.fileName}" ajax="false">
 					<f:setPropertyActionListener value="#{item}"
@@ -55,13 +55,13 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="siteDocumentList:form:dataTable"
-						selectedValue="#{siteDocumentReadController.fileNameFilter.operator}"
+						selectedValue="#{siteDocumentReadController.fileNameSearchCriterion.operator}"
 						changeWidgetVar="siteDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 			<p:column headerText="#{labels.DocumentTypeTitle}"
 				sortBy="#{item.documentType}" filterBy="#{item.documentType}"
-				filterValue="#{siteDocumentReadController.documentTypeFilter.value}">
+				filterValue="#{siteDocumentReadController.documentTypeSearchCriterion.value}">
 				<h:outputText value="#{item.documentType}">
 					<f:converter
 						converterId="org.rainbow.asset.explorer.faces.converters.DocumentTypeConverter" />
@@ -69,13 +69,13 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="siteDocumentList:form:dataTable"
-						selectedValue="#{siteDocumentReadController.documentTypeFilter.operator}"
+						selectedValue="#{siteDocumentReadController.documentTypeSearchCriterion.operator}"
 						changeWidgetVar="siteDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 			<p:column headerText="#{labels.SiteNameTitle}"
 				sortBy="#{item.site.name}" filterBy="#{item.site.name}"
-				filterValue="#{siteDocumentReadController.siteNameFilter.value}">
+				filterValue="#{siteDocumentReadController.siteNameSearchCriterion.value}">
 				<p:commandLink update=":siteDetails:form" value="#{item.site.name}"
 					oncomplete="PF('siteDetailsDialog').show()">
 					<f:setPropertyActionListener value="#{item.site}"
@@ -84,24 +84,24 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="siteDocumentList:form:dataTable"
-						selectedValue="#{siteDocumentReadController.siteNameFilter.operator}"
+						selectedValue="#{siteDocumentReadController.siteNameSearchCriterion.operator}"
 						changeWidgetVar="siteDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 			<p:column headerText="#{labels.SiteLocationTitle}"
 				sortBy="#{item.site.location}" filterBy="#{item.site.location}"
-				filterValue="#{siteDocumentReadController.siteLocationFilter.value}">
+				filterValue="#{siteDocumentReadController.siteLocationSearchCriterion.value}">
 				<h:outputText value="#{item.site.location}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="siteDocumentList:form:dataTable"
-						selectedValue="#{siteDocumentReadController.siteLocationFilter.operator}"
+						selectedValue="#{siteDocumentReadController.siteLocationSearchCriterion.operator}"
 						changeWidgetVar="siteDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 			<p:column headerText="#{labels.SiteStatusTitle}"
 				sortBy="#{item.site.status}" filterBy="#{item.site.status}"
-				filterValue="#{siteDocumentReadController.siteStatusFilter.value}">
+				filterValue="#{siteDocumentReadController.siteStatusSearchCriterion.value}">
 				<h:outputText value="#{item.site.status}">
 					<f:converter
 						converterId="org.rainbow.asset.explorer.faces.converters.SiteStatusConverter" />
@@ -109,7 +109,7 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="siteDocumentList:form:dataTable"
-						selectedValue="#{siteDocumentReadController.siteStatusFilter.operator}"
+						selectedValue="#{siteDocumentReadController.siteStatusSearchCriterion.operator}"
 						changeWidgetVar="siteDocumentListDataTable" />
 				</f:facet>
 			</p:column>

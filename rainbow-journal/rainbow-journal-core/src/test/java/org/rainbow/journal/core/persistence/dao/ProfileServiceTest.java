@@ -17,12 +17,12 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rainbow.core.persistence.Filter;
-import org.rainbow.core.persistence.ListValuedFilter;
-import org.rainbow.core.persistence.RangeValuedFilter;
+import org.rainbow.core.persistence.SearchCriterion;
+import org.rainbow.core.persistence.ListValuedSearchCriterion;
+import org.rainbow.core.persistence.RangeValuedSearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.core.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.journal.core.entities.Profile;
 import org.rainbow.journal.core.persistence.exceptions.DuplicateProfileException;
@@ -140,7 +140,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameExistsAndOperatorIsEqual_ReturnOneProfile() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.EQUAL);
 		filter.setValue("jack.wagner");
@@ -154,7 +154,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameDoesnotExistAndOperatorIsEqual_ReturnNoProfile() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.EQUAL);
 		filter.setValue("non-existent-user-name");
@@ -168,7 +168,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameExistsAndOperatorIsNotEqual_ReturnProfiles() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.NOT_EQUAL);
 		filter.setValue("jackson.smith");
@@ -184,7 +184,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameDoesnotExistAndOperatorIsNotEqual_ReturnAllProfiles() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.NOT_EQUAL);
 		filter.setValue("non-existent-user-name");
@@ -199,7 +199,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameExistsAndOperatorIsContains_ReturnTwoProfiles() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.CONTAINS);
 		filter.setValue("jack");
@@ -213,7 +213,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameDoesnotExistAndOperatorIsContains_ReturnNoProfile() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.CONTAINS);
 		filter.setValue("nonexistent");
@@ -227,7 +227,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameExistsAndOperatorIsStartsWith_ReturnOneProfile() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.STARTS_WITH);
 		filter.setValue("isaac");
@@ -241,7 +241,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameDoesnotExistAndOperatorIsStartsWith_ReturnNoProfile() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.STARTS_WITH);
 		filter.setValue("non-existent-start");
@@ -255,7 +255,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameExistsAndOperatorIsEndsWith_ReturnTwoProfile() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.ENDS_WITH);
 		filter.setValue("mith");
@@ -269,7 +269,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameDoesnotExistAndOperatorIsEndsWith_ReturnNoProfile() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.ENDS_WITH);
 		filter.setValue("non-existent-end");
@@ -283,7 +283,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_OperatorIsEmpty_ReturnNoProfile() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.IS_EMPTY);
 		List<Filter<?>> filters = new ArrayList<>();
@@ -296,7 +296,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_OperatorIsNotEmpty_ReturnProfiles() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.IS_NOT_EMPTY);
 		List<Filter<?>> filters = new ArrayList<>();
@@ -309,7 +309,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameExistsAndOperatorIsDoesNotContain_ReturnProfiles() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.DOES_NOT_CONTAIN);
 		filter.setValue("mith");
@@ -325,7 +325,7 @@ public class ProfileServiceTest {
 	@Test
 	public void find_UserNameDoesnotExistAndOperatorIsDoesNotContain_ReturnAllProfiles() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("userName");
 		filter.setOperator(RelationalOperator.DOES_NOT_CONTAIN);
 		filter.setValue("nonexistent");

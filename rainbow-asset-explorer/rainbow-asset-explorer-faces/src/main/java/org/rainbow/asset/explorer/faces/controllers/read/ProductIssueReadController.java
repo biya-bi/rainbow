@@ -13,9 +13,9 @@ import org.rainbow.asset.explorer.orm.entities.ProductIssue;
 import org.rainbow.asset.explorer.service.services.ProductIssueService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,67 +34,67 @@ public class ProductIssueReadController extends AbstractNumericIdAuditableEntity
 	 */
 	private static final long serialVersionUID = -5288934312401804012L;
 
-	private static final String REFERENCE_NUMBER_FILTER = "referenceNumber";
-	private static final String LOCATION_NAME_FILTER = "location.name";
-	private static final String REQUISITIONER_FILTER = "requisitioner";
-	private static final String ISSUE_DATE_FILTER = "issueDate";
-	private static final String DEPARTMENT_NAME_FILTER = "department.name";
+	private static final String REFERENCE_NUMBER_PATH = "referenceNumber";
+	private static final String LOCATION_NAME_PATH = "location.name";
+	private static final String REQUISITIONER_PATH = "requisitioner";
+	private static final String ISSUE_DATE_PATH = "issueDate";
+	private static final String DEPARTMENT_NAME_PATH = "department.name";
 
-	private final SingleValuedFilter<String> referenceNumberFilter;
-	private final SingleValuedFilter<String> locationNameFilter;
-	private final SingleValuedFilter<String> requisitionerFilter;
-	private final SingleValuedFilter<Date> issueDateFilter;
-	private final SingleValuedFilter<String> departmentNameFilter;
+	private final StringSearchCriterion referenceNumberSearchCriterion;
+	private final StringSearchCriterion locationNameSearchCriterion;
+	private final StringSearchCriterion requisitionerSearchCriterion;
+	private final ComparableSearchCriterion<Date> issueDateSearchCriterion;
+	private final StringSearchCriterion departmentNameSearchCriterion;
 
 	@Autowired
 	private ProductIssueService service;
 
 	public ProductIssueReadController() {
 		super(Long.class);
-		referenceNumberFilter = new SingleValuedFilter<>(REFERENCE_NUMBER_FILTER, RelationalOperator.CONTAINS, "");
-		locationNameFilter = new SingleValuedFilter<>(LOCATION_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		requisitionerFilter = new SingleValuedFilter<>(REQUISITIONER_FILTER, RelationalOperator.CONTAINS, "");
-		issueDateFilter = new SingleValuedFilter<>(ISSUE_DATE_FILTER, RelationalOperator.EQUAL, new Date());
-		departmentNameFilter = new SingleValuedFilter<>(DEPARTMENT_NAME_FILTER, RelationalOperator.CONTAINS, "");
+		referenceNumberSearchCriterion = new StringSearchCriterion(REFERENCE_NUMBER_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		locationNameSearchCriterion = new StringSearchCriterion(LOCATION_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		requisitionerSearchCriterion = new StringSearchCriterion(REQUISITIONER_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		issueDateSearchCriterion = new ComparableSearchCriterion<>(ISSUE_DATE_PATH, ComparableSearchCriterion.Operator.EQUAL, new Date());
+		departmentNameSearchCriterion = new StringSearchCriterion(DEPARTMENT_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getReferenceNumberFilter() {
-		return referenceNumberFilter;
+	@SearchCriterion
+	public StringSearchCriterion getReferenceNumberSearchCriterion() {
+		return referenceNumberSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getLocationNameFilter() {
-		return locationNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getLocationNameSearchCriterion() {
+		return locationNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getRequisitionerFilter() {
-		return requisitionerFilter;
+	@SearchCriterion
+	public StringSearchCriterion getRequisitionerSearchCriterion() {
+		return requisitionerSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<Date> getIssueDateFilter() {
-		return issueDateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Date> getIssueDateSearchCriterion() {
+		return issueDateSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getDepartmentNameFilter() {
-		return departmentNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getDepartmentNameSearchCriterion() {
+		return departmentNameSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<ProductIssue> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = REFERENCE_NUMBER_FILTER; // We want to sort by reference
+			sortField = REFERENCE_NUMBER_PATH; // We want to sort by reference
 													// number if no sort field
 													// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case REFERENCE_NUMBER_FILTER: {
+			case REFERENCE_NUMBER_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ProductIssue>() {
 					@Override
@@ -108,7 +108,7 @@ public class ProductIssueReadController extends AbstractNumericIdAuditableEntity
 				});
 				break;
 			}
-			case LOCATION_NAME_FILTER: {
+			case LOCATION_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ProductIssue>() {
 					@Override
@@ -122,7 +122,7 @@ public class ProductIssueReadController extends AbstractNumericIdAuditableEntity
 				});
 				break;
 			}
-			case REQUISITIONER_FILTER: {
+			case REQUISITIONER_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ProductIssue>() {
 					@Override
@@ -136,7 +136,7 @@ public class ProductIssueReadController extends AbstractNumericIdAuditableEntity
 				});
 				break;
 			}
-			case DEPARTMENT_NAME_FILTER: {
+			case DEPARTMENT_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ProductIssue>() {
 					@Override
@@ -159,7 +159,7 @@ public class ProductIssueReadController extends AbstractNumericIdAuditableEntity
 				});
 				break;
 			}
-			case ISSUE_DATE_FILTER: {
+			case ISSUE_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<ProductIssue>() {
 					@Override

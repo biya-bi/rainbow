@@ -29,14 +29,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_ASSET_DOCUMENTS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_ASSET_DOCUMENTS')}"
 			columnToggleListener="#{assetDocumentReadController.onToggle}"
-			creatorFilterValue="#{assetDocumentReadController.creatorFilter.value}"
-			creatorFilterOperator="#{assetDocumentReadController.creatorFilter.operator}"
-			updaterFilterValue="#{assetDocumentReadController.updaterFilter.value}"
-			updaterFilterOperator="#{assetDocumentReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{assetDocumentReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{assetDocumentReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{assetDocumentReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{assetDocumentReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{assetDocumentReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{assetDocumentReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{assetDocumentReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{assetDocumentReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{assetDocumentReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{assetDocumentReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{assetDocumentReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{assetDocumentReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{assetDocumentReadController.auditColumnsStates[5]}"
 			updaterColumnVisible="#{assetDocumentReadController.auditColumnsStates[6]}"
 			creationDateColumnVisible="#{assetDocumentReadController.auditColumnsStates[7]}"
@@ -44,7 +44,7 @@
 
 			<p:column headerText="#{labels.FileNameTitle}"
 				filterBy="#{item.fileName}" sortBy="#{item.fileName}"
-				filterValue="#{assetDocumentReadController.fileNameFilter.value}">
+				filterValue="#{assetDocumentReadController.fileNameSearchCriterion.value}">
 
 				<p:commandLink value="#{item.fileName}" ajax="false">
 					<f:setPropertyActionListener value="#{item}"
@@ -54,14 +54,14 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetDocumentList:form:dataTable"
-						selectedValue="#{assetDocumentReadController.fileNameFilter.operator}"
+						selectedValue="#{assetDocumentReadController.fileNameSearchCriterion.operator}"
 						changeWidgetVar="assetDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.DocumentTypeTitle}"
 				sortBy="#{item.documentType}" filterBy="#{item.documentType}"
-				filterValue="#{assetDocumentReadController.documentTypeFilter.value}">
+				filterValue="#{assetDocumentReadController.documentTypeSearchCriterion.value}">
 				<h:outputText value="#{item.documentType}">
 					<f:converter
 						converterId="org.rainbow.asset.explorer.faces.converters.DocumentTypeConverter" />
@@ -69,14 +69,14 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetDocumentList:form:dataTable"
-						selectedValue="#{assetDocumentReadController.documentTypeFilter.operator}"
+						selectedValue="#{assetDocumentReadController.documentTypeSearchCriterion.operator}"
 						changeWidgetVar="assetDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.AssetNameTitle}"
 				sortBy="#{item.asset.name}" filterBy="#{item.asset.name}"
-				filterValue="#{assetDocumentReadController.assetNameFilter.value}">
+				filterValue="#{assetDocumentReadController.assetNameSearchCriterion.value}">
 				<p:commandLink update=":assetDetails:form"
 					value="#{item.asset.name}"
 					oncomplete="PF('assetDetailsDialog').show()">
@@ -86,14 +86,14 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetDocumentList:form:dataTable"
-						selectedValue="#{assetDocumentReadController.assetNameFilter.operator}"
+						selectedValue="#{assetDocumentReadController.assetNameSearchCriterion.operator}"
 						changeWidgetVar="assetDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.AssetLocationTitle}"
 				sortBy="#{item.asset.site.name}" filterBy="#{item.asset.site.name}"
-				filterValue="#{assetDocumentReadController.assetLocationFilter.value}">
+				filterValue="#{assetDocumentReadController.assetLocationSearchCriterion.value}">
 				<p:commandLink update=":siteDetails:form"
 					value="#{item.asset.site.name}"
 					oncomplete="PF('siteDetailsDialog').show()">
@@ -103,14 +103,14 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetDocumentList:form:dataTable"
-						selectedValue="#{assetDocumentReadController.assetLocationFilter.operator}"
+						selectedValue="#{assetDocumentReadController.assetLocationSearchCriterion.operator}"
 						changeWidgetVar="assetDocumentListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.AssetStateTitle}"
 				sortBy="#{item.asset.state}" filterBy="#{item.asset.state}"
-				filterValue="#{assetDocumentReadController.assetStateFilter.value}">
+				filterValue="#{assetDocumentReadController.assetStateSearchCriterion.value}">
 				<h:outputText value="#{item.asset.state}">
 					<f:converter
 						converterId="org.rainbow.asset.explorer.faces.converters.AssetStateConverter" />
@@ -118,7 +118,7 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="assetDocumentList:form:dataTable"
-						selectedValue="#{assetDocumentReadController.assetStateFilter.operator}"
+						selectedValue="#{assetDocumentReadController.assetStateSearchCriterion.operator}"
 						changeWidgetVar="assetDocumentListDataTable" />
 				</f:facet>
 			</p:column>

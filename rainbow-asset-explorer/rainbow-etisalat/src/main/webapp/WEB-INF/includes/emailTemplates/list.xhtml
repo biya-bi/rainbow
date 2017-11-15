@@ -29,14 +29,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_EMAIL_TEMPLATES')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_EMAIL_TEMPLATES')}"
 			columnToggleListener="#{emailTemplateReadController.onToggle}"
-			creatorFilterValue="#{emailTemplateReadController.creatorFilter.value}"
-			creatorFilterOperator="#{emailTemplateReadController.creatorFilter.operator}"
-			updaterFilterValue="#{emailTemplateReadController.updaterFilter.value}"
-			updaterFilterOperator="#{emailTemplateReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{emailTemplateReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{emailTemplateReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{emailTemplateReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{emailTemplateReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{emailTemplateReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{emailTemplateReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{emailTemplateReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{emailTemplateReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{emailTemplateReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{emailTemplateReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{emailTemplateReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{emailTemplateReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{emailTemplateReadController.auditColumnsStates[2]}"
 			updaterColumnVisible="#{emailTemplateReadController.auditColumnsStates[3]}"
 			creationDateColumnVisible="#{emailTemplateReadController.auditColumnsStates[4]}"
@@ -45,24 +45,24 @@
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{emailTemplateReadController.nameFilter.value}">
+				filterValue="#{emailTemplateReadController.nameSearchCriterion.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="emailTemplateList:form:dataTable"
-						selectedValue="#{emailTemplateReadController.nameFilter.operator}"
+						selectedValue="#{emailTemplateReadController.nameSearchCriterion.operator}"
 						changeWidgetVar="emailTemplateListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.SubjectTitle}"
 				filterBy="#{item.subject}" sortBy="#{item.subject}"
-				filterValue="#{emailTemplateReadController.subjectFilter.value}">
+				filterValue="#{emailTemplateReadController.subjectSearchCriterion.value}">
 				<h:outputText value="#{item.subject}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="emailTemplateList:form:dataTable"
-						selectedValue="#{emailTemplateReadController.subjectFilter.operator}"
+						selectedValue="#{emailTemplateReadController.subjectSearchCriterion.operator}"
 						changeWidgetVar="emailTemplateListDataTable" />
 				</f:facet>
 			</p:column>

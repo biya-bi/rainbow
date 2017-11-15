@@ -90,7 +90,7 @@
 								selectionText="#{productController.current.category.name}"
 								dataSource="#{categoryLazyDataModel}" itemLabel="#{item.name}"
 								selection="#{productController.current.category}"
-								filterValue="#{categoryLazyDataModel.nameFilter.value}"
+								filterValue="#{categoryLazyDataModel.nameSearchCriterion.value}"
 								toolTip="#{labels.ProductCategoryTitle}" required="true"
 								requiredMessage="#{valMsg.ProductCategoryRequired}" />
 						</p:column>

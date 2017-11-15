@@ -13,9 +13,8 @@ import org.rainbow.asset.explorer.orm.entities.AssetDocument;
 import org.rainbow.asset.explorer.service.services.AssetDocumentService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,17 +35,17 @@ public class AssetDocumentReadController extends AbstractNumericIdAuditableEntit
 
 	private final EnumTranslator translator;
 
-	private static final String FILE_NAME_FILTER = "fileName";
-	private static final String DOCUMENT_TYPE_FILTER = "documentType";
-	private static final String SITE_LOCATION_FILTER = "asset.location";
-	private static final String SITE_NAME_FILTER = "asset.name";
-	private static final String SITE_STATUS_FILTER = "asset.status";
+	private static final String FILE_NAME_PATH = "fileName";
+	private static final String DOCUMENT_TYPE_PATH = "documentType";
+	private static final String SITE_LOCATION_PATH = "asset.location";
+	private static final String SITE_NAME_PATH = "asset.name";
+	private static final String SITE_STATUS_PATH = "asset.status";
 
-	private final SingleValuedFilter<String> fileNameFilter;
-	private final SingleValuedFilter<String> documentTypeFilter;
-	private final SingleValuedFilter<String> assetLocationFilter;
-	private final SingleValuedFilter<String> assetNameFilter;
-	private final SingleValuedFilter<String> assetStateFilter;
+	private final StringSearchCriterion fileNameSearchCriterion;
+	private final StringSearchCriterion documentTypeSearchCriterion;
+	private final StringSearchCriterion assetLocationSearchCriterion;
+	private final StringSearchCriterion assetNameSearchCriterion;
+	private final StringSearchCriterion assetStateSearchCriterion;
 
 	@Autowired
 	private AssetDocumentService service;
@@ -55,24 +54,24 @@ public class AssetDocumentReadController extends AbstractNumericIdAuditableEntit
 		super(Long.class);
 		translator = new EnumTranslator();
 
-		fileNameFilter = new SingleValuedFilter<>(FILE_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		documentTypeFilter = new SingleValuedFilter<>(DOCUMENT_TYPE_FILTER, RelationalOperator.CONTAINS, "");
-		assetLocationFilter = new SingleValuedFilter<>(SITE_LOCATION_FILTER, RelationalOperator.CONTAINS, "");
-		assetNameFilter = new SingleValuedFilter<>(SITE_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		assetStateFilter = new SingleValuedFilter<>(SITE_STATUS_FILTER, RelationalOperator.CONTAINS, "");
+		fileNameSearchCriterion = new StringSearchCriterion(FILE_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		documentTypeSearchCriterion = new StringSearchCriterion(DOCUMENT_TYPE_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		assetLocationSearchCriterion = new StringSearchCriterion(SITE_LOCATION_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		assetNameSearchCriterion = new StringSearchCriterion(SITE_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		assetStateSearchCriterion = new StringSearchCriterion(SITE_STATUS_PATH, StringSearchCriterion.Operator.CONTAINS, null);
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<AssetDocument> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = FILE_NAME_FILTER; // We want to sort by name if no sort
+			sortField = FILE_NAME_PATH; // We want to sort by name if no sort
 											// field was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case FILE_NAME_FILTER: {
+			case FILE_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<AssetDocument>() {
 					@Override
@@ -86,7 +85,7 @@ public class AssetDocumentReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case DOCUMENT_TYPE_FILTER: {
+			case DOCUMENT_TYPE_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<AssetDocument>() {
 					@Override
@@ -101,7 +100,7 @@ public class AssetDocumentReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			// case SITE_NAME_FILTER: {
+			// case SITE_NAME_PATH: {
 			// final Comparator<String> comparator =
 			// DefaultComparator.<String>getInstance();
 			// Collections.sort(list, new Comparator<AssetDocument>() {
@@ -117,7 +116,7 @@ public class AssetDocumentReadController extends AbstractNumericIdAuditableEntit
 			// });
 			// break;
 			// }
-			// case SITE_LOCATION_FILTER: {
+			// case SITE_LOCATION_PATH: {
 			// final Comparator<String> comparator =
 			// DefaultComparator.<String>getInstance();
 			// Collections.sort(list, new Comparator<AssetDocument>() {
@@ -133,7 +132,7 @@ public class AssetDocumentReadController extends AbstractNumericIdAuditableEntit
 			// });
 			// break;
 			// }
-			// case SITE_STATUS_FILTER: {
+			// case SITE_STATUS_PATH: {
 			// final Comparator<String> comparator =
 			// DefaultComparator.<String>getInstance();
 			// Collections.sort(list, new Comparator<AssetDocument>() {
@@ -156,29 +155,29 @@ public class AssetDocumentReadController extends AbstractNumericIdAuditableEntit
 		}
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getFileNameFilter() {
-		return fileNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getFileNameSearchCriterion() {
+		return fileNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getDocumentTypeFilter() {
-		return documentTypeFilter;
+	@SearchCriterion
+	public StringSearchCriterion getDocumentTypeSearchCriterion() {
+		return documentTypeSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getAssetLocationFilter() {
-		return assetLocationFilter;
+	@SearchCriterion
+	public StringSearchCriterion getAssetLocationSearchCriterion() {
+		return assetLocationSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getAssetNameFilter() {
-		return assetNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getAssetNameSearchCriterion() {
+		return assetNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getAssetStateFilter() {
-		return assetStateFilter;
+	@SearchCriterion
+	public StringSearchCriterion getAssetStateSearchCriterion() {
+		return assetStateSearchCriterion;
 	}
 
 	@Override

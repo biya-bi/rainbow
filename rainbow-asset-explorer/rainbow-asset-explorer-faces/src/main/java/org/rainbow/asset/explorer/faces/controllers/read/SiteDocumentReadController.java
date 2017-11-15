@@ -13,9 +13,8 @@ import org.rainbow.asset.explorer.orm.entities.SiteDocument;
 import org.rainbow.asset.explorer.service.services.SiteDocumentService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,17 +35,17 @@ public class SiteDocumentReadController extends AbstractNumericIdAuditableEntity
 
 	private final EnumTranslator translator;
 
-	private static final String FILE_NAME_FILTER = "fileName";
-	private static final String DOCUMENT_TYPE_FILTER = "documentType";
-	private static final String SITE_LOCATION_FILTER = "site.location";
-	private static final String SITE_NAME_FILTER = "site.name";
-	private static final String SITE_STATUS_FILTER = "site.status";
+	private static final String FILE_NAME_PATH = "fileName";
+	private static final String DOCUMENT_TYPE_PATH = "documentType";
+	private static final String SITE_LOCATION_PATH = "site.location";
+	private static final String SITE_NAME_PATH = "site.name";
+	private static final String SITE_STATUS_PATH = "site.status";
 
-	private final SingleValuedFilter<String> fileNameFilter;
-	private final SingleValuedFilter<String> documentTypeFilter;
-	private final SingleValuedFilter<String> siteLocationFilter;
-	private final SingleValuedFilter<String> siteNameFilter;
-	private final SingleValuedFilter<String> siteStatusFilter;
+	private final StringSearchCriterion fileNameSearchCriterion;
+	private final StringSearchCriterion documentTypeSearchCriterion;
+	private final StringSearchCriterion siteLocationSearchCriterion;
+	private final StringSearchCriterion siteNameSearchCriterion;
+	private final StringSearchCriterion siteStatusSearchCriterion;
 
 	@Autowired
 	private SiteDocumentService service;
@@ -55,24 +54,24 @@ public class SiteDocumentReadController extends AbstractNumericIdAuditableEntity
 		super(Long.class);
 		translator = new EnumTranslator();
 
-		fileNameFilter = new SingleValuedFilter<>(FILE_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		documentTypeFilter = new SingleValuedFilter<>(DOCUMENT_TYPE_FILTER, RelationalOperator.CONTAINS, "");
-		siteLocationFilter = new SingleValuedFilter<>(SITE_LOCATION_FILTER, RelationalOperator.CONTAINS, "");
-		siteNameFilter = new SingleValuedFilter<>(SITE_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		siteStatusFilter = new SingleValuedFilter<>(SITE_STATUS_FILTER, RelationalOperator.CONTAINS, "");
+		fileNameSearchCriterion = new StringSearchCriterion(FILE_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		documentTypeSearchCriterion = new StringSearchCriterion(DOCUMENT_TYPE_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		siteLocationSearchCriterion = new StringSearchCriterion(SITE_LOCATION_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		siteNameSearchCriterion = new StringSearchCriterion(SITE_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		siteStatusSearchCriterion = new StringSearchCriterion(SITE_STATUS_PATH, StringSearchCriterion.Operator.CONTAINS, null);
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<SiteDocument> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = FILE_NAME_FILTER; // We want to sort by name if no sort
+			sortField = FILE_NAME_PATH; // We want to sort by name if no sort
 											// field was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case FILE_NAME_FILTER: {
+			case FILE_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<SiteDocument>() {
 					@Override
@@ -86,7 +85,7 @@ public class SiteDocumentReadController extends AbstractNumericIdAuditableEntity
 				});
 				break;
 			}
-			case DOCUMENT_TYPE_FILTER: {
+			case DOCUMENT_TYPE_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<SiteDocument>() {
 					@Override
@@ -101,7 +100,7 @@ public class SiteDocumentReadController extends AbstractNumericIdAuditableEntity
 				});
 				break;
 			}
-			case SITE_NAME_FILTER: {
+			case SITE_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<SiteDocument>() {
 					@Override
@@ -115,7 +114,7 @@ public class SiteDocumentReadController extends AbstractNumericIdAuditableEntity
 				});
 				break;
 			}
-			case SITE_LOCATION_FILTER: {
+			case SITE_LOCATION_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<SiteDocument>() {
 					@Override
@@ -129,7 +128,7 @@ public class SiteDocumentReadController extends AbstractNumericIdAuditableEntity
 				});
 				break;
 			}
-			case SITE_STATUS_FILTER: {
+			case SITE_STATUS_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<SiteDocument>() {
 					@Override
@@ -150,29 +149,29 @@ public class SiteDocumentReadController extends AbstractNumericIdAuditableEntity
 		}
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getFileNameFilter() {
-		return fileNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getFileNameSearchCriterion() {
+		return fileNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getDocumentTypeFilter() {
-		return documentTypeFilter;
+	@SearchCriterion
+	public StringSearchCriterion getDocumentTypeSearchCriterion() {
+		return documentTypeSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSiteLocationFilter() {
-		return siteLocationFilter;
+	@SearchCriterion
+	public StringSearchCriterion getSiteLocationSearchCriterion() {
+		return siteLocationSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSiteNameFilter() {
-		return siteNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getSiteNameSearchCriterion() {
+		return siteNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSiteStatusFilter() {
-		return siteStatusFilter;
+	@SearchCriterion
+	public StringSearchCriterion getSiteStatusSearchCriterion() {
+		return siteStatusSearchCriterion;
 	}
 
 	@Override

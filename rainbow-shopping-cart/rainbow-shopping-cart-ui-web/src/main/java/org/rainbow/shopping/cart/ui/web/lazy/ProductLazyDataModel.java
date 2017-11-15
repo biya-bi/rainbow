@@ -14,10 +14,10 @@ import javax.faces.bean.RequestScoped;
 import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.core.service.Service;
 import org.rainbow.shopping.cart.core.entities.Product;
 import org.rainbow.shopping.cart.ui.web.utilities.DefaultComparator;
@@ -43,23 +43,23 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 	@Qualifier("productService")
 	private Service<Product, Long, SearchOptions> service;
 
-	private static final String NAME_FILTER = "name";
-	private static final String CODE_FILTER = "code";
-	private static final String PRICE_FILTER = "price";
-	private static final String CATEGORY_NAME_FILTER = "category.name";
+	private static final String NAME_PATH = "name";
+	private static final String CODE_PATH = "code";
+	private static final String PRICE_PATH = "price";
+	private static final String CATEGORY_NAME_PATH = "category.name";
 
 	private final List<Filter<?>> filters;
 
-	private final SingleValuedFilter<String> nameFilter;
-	private final SingleValuedFilter<String> codeFilter;
-	private final SingleValuedFilter<String> priceFilter;
-	private final SingleValuedFilter<String> categoryNameFilter;
+	private final StringSearchCriterion nameSearchCriterion;
+	private final StringSearchCriterion codeSearchCriterion;
+	private final StringSearchCriterion priceSearchCriterion;
+	private final StringSearchCriterion categoryNameSearchCriterion;
 
 	public ProductLazyDataModel() {
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-		codeFilter = new SingleValuedFilter<>(CODE_FILTER, RelationalOperator.CONTAINS, "");
-		priceFilter = new SingleValuedFilter<>(PRICE_FILTER);
-		categoryNameFilter = new SingleValuedFilter<>(CATEGORY_NAME_FILTER, RelationalOperator.CONTAINS, "");
+		nameSearchCriterion = new SingleValuedFilter<>(NAME_PATH, StringOperator.CONTAINS, null);
+		codeSearchCriterion = new SingleValuedFilter<>(CODE_PATH, StringOperator.CONTAINS, null);
+		priceSearchCriterion = new SingleValuedFilter<>(PRICE_PATH);
+		categoryNameSearchCriterion = new SingleValuedFilter<>(CATEGORY_NAME_PATH, StringOperator.CONTAINS, null);
 
 		filters = new ArrayList<>();
 		filters.add(nameFilter);
@@ -73,20 +73,20 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 		return service;
 	}
 
-	public SingleValuedFilter<String> getNameFilter() {
-		return nameFilter;
+	public StringSearchCriterion getNameSearchCriterion() {
+		return nameSearchCriterion;
 	}
 
-	public SingleValuedFilter<String> getCodeFilter() {
-		return codeFilter;
+	public StringSearchCriterion getCodeSearchCriterion() {
+		return codeSearchCriterion;
 	}
 
-	public SingleValuedFilter<String> getPriceFilter() {
-		return priceFilter;
+	public StringSearchCriterion getPriceSearchCriterion() {
+		return priceSearchCriterion;
 	}
 
-	public SingleValuedFilter<String> getCategoryNameFilter() {
-		return categoryNameFilter;
+	public StringSearchCriterion getCategoryNameSearchCriterion() {
+		return categoryNameSearchCriterion;
 	}
 
 	@Override
@@ -104,13 +104,13 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 	protected void sort(String sortField, SortOrder sortOrder, List<Product> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
+			sortField = NAME_PATH; // We want to sort by name if no sort field
 										// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Product>() {
 					@Override
@@ -124,7 +124,7 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 				});
 				break;
 			}
-			case CODE_FILTER: {
+			case CODE_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Product>() {
 					@Override
@@ -138,7 +138,7 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 				});
 				break;
 			}
-			case PRICE_FILTER: {
+			case PRICE_PATH: {
 				final Comparator<Double> comparator = DefaultComparator.<Double>getInstance();
 				Collections.sort(list, new Comparator<Product>() {
 					@Override
@@ -152,7 +152,7 @@ public class ProductLazyDataModel extends LongIdTrackableLazyDataModel<Product> 
 				});
 				break;
 			}
-			case CATEGORY_NAME_FILTER: {
+			case CATEGORY_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Product>() {
 					@Override

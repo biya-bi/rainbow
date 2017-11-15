@@ -18,14 +18,14 @@
 		detailsUpdate=":journalDetails:form"
 		deleteDialog="journalDeleteDialog" deleteUpdate=":journalDelete:form"
 		columnToggleListener="#{journalController.onToggle}"
-		creatorFilterValue="#{journalLazyDataModel.creatorFilter.value}"
-		creatorFilterOperator="#{journalLazyDataModel.creatorFilter.operator}"
-		updaterFilterValue="#{journalLazyDataModel.updaterFilter.value}"
-		updaterFilterOperator="#{journalLazyDataModel.updaterFilter.operator}"
-		creationDateFilterValue="#{journalLazyDataModel.creationDateFilter.value}"
-		creationDateFilterOperator="#{journalLazyDataModel.creationDateFilter.operator}"
-		lastUpdateDateFilterValue="#{journalLazyDataModel.lastUpdateDateFilter.value}"
-		lastUpdateDateFilterOperator="#{journalLazyDataModel.lastUpdateDateFilter.operator}"
+		creatorFilterValue="#{journalLazyDataModel.creatorSearchCriterion.value}"
+		creatorFilterOperator="#{journalLazyDataModel.creatorSearchCriterion.operator}"
+		updaterFilterValue="#{journalLazyDataModel.updaterSearchCriterion.value}"
+		updaterFilterOperator="#{journalLazyDataModel.updaterSearchCriterion.operator}"
+		creationDateFilterValue="#{journalLazyDataModel.creationDateSearchCriterion.value}"
+		creationDateFilterOperator="#{journalLazyDataModel.creationDateSearchCriterion.operator}"
+		lastUpdateDateFilterValue="#{journalLazyDataModel.lastUpdateDateSearchCriterion.value}"
+		lastUpdateDateFilterOperator="#{journalLazyDataModel.lastUpdateDateSearchCriterion.operator}"
 		creatorColumnVisible="#{journalController.auditColumnsStates[4]}"
 		updaterColumnVisible="#{journalController.auditColumnsStates[5]}"
 		creationDateColumnVisible="#{journalController.auditColumnsStates[6]}"
@@ -33,48 +33,48 @@
 
 		<p:column headerText="#{labels.JournalNameTitle}"
 			filterBy="#{item.name}" sortBy="#{item.name}"
-			filterValue="#{journalLazyDataModel.nameFilter.value}">
+			filterValue="#{journalLazyDataModel.nameSearchCriterion.value}">
 			<h:outputText value="#{item.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="journalList:form:dataTable"
-					selectedValue="#{journalLazyDataModel.nameFilter.operator}"
+					selectedValue="#{journalLazyDataModel.nameSearchCriterion.operator}"
 					changeWidgetVar="journalListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.JournalOwnerTitle}"
 			filterBy="#{item.name}" sortBy="#{item.ownerProfile.userName}"
-			filterValue="#{journalLazyDataModel.ownerProfileUserNameFilter.value}">
+			filterValue="#{journalLazyDataModel.ownerProfileUserNameSearchCriterion.value}">
 			<h:outputText value="#{item.ownerProfile.userName}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="journalList:form:dataTable"
-					selectedValue="#{journalLazyDataModel.ownerProfileUserNameFilter.operator}"
+					selectedValue="#{journalLazyDataModel.ownerProfileUserNameSearchCriterion.operator}"
 					changeWidgetVar="journalListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.JournalActiveTitle}"
 			filterBy="#{item.name}" sortBy="#{item.active}"
-			filterValue="#{journalLazyDataModel.activeFilter.value}">
+			filterValue="#{journalLazyDataModel.activeSearchCriterion.value}">
 			<p:selectBooleanCheckbox value="#{item.active}" disabled="true" />
 			<f:facet name="footer">
 				<cps:booleanFilterSelectOneMenu
 					changeUpdate="journalList:form:dataTable"
-					selectedValue="#{journalLazyDataModel.activeFilter.value}"
+					selectedValue="#{journalLazyDataModel.activeSearchCriterion.value}"
 					changeWidgetVar="journalListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.JournalTagTitle}"
 			filterBy="#{item.name}" sortBy="#{item.tag}"
-			filterValue="#{journalLazyDataModel.tagFilter.value}">
+			filterValue="#{journalLazyDataModel.tagSearchCriterion.value}">
 			<h:outputText value="#{item.tag}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="journalList:form:dataTable"
-					selectedValue="#{journalLazyDataModel.tagFilter.operator}"
+					selectedValue="#{journalLazyDataModel.tagSearchCriterion.operator}"
 					changeWidgetVar="journalListDataTable" />
 			</f:facet>
 		</p:column>

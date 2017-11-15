@@ -12,10 +12,11 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.SortOrder;
 import org.primefaces.model.Visibility;
 import org.rainbow.common.util.DefaultComparator;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
 import org.rainbow.orm.entities.AbstractAuditableEntity;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion.Operator;
 
 /**
  *
@@ -30,21 +31,21 @@ public abstract class AbstractAuditableEntityReadController<T extends AbstractAu
 	 */
 	private static final long serialVersionUID = 2818461029343555835L;
 	private List<Boolean> auditColumnsStates;
-	private static final String CREATOR_FILTER = "creator";
-	private static final String UPDATER_FILTER = "updater";
-	private static final String CREATION_DATE_FILTER = "creationDate";
-	private static final String LAST_UPDATE_DATE_FILTER = "lastUpdateDate";
+	private static final String CREATOR_PATH = "creator";
+	private static final String UPDATER_PATH = "updater";
+	private static final String CREATION_DATE_PATH = "creationDate";
+	private static final String LAST_UPDATE_DATE_PATH = "lastUpdateDate";
 
-	private final SingleValuedFilter<String> creatorFilter;
-	private final SingleValuedFilter<String> updaterFilter;
-	private final SingleValuedFilter<Date> creationDateFilter;
-	private final SingleValuedFilter<Date> lastUpdateDateFilter;
+	private final StringSearchCriterion creatorSearchCriterion;
+	private final StringSearchCriterion updaterSearchCriterion;
+	private final ComparableSearchCriterion<Date> creationDateSearchCriterion;
+	private final ComparableSearchCriterion<Date> lastUpdateDateSearchCriterion;
 
 	public AbstractAuditableEntityReadController() {
-		creatorFilter = new SingleValuedFilter<>(CREATOR_FILTER, RelationalOperator.CONTAINS, "");
-		updaterFilter = new SingleValuedFilter<>(UPDATER_FILTER, RelationalOperator.CONTAINS, "");
-		creationDateFilter = new SingleValuedFilter<>(CREATION_DATE_FILTER, RelationalOperator.EQUAL, null);
-		lastUpdateDateFilter = new SingleValuedFilter<>(LAST_UPDATE_DATE_FILTER, RelationalOperator.EQUAL, null);
+		creatorSearchCriterion = new StringSearchCriterion(CREATOR_PATH, Operator.CONTAINS, null);
+		updaterSearchCriterion = new StringSearchCriterion(UPDATER_PATH, Operator.CONTAINS, null);
+		creationDateSearchCriterion = new ComparableSearchCriterion<>(CREATION_DATE_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
+		lastUpdateDateSearchCriterion = new ComparableSearchCriterion<>(LAST_UPDATE_DATE_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
 	}
 
 	@PostConstruct
@@ -67,24 +68,24 @@ public abstract class AbstractAuditableEntityReadController<T extends AbstractAu
 		auditColumnsStates.set(index, e.getVisibility() == Visibility.VISIBLE);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getCreatorFilter() {
-		return creatorFilter;
+	@SearchCriterion
+	public StringSearchCriterion getCreatorSearchCriterion() {
+		return creatorSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getUpdaterFilter() {
-		return updaterFilter;
+	@SearchCriterion
+	public StringSearchCriterion getUpdaterSearchCriterion() {
+		return updaterSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<Date> getCreationDateFilter() {
-		return creationDateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Date> getCreationDateSearchCriterion() {
+		return creationDateSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<Date> getLastUpdateDateFilter() {
-		return lastUpdateDateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Date> getLastUpdateDateSearchCriterion() {
+		return lastUpdateDateSearchCriterion;
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public abstract class AbstractAuditableEntityReadController<T extends AbstractAu
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case CREATOR_FILTER: {
+			case CREATOR_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<T>() {
 					@Override
@@ -106,7 +107,7 @@ public abstract class AbstractAuditableEntityReadController<T extends AbstractAu
 				});
 				break;
 			}
-			case UPDATER_FILTER: {
+			case UPDATER_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<T>() {
 					@Override
@@ -121,7 +122,7 @@ public abstract class AbstractAuditableEntityReadController<T extends AbstractAu
 				break;
 			}
 
-			case CREATION_DATE_FILTER: {
+			case CREATION_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<T>() {
 					@Override
@@ -135,7 +136,7 @@ public abstract class AbstractAuditableEntityReadController<T extends AbstractAu
 				});
 				break;
 			}
-			case LAST_UPDATE_DATE_FILTER: {
+			case LAST_UPDATE_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<T>() {
 					@Override

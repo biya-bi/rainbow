@@ -40,6 +40,9 @@
         <dependent-module archiveName="rainbow-faces-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-faces/rainbow-faces">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="rainbow-search-criteria-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-search-criteria/rainbow-search-criteria">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="rainbow-orm-eclipselink-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rainbow-orm-eclipselink/rainbow-orm-eclipselink">
             <dependency-type>uses</dependency-type>
         </dependent-module>

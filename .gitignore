@@ -9,7 +9,9 @@
 /rainbow-common/target/
 /rainbow-faces/target/
 /rainbow-impl/target/
-/rainbow-journal/rainbow-journal-core/target
+/rainbow-journal/rainbow-journal-api/target/
+/rainbow-journal/rainbow-journal-impl/target/
+/rainbow-journal/rainbow-journal-orm/target/
 /rainbow-journal/rainbow-journal-server/target/
 /rainbow-journal/rainbow-journal-ui-web/target/
 /rainbow-orm/target/
@@ -22,3 +24,4 @@
 /rainbow-security/rainbow-security-ui/target/
 /rainbow-shopping-cart//rainbow-shopping-cart-core/target/
 /rainbow-shopping-cart//rainbow-shopping-cart-ui-web/target/
+/rainbow-search-criteria/target/

@@ -12,9 +12,9 @@ import org.rainbow.asset.explorer.orm.entities.Product;
 import org.rainbow.asset.explorer.service.services.ProductService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,74 +33,74 @@ public class ProductReadController extends AbstractNumericIdAuditableEntityReadC
 	 */
 	private static final long serialVersionUID = -7519254045099132912L;
 
-	private static final String NAME_FILTER = "name";
-	private static final String NUMBER_FILTER = "number";
-	private static final String SAFETY_STOCK_LEVEL_FILTER = "safetyStockLevel";
-	private static final String STOCK_COVER_FILTER = "stockCover";
-	private static final String REORDER_POINT_FILTER = "reorderPoint";
-	private static final String MANUFACTURER_NAME_FILTER = "manufacturer.name";
+	private static final String NAME_PATH = "name";
+	private static final String NUMBER_PATH = "number";
+	private static final String SAFETY_STOCK_LEVEL_PATH = "safetyStockLevel";
+	private static final String STOCK_COVER_PATH = "stockCover";
+	private static final String REORDER_POINT_PATH = "reorderPoint";
+	private static final String MANUFACTURER_NAME_PATH = "manufacturer.name";
 
-	private final SingleValuedFilter<String> nameFilter;
-	private final SingleValuedFilter<String> numberFilter;
-	private final SingleValuedFilter<String> safetyStockLevelFilter;
-	private final SingleValuedFilter<String> stockCoverFilter;
-	private final SingleValuedFilter<String> reorderPointFilter;
-	private final SingleValuedFilter<String> manufacturerNameFilter;
+	private final StringSearchCriterion nameSearchCriterion;
+	private final StringSearchCriterion numberSearchCriterion;
+	private final ComparableSearchCriterion<Short> safetyStockLevelSearchCriterion;
+	private final ComparableSearchCriterion<Short> stockCoverSearchCriterion;
+	private final ComparableSearchCriterion<Short> reorderPointSearchCriterion;
+	private final StringSearchCriterion manufacturerNameSearchCriterion;
 
 	@Autowired
 	private ProductService service;
 
 	public ProductReadController() {
 		super(Long.class);
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-		numberFilter = new SingleValuedFilter<>(NUMBER_FILTER, RelationalOperator.CONTAINS, "");
-		safetyStockLevelFilter = new SingleValuedFilter<>(SAFETY_STOCK_LEVEL_FILTER);
-		stockCoverFilter = new SingleValuedFilter<>(STOCK_COVER_FILTER);
-		reorderPointFilter = new SingleValuedFilter<>(REORDER_POINT_FILTER);
-		manufacturerNameFilter = new SingleValuedFilter<>(MANUFACTURER_NAME_FILTER, RelationalOperator.CONTAINS, "");
+		nameSearchCriterion = new StringSearchCriterion(NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		numberSearchCriterion = new StringSearchCriterion(NUMBER_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		safetyStockLevelSearchCriterion = new ComparableSearchCriterion<>(SAFETY_STOCK_LEVEL_PATH);
+		stockCoverSearchCriterion = new ComparableSearchCriterion<>(STOCK_COVER_PATH);
+		reorderPointSearchCriterion = new ComparableSearchCriterion<>(REORDER_POINT_PATH);
+		manufacturerNameSearchCriterion = new StringSearchCriterion(MANUFACTURER_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getNameFilter() {
-		return nameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getNameSearchCriterion() {
+		return nameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getNumberFilter() {
-		return numberFilter;
+	@SearchCriterion
+	public StringSearchCriterion getNumberSearchCriterion() {
+		return numberSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSafetyStockLevelFilter() {
-		return safetyStockLevelFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Short> getSafetyStockLevelSearchCriterion() {
+		return safetyStockLevelSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getStockCoverFilter() {
-		return stockCoverFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Short> getStockCoverSearchCriterion() {
+		return stockCoverSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getReorderPointFilter() {
-		return reorderPointFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Short> getReorderPointSearchCriterion() {
+		return reorderPointSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getManufacturerNameFilter() {
-		return manufacturerNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getManufacturerNameSearchCriterion() {
+		return manufacturerNameSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<Product> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
+			sortField = NAME_PATH; // We want to sort by name if no sort field
 										// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Product>() {
 					@Override
@@ -114,7 +114,7 @@ public class ProductReadController extends AbstractNumericIdAuditableEntityReadC
 				});
 				break;
 			}
-			case NUMBER_FILTER: {
+			case NUMBER_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Product>() {
 					@Override
@@ -128,7 +128,7 @@ public class ProductReadController extends AbstractNumericIdAuditableEntityReadC
 				});
 				break;
 			}
-			case SAFETY_STOCK_LEVEL_FILTER: {
+			case SAFETY_STOCK_LEVEL_PATH: {
 				final Comparator<Short> comparator = DefaultComparator.<Short>getInstance();
 				Collections.sort(list, new Comparator<Product>() {
 					@Override
@@ -142,7 +142,7 @@ public class ProductReadController extends AbstractNumericIdAuditableEntityReadC
 				});
 				break;
 			}
-			case STOCK_COVER_FILTER: {
+			case STOCK_COVER_PATH: {
 				final Comparator<Short> comparator = DefaultComparator.<Short>getInstance();
 				Collections.sort(list, new Comparator<Product>() {
 					@Override
@@ -156,7 +156,7 @@ public class ProductReadController extends AbstractNumericIdAuditableEntityReadC
 				});
 				break;
 			}
-			case REORDER_POINT_FILTER: {
+			case REORDER_POINT_PATH: {
 				final Comparator<Short> comparator = DefaultComparator.<Short>getInstance();
 				Collections.sort(list, new Comparator<Product>() {
 					@Override
@@ -170,7 +170,7 @@ public class ProductReadController extends AbstractNumericIdAuditableEntityReadC
 				});
 				break;
 			}
-			case MANUFACTURER_NAME_FILTER: {
+			case MANUFACTURER_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Product>() {
 					@Override

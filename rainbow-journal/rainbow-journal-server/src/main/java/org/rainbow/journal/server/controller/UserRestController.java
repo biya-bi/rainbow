@@ -3,10 +3,10 @@ package org.rainbow.journal.server.controller;
 import java.util.Arrays;
 import java.util.List;
 
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.journal.core.entities.Profile;
 import org.rainbow.journal.server.dto.SignupDto;
 import org.rainbow.security.core.entities.Application;
@@ -58,7 +58,7 @@ public class UserRestController {
 	private Application getApplication() throws Exception {
 		SearchOptions options = new SearchOptions();
 
-		SingleValuedFilter<String> nameFilter = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
+		StringSearchCriterion nameSearchCriterion = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
 				applicationName);
 
 		options.setFilters(Arrays.asList(new Filter<?>[] { nameFilter }));
@@ -72,9 +72,9 @@ public class UserRestController {
 	private Group getGroup() throws Exception {
 		SearchOptions options = new SearchOptions();
 
-		SingleValuedFilter<String> groupNameFilter = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
+		StringSearchCriterion groupNameSearchCriterion = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
 				defaultJournalWebUserGroupName);
-		SingleValuedFilter<String> applicationNameFilter = new SingleValuedFilter<>("application.name",
+		StringSearchCriterion applicationNameSearchCriterion = new SingleValuedFilter<>("application.name",
 				RelationalOperator.EQUAL, applicationName);
 
 		options.setFilters(Arrays.asList(new Filter<?>[] { groupNameFilter, applicationNameFilter }));
@@ -135,7 +135,7 @@ public class UserRestController {
 		String userName = authentication.getName();
 
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>("userName", RelationalOperator.EQUAL, userName);
+		StringSearchCriterion filter = new SingleValuedFilter<>("userName", RelationalOperator.EQUAL, userName);
 
 		options.setFilters(Arrays.asList(new Filter<?>[] { filter }));
 

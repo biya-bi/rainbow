@@ -15,6 +15,7 @@
 		<module>rainbow-common</module>
 		<module>rainbow-faces</module>
 		<!-- <module>rainbow-journal</module> -->
+		<module>rainbow-search-criteria</module>
 		<module>rainbow-security</module>
 		<!-- <module>rainbow-shopping-cart</module> -->
 	</modules>

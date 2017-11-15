@@ -11,7 +11,7 @@ import org.rainbow.criteria.PredicateBuilderFactory;
 import org.rainbow.criteria.SearchOptions;
 import org.rainbow.criteria.SearchOptionsFactory;
 import org.rainbow.faces.controllers.ServiceController;
-import org.rainbow.faces.util.FilterUtil;
+import org.rainbow.faces.util.SearchCriteriaUtil;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -64,7 +64,7 @@ public abstract class AbstractReadController<T> extends LazyDataModel<T> impleme
 		List<T> result;
 		try {
 			SearchOptions searchOptions = searchOptionsFactory.create(pageIndex, pageSize,
-					FilterUtil.getPredicate(this, predicateBuilderFactory, pathFactory));
+					SearchCriteriaUtil.getPredicate(this, predicateBuilderFactory, pathFactory));
 			result = service.find(searchOptions);
 			setRowCount((int) service.count(searchOptions.getPredicate()));
 

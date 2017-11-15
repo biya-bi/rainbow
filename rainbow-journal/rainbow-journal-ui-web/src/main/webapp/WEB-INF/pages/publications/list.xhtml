@@ -21,14 +21,14 @@
 		deleteDialog="publicationDeleteDialog"
 		deleteUpdate=":publicationDelete:form"
 		columnToggleListener="#{publicationController.onToggle}"
-		creatorFilterValue="#{publicationLazyDataModel.creatorFilter.value}"
-		creatorFilterOperator="#{publicationLazyDataModel.creatorFilter.operator}"
-		updaterFilterValue="#{publicationLazyDataModel.updaterFilter.value}"
-		updaterFilterOperator="#{publicationLazyDataModel.updaterFilter.operator}"
-		creationDateFilterValue="#{publicationLazyDataModel.creationDateFilter.value}"
-		creationDateFilterOperator="#{publicationLazyDataModel.creationDateFilter.operator}"
-		lastUpdateDateFilterValue="#{publicationLazyDataModel.lastUpdateDateFilter.value}"
-		lastUpdateDateFilterOperator="#{publicationLazyDataModel.lastUpdateDateFilter.operator}"
+		creatorFilterValue="#{publicationLazyDataModel.creatorSearchCriterion.value}"
+		creatorFilterOperator="#{publicationLazyDataModel.creatorSearchCriterion.operator}"
+		updaterFilterValue="#{publicationLazyDataModel.updaterSearchCriterion.value}"
+		updaterFilterOperator="#{publicationLazyDataModel.updaterSearchCriterion.operator}"
+		creationDateFilterValue="#{publicationLazyDataModel.creationDateSearchCriterion.value}"
+		creationDateFilterOperator="#{publicationLazyDataModel.creationDateSearchCriterion.operator}"
+		lastUpdateDateFilterValue="#{publicationLazyDataModel.lastUpdateDateSearchCriterion.value}"
+		lastUpdateDateFilterOperator="#{publicationLazyDataModel.lastUpdateDateSearchCriterion.operator}"
 		creatorColumnVisible="#{publicationController.auditColumnsStates[4]}"
 		updaterColumnVisible="#{publicationController.auditColumnsStates[5]}"
 		creationDateColumnVisible="#{publicationController.auditColumnsStates[6]}"
@@ -36,7 +36,7 @@
 
 		<p:column headerText="#{labels.PublicationJournalTitle}"
 			filterBy="#{item.parent.name}" sortBy="#{item.journal.name}"
-			filterValue="#{publicationLazyDataModel.journalNameFilter.value}">
+			filterValue="#{publicationLazyDataModel.journalNameSearchCriterion.value}">
 
 			<p:commandLink update=":publicationDetails:form"
 				value="#{item.journal.name}"
@@ -48,7 +48,7 @@
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="publicationList:form:dataTable"
-					selectedValue="#{publicationLazyDataModel.journalNameFilter.operator}"
+					selectedValue="#{publicationLazyDataModel.journalNameSearchCriterion.operator}"
 					changeWidgetVar="publicationListDataTable" />
 			</f:facet>
 		</p:column>
@@ -56,21 +56,21 @@
 		<p:column headerText="#{labels.PublicationPublisherTitle}"
 			filterBy="#{item.parent.name}"
 			sortBy="#{item.publisherProfile.userName}"
-			filterValue="#{publicationLazyDataModel.publisherUserNameFilter.value}">
+			filterValue="#{publicationLazyDataModel.publisherUserNameSearchCriterion.value}">
 
 			<p:outputLabel value="#{item.publisherProfile.userName}" />
 
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="publicationList:form:dataTable"
-					selectedValue="#{publicationLazyDataModel.publisherUserNameFilter.operator}"
+					selectedValue="#{publicationLazyDataModel.publisherUserNameSearchCriterion.operator}"
 					changeWidgetVar="publicationListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.PublicationDateTitle}"
 			filterBy="#{item.name}" sortBy="#{item.publicationDate}"
-			filterValue="#{publicationLazyDataModel.publicationDateFilter.value}">
+			filterValue="#{publicationLazyDataModel.publicationDateSearchCriterion.value}">
 
 			<f:facet name="filter">
 				<p:calendar navigator="true">
@@ -85,7 +85,7 @@
 			<f:facet name="footer">
 				<cps:comparableFilterSelectOneMenu
 					changeUpdate="publicationList:form:dataTable"
-					selectedValue="#{publicationLazyDataModel.publicationDateFilter.operator}"
+					selectedValue="#{publicationLazyDataModel.publicationDateSearchCriterion.operator}"
 					changeWidgetVar="publicationListDataTable" />
 			</f:facet>
 		</p:column>

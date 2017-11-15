@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.SearchOptions;
 import org.rainbow.core.service.Service;
 import org.rainbow.shopping.cart.ui.web.utilities.BeanUtilities;

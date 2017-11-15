@@ -17,12 +17,12 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rainbow.core.persistence.Filter;
-import org.rainbow.core.persistence.ListValuedFilter;
-import org.rainbow.core.persistence.RangeValuedFilter;
+import org.rainbow.core.persistence.SearchCriterion;
+import org.rainbow.core.persistence.ListValuedSearchCriterion;
+import org.rainbow.core.persistence.RangeValuedSearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.core.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.journal.core.entities.Journal;
 import org.rainbow.journal.core.entities.Profile;
@@ -131,7 +131,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameExistsAndOperatorIsEqual_ReturnOneJournal() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.EQUAL);
 		filter.setValue("Acta Orthopaedica et Traumatologica Turcica");
@@ -145,7 +145,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsEqual_ReturnNoJournal() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.EQUAL);
 		filter.setValue("non-existent-journal-name");
@@ -159,7 +159,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameExistsAndOperatorIsNotEqual_ReturnJournals() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.NOT_EQUAL);
 		filter.setValue("Acta Oto-Laryngologica");
@@ -175,7 +175,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsNotEqual_ReturnAllJournals() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.NOT_EQUAL);
 		filter.setValue("non-existent-journal-name");
@@ -190,7 +190,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameExistsAndOperatorIsContains_ReturnTwoJournals() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.CONTAINS);
 		filter.setValue("Scandinavica");
@@ -204,7 +204,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsContains_ReturnNoJournal() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.CONTAINS);
 		filter.setValue("nonexistent");
@@ -218,7 +218,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameExistsAndOperatorIsStartsWith_ReturnOneJournal() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.STARTS_WITH);
 		filter.setValue("acta");
@@ -232,7 +232,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsStartsWith_ReturnNoJournal() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.STARTS_WITH);
 		filter.setValue("non-existent-start");
@@ -246,7 +246,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameExistsAndOperatorIsEndsWith_ReturnTwoJournal() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.ENDS_WITH);
 		filter.setValue("Scandinavica");
@@ -260,7 +260,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsEndsWith_ReturnNoJournal() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.ENDS_WITH);
 		filter.setValue("non-existent-end");
@@ -274,7 +274,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_OperatorIsEmpty_ReturnNoJournal() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.IS_EMPTY);
 		List<Filter<?>> filters = new ArrayList<>();
@@ -287,7 +287,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_OperatorIsNotEmpty_ReturnJournals() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.IS_NOT_EMPTY);
 		List<Filter<?>> filters = new ArrayList<>();
@@ -300,7 +300,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameExistsAndOperatorIsDoesNotContain_ReturnJournals() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.DOES_NOT_CONTAIN);
 		filter.setValue("Scandinavica");
@@ -316,7 +316,7 @@ public class JournalServiceTest {
 	@Test
 	public void find_NameDoesnotExistAndOperatorIsDoesNotContain_ReturnAllJournals() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("name");
 		filter.setOperator(RelationalOperator.DOES_NOT_CONTAIN);
 		filter.setValue("nonexistent");

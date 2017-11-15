@@ -43,7 +43,7 @@
 						selectionText="#{purchaseOrderWriteController.model.vendor.name}"
 						dataSource="#{vendorReadController}" itemLabel="#{item.name}"
 						selection="#{purchaseOrderWriteController.model.vendor}"
-						filterValue="#{vendorReadController.nameFilter.value}"
+						filterValue="#{vendorReadController.nameSearchCriterion.value}"
 						required="true" requiredMessage="#{valMsg.VendorRequired}"
 						toolTip="#{labels.VendorTitle}" />
 				</p:column>
@@ -63,7 +63,7 @@
 						selectionText="#{purchaseOrderWriteController.model.shipMethod.name}"
 						dataSource="#{shipMethodReadController}" itemLabel="#{item.name}"
 						selection="#{purchaseOrderWriteController.model.shipMethod}"
-						filterValue="#{shipMethodReadController.nameFilter.value}"
+						filterValue="#{shipMethodReadController.nameSearchCriterion.value}"
 						toolTip="#{labels.ShipMethodTitle}" />
 				</p:column>
 			</p:row>
@@ -79,7 +79,7 @@
 						selectionText="#{purchaseOrderWriteController.model.location.name}"
 						dataSource="#{locationReadController}" itemLabel="#{item.name}"
 						selection="#{purchaseOrderWriteController.model.location}"
-						filterValue="#{locationReadController.nameFilter.value}"
+						filterValue="#{locationReadController.nameSearchCriterion.value}"
 						toolTip="#{labels.LocationTitle}" />
 				</p:column>
 			</p:row>

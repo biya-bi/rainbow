@@ -9,10 +9,10 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.journal.core.entities.Journal;
 import org.rainbow.journal.core.entities.Publication;
 import org.rainbow.journal.core.entities.Subscription;
@@ -97,7 +97,7 @@ public class FrontOfficeController implements Serializable {
 
 		String userName = getUserName();
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> userNameFilter = new SingleValuedFilter<>("subscriberProfile.userName",
+		StringSearchCriterion userNameSearchCriterion = new SingleValuedFilter<>("subscriberProfile.userName",
 				RelationalOperator.EQUAL, userName);
 
 		options.setFilters(Arrays.asList(new Filter<?>[] { userNameFilter }));
@@ -134,9 +134,9 @@ public class FrontOfficeController implements Serializable {
 		String userName = getUserName();
 
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> userNameFilter = new SingleValuedFilter<>("subscriberProfile.userName",
+		StringSearchCriterion userNameSearchCriterion = new SingleValuedFilter<>("subscriberProfile.userName",
 				RelationalOperator.EQUAL, userName);
-		SingleValuedFilter<Long> journalIdFilter = new SingleValuedFilter<>("journal.id", RelationalOperator.EQUAL,
+		SingleValuedFilter<Long> journalIdSearchCriterion = new SingleValuedFilter<>("journal.id", RelationalOperator.EQUAL,
 				selectedJournal.getId());
 
 		options.setFilters(Arrays.asList(new Filter<?>[] { userNameFilter, journalIdFilter }));

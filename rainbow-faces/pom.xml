@@ -43,6 +43,11 @@
 			<artifactId>rainbow-orm</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rainbow-search-criteria</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- Primeface dependency -->
 		<dependency>
 			<groupId>org.primefaces</groupId>

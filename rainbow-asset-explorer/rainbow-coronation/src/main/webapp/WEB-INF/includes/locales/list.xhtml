@@ -25,14 +25,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_LOCALES')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_LOCALES')}"
 			columnToggleListener="#{localeReadController.onToggle}"
-			creatorFilterValue="#{localeReadController.creatorFilter.value}"
-			creatorFilterOperator="#{localeReadController.creatorFilter.operator}"
-			updaterFilterValue="#{localeReadController.updaterFilter.value}"
-			updaterFilterOperator="#{localeReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{localeReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{localeReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{localeReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{localeReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{localeReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{localeReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{localeReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{localeReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{localeReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{localeReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{localeReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{localeReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{localeReadController.auditColumnsStates[3]}"
 			updaterColumnVisible="#{localeReadController.auditColumnsStates[4]}"
 			creationDateColumnVisible="#{localeReadController.auditColumnsStates[5]}"
@@ -40,36 +40,36 @@
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{localeReadController.nameFilter.value}">
+				filterValue="#{localeReadController.nameSearchCriterion.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="localeList:form:dataTable"
-						selectedValue="#{localeReadController.nameFilter.operator}"
+						selectedValue="#{localeReadController.nameSearchCriterion.operator}"
 						changeWidgetVar="localeListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.LanguageCodeTitle}"
 				filterBy="#{item.languageCode}" sortBy="#{item.languageCode}"
-				filterValue="#{localeReadController.languageCodeFilter.value}">
+				filterValue="#{localeReadController.languageCodeSearchCriterion.value}">
 				<h:outputText value="#{item.languageCode}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="localeList:form:dataTable"
-						selectedValue="#{localeReadController.languageCodeFilter.operator}"
+						selectedValue="#{localeReadController.languageCodeSearchCriterion.operator}"
 						changeWidgetVar="localeListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.LCIDTitle}" filterBy="#{item.lcid}"
 				sortBy="#{item.lcid}"
-				filterValue="#{localeReadController.lcidFilter.value}">
+				filterValue="#{localeReadController.lcidSearchCriterion.value}">
 				<h:outputText value="#{item.lcid}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="localeList:form:dataTable"
-						selectedValue="#{localeReadController.lcidFilter.operator}"
+						selectedValue="#{localeReadController.lcidSearchCriterion.operator}"
 						changeWidgetVar="localeListDataTable" />
 				</f:facet>
 			</p:column>

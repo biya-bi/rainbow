@@ -19,70 +19,70 @@
 		deleteDialog="userDeleteDialog" deleteUpdate=":userDelete:form"
 		selectionUpdate=":userList:headerGroupsButton,:userList:footerGroupsButton,:userList:headerSetPasswordLink,:userList:footerSetPasswordLink"
 		columnToggleListener="#{userReadController.onToggle}"
-		creatorFilterValue="#{userReadController.creatorFilter.value}"
-		creatorFilterOperator="#{userReadController.creatorFilter.operator}"
-		updaterFilterValue="#{userReadController.updaterFilter.value}"
-		updaterFilterOperator="#{userReadController.updaterFilter.operator}"
-		creationDateFilterValue="#{userReadController.creationDateFilter.value}"
-		creationDateFilterOperator="#{userReadController.creationDateFilter.operator}"
-		lastUpdateDateFilterValue="#{userReadController.lastUpdateDateFilter.value}"
-		lastUpdateDateFilterOperator="#{userReadController.lastUpdateDateFilter.operator}">
+		creatorFilterValue="#{userReadController.creatorSearchCriterion.value}"
+		creatorFilterOperator="#{userReadController.creatorSearchCriterion.operator}"
+		updaterFilterValue="#{userReadController.updaterSearchCriterion.value}"
+		updaterFilterOperator="#{userReadController.updaterSearchCriterion.operator}"
+		creationDateFilterValue="#{userReadController.creationDateSearchCriterion.value}"
+		creationDateFilterOperator="#{userReadController.creationDateSearchCriterion.operator}"
+		lastUpdateDateFilterValue="#{userReadController.lastUpdateDateSearchCriterion.value}"
+		lastUpdateDateFilterOperator="#{userReadController.lastUpdateDateSearchCriterion.operator}">
 
 		<p:column headerText="#{labels.UserNameTitle}"
 			filterBy="#{item.userName}" sortBy="#{item.userName}"
-			filterValue="#{userReadController.userNameFilter.value}">
+			filterValue="#{userReadController.userNameSearchCriterion.value}">
 			<h:outputText value="#{item.userName}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userReadController.userNameFilter.operator}"
+					selectedValue="#{userReadController.userNameSearchCriterion.operator}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.ApplicationTitle}"
 			filterBy="#{item.application.name}" sortBy="#{item.application.name}"
-			filterValue="#{userReadController.applicationNameFilter.value}">
+			filterValue="#{userReadController.applicationNameSearchCriterion.value}">
 			<h:outputText value="#{item.application.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userReadController.applicationNameFilter.operator}"
+					selectedValue="#{userReadController.applicationNameSearchCriterion.operator}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.EmailTitle}"
 			filterBy="#{item.membership.email}" sortBy="#{item.membership.email}"
-			filterValue="#{userReadController.emailFilter.value}">
+			filterValue="#{userReadController.emailSearchCriterion.value}">
 			<h:outputText value="#{item.membership.email}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userReadController.emailFilter.operator}"
+					selectedValue="#{userReadController.emailSearchCriterion.operator}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.PhoneTitle}"
 			filterBy="#{item.membership.phone}" sortBy="#{item.membership.phone}"
-			filterValue="#{userReadController.phoneFilter.value}">
+			filterValue="#{userReadController.phoneSearchCriterion.value}">
 			<h:outputText value="#{item.membership.phone}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userReadController.phoneFilter.operator}"
+					selectedValue="#{userReadController.phoneSearchCriterion.operator}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.EnabledTitle}"
 			sortBy="#{item.membership.enabled}"
-			filterValue="#{userReadController.enabledFilter.value}">
+			filterValue="#{userReadController.enabledSearchCriterion.value}">
 			<f:facet name="footer">
 				<cps:booleanFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userReadController.enabledFilter.value}"
+					selectedValue="#{userReadController.enabledSearchCriterion.value}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 			<h:selectBooleanCheckbox disabled="true" readonly="false"
@@ -91,11 +91,11 @@
 
 		<p:column headerText="#{labels.LockedTitle}"
 			sortBy="#{item.membership.locked}"
-			filterValue="#{userReadController.lockedFilter.value}">
+			filterValue="#{userReadController.lockedSearchCriterion.value}">
 			<f:facet name="footer">
 				<cps:booleanFilterSelectOneMenu
 					changeUpdate="userList:form:dataTable"
-					selectedValue="#{userReadController.lockedFilter.value}"
+					selectedValue="#{userReadController.lockedSearchCriterion.value}"
 					changeWidgetVar="userListDataTable" />
 			</f:facet>
 			<h:selectBooleanCheckbox disabled="true" readonly="false"

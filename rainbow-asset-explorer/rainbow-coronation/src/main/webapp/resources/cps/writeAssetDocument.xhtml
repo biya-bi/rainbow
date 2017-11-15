@@ -58,7 +58,7 @@
                                 dataSource="#{assetReadController}" 
                                 itemLabel="#{item.name}"
                                 selection="#{assetDocumentWriteController.model.asset}"
-                                filterValue="#{assetReadController.nameFilter.value}"
+                                filterValue="#{assetReadController.nameSearchCriterion.value}"
                                 required="true"
                                 requiredMessage="#{valMsg.AssetRequired}"
                                 toolTip="#{labels.AssetTitle}"/>

@@ -18,12 +18,12 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rainbow.core.persistence.Filter;
-import org.rainbow.core.persistence.ListValuedFilter;
-import org.rainbow.core.persistence.RangeValuedFilter;
+import org.rainbow.core.persistence.SearchCriterion;
+import org.rainbow.core.persistence.ListValuedSearchCriterion;
+import org.rainbow.core.persistence.RangeValuedSearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.core.persistence.exceptions.NonexistentEntityException;
 import org.rainbow.journal.core.entities.Journal;
 import org.rainbow.journal.core.entities.Profile;
@@ -152,7 +152,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameExistsAndOperatorIsEqual_ReturnOneSubscription() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.EQUAL);
 		filter.setValue("Acta Orthopaedica et Traumatologica Turcica");
@@ -166,7 +166,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameDoesnotExistAndOperatorIsEqual_ReturnNoSubscription() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.EQUAL);
 		filter.setValue("non-existent-subscription-name");
@@ -180,7 +180,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameExistsAndOperatorIsNotEqual_ReturnSubscriptions() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.NOT_EQUAL);
 		filter.setValue("Acta Oto-Laryngologica");
@@ -196,7 +196,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameDoesnotExistAndOperatorIsNotEqual_ReturnAllSubscriptions() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.NOT_EQUAL);
 		filter.setValue("non-existent-subscription-name");
@@ -211,7 +211,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameExistsAndOperatorIsContains_ReturnTwoSubscriptions() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.CONTAINS);
 		filter.setValue("Scandinavica");
@@ -225,7 +225,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameDoesnotExistAndOperatorIsContains_ReturnNoSubscription() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.CONTAINS);
 		filter.setValue("nonexistent");
@@ -239,7 +239,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameExistsAndOperatorIsStartsWith_ReturnOneSubscription() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.STARTS_WITH);
 		filter.setValue("acta");
@@ -253,7 +253,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameDoesnotExistAndOperatorIsStartsWith_ReturnNoSubscription() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.STARTS_WITH);
 		filter.setValue("non-existent-start");
@@ -267,7 +267,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameExistsAndOperatorIsEndsWith_ReturnTwoSubscription() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.ENDS_WITH);
 		filter.setValue("Scandinavica");
@@ -281,7 +281,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameDoesnotExistAndOperatorIsEndsWith_ReturnNoSubscription() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.ENDS_WITH);
 		filter.setValue("non-existent-end");
@@ -295,7 +295,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_OperatorIsEmpty_ReturnNoSubscription() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.IS_EMPTY);
 		List<Filter<?>> filters = new ArrayList<>();
@@ -308,7 +308,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_OperatorIsNotEmpty_ReturnSubscriptions() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.IS_NOT_EMPTY);
 		List<Filter<?>> filters = new ArrayList<>();
@@ -321,7 +321,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameExistsAndOperatorIsDoesNotContain_ReturnSubscriptions() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.DOES_NOT_CONTAIN);
 		filter.setValue("Scandinavica");
@@ -337,7 +337,7 @@ public class SubscriptionServiceTest {
 	@Test
 	public void find_JournalNameDoesnotExistAndOperatorIsDoesNotContain_ReturnAllSubscriptions() throws Exception {
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>();
+		StringSearchCriterion filter = new SingleValuedFilter<>();
 		filter.setFieldName("journal.name");
 		filter.setOperator(RelationalOperator.DOES_NOT_CONTAIN);
 		filter.setValue("nonexistent");

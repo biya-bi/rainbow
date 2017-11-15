@@ -25,14 +25,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_VENDORS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_VENDORS')}"
 			columnToggleListener="#{vendorReadController.onToggle}"
-			creatorFilterValue="#{vendorReadController.creatorFilter.value}"
-			creatorFilterOperator="#{vendorReadController.creatorFilter.operator}"
-			updaterFilterValue="#{vendorReadController.updaterFilter.value}"
-			updaterFilterOperator="#{vendorReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{vendorReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{vendorReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{vendorReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{vendorReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{vendorReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{vendorReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{vendorReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{vendorReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{vendorReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{vendorReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{vendorReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{vendorReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{vendorReadController.auditColumnsStates[4]}"
 			updaterColumnVisible="#{vendorReadController.auditColumnsStates[5]}"
 			creationDateColumnVisible="#{vendorReadController.auditColumnsStates[6]}"
@@ -40,46 +40,46 @@
 
 			<p:column headerText="#{labels.AccountNumberTitle}"
 				filterBy="#{item.accountNumber}" sortBy="#{item.accountNumber}"
-				filterValue="#{vendorReadController.accountNumberFilter.value}">
+				filterValue="#{vendorReadController.accountNumberSearchCriterion.value}">
 				<h:outputText value="#{item.accountNumber}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="vendorList:form:dataTable"
-						selectedValue="#{vendorReadController.accountNumberFilter.operator}"
+						selectedValue="#{vendorReadController.accountNumberSearchCriterion.operator}"
 						changeWidgetVar="vendorListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 				sortBy="#{item.name}"
-				filterValue="#{vendorReadController.nameFilter.value}">
+				filterValue="#{vendorReadController.nameSearchCriterion.value}">
 				<h:outputText value="#{item.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="vendorList:form:dataTable"
-						selectedValue="#{vendorReadController.nameFilter.operator}"
+						selectedValue="#{vendorReadController.nameSearchCriterion.operator}"
 						changeWidgetVar="vendorListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.PurchasingUrlTitle}"
 				filterBy="#{item.purchasingUrl}" sortBy="#{item.purchasingUrl}"
-				filterValue="#{vendorReadController.purchasingUrlFilter.value}">
+				filterValue="#{vendorReadController.purchasingUrlSearchCriterion.value}">
 				<h:outputText value="#{item.purchasingUrl}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="vendorList:form:dataTable"
-						selectedValue="#{vendorReadController.purchasingUrlFilter.operator}"
+						selectedValue="#{vendorReadController.purchasingUrlSearchCriterion.operator}"
 						changeWidgetVar="vendorListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.ActiveTitle}" sortBy="#{item.active}"
-				filterValue="#{vendorReadController.activeFilter.value}">
+				filterValue="#{vendorReadController.activeSearchCriterion.value}">
 				<f:facet name="footer">
 					<cps:booleanFilterSelectOneMenu
 						changeUpdate="vendorList:form:dataTable"
-						selectedValue="#{vendorReadController.activeFilter.value}"
+						selectedValue="#{vendorReadController.activeSearchCriterion.value}"
 						changeWidgetVar="vendorListDataTable" />
 				</f:facet>
 				<h:selectBooleanCheckbox disabled="true" readonly="false"

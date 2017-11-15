@@ -24,14 +24,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_ALERTS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_ALERTS')}"
 			columnToggleListener="#{alertReadController.onToggle}"
-			creatorFilterValue="#{alertReadController.creatorFilter.value}"
-			creatorFilterOperator="#{alertReadController.creatorFilter.operator}"
-			updaterFilterValue="#{alertReadController.updaterFilter.value}"
-			updaterFilterOperator="#{alertReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{alertReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{alertReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{alertReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{alertReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{alertReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{alertReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{alertReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{alertReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{alertReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{alertReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{alertReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{alertReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{alertReadController.auditColumnsStates[4]}"
 			updaterColumnVisible="#{alertReadController.auditColumnsStates[5]}"
 			creationDateColumnVisible="#{alertReadController.auditColumnsStates[6]}"
@@ -64,7 +64,7 @@
 
 			<p:column headerText="#{labels.AlertTypeTitle}"
 				sortBy="#{item.alertType}" filterBy="#{item.alertType}"
-				filterValue="#{alertReadController.alertTypeFilter.value}">
+				filterValue="#{alertReadController.alertTypeSearchCriterion.value}">
 				<f:facet name="filter">
 					<p:selectOneMenu id="alertTypeFilter"
 						onchange="PF('alertListDataTable').filter()">
@@ -82,7 +82,7 @@
 
 			<p:column headerText="#{labels.AlertCategoryTitle}"
 				sortBy="#{item.alertCategory}" filterBy="#{item.alertCategory}"
-				filterValue="#{alertReadController.alertCategoryFilter.value}">
+				filterValue="#{alertReadController.alertCategorySearchCriterion.value}">
 				<f:facet name="filter">
 					<p:selectOneMenu id="alertCategoryFilter"
 						onchange="PF('alertListDataTable').filter()">
@@ -100,11 +100,11 @@
 
 			<p:column headerText="#{labels.EnabledTitle}"
 				sortBy="#{item.enabled}"
-				filterValue="#{alertReadController.enabledFilter.value}">
+				filterValue="#{alertReadController.enabledSearchCriterion.value}">
 				<f:facet name="footer">
 					<cps:booleanFilterSelectOneMenu
 						changeUpdate="alertList:form:dataTable"
-						selectedValue="#{alertReadController.enabledFilter.value}"
+						selectedValue="#{alertReadController.enabledSearchCriterion.value}"
 						changeWidgetVar="alertListDataTable" />
 				</f:facet>
 				<h:selectBooleanCheckbox disabled="true" readonly="false"
@@ -112,11 +112,11 @@
 			</p:column>
 			<p:column headerText="#{labels.ImmediateTitle}"
 				sortBy="#{item.immediate}"
-				filterValue="#{alertReadController.immediateFilter.value}">
+				filterValue="#{alertReadController.immediateSearchCriterion.value}">
 				<f:facet name="footer">
 					<cps:booleanFilterSelectOneMenu
 						changeUpdate="alertList:form:dataTable"
-						selectedValue="#{alertReadController.immediateFilter.value}"
+						selectedValue="#{alertReadController.immediateSearchCriterion.value}"
 						changeWidgetVar="alertListDataTable" />
 				</f:facet>
 				<h:selectBooleanCheckbox disabled="true" readonly="false"

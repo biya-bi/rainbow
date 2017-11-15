@@ -14,9 +14,9 @@ import org.rainbow.asset.explorer.orm.entities.Asset;
 import org.rainbow.asset.explorer.service.services.AssetService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,41 +35,41 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 	 */
 	private static final long serialVersionUID = 5000782598224274450L;
 
-	private static final String NAME_FILTER = "name";
-	private static final String SERIAL_NUMBER_FILTER = "serialNumber";
-	private static final String MANUFACTURER_NAME_FILTER = "product.manufacturer.name";
-	private static final String ASSET_TYPE_NAME_FILTER = "assetType.name";
-	private static final String MANUFACTURER_BUSINESS_IMPACT_FILTER = "manufacturerBusinessImpact";
-	private static final String ASSET_STATE_FILTER = "state";
-	private static final String ACQUISITION_DATE_FILTER = "acquisitionDate";
-	private static final String EXPIRY_DATE_FILTER = "expiryDate";
-	private static final String WARRANTY_EXPIRY_DATE_FILTER = "warrantyExpiryDate";
+	private static final String NAME_PATH = "name";
+	private static final String SERIAL_NUMBER_PATH = "serialNumber";
+	private static final String MANUFACTURER_NAME_PATH = "product.manufacturer.name";
+	private static final String ASSET_TYPE_NAME_PATH = "assetType.name";
+	private static final String MANUFACTURER_BUSINESS_IMPACT_PATH = "manufacturerBusinessImpact";
+	private static final String ASSET_STATE_PATH = "state";
+	private static final String ACQUISITION_DATE_PATH = "acquisitionDate";
+	private static final String EXPIRY_DATE_PATH = "expiryDate";
+	private static final String WARRANTY_EXPIRY_DATE_PATH = "warrantyExpiryDate";
 	private static final String DEPRECIATION_METHOD = "depreciationMethod";
-	private static final String BARCODE_FILTER = "barCode";
-	private static final String PRODUCT_NAME_FILTER = "product.name";
-	private static final String SITE_LOCATION_FILTER = "site.location";
-	private static final String SITE_NAME_FILTER = "site.name";
-	private static final String SITE_STATUS_FILTER = "site.status";
-	private static final String VENDOR_NAME_FILTER = "vendor.name";
-	private static final String SITE_ID_FILTER = "site.id";
+	private static final String BARCODE_PATH = "barCode";
+	private static final String PRODUCT_NAME_PATH = "product.name";
+	private static final String SITE_LOCATION_PATH = "site.location";
+	private static final String SITE_NAME_PATH = "site.name";
+	private static final String SITE_STATUS_PATH = "site.status";
+	private static final String VENDOR_NAME_PATH = "vendor.name";
+	private static final String SITE_ID_PATH = "site.id";
 
-	private final SingleValuedFilter<String> nameFilter;
-	private final SingleValuedFilter<String> serialNumberFilter;
-	private final SingleValuedFilter<String> manufacturerNameFilter;
-	private final SingleValuedFilter<String> assetTypeFilter;
-	private final SingleValuedFilter<String> manufacturerBusinessImpactFilter;
-	private final SingleValuedFilter<String> stateFilter;
-	private final SingleValuedFilter<String> acquisitionDateFilter;
-	private final SingleValuedFilter<String> expiryDateFilter;
-	private final SingleValuedFilter<String> warrantyExpiryDateFilter;
-	private final SingleValuedFilter<String> depreciationMethodFilter;
-	private final SingleValuedFilter<String> barCodeFilter;
-	private final SingleValuedFilter<String> productNameFilter;
-	private final SingleValuedFilter<String> siteLocationFilter;
-	private final SingleValuedFilter<String> siteStatusFilter;
-	private final SingleValuedFilter<String> siteNameFilter;
-	private final SingleValuedFilter<String> vendorNameFilter;
-	private final SingleValuedFilter<String> siteIdFilter;
+	private final StringSearchCriterion nameSearchCriterion;
+	private final StringSearchCriterion serialNumberSearchCriterion;
+	private final StringSearchCriterion manufacturerNameSearchCriterion;
+	private final StringSearchCriterion assetTypeSearchCriterion;
+	private final StringSearchCriterion manufacturerBusinessImpactSearchCriterion;
+	private final StringSearchCriterion stateSearchCriterion;
+	private final ComparableSearchCriterion<Date> acquisitionDateSearchCriterion;
+	private final ComparableSearchCriterion<Date> expiryDateSearchCriterion;
+	private final ComparableSearchCriterion<Date> warrantyExpiryDateSearchCriterion;
+	private final StringSearchCriterion depreciationMethodSearchCriterion;
+	private final StringSearchCriterion barCodeSearchCriterion;
+	private final StringSearchCriterion productNameSearchCriterion;
+	private final StringSearchCriterion siteLocationSearchCriterion;
+	private final StringSearchCriterion siteStatusSearchCriterion;
+	private final StringSearchCriterion siteNameSearchCriterion;
+	private final StringSearchCriterion vendorNameSearchCriterion;
+	private final ComparableSearchCriterion<Long> siteIdSearchCriterion;
 
 	private final EnumTranslator translator;
 
@@ -80,124 +80,136 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 		super(Long.class);
 		translator = new EnumTranslator();
 
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-		serialNumberFilter = new SingleValuedFilter<>(SERIAL_NUMBER_FILTER, RelationalOperator.CONTAINS, "");
-		manufacturerNameFilter = new SingleValuedFilter<>(MANUFACTURER_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		assetTypeFilter = new SingleValuedFilter<>(ASSET_TYPE_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		manufacturerBusinessImpactFilter = new SingleValuedFilter<>(MANUFACTURER_BUSINESS_IMPACT_FILTER,
-				RelationalOperator.CONTAINS, "");
-		stateFilter = new SingleValuedFilter<>(ASSET_STATE_FILTER, RelationalOperator.CONTAINS, "");
-		acquisitionDateFilter = new SingleValuedFilter<>(ACQUISITION_DATE_FILTER, RelationalOperator.EQUAL, null);
-		expiryDateFilter = new SingleValuedFilter<>(EXPIRY_DATE_FILTER, RelationalOperator.EQUAL, null);
-		warrantyExpiryDateFilter = new SingleValuedFilter<>(WARRANTY_EXPIRY_DATE_FILTER, RelationalOperator.EQUAL,
+		nameSearchCriterion = new StringSearchCriterion(NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		serialNumberSearchCriterion = new StringSearchCriterion(SERIAL_NUMBER_PATH,
+				StringSearchCriterion.Operator.CONTAINS, null);
+		manufacturerNameSearchCriterion = new StringSearchCriterion(MANUFACTURER_NAME_PATH,
+				StringSearchCriterion.Operator.CONTAINS, null);
+		assetTypeSearchCriterion = new StringSearchCriterion(ASSET_TYPE_NAME_PATH,
+				StringSearchCriterion.Operator.CONTAINS, null);
+		manufacturerBusinessImpactSearchCriterion = new StringSearchCriterion(MANUFACTURER_BUSINESS_IMPACT_PATH,
+				StringSearchCriterion.Operator.CONTAINS, null);
+		stateSearchCriterion = new StringSearchCriterion(ASSET_STATE_PATH, StringSearchCriterion.Operator.CONTAINS,
 				null);
-		depreciationMethodFilter = new SingleValuedFilter<>(DEPRECIATION_METHOD, RelationalOperator.CONTAINS, "");
-		barCodeFilter = new SingleValuedFilter<>(BARCODE_FILTER, RelationalOperator.CONTAINS, "");
-		productNameFilter = new SingleValuedFilter<>(PRODUCT_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		siteLocationFilter = new SingleValuedFilter<>(SITE_LOCATION_FILTER, RelationalOperator.CONTAINS, "");
-		siteStatusFilter = new SingleValuedFilter<>(SITE_STATUS_FILTER, RelationalOperator.CONTAINS, "");
-		siteNameFilter = new SingleValuedFilter<>(SITE_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		vendorNameFilter = new SingleValuedFilter<>(VENDOR_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		siteIdFilter = new SingleValuedFilter<>(SITE_ID_FILTER);
+		acquisitionDateSearchCriterion = new ComparableSearchCriterion<>(ACQUISITION_DATE_PATH,
+				ComparableSearchCriterion.Operator.EQUAL, null);
+		expiryDateSearchCriterion = new ComparableSearchCriterion<>(EXPIRY_DATE_PATH,
+				ComparableSearchCriterion.Operator.EQUAL, null);
+		warrantyExpiryDateSearchCriterion = new ComparableSearchCriterion<>(WARRANTY_EXPIRY_DATE_PATH,
+				ComparableSearchCriterion.Operator.EQUAL, null);
+		depreciationMethodSearchCriterion = new StringSearchCriterion(DEPRECIATION_METHOD,
+				StringSearchCriterion.Operator.CONTAINS, null);
+		barCodeSearchCriterion = new StringSearchCriterion(BARCODE_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		productNameSearchCriterion = new StringSearchCriterion(PRODUCT_NAME_PATH,
+				StringSearchCriterion.Operator.CONTAINS, null);
+		siteLocationSearchCriterion = new StringSearchCriterion(SITE_LOCATION_PATH,
+				StringSearchCriterion.Operator.CONTAINS, null);
+		siteStatusSearchCriterion = new StringSearchCriterion(SITE_STATUS_PATH, StringSearchCriterion.Operator.CONTAINS,
+				null);
+		siteNameSearchCriterion = new StringSearchCriterion(SITE_NAME_PATH, StringSearchCriterion.Operator.CONTAINS,
+				null);
+		vendorNameSearchCriterion = new StringSearchCriterion(VENDOR_NAME_PATH, StringSearchCriterion.Operator.CONTAINS,
+				null);
+		siteIdSearchCriterion = new ComparableSearchCriterion<>(SITE_ID_PATH);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getNameFilter() {
-		return nameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getNameSearchCriterion() {
+		return nameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSerialNumberFilter() {
-		return serialNumberFilter;
+	@SearchCriterion
+	public StringSearchCriterion getSerialNumberSearchCriterion() {
+		return serialNumberSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getManufacturerNameFilter() {
-		return manufacturerNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getManufacturerNameSearchCriterion() {
+		return manufacturerNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getAssetTypeFilter() {
-		return assetTypeFilter;
+	@SearchCriterion
+	public StringSearchCriterion getAssetTypeSearchCriterion() {
+		return assetTypeSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getStateFilter() {
-		return stateFilter;
+	@SearchCriterion
+	public StringSearchCriterion getStateSearchCriterion() {
+		return stateSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getDepreciationMethodFilter() {
-		return depreciationMethodFilter;
+	@SearchCriterion
+	public StringSearchCriterion getDepreciationMethodSearchCriterion() {
+		return depreciationMethodSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSiteLocationFilter() {
-		return siteLocationFilter;
+	@SearchCriterion
+	public StringSearchCriterion getSiteLocationSearchCriterion() {
+		return siteLocationSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getManufacturerBusinessImpactFilter() {
-		return manufacturerBusinessImpactFilter;
+	@SearchCriterion
+	public StringSearchCriterion getManufacturerBusinessImpactSearchCriterion() {
+		return manufacturerBusinessImpactSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getAcquisitionDateFilter() {
-		return acquisitionDateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Date> getAcquisitionDateSearchCriterion() {
+		return acquisitionDateSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getExpiryDateFilter() {
-		return expiryDateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Date> getExpiryDateSearchCriterion() {
+		return expiryDateSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getWarrantyExpiryDateFilter() {
-		return warrantyExpiryDateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Date> getWarrantyExpiryDateSearchCriterion() {
+		return warrantyExpiryDateSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getBarCodeFilter() {
-		return barCodeFilter;
+	@SearchCriterion
+	public StringSearchCriterion getBarCodeSearchCriterion() {
+		return barCodeSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getProductNameFilter() {
-		return productNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getProductNameSearchCriterion() {
+		return productNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSiteStatusFilter() {
-		return siteStatusFilter;
+	@SearchCriterion
+	public StringSearchCriterion getSiteStatusSearchCriterion() {
+		return siteStatusSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSiteNameFilter() {
-		return siteNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getSiteNameSearchCriterion() {
+		return siteNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getVendorNameFilter() {
-		return vendorNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getVendorNameSearchCriterion() {
+		return vendorNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSiteIdFilter() {
-		return siteIdFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Long> getSiteIdSearchCriterion() {
+		return siteIdSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<Asset> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
-										// was specified.
+			sortField = NAME_PATH; // We want to sort by name if no sort field
+									// was specified.
 		}
 		final SortOrder order = sortOrder;
 
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -211,7 +223,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case SERIAL_NUMBER_FILTER: {
+			case SERIAL_NUMBER_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -225,7 +237,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case MANUFACTURER_NAME_FILTER: {
+			case MANUFACTURER_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -256,7 +268,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				break;
 			}
 
-			case ASSET_TYPE_NAME_FILTER: {
+			case ASSET_TYPE_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -280,7 +292,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				break;
 			}
 
-			case ASSET_STATE_FILTER: {
+			case ASSET_STATE_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -310,7 +322,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case MANUFACTURER_BUSINESS_IMPACT_FILTER: {
+			case MANUFACTURER_BUSINESS_IMPACT_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -325,7 +337,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case ACQUISITION_DATE_FILTER: {
+			case ACQUISITION_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -339,7 +351,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case EXPIRY_DATE_FILTER: {
+			case EXPIRY_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -353,7 +365,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case WARRANTY_EXPIRY_DATE_FILTER: {
+			case WARRANTY_EXPIRY_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -367,7 +379,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case BARCODE_FILTER: {
+			case BARCODE_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -381,7 +393,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case PRODUCT_NAME_FILTER: {
+			case PRODUCT_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -395,7 +407,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case SITE_NAME_FILTER: {
+			case SITE_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -418,7 +430,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case SITE_LOCATION_FILTER: {
+			case SITE_LOCATION_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -441,7 +453,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case SITE_STATUS_FILTER: {
+			case SITE_STATUS_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -465,7 +477,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case VENDOR_NAME_FILTER: {
+			case VENDOR_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override
@@ -488,7 +500,7 @@ public class AssetReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case SITE_ID_FILTER: {
+			case SITE_ID_PATH: {
 				final Comparator<Long> comparator = DefaultComparator.<Long>getInstance();
 				Collections.sort(list, new Comparator<Asset>() {
 					@Override

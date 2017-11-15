@@ -12,9 +12,9 @@ import org.rainbow.asset.explorer.orm.entities.ProductInventory;
 import org.rainbow.asset.explorer.service.services.ProductInventoryService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,57 +33,57 @@ public class ProductInventoryReadController extends AbstractAuditableEntityReadC
 	 */
 	private static final long serialVersionUID = -3493803572871669696L;
 
-	private static final String LOCATION_ID_FILTER = "id.locationId";
-	private static final String NAME_FILTER = "product.name";
-	private static final String NUMBER_FILTER = "product.number";
-	private static final String QUANTITY_FILTER = "quantity";
+	private static final String LOCATION_ID_PATH = "id.locationId";
+	private static final String NAME_PATH = "product.name";
+	private static final String NUMBER_PATH = "product.number";
+	private static final String QUANTITY_PATH = "quantity";
 
-	private final SingleValuedFilter<Long> locationIdFilter;
-	private final SingleValuedFilter<String> productNameFilter;
-	private final SingleValuedFilter<String> productNumberFilter;
-	private final SingleValuedFilter<Short> quantityFilter;
+	private final ComparableSearchCriterion<Long> locationIdSearchCriterion;
+	private final StringSearchCriterion productNameSearchCriterion;
+	private final StringSearchCriterion productNumberSearchCriterion;
+	private final ComparableSearchCriterion<Short> quantitySearchCriterion;
 
 	@Autowired
 	private ProductInventoryService productInventoryService;
 
 	public ProductInventoryReadController() {
-		locationIdFilter = new SingleValuedFilter<>(LOCATION_ID_FILTER, RelationalOperator.EQUAL, null);
-		productNameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-		productNumberFilter = new SingleValuedFilter<>(NUMBER_FILTER, RelationalOperator.CONTAINS, "");
-		quantityFilter = new SingleValuedFilter<>(QUANTITY_FILTER);
+		locationIdSearchCriterion = new ComparableSearchCriterion<>(LOCATION_ID_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
+		productNameSearchCriterion = new StringSearchCriterion(NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		productNumberSearchCriterion = new StringSearchCriterion(NUMBER_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		quantitySearchCriterion = new ComparableSearchCriterion<>(QUANTITY_PATH);
 	}
 
-	@Filterable
-	public SingleValuedFilter<Long> getLocationIdFilter() {
-		return locationIdFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Long> getLocationIdSearchCriterion() {
+		return locationIdSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getProductNameFilter() {
-		return productNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getProductNameSearchCriterion() {
+		return productNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getProductNumberFilter() {
-		return productNumberFilter;
+	@SearchCriterion
+	public StringSearchCriterion getProductNumberSearchCriterion() {
+		return productNumberSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<Short> getQuantityFilter() {
-		return quantityFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Short> getQuantitySearchCriterion() {
+		return quantitySearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<ProductInventory> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
+			sortField = NAME_PATH; // We want to sort by name if no sort field
 										// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ProductInventory>() {
 					@Override
@@ -97,7 +97,7 @@ public class ProductInventoryReadController extends AbstractAuditableEntityReadC
 				});
 				break;
 			}
-			case NUMBER_FILTER: {
+			case NUMBER_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ProductInventory>() {
 					@Override
@@ -111,7 +111,7 @@ public class ProductInventoryReadController extends AbstractAuditableEntityReadC
 				});
 				break;
 			}
-			case QUANTITY_FILTER: {
+			case QUANTITY_PATH: {
 				final Comparator<Short> comparator = DefaultComparator.<Short>getInstance();
 				Collections.sort(list, new Comparator<ProductInventory>() {
 					@Override

@@ -3,10 +3,10 @@ package org.rainbow.journal.ui.web.utilities;
 import java.util.Arrays;
 import java.util.List;
 
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.journal.core.entities.Profile;
 import org.rainbow.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class ProfileHelper {
 		String userName = authentication.getName();
 
 		SearchOptions options = new SearchOptions();
-		SingleValuedFilter<String> filter = new SingleValuedFilter<>("userName", RelationalOperator.EQUAL, userName);
+		StringSearchCriterion filter = new SingleValuedFilter<>("userName", RelationalOperator.EQUAL, userName);
 
 		options.setFilters(Arrays.asList(new Filter<?>[] { filter }));
 

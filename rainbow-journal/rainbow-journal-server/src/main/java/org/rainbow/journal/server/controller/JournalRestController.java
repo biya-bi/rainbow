@@ -2,10 +2,10 @@ package org.rainbow.journal.server.controller;
 
 import java.util.Arrays;
 
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.journal.core.entities.File;
 import org.rainbow.journal.core.entities.Journal;
 import org.rainbow.journal.server.dto.FileDto;
@@ -51,7 +51,7 @@ public class JournalRestController extends AbstractRestController<Journal, Long,
 		SearchOptions options = super.getSearchOptions(searchParam);
 
 		if (searchParam.getName() != null) {
-			SingleValuedFilter<String> nameFilter = new SingleValuedFilter<>("name", RelationalOperator.CONTAINS,
+			StringSearchCriterion nameSearchCriterion = new SingleValuedFilter<>("name", RelationalOperator.CONTAINS,
 					searchParam.getName());
 
 			options.setFilters(Arrays.asList(new Filter<?>[] { nameFilter }));

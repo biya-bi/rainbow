@@ -13,9 +13,9 @@ import org.rainbow.asset.explorer.orm.entities.Alert;
 import org.rainbow.asset.explorer.service.services.AlertService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,15 +36,15 @@ public class AlertReadController extends AbstractNumericIdAuditableEntityReadCon
 
 	private final EnumTranslator translator;
 
-	private static final String ALERT_TYPE_FILTER = "alertType";
-	private static final String ALERT_CATEGORY_FILTER = "alertCategory";
-	private static final String ENABLED_FILTER = "enabled";
-	private static final String IMMEDIATE_FILTER = "immediate";
+	private static final String ALERT_TYPE_PATH = "alertType";
+	private static final String ALERT_CATEGORY_PATH = "alertCategory";
+	private static final String ENABLED_PATH = "enabled";
+	private static final String IMMEDIATE_PATH = "immediate";
 
-	private final SingleValuedFilter<String> alertTypeFilter;
-	private final SingleValuedFilter<String> alertCategoryFilter;
-	private final SingleValuedFilter<Boolean> enabledFilter;
-	private final SingleValuedFilter<Boolean> immediateFilter;
+	private final StringSearchCriterion alertTypeSearchCriterion;
+	private final StringSearchCriterion alertCategorySearchCriterion;
+	private final ComparableSearchCriterion<Boolean> enabledSearchCriterion;
+	private final ComparableSearchCriterion<Boolean> immediateSearchCriterion;
 
 	@Autowired
 	private AlertService service;
@@ -53,43 +53,43 @@ public class AlertReadController extends AbstractNumericIdAuditableEntityReadCon
 		super(Integer.class);
 		translator = new EnumTranslator();
 
-		alertTypeFilter = new SingleValuedFilter<>(ALERT_TYPE_FILTER, RelationalOperator.CONTAINS, "");
-		alertCategoryFilter = new SingleValuedFilter<>(ALERT_CATEGORY_FILTER, RelationalOperator.CONTAINS, "");
-		enabledFilter = new SingleValuedFilter<>(ENABLED_FILTER, RelationalOperator.EQUAL, null);
-		immediateFilter = new SingleValuedFilter<>(IMMEDIATE_FILTER, RelationalOperator.EQUAL, null);
+		alertTypeSearchCriterion = new StringSearchCriterion(ALERT_TYPE_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		alertCategorySearchCriterion = new StringSearchCriterion(ALERT_CATEGORY_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		enabledSearchCriterion = new ComparableSearchCriterion<>(ENABLED_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
+		immediateSearchCriterion = new ComparableSearchCriterion<>(IMMEDIATE_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getAlertTypeFilter() {
-		return alertTypeFilter;
+	@SearchCriterion
+	public StringSearchCriterion getAlertTypeSearchCriterion() {
+		return alertTypeSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getAlertCategoryFilter() {
-		return alertCategoryFilter;
+	@SearchCriterion
+	public StringSearchCriterion getAlertCategorySearchCriterion() {
+		return alertCategorySearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<Boolean> getEnabledFilter() {
-		return enabledFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Boolean> getEnabledSearchCriterion() {
+		return enabledSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<Boolean> getImmediateFilter() {
-		return immediateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Boolean> getImmediateSearchCriterion() {
+		return immediateSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<Alert> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = ALERT_TYPE_FILTER; // We want to sort by name if no sort
+			sortField = ALERT_TYPE_PATH; // We want to sort by name if no sort
 			// field was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case ALERT_TYPE_FILTER: {
+			case ALERT_TYPE_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Alert>() {
 					@Override
@@ -104,7 +104,7 @@ public class AlertReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case ALERT_CATEGORY_FILTER: {
+			case ALERT_CATEGORY_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Alert>() {
 					@Override
@@ -119,7 +119,7 @@ public class AlertReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case ENABLED_FILTER: {
+			case ENABLED_PATH: {
 				final Comparator<Boolean> comparator = DefaultComparator.<Boolean>getInstance();
 				Collections.sort(list, new Comparator<Alert>() {
 					@Override
@@ -133,7 +133,7 @@ public class AlertReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case IMMEDIATE_FILTER: {
+			case IMMEDIATE_PATH: {
 				final Comparator<Boolean> comparator = DefaultComparator.<Boolean>getInstance();
 				Collections.sort(list, new Comparator<Alert>() {
 					@Override

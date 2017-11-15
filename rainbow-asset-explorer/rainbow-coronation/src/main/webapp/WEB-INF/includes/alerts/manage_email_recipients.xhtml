@@ -41,17 +41,17 @@
                             <p:ajax event="rowUnselectCheckbox" update="manageAlertEmailRecipientsForm:headerAddButton,manageAlertEmailRecipientsForm:headerRemoveButton"/>
                             <p:ajax event="toggleSelect" update="manageAlertEmailRecipientsForm:headerAddButton,manageAlertEmailRecipientsForm:headerRemoveButton"/>
 
-                            <p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}" sortBy="#{item.name}" filterValue="#{emailRecipientReadController.nameFilter.value}">
+                            <p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}" sortBy="#{item.name}" filterValue="#{emailRecipientReadController.nameSearchCriterion.value}">
                                 <h:outputText value="#{item.name}" />
                                 <f:facet name="footer">
-                                    <cps:stringFilterSelectOneMenu changeUpdate="manageAlertEmailRecipientsForm:emailRecipientList" selectedValue="#{emailRecipientReadController.nameFilter.operator}" changeWidgetVar="emailRecipientDataTable" />
+                                    <cps:stringFilterSelectOneMenu changeUpdate="manageAlertEmailRecipientsForm:emailRecipientList" selectedValue="#{emailRecipientReadController.nameSearchCriterion.operator}" changeWidgetVar="emailRecipientDataTable" />
                                 </f:facet>
                             </p:column>
 
-                            <p:column headerText="#{labels.EmailTitle}" filterBy="#{item.email}" sortBy="#{item.email}" filterValue="#{emailRecipientReadController.emailFilter.value}">
+                            <p:column headerText="#{labels.EmailTitle}" filterBy="#{item.email}" sortBy="#{item.email}" filterValue="#{emailRecipientReadController.emailSearchCriterion.value}">
                                 <h:outputText value="#{item.email}" />
                                 <f:facet name="footer">
-                                    <cps:stringFilterSelectOneMenu changeUpdate="manageAlertEmailRecipientsForm:emailRecipientList" selectedValue="#{emailRecipientReadController.emailFilter.operator}" changeWidgetVar="emailRecipientDataTable" />
+                                    <cps:stringFilterSelectOneMenu changeUpdate="manageAlertEmailRecipientsForm:emailRecipientList" selectedValue="#{emailRecipientReadController.emailSearchCriterion.operator}" changeWidgetVar="emailRecipientDataTable" />
                                 </f:facet>
                             </p:column>
 

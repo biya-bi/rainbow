@@ -32,14 +32,14 @@
 			disableDeleteButton="#{sec:areNotGranted('ROLE_WRITE_PRODUCT_RECEIPTS')}"
 			disableDetailsButton="#{sec:areNotGranted('ROLE_READ_PRODUCT_RECEIPTS')}"
 			columnToggleListener="#{productReceiptReadController.onToggle}"
-			creatorFilterValue="#{productReceiptReadController.creatorFilter.value}"
-			creatorFilterOperator="#{productReceiptReadController.creatorFilter.operator}"
-			updaterFilterValue="#{productReceiptReadController.updaterFilter.value}"
-			updaterFilterOperator="#{productReceiptReadController.updaterFilter.operator}"
-			creationDateFilterValue="#{productReceiptReadController.creationDateFilter.value}"
-			creationDateFilterOperator="#{productReceiptReadController.creationDateFilter.operator}"
-			lastUpdateDateFilterValue="#{productReceiptReadController.lastUpdateDateFilter.value}"
-			lastUpdateDateFilterOperator="#{productReceiptReadController.lastUpdateDateFilter.operator}"
+			creatorFilterValue="#{productReceiptReadController.creatorSearchCriterion.value}"
+			creatorFilterOperator="#{productReceiptReadController.creatorSearchCriterion.operator}"
+			updaterFilterValue="#{productReceiptReadController.updaterSearchCriterion.value}"
+			updaterFilterOperator="#{productReceiptReadController.updaterSearchCriterion.operator}"
+			creationDateFilterValue="#{productReceiptReadController.creationDateSearchCriterion.value}"
+			creationDateFilterOperator="#{productReceiptReadController.creationDateSearchCriterion.operator}"
+			lastUpdateDateFilterValue="#{productReceiptReadController.lastUpdateDateSearchCriterion.value}"
+			lastUpdateDateFilterOperator="#{productReceiptReadController.lastUpdateDateSearchCriterion.operator}"
 			creatorColumnVisible="#{productReceiptReadController.auditColumnsStates[5]}"
 			updaterColumnVisible="#{productReceiptReadController.auditColumnsStates[6]}"
 			creationDateColumnVisible="#{productReceiptReadController.auditColumnsStates[7]}"
@@ -48,19 +48,19 @@
 
 			<p:column headerText="#{labels.ReferenceNumberTitle}"
 				filterBy="#{item.referenceNumber}" sortBy="#{item.referenceNumber}"
-				filterValue="#{productReceiptReadController.referenceNumberFilter.value}">
+				filterValue="#{productReceiptReadController.referenceNumberSearchCriterion.value}">
 				<h:outputText value="#{item.referenceNumber}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productReceiptList:form:dataTable"
-						selectedValue="#{productReceiptReadController.referenceNumberFilter.operator}"
+						selectedValue="#{productReceiptReadController.referenceNumberSearchCriterion.operator}"
 						changeWidgetVar="productReceiptListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.LocationTitle}"
 				sortBy="#{item.location.name}" filterBy="#{item.location.name}"
-				filterValue="#{productReceiptReadController.locationNameFilter.value}">
+				filterValue="#{productReceiptReadController.locationNameSearchCriterion.value}">
 				<p:commandLink update=":locationDetails:form"
 					value="#{item.location.name}"
 					oncomplete="PF('locationDetailsDialog').show()">
@@ -70,14 +70,14 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productReceiptList:form:dataTable"
-						selectedValue="#{productReceiptReadController.locationNameFilter.operator}"
+						selectedValue="#{productReceiptReadController.locationNameSearchCriterion.operator}"
 						changeWidgetVar="productReceiptListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.VendorTitle}"
 				sortBy="#{item.vendor.name}" filterBy="#{item.vendor.name}"
-				filterValue="#{productReceiptReadController.vendorNameFilter.value}">
+				filterValue="#{productReceiptReadController.vendorNameSearchCriterion.value}">
 				<p:commandLink update=":vendorDetails:form"
 					value="#{item.vendor.name}"
 					oncomplete="PF('vendorDetailsDialog').show()">
@@ -87,26 +87,26 @@
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productReceiptList:form:dataTable"
-						selectedValue="#{productReceiptReadController.vendorNameFilter.operator}"
+						selectedValue="#{productReceiptReadController.vendorNameSearchCriterion.operator}"
 						changeWidgetVar="productReceiptListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.CurrencyTitle}"
 				sortBy="#{item.currency.name}" filterBy="#{item.currency.name}"
-				filterValue="#{productReceiptReadController.currencyNameFilter.value}">
+				filterValue="#{productReceiptReadController.currencyNameSearchCriterion.value}">
 				<h:outputText value="#{item.currency.name}" />
 				<f:facet name="footer">
 					<cps:stringFilterSelectOneMenu
 						changeUpdate="productReceiptList:form:dataTable"
-						selectedValue="#{productReceiptReadController.currencyNameFilter.operator}"
+						selectedValue="#{productReceiptReadController.currencyNameSearchCriterion.operator}"
 						changeWidgetVar="productReceiptListDataTable" />
 				</f:facet>
 			</p:column>
 
 			<p:column headerText="#{labels.ReceiptDateTitle}"
 				filterBy="#{item.receiptDate}" sortBy="#{item.receiptDate}"
-				filterValue="#{productReceiptReadController.receiptDateFilter.value}">
+				filterValue="#{productReceiptReadController.receiptDateSearchCriterion.value}">
 				<f:facet name="filter">
 					<p:calendar navigator="true">
 						<p:ajax event="dateSelect" update="@this"
@@ -116,7 +116,7 @@
 				<f:facet name="footer">
 					<cps:comparableFilterSelectOneMenu
 						changeUpdate="productReceiptList:form:dataTable"
-						selectedValue="#{productReceiptReadController.receiptDateFilter.operator}"
+						selectedValue="#{productReceiptReadController.receiptDateSearchCriterion.operator}"
 						changeWidgetVar="productReceiptListDataTable" />
 				</f:facet>
 				<h:outputText value="#{item.receiptDate}">

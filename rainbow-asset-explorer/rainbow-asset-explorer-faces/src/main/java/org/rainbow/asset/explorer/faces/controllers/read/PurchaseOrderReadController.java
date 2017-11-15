@@ -14,9 +14,9 @@ import org.rainbow.asset.explorer.orm.entities.PurchaseOrder;
 import org.rainbow.asset.explorer.service.services.PurchaseOrderService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,25 +37,25 @@ public class PurchaseOrderReadController extends AbstractNumericIdAuditableEntit
 
 	private final EnumTranslator translator;
 
-	private static final String REFERENCE_NUMBER_FILTER = "referenceNumber";
-	private static final String VENDOR_NAME_FILTER = "vendor.name";
-	private static final String LOCATION_NAME_FILTER = "location.name";
-	private static final String SHIP_METHOD_NAME_FILTER = "shipMethod.name";
-	private static final String STATUS_FILTER = "status";
-	private static final String TAX_AMOUNT_FILTER = "taxAmount";
-	private static final String REVISION_NUMBER_FILTER = "revisionNumber";
-	private static final String FREIGHT_FILTER = "freight";
-	private static final String SHIP_DATE_FILTER = "shipDate";
+	private static final String REFERENCE_NUMBER_PATH = "referenceNumber";
+	private static final String VENDOR_NAME_PATH = "vendor.name";
+	private static final String LOCATION_NAME_PATH = "location.name";
+	private static final String SHIP_METHOD_NAME_PATH = "shipMethod.name";
+	private static final String STATUS_PATH = "status";
+	private static final String TAX_AMOUNT_PATH = "taxAmount";
+	private static final String REVISION_NUMBER_PATH = "revisionNumber";
+	private static final String FREIGHT_PATH = "freight";
+	private static final String SHIP_DATE_PATH = "shipDate";
 
-	private final SingleValuedFilter<String> referenceNumberFilter;
-	private final SingleValuedFilter<String> vendorNameFilter;
-	private final SingleValuedFilter<String> locationNameFilter;
-	private final SingleValuedFilter<String> shipMethodNameFilter;
-	private final SingleValuedFilter<String> statusFilter;
-	private final SingleValuedFilter<String> taxAmountFilter;
-	private final SingleValuedFilter<String> revisionNumberFilter;
-	private final SingleValuedFilter<String> freightFilter;
-	private final SingleValuedFilter<String> shipDateFilter;
+	private final StringSearchCriterion referenceNumberSearchCriterion;
+	private final StringSearchCriterion vendorNameSearchCriterion;
+	private final StringSearchCriterion locationNameSearchCriterion;
+	private final StringSearchCriterion shipMethodNameSearchCriterion;
+	private final StringSearchCriterion statusSearchCriterion;
+	private final ComparableSearchCriterion<Double> taxAmountSearchCriterion;
+	private final ComparableSearchCriterion<Byte> revisionNumberSearchCriterion;
+	private final ComparableSearchCriterion<Double> freightSearchCriterion;
+	private final ComparableSearchCriterion<Date> shipDateSearchCriterion;
 
 	@Autowired
 	private PurchaseOrderService service;
@@ -64,74 +64,74 @@ public class PurchaseOrderReadController extends AbstractNumericIdAuditableEntit
 		super(Long.class);
 		translator = new EnumTranslator();
 
-		referenceNumberFilter = new SingleValuedFilter<>(REFERENCE_NUMBER_FILTER, RelationalOperator.CONTAINS, "");
-		vendorNameFilter = new SingleValuedFilter<>(VENDOR_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		locationNameFilter = new SingleValuedFilter<>(LOCATION_NAME_FILTER);
-		shipMethodNameFilter = new SingleValuedFilter<>(SHIP_METHOD_NAME_FILTER);
-		statusFilter = new SingleValuedFilter<>(STATUS_FILTER);
-		taxAmountFilter = new SingleValuedFilter<>(TAX_AMOUNT_FILTER);
-		revisionNumberFilter = new SingleValuedFilter<>(REVISION_NUMBER_FILTER);
-		freightFilter = new SingleValuedFilter<>(FREIGHT_FILTER);
-		shipDateFilter = new SingleValuedFilter<>(SHIP_DATE_FILTER, RelationalOperator.EQUAL, null);
+		referenceNumberSearchCriterion = new StringSearchCriterion(REFERENCE_NUMBER_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		vendorNameSearchCriterion = new StringSearchCriterion(VENDOR_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		locationNameSearchCriterion = new StringSearchCriterion(LOCATION_NAME_PATH);
+		shipMethodNameSearchCriterion = new StringSearchCriterion(SHIP_METHOD_NAME_PATH);
+		statusSearchCriterion = new StringSearchCriterion(STATUS_PATH);
+		taxAmountSearchCriterion = new ComparableSearchCriterion<>(TAX_AMOUNT_PATH);
+		revisionNumberSearchCriterion = new ComparableSearchCriterion<>(REVISION_NUMBER_PATH);
+		freightSearchCriterion = new ComparableSearchCriterion<>(FREIGHT_PATH);
+		shipDateSearchCriterion = new ComparableSearchCriterion<>(SHIP_DATE_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getReferenceNumberFilter() {
-		return referenceNumberFilter;
+	@SearchCriterion
+	public StringSearchCriterion getReferenceNumberSearchCriterion() {
+		return referenceNumberSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getVendorNameFilter() {
-		return vendorNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getVendorNameSearchCriterion() {
+		return vendorNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getTaxAmountFilter() {
-		return taxAmountFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Double> getTaxAmountSearchCriterion() {
+		return taxAmountSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getRevisionNumberFilter() {
-		return revisionNumberFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Byte> getRevisionNumberSearchCriterion() {
+		return revisionNumberSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getFreightFilter() {
-		return freightFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Double> getFreightSearchCriterion() {
+		return freightSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getLocationNameFilter() {
-		return locationNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getLocationNameSearchCriterion() {
+		return locationNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getShipMethodNameFilter() {
-		return shipMethodNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getShipMethodNameSearchCriterion() {
+		return shipMethodNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getStatusFilter() {
-		return statusFilter;
+	@SearchCriterion
+	public StringSearchCriterion getStatusSearchCriterion() {
+		return statusSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getShipDateFilter() {
-		return shipDateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Date> getShipDateSearchCriterion() {
+		return shipDateSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<PurchaseOrder> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = REFERENCE_NUMBER_FILTER; // We want to sort by reference
+			sortField = REFERENCE_NUMBER_PATH; // We want to sort by reference
 													// number if no sort field
 													// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case REFERENCE_NUMBER_FILTER: {
+			case REFERENCE_NUMBER_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<PurchaseOrder>() {
 					@Override
@@ -145,7 +145,7 @@ public class PurchaseOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case VENDOR_NAME_FILTER: {
+			case VENDOR_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<PurchaseOrder>() {
 					@Override
@@ -159,7 +159,7 @@ public class PurchaseOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case LOCATION_NAME_FILTER: {
+			case LOCATION_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<PurchaseOrder>() {
 					@Override
@@ -182,7 +182,7 @@ public class PurchaseOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case SHIP_METHOD_NAME_FILTER: {
+			case SHIP_METHOD_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<PurchaseOrder>() {
 					@Override
@@ -205,7 +205,7 @@ public class PurchaseOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case TAX_AMOUNT_FILTER: {
+			case TAX_AMOUNT_PATH: {
 				final Comparator<Double> comparator = DefaultComparator.<Double>getInstance();
 				Collections.sort(list, new Comparator<PurchaseOrder>() {
 					@Override
@@ -219,7 +219,7 @@ public class PurchaseOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case REVISION_NUMBER_FILTER: {
+			case REVISION_NUMBER_PATH: {
 				final Comparator<Byte> comparator = DefaultComparator.<Byte>getInstance();
 				Collections.sort(list, new Comparator<PurchaseOrder>() {
 					@Override
@@ -233,7 +233,7 @@ public class PurchaseOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case FREIGHT_FILTER: {
+			case FREIGHT_PATH: {
 				final Comparator<Double> comparator = DefaultComparator.<Double>getInstance();
 				Collections.sort(list, new Comparator<PurchaseOrder>() {
 					@Override
@@ -247,7 +247,7 @@ public class PurchaseOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case SHIP_DATE_FILTER: {
+			case SHIP_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<PurchaseOrder>() {
 					@Override
@@ -261,7 +261,7 @@ public class PurchaseOrderReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case STATUS_FILTER: {
+			case STATUS_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<PurchaseOrder>() {
 					@Override

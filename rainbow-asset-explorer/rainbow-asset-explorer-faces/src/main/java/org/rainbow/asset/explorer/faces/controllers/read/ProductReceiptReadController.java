@@ -13,9 +13,9 @@ import org.rainbow.asset.explorer.orm.entities.ProductReceipt;
 import org.rainbow.asset.explorer.service.services.ProductReceiptService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,67 +34,67 @@ public class ProductReceiptReadController extends AbstractNumericIdAuditableEnti
 	 */
 	private static final long serialVersionUID = -8848129878370715630L;
 
-	private static final String REFERENCE_NUMBER_FILTER = "referenceNumber";
-	private static final String LOCATION_NAME_FILTER = "location.name";
-	private static final String VENDOR_NAME_FILTER = "vendor.name";
-	private static final String RECEIPT_DATE_FILTER = "receiptDate";
-	private static final String CURRENCY_NAME_FILTER = "currency.name";
+	private static final String REFERENCE_NUMBER_PATH = "referenceNumber";
+	private static final String LOCATION_NAME_PATH = "location.name";
+	private static final String VENDOR_NAME_PATH = "vendor.name";
+	private static final String RECEIPT_DATE_PATH = "receiptDate";
+	private static final String CURRENCY_NAME_PATH = "currency.name";
 
-	private final SingleValuedFilter<String> referenceNumberFilter;
-	private final SingleValuedFilter<String> locationNameFilter;
-	private final SingleValuedFilter<String> vendorNameFilter;
-	private final SingleValuedFilter<Date> receiptDateFilter;
-	private final SingleValuedFilter<String> currencyNameFilter;
+	private final StringSearchCriterion referenceNumberSearchCriterion;
+	private final StringSearchCriterion locationNameSearchCriterion;
+	private final StringSearchCriterion vendorNameSearchCriterion;
+	private final ComparableSearchCriterion<Date> receiptDateSearchCriterion;
+	private final StringSearchCriterion currencyNameSearchCriterion;
 
 	@Autowired
 	private ProductReceiptService service;
 
 	public ProductReceiptReadController() {
 		super(Long.class);
-		referenceNumberFilter = new SingleValuedFilter<>(REFERENCE_NUMBER_FILTER, RelationalOperator.CONTAINS, "");
-		locationNameFilter = new SingleValuedFilter<>(LOCATION_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		vendorNameFilter = new SingleValuedFilter<>(VENDOR_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		receiptDateFilter = new SingleValuedFilter<>(RECEIPT_DATE_FILTER, RelationalOperator.EQUAL, new Date());
-		currencyNameFilter = new SingleValuedFilter<>(CURRENCY_NAME_FILTER, RelationalOperator.CONTAINS, "");
+		referenceNumberSearchCriterion = new StringSearchCriterion(REFERENCE_NUMBER_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		locationNameSearchCriterion = new StringSearchCriterion(LOCATION_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		vendorNameSearchCriterion = new StringSearchCriterion(VENDOR_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		receiptDateSearchCriterion = new ComparableSearchCriterion<>(RECEIPT_DATE_PATH, ComparableSearchCriterion.Operator.EQUAL, new Date());
+		currencyNameSearchCriterion = new StringSearchCriterion(CURRENCY_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getReferenceNumberFilter() {
-		return referenceNumberFilter;
+	@SearchCriterion
+	public StringSearchCriterion getReferenceNumberSearchCriterion() {
+		return referenceNumberSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getLocationNameFilter() {
-		return locationNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getLocationNameSearchCriterion() {
+		return locationNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getVendorNameFilter() {
-		return vendorNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getVendorNameSearchCriterion() {
+		return vendorNameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<Date> getReceiptDateFilter() {
-		return receiptDateFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Date> getReceiptDateSearchCriterion() {
+		return receiptDateSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getCurrencyNameFilter() {
-		return currencyNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getCurrencyNameSearchCriterion() {
+		return currencyNameSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<ProductReceipt> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = REFERENCE_NUMBER_FILTER; // We want to sort by reference
+			sortField = REFERENCE_NUMBER_PATH; // We want to sort by reference
 													// number if no sort field
 													// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case REFERENCE_NUMBER_FILTER: {
+			case REFERENCE_NUMBER_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ProductReceipt>() {
 					@Override
@@ -108,7 +108,7 @@ public class ProductReceiptReadController extends AbstractNumericIdAuditableEnti
 				});
 				break;
 			}
-			case LOCATION_NAME_FILTER: {
+			case LOCATION_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ProductReceipt>() {
 					@Override
@@ -122,7 +122,7 @@ public class ProductReceiptReadController extends AbstractNumericIdAuditableEnti
 				});
 				break;
 			}
-			case VENDOR_NAME_FILTER: {
+			case VENDOR_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ProductReceipt>() {
 					@Override
@@ -136,7 +136,7 @@ public class ProductReceiptReadController extends AbstractNumericIdAuditableEnti
 				});
 				break;
 			}
-			case CURRENCY_NAME_FILTER: {
+			case CURRENCY_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<ProductReceipt>() {
 					@Override
@@ -150,7 +150,7 @@ public class ProductReceiptReadController extends AbstractNumericIdAuditableEnti
 				});
 				break;
 			}
-			case RECEIPT_DATE_FILTER: {
+			case RECEIPT_DATE_PATH: {
 				final Comparator<Date> comparator = DefaultComparator.<Date>getInstance();
 				Collections.sort(list, new Comparator<ProductReceipt>() {
 					@Override

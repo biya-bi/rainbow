@@ -19,35 +19,35 @@
 		deleteDialog="groupDeleteDialog" deleteUpdate=":groupDelete:form"
 		selectionUpdate=":groupList:headerUsersButton,:groupList:footerUsersButton,:groupList:headerAuthoritiesButton,:groupList:footerAuthoritiesButton"
 		columnToggleListener="#{groupReadController.onToggle}"
-		creatorFilterValue="#{groupReadController.creatorFilter.value}"
-		creatorFilterOperator="#{groupReadController.creatorFilter.operator}"
-		updaterFilterValue="#{groupReadController.updaterFilter.value}"
-		updaterFilterOperator="#{groupReadController.updaterFilter.operator}"
-		creationDateFilterValue="#{groupReadController.creationDateFilter.value}"
-		creationDateFilterOperator="#{groupReadController.creationDateFilter.operator}"
-		lastUpdateDateFilterValue="#{groupReadController.lastUpdateDateFilter.value}"
-		lastUpdateDateFilterOperator="#{groupReadController.lastUpdateDateFilter.operator}">
+		creatorFilterValue="#{groupReadController.creatorSearchCriterion.value}"
+		creatorFilterOperator="#{groupReadController.creatorSearchCriterion.operator}"
+		updaterFilterValue="#{groupReadController.updaterSearchCriterion.value}"
+		updaterFilterOperator="#{groupReadController.updaterSearchCriterion.operator}"
+		creationDateFilterValue="#{groupReadController.creationDateSearchCriterion.value}"
+		creationDateFilterOperator="#{groupReadController.creationDateSearchCriterion.operator}"
+		lastUpdateDateFilterValue="#{groupReadController.lastUpdateDateSearchCriterion.value}"
+		lastUpdateDateFilterOperator="#{groupReadController.lastUpdateDateSearchCriterion.operator}">
 
 		<p:column headerText="#{labels.NameTitle}" filterBy="#{item.name}"
 			sortBy="#{item.name}"
-			filterValue="#{groupReadController.nameFilter.value}">
+			filterValue="#{groupReadController.nameSearchCriterion.value}">
 			<h:outputText value="#{item.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="groupList:form:dataTable"
-					selectedValue="#{groupReadController.nameFilter.operator}"
+					selectedValue="#{groupReadController.nameSearchCriterion.operator}"
 					changeWidgetVar="groupListDataTable" />
 			</f:facet>
 		</p:column>
 
 		<p:column headerText="#{labels.ApplicationTitle}"
 			filterBy="#{item.application.name}" sortBy="#{item.application.name}"
-			filterValue="#{groupReadController.applicationNameFilter.value}">
+			filterValue="#{groupReadController.applicationNameSearchCriterion.value}">
 			<h:outputText value="#{item.application.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="groupList:form:dataTable"
-					selectedValue="#{groupReadController.applicationNameFilter.operator}"
+					selectedValue="#{groupReadController.applicationNameSearchCriterion.operator}"
 					changeWidgetVar="groupListDataTable" />
 			</f:facet>
 		</p:column>

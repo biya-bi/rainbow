@@ -12,9 +12,8 @@ import org.rainbow.asset.explorer.orm.entities.EmailTemplate;
 import org.rainbow.asset.explorer.service.services.EmailTemplateService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,50 +32,50 @@ public class EmailTemplateReadController extends AbstractNumericIdAuditableEntit
 	 */
 	private static final long serialVersionUID = -7950941901606366069L;
 
-	private static final String NAME_FILTER = "name";
-	private static final String SUBJECT_FILTER = "subject";
-	private static final String LOCALE_NAME_FILTER = "locale.name";
+	private static final String NAME_PATH = "name";
+	private static final String SUBJECT_PATH = "subject";
+	private static final String LOCALE_NAME_PATH = "locale.name";
 
-	private final SingleValuedFilter<String> nameFilter;
-	private final SingleValuedFilter<String> subjectFilter;
-	private final SingleValuedFilter<String> localeNameFilter;
+	private final StringSearchCriterion nameSearchCriterion;
+	private final StringSearchCriterion subjectSearchCriterion;
+	private final StringSearchCriterion localeNameSearchCriterion;
 
 	@Autowired
 	private EmailTemplateService service;
 
 	public EmailTemplateReadController() {
 		super(Integer.class);
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-		subjectFilter = new SingleValuedFilter<>(SUBJECT_FILTER, RelationalOperator.CONTAINS, "");
-		localeNameFilter = new SingleValuedFilter<>(LOCALE_NAME_FILTER, RelationalOperator.CONTAINS, "");
+		nameSearchCriterion = new StringSearchCriterion(NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		subjectSearchCriterion = new StringSearchCriterion(SUBJECT_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		localeNameSearchCriterion = new StringSearchCriterion(LOCALE_NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getNameFilter() {
-		return nameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getNameSearchCriterion() {
+		return nameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getSubjectFilter() {
-		return subjectFilter;
+	@SearchCriterion
+	public StringSearchCriterion getSubjectSearchCriterion() {
+		return subjectSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getLocaleNameFilter() {
-		return localeNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getLocaleNameSearchCriterion() {
+		return localeNameSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<EmailTemplate> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
+			sortField = NAME_PATH; // We want to sort by name if no sort field
 										// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<EmailTemplate>() {
 					@Override
@@ -90,7 +89,7 @@ public class EmailTemplateReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case SUBJECT_FILTER: {
+			case SUBJECT_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<EmailTemplate>() {
 					@Override
@@ -104,7 +103,7 @@ public class EmailTemplateReadController extends AbstractNumericIdAuditableEntit
 				});
 				break;
 			}
-			case LOCALE_NAME_FILTER: {
+			case LOCALE_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<EmailTemplate>() {
 					@Override

@@ -31,7 +31,7 @@
                                             dataSource="#{productReadController}" 
                                             itemLabel="#{item.name}"
                                             selection="#{shippingOrderWriteController.detail.product}"
-                                            filterValue="#{productReadController.nameFilter.value}"
+                                            filterValue="#{productReadController.nameSearchCriterion.value}"
                                             required="true"
                                             requiredMessage="#{valMsg.ProductRequired}"
                                             toolTip="#{labels.ProductTitle}"/>

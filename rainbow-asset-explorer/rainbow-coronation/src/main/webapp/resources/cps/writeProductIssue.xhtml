@@ -45,7 +45,7 @@
 						selectionText="#{productIssueWriteController.model.location.name}"
 						dataSource="#{locationReadController}" itemLabel="#{item.name}"
 						selection="#{productIssueWriteController.model.location}"
-						filterValue="#{locationReadController.nameFilter.value}"
+						filterValue="#{locationReadController.nameSearchCriterion.value}"
 						required="true" requiredMessage="#{valMsg.LocationRequired}"
 						toolTip="#{labels.LocationTitle}" />
 				</p:column>
@@ -111,7 +111,7 @@
 						selectionText="#{productIssueWriteController.model.department.name}"
 						dataSource="#{departmentReadController}" itemLabel="#{item.name}"
 						selection="#{productIssueWriteController.model.department}"
-						filterValue="#{departmentReadController.nameFilter.value}"
+						filterValue="#{departmentReadController.nameSearchCriterion.value}"
 						required="true" requiredMessage="#{valMsg.DepartmentRequired}"
 						toolTip="#{labels.DepartmentTitle}" />
 				</p:column>

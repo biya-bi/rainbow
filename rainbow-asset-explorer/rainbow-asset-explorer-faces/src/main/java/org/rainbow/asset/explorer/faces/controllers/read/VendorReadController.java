@@ -12,9 +12,9 @@ import org.rainbow.asset.explorer.orm.entities.Vendor;
 import org.rainbow.asset.explorer.service.services.VendorService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ComparableSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,58 +33,58 @@ public class VendorReadController extends AbstractNumericIdAuditableEntityReadCo
 	 */
 	private static final long serialVersionUID = -7448646464760524071L;
 
-	private static final String NAME_FILTER = "name";
-	private static final String ACCOUNT_NUMBER_FILTER = "accountNumber";
-	private static final String PURCHASING_URL_FILTER = "purchasingUrl";
-	private static final String ACTIVE_FILTER = "active";
+	private static final String NAME_PATH = "name";
+	private static final String ACCOUNT_NUMBER_PATH = "accountNumber";
+	private static final String PURCHASING_URL_PATH = "purchasingUrl";
+	private static final String ACTIVE_PATH = "active";
 
-	private final SingleValuedFilter<String> nameFilter;
-	private final SingleValuedFilter<String> accountNumberFilter;
-	private final SingleValuedFilter<String> purchasingUrlFilter;
-	private final SingleValuedFilter<Boolean> activeFilter;
+	private final StringSearchCriterion nameSearchCriterion;
+	private final StringSearchCriterion accountNumberSearchCriterion;
+	private final StringSearchCriterion purchasingUrlSearchCriterion;
+	private final ComparableSearchCriterion<Boolean> activeSearchCriterion;
 
 	@Autowired
 	private VendorService service;
 
 	public VendorReadController() {
 		super(Long.class);
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-		accountNumberFilter = new SingleValuedFilter<>(ACCOUNT_NUMBER_FILTER, RelationalOperator.CONTAINS, "");
-		purchasingUrlFilter = new SingleValuedFilter<>(PURCHASING_URL_FILTER, RelationalOperator.CONTAINS, "");
-		activeFilter = new SingleValuedFilter<>(ACTIVE_FILTER, RelationalOperator.EQUAL, null);
+		nameSearchCriterion = new StringSearchCriterion(NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		accountNumberSearchCriterion = new StringSearchCriterion(ACCOUNT_NUMBER_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		purchasingUrlSearchCriterion = new StringSearchCriterion(PURCHASING_URL_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		activeSearchCriterion = new ComparableSearchCriterion<>(ACTIVE_PATH, ComparableSearchCriterion.Operator.EQUAL, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getNameFilter() {
-		return nameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getNameSearchCriterion() {
+		return nameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getAccountNumberFilter() {
-		return accountNumberFilter;
+	@SearchCriterion
+	public StringSearchCriterion getAccountNumberSearchCriterion() {
+		return accountNumberSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getPurchasingUrlFilter() {
-		return purchasingUrlFilter;
+	@SearchCriterion
+	public StringSearchCriterion getPurchasingUrlSearchCriterion() {
+		return purchasingUrlSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<Boolean> getActiveFilter() {
-		return activeFilter;
+	@SearchCriterion
+	public ComparableSearchCriterion<Boolean> getActiveSearchCriterion() {
+		return activeSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<Vendor> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
+			sortField = NAME_PATH; // We want to sort by name if no sort field
 										// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Vendor>() {
 					@Override
@@ -98,7 +98,7 @@ public class VendorReadController extends AbstractNumericIdAuditableEntityReadCo
 				});
 				break;
 			}
-			case ACCOUNT_NUMBER_FILTER: {
+			case ACCOUNT_NUMBER_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Vendor>() {
 					@Override
@@ -112,7 +112,7 @@ public class VendorReadController extends AbstractNumericIdAuditableEntityReadCo
 				});
 				break;
 			}
-			case PURCHASING_URL_FILTER: {
+			case PURCHASING_URL_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Vendor>() {
 					@Override
@@ -126,7 +126,7 @@ public class VendorReadController extends AbstractNumericIdAuditableEntityReadCo
 				});
 				break;
 			}
-			case ACTIVE_FILTER: {
+			case ACTIVE_PATH: {
 				final Comparator<Boolean> comparator = DefaultComparator.<Boolean>getInstance();
 				Collections.sort(list, new Comparator<Vendor>() {
 					@Override

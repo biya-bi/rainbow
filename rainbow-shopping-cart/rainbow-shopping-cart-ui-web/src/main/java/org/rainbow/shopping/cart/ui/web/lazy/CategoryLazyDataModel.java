@@ -14,10 +14,10 @@ import javax.faces.bean.RequestScoped;
 import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.core.service.Service;
 import org.rainbow.shopping.cart.core.entities.Category;
 import org.rainbow.shopping.cart.ui.web.utilities.DefaultComparator;
@@ -43,18 +43,18 @@ public class CategoryLazyDataModel extends LongIdTrackableLazyDataModel<Category
 	@Qualifier("categoryService")
 	private Service<Category, Long, SearchOptions> service;
 
-	private static final String NAME_FILTER = "name";
-	private static final String PARENT_NAME_FILTER = "parent.name";
+	private static final String NAME_PATH = "name";
+	private static final String PARENT_NAME_PATH = "parent.name";
 
 	private final List<Filter<?>> filters;
 
-	private final SingleValuedFilter<String> nameFilter;
+	private final StringSearchCriterion nameSearchCriterion;
 
-	private final SingleValuedFilter<String> parentNameFilter;
+	private final StringSearchCriterion parentNameSearchCriterion;
 
 	public CategoryLazyDataModel() {
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-		parentNameFilter = new SingleValuedFilter<>(PARENT_NAME_FILTER, RelationalOperator.CONTAINS, "");
+		nameSearchCriterion = new SingleValuedFilter<>(NAME_PATH, StringOperator.CONTAINS, null);
+		parentNameSearchCriterion = new SingleValuedFilter<>(PARENT_NAME_PATH, StringOperator.CONTAINS, null);
 
 		filters = new ArrayList<>();
 		filters.add(nameFilter);
@@ -66,12 +66,12 @@ public class CategoryLazyDataModel extends LongIdTrackableLazyDataModel<Category
 		return service;
 	}
 
-	public SingleValuedFilter<String> getNameFilter() {
-		return nameFilter;
+	public StringSearchCriterion getNameSearchCriterion() {
+		return nameSearchCriterion;
 	}
 
-	public SingleValuedFilter<String> getParentNameFilter() {
-		return parentNameFilter;
+	public StringSearchCriterion getParentNameSearchCriterion() {
+		return parentNameSearchCriterion;
 	}
 
 	@Override
@@ -89,13 +89,13 @@ public class CategoryLazyDataModel extends LongIdTrackableLazyDataModel<Category
 	protected void sort(String sortField, SortOrder sortOrder, List<Category> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
+			sortField = NAME_PATH; // We want to sort by name if no sort field
 										// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Category>() {
 					@Override
@@ -109,7 +109,7 @@ public class CategoryLazyDataModel extends LongIdTrackableLazyDataModel<Category
 				});
 				break;
 			}
-			case PARENT_NAME_FILTER: {
+			case PARENT_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Category>() {
 					@Override

@@ -20,14 +20,14 @@
 		deleteDialog="categoryDeleteDialog"
 		deleteUpdate=":categoryDelete:form"
 		columnToggleListener="#{categoryController.onToggle}"
-		creatorFilterValue="#{categoryLazyDataModel.creatorFilter.value}"
-		creatorFilterOperator="#{categoryLazyDataModel.creatorFilter.operator}"
-		updaterFilterValue="#{categoryLazyDataModel.updaterFilter.value}"
-		updaterFilterOperator="#{categoryLazyDataModel.updaterFilter.operator}"
-		creationDateFilterValue="#{categoryLazyDataModel.creationDateFilter.value}"
-		creationDateFilterOperator="#{categoryLazyDataModel.creationDateFilter.operator}"
-		lastUpdateDateFilterValue="#{categoryLazyDataModel.lastUpdateDateFilter.value}"
-		lastUpdateDateFilterOperator="#{categoryLazyDataModel.lastUpdateDateFilter.operator}"
+		creatorFilterValue="#{categoryLazyDataModel.creatorSearchCriterion.value}"
+		creatorFilterOperator="#{categoryLazyDataModel.creatorSearchCriterion.operator}"
+		updaterFilterValue="#{categoryLazyDataModel.updaterSearchCriterion.value}"
+		updaterFilterOperator="#{categoryLazyDataModel.updaterSearchCriterion.operator}"
+		creationDateFilterValue="#{categoryLazyDataModel.creationDateSearchCriterion.value}"
+		creationDateFilterOperator="#{categoryLazyDataModel.creationDateSearchCriterion.operator}"
+		lastUpdateDateFilterValue="#{categoryLazyDataModel.lastUpdateDateSearchCriterion.value}"
+		lastUpdateDateFilterOperator="#{categoryLazyDataModel.lastUpdateDateSearchCriterion.operator}"
 		creatorColumnVisible="#{categoryController.auditColumnsStates[4]}"
 		updaterColumnVisible="#{categoryController.auditColumnsStates[5]}"
 		creationDateColumnVisible="#{categoryController.auditColumnsStates[6]}"
@@ -35,12 +35,12 @@
 
 		<p:column headerText="#{labels.CategoryNameTitle}"
 			filterBy="#{item.name}" sortBy="#{item.name}"
-			filterValue="#{categoryLazyDataModel.nameFilter.value}">
+			filterValue="#{categoryLazyDataModel.nameSearchCriterion.value}">
 			<h:outputText value="#{item.name}" />
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="categoryList:form:dataTable"
-					selectedValue="#{categoryLazyDataModel.nameFilter.operator}"
+					selectedValue="#{categoryLazyDataModel.nameSearchCriterion.operator}"
 					changeWidgetVar="categoryListDataTable" />
 			</f:facet>
 		</p:column>
@@ -48,7 +48,7 @@
 		<p:column headerText="#{labels.CategoryParentTitle}"
 			filterBy="#{item.parent.name}"
 			sortBy="#{item.parent.name}"
-			filterValue="#{categoryLazyDataModel.parentNameFilter.value}">
+			filterValue="#{categoryLazyDataModel.parentNameSearchCriterion.value}">
 			<p:commandLink update=":categoryDetails:form"
 				value="#{item.parent.name}"
 				oncomplete="PF('categoryDetailsDialog').show()">
@@ -58,7 +58,7 @@
 			<f:facet name="footer">
 				<cps:stringFilterSelectOneMenu
 					changeUpdate="categoryList:form:dataTable"
-					selectedValue="#{categoryLazyDataModel.parentNameFilter.operator}"
+					selectedValue="#{categoryLazyDataModel.parentNameSearchCriterion.operator}"
 					changeWidgetVar="categoryListDataTable" />
 			</f:facet>
 		</p:column>

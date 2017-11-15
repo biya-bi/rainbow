@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.journal.core.entities.File;
 import org.rainbow.journal.core.entities.Publication;
 import org.rainbow.journal.server.dto.FileDto;
@@ -62,7 +62,7 @@ public class PublicationRestController
 		}
 
 		if (searchParam.getJournalName() != null) {
-			SingleValuedFilter<String> filter = new SingleValuedFilter<>("journal.name", RelationalOperator.CONTAINS,
+			StringSearchCriterion filter = new SingleValuedFilter<>("journal.name", RelationalOperator.CONTAINS,
 					searchParam.getJournalName());
 			filters.add(filter);
 		}
@@ -80,7 +80,7 @@ public class PublicationRestController
 		}
 
 		if (searchParam.getPublisherUserName() != null) {
-			SingleValuedFilter<String> filter = new SingleValuedFilter<>("publisherProfile.userName", RelationalOperator.CONTAINS,
+			StringSearchCriterion filter = new SingleValuedFilter<>("publisherProfile.userName", RelationalOperator.CONTAINS,
 					searchParam.getPublisherUserName());
 			filters.add(filter);
 		}

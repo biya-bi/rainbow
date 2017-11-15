@@ -55,12 +55,12 @@
 
 							<p:column headerText="#{labels.AuthorityTitle}"
 								filterBy="#{item.name}" sortBy="#{item.name}"
-								filterValue="#{authorityReadController.nameFilter.value}">
+								filterValue="#{authorityReadController.nameSearchCriterion.value}">
 								<h:outputText value="#{item.name}" />
 								<f:facet name="footer">
 									<cps:stringFilterSelectOneMenu
 										changeUpdate="manageGroupsAuthoritiesForm:authorityList"
-										selectedValue="#{authorityReadController.nameFilter.operator}"
+										selectedValue="#{authorityReadController.nameSearchCriterion.operator}"
 										changeWidgetVar="authorityDataTable" />
 								</f:facet>
 							</p:column>
@@ -68,12 +68,12 @@
 							<p:column headerText="#{labels.ApplicationTitle}"
 								filterBy="#{item.application.name}"
 								sortBy="#{item.application.name}"
-								filterValue="#{authorityReadController.applicationNameFilter.value}">
+								filterValue="#{authorityReadController.applicationNameSearchCriterion.value}">
 								<h:outputText value="#{item.application.name}" />
 								<f:facet name="footer">
 									<cps:stringFilterSelectOneMenu
 										changeUpdate="manageGroupsAuthoritiesForm:authorityList"
-										selectedValue="#{authorityReadController.applicationNameFilter.operator}"
+										selectedValue="#{authorityReadController.applicationNameSearchCriterion.operator}"
 										changeWidgetVar="authorityDataTable" />
 								</f:facet>
 							</p:column>
@@ -105,12 +105,12 @@
 
 							<p:column headerText="#{labels.GroupTitle}"
 								filterBy="#{item.name}" sortBy="#{item.name}"
-								filterValue="#{groupReadController.nameFilter.value}">
+								filterValue="#{groupReadController.nameSearchCriterion.value}">
 								<h:outputText value="#{item.name}" />
 								<f:facet name="footer">
 									<cps:stringFilterSelectOneMenu
 										changeUpdate="manageGroupsAuthoritiesForm:groupList"
-										selectedValue="#{groupReadController.nameFilter.operator}"
+										selectedValue="#{groupReadController.nameSearchCriterion.operator}"
 										changeWidgetVar="groupDataTable" />
 								</f:facet>
 							</p:column>
@@ -118,12 +118,12 @@
 							<p:column headerText="#{labels.ApplicationTitle}"
 								filterBy="#{item.application.name}"
 								sortBy="#{item.application.name}"
-								filterValue="#{groupReadController.applicationNameFilter.value}">
+								filterValue="#{groupReadController.applicationNameSearchCriterion.value}">
 								<h:outputText value="#{item.application.name}" />
 								<f:facet name="footer">
 									<cps:stringFilterSelectOneMenu
 										changeUpdate="manageGroupsAuthoritiesForm:groupList"
-										selectedValue="#{groupReadController.applicationNameFilter.operator}"
+										selectedValue="#{groupReadController.applicationNameSearchCriterion.operator}"
 										changeWidgetVar="groupDataTable" />
 								</f:facet>
 							</p:column>

@@ -10,10 +10,9 @@ import javax.inject.Named;
 import org.primefaces.model.SortOrder;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.ListValuedFilter;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.ListSearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.security.orm.entities.Group;
 import org.rainbow.security.service.services.GroupService;
 import org.rainbow.service.services.Service;
@@ -34,50 +33,50 @@ public class GroupReadController extends AbstractNumericIdAuditableEntityReadCon
 	 */
 	private static final long serialVersionUID = -2204054302648540191L;
 
-	private static final String NAME_FILTER = "name";
-	private static final String APPLICATION_NAME_FILTER = "application.name";
-	private static final String USERS_ID_FILTER = "users.id";
+	private static final String NAME_PATH = "name";
+	private static final String APPLICATION_NAME_PATH = "application.name";
+	private static final String USERS_ID_PATH = "users.id";
 
-	private final SingleValuedFilter<String> nameFilter;
-	private final SingleValuedFilter<String> applicationNameFilter;
-	private final ListValuedFilter<String> usersIdFilter;
+	private final StringSearchCriterion nameSearchCriterion;
+	private final StringSearchCriterion applicationNameSearchCriterion;
+	private final ListSearchCriterion<String> usersIdSearchCriterion;
 
 	@Autowired
 	private GroupService groupService;
 
 	public GroupReadController() {
 		super(Long.class);
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-		applicationNameFilter = new SingleValuedFilter<>(APPLICATION_NAME_FILTER, RelationalOperator.CONTAINS, "");
-		usersIdFilter = new ListValuedFilter<>(USERS_ID_FILTER);
-		usersIdFilter.setOperator(RelationalOperator.IN);
+		nameSearchCriterion = new StringSearchCriterion(NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		applicationNameSearchCriterion = new StringSearchCriterion(APPLICATION_NAME_PATH,
+				StringSearchCriterion.Operator.CONTAINS, null);
+		usersIdSearchCriterion = new ListSearchCriterion<>(USERS_ID_PATH, ListSearchCriterion.Operator.IN, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getNameFilter() {
-		return nameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getNameSearchCriterion() {
+		return nameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getApplicationNameFilter() {
-		return applicationNameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getApplicationNameSearchCriterion() {
+		return applicationNameSearchCriterion;
 	}
 
-	@Filterable
-	public ListValuedFilter<String> getUsersIdFilter() {
-		return usersIdFilter;
+	@SearchCriterion
+	public ListSearchCriterion<String> getUsersIdSearchCriterion() {
+		return usersIdSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<Group> list) {
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
-										// was specified.
+			sortField = NAME_PATH; // We want to sort by name if no sort field
+									// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Group>() {
 					@Override
@@ -91,7 +90,7 @@ public class GroupReadController extends AbstractNumericIdAuditableEntityReadCon
 				});
 				break;
 			}
-			case APPLICATION_NAME_FILTER: {
+			case APPLICATION_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Group>() {
 					@Override

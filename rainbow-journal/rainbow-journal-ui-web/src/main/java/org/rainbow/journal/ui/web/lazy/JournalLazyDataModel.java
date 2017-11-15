@@ -14,10 +14,10 @@ import javax.faces.bean.RequestScoped;
 import javax.inject.Named;
 
 import org.primefaces.model.SortOrder;
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.journal.core.entities.Journal;
 import org.rainbow.journal.ui.web.utilities.DefaultComparator;
 import org.rainbow.service.Service;
@@ -43,24 +43,24 @@ public class JournalLazyDataModel extends LongIdTrackableLazyDataModel<Journal> 
 	@Qualifier("journalService")
 	private Service<Journal, Long, SearchOptions> service;
 
-	private static final String NAME_FILTER = "name";
-	private static final String OWNER_PROFILE_USER_NAME_FILTER = "ownerProfile.userName";
-	private static final String ACTIVE_FILTER = "active";
-	private static final String TAG_FILTER = "tag";
+	private static final String NAME_PATH = "name";
+	private static final String OWNER_PROFILE_USER_NAME_PATH = "ownerProfile.userName";
+	private static final String ACTIVE_PATH = "active";
+	private static final String TAG_PATH = "tag";
 
 	private final List<Filter<?>> filters;
 
-	private final SingleValuedFilter<String> nameFilter;
-	private final SingleValuedFilter<String> ownerProfileUserNameFilter;
-	private final SingleValuedFilter<Boolean> activeFilter;
-	private final SingleValuedFilter<String> tagFilter;
+	private final StringSearchCriterion nameSearchCriterion;
+	private final StringSearchCriterion ownerProfileUserNameSearchCriterion;
+	private final SingleValuedFilter<Boolean> activeSearchCriterion;
+	private final StringSearchCriterion tagSearchCriterion;
 
 	public JournalLazyDataModel() {
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-		ownerProfileUserNameFilter = new SingleValuedFilter<>(OWNER_PROFILE_USER_NAME_FILTER,
-				RelationalOperator.CONTAINS, "");
-		activeFilter = new SingleValuedFilter<>(ACTIVE_FILTER, RelationalOperator.EQUAL, null);
-		tagFilter = new SingleValuedFilter<>(TAG_FILTER, RelationalOperator.CONTAINS, "");
+		nameSearchCriterion = new SingleValuedFilter<>(NAME_PATH, StringOperator.CONTAINS, null);
+		ownerProfileUserNameSearchCriterion = new SingleValuedFilter<>(OWNER_PROFILE_USER_NAME_PATH,
+				StringOperator.CONTAINS, null);
+		activeSearchCriterion = new SingleValuedFilter<>(ACTIVE_PATH, RelationalOperator.EQUAL, null);
+		tagSearchCriterion = new SingleValuedFilter<>(TAG_PATH, StringOperator.CONTAINS, null);
 
 		filters = new ArrayList<>();
 		filters.add(nameFilter);
@@ -74,20 +74,20 @@ public class JournalLazyDataModel extends LongIdTrackableLazyDataModel<Journal> 
 		return service;
 	}
 
-	public SingleValuedFilter<String> getNameFilter() {
-		return nameFilter;
+	public StringSearchCriterion getNameSearchCriterion() {
+		return nameSearchCriterion;
 	}
 
-	public SingleValuedFilter<String> getOwnerProfileUserNameFilter() {
-		return ownerProfileUserNameFilter;
+	public StringSearchCriterion getOwnerProfileUserNameSearchCriterion() {
+		return ownerProfileUserNameSearchCriterion;
 	}
 
-	public SingleValuedFilter<Boolean> getActiveFilter() {
-		return activeFilter;
+	public SingleValuedFilter<Boolean> getActiveSearchCriterion() {
+		return activeSearchCriterion;
 	}
 
-	public SingleValuedFilter<String> getTagFilter() {
-		return tagFilter;
+	public StringSearchCriterion getTagSearchCriterion() {
+		return tagSearchCriterion;
 	}
 
 	@Override
@@ -118,13 +118,13 @@ public class JournalLazyDataModel extends LongIdTrackableLazyDataModel<Journal> 
 	protected void sort(String sortField, SortOrder sortOrder, List<Journal> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
+			sortField = NAME_PATH; // We want to sort by name if no sort field
 										// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Journal>() {
 					@Override
@@ -138,7 +138,7 @@ public class JournalLazyDataModel extends LongIdTrackableLazyDataModel<Journal> 
 				});
 				break;
 			}
-			case OWNER_PROFILE_USER_NAME_FILTER: {
+			case OWNER_PROFILE_USER_NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Journal>() {
 					@Override
@@ -153,7 +153,7 @@ public class JournalLazyDataModel extends LongIdTrackableLazyDataModel<Journal> 
 				});
 				break;
 			}
-			case ACTIVE_FILTER: {
+			case ACTIVE_PATH: {
 				final Comparator<Boolean> comparator = DefaultComparator.<Boolean>getInstance();
 				Collections.sort(list, new Comparator<Journal>() {
 					@Override
@@ -167,7 +167,7 @@ public class JournalLazyDataModel extends LongIdTrackableLazyDataModel<Journal> 
 				});
 				break;
 			}
-			case TAG_FILTER: {
+			case TAG_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Journal>() {
 					@Override

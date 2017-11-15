@@ -41,7 +41,7 @@
                                 dataSource="#{productReadController}" 
                                 itemLabel="#{item.name}"
                                 selection="#{assetWriteController.model.product}"
-                                filterValue="#{productReadController.nameFilter.value}"
+                                filterValue="#{productReadController.nameSearchCriterion.value}"
                                 required="true"
                                 requiredMessage="#{valMsg.ProductRequired}"
                                 toolTip="#{labels.ProductTitle}"/>
@@ -99,7 +99,7 @@
                                 dataSource="#{vendorReadController}" 
                                 itemLabel="#{item.name}"
                                 selection="#{assetWriteController.model.vendor}"
-                                filterValue="#{vendorReadController.nameFilter.value}"
+                                filterValue="#{vendorReadController.nameSearchCriterion.value}"
                                 toolTip="#{labels.VendorTitle}"/>
                 </p:column>
                 <p:column>
@@ -121,7 +121,7 @@
                                 dataSource="#{currencyReadController}" 
                                 itemLabel="#{item.name}"
                                 selection="#{assetWriteController.model.purchaseCurrency}"
-                                filterValue="#{currencyReadController.nameFilter.value}"
+                                filterValue="#{currencyReadController.nameSearchCriterion.value}"
                                 toolTip="#{labels.PurchaseCurrencyTitle}"/>
                 </p:column>
                 <p:column>
@@ -245,7 +245,7 @@
                                 dataSource="#{siteReadController}" 
                                 itemLabel="#{item.name}"
                                 selection="#{assetWriteController.model.site}"
-                                filterValue="#{siteReadController.nameFilter.value}"
+                                filterValue="#{siteReadController.nameSearchCriterion.value}"
                                 toolTip="#{labels.SiteTitle}"/>
                 </p:column>
                 <p:column>
@@ -267,7 +267,7 @@
                                 dataSource="#{assetTypeReadController}" 
                                 itemLabel="#{item.name}"
                                 selection="#{assetWriteController.model.assetType}"
-                                filterValue="#{assetTypeReadController.nameFilter.value}"
+                                filterValue="#{assetTypeReadController.nameSearchCriterion.value}"
                                 toolTip="#{labels.AssetTypeTitle}"/>
                 </p:column>
                 <p:column>

@@ -16,10 +16,10 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.rainbow.core.persistence.Filter;
+import org.rainbow.core.persistence.SearchCriterion;
 import org.rainbow.core.persistence.RelationalOperator;
 import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedFilter;
+import org.rainbow.core.persistence.SingleValuedSearchCriterion;
 import org.rainbow.journal.core.entities.Profile;
 import org.rainbow.journal.ui.web.utilities.JsfUtil;
 import org.rainbow.security.core.entities.Application;
@@ -148,7 +148,7 @@ public class UserController extends TrackableController<User, Long, SearchOption
 	private Application getApplication() throws Exception {
 		SearchOptions options = new SearchOptions();
 
-		SingleValuedFilter<String> nameFilter = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
+		StringSearchCriterion nameSearchCriterion = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
 				applicationName);
 
 		options.setFilters(Arrays.asList(new Filter<?>[] { nameFilter }));
@@ -162,9 +162,9 @@ public class UserController extends TrackableController<User, Long, SearchOption
 	private Group getGroup() throws Exception {
 		SearchOptions options = new SearchOptions();
 
-		SingleValuedFilter<String> groupNameFilter = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
+		StringSearchCriterion groupNameSearchCriterion = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
 				defaultJournalWebUserGroupName);
-		SingleValuedFilter<String> applicationNameFilter = new SingleValuedFilter<>("application.name",
+		StringSearchCriterion applicationNameSearchCriterion = new SingleValuedFilter<>("application.name",
 				RelationalOperator.EQUAL, applicationName);
 
 		options.setFilters(Arrays.asList(new Filter<?>[] { groupNameFilter, applicationNameFilter }));

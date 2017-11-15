@@ -12,9 +12,8 @@ import org.rainbow.asset.explorer.orm.entities.Locale;
 import org.rainbow.asset.explorer.service.services.LocaleService;
 import org.rainbow.common.util.DefaultComparator;
 import org.rainbow.faces.controllers.read.AbstractNumericIdAuditableEntityReadController;
-import org.rainbow.faces.filters.RelationalOperator;
-import org.rainbow.faces.filters.SingleValuedFilter;
-import org.rainbow.faces.util.Filterable;
+import org.rainbow.faces.util.SearchCriterion;
+import org.rainbow.search.criteria.StringSearchCriterion;
 import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,50 +32,50 @@ public class LocaleReadController extends AbstractNumericIdAuditableEntityReadCo
 	 */
 	private static final long serialVersionUID = 59389858090861992L;
 
-	private static final String NAME_FILTER = "name";
-	private static final String LANGUAGE_CODE_FILTER = "languageCode";
-	private static final String LCID_FILTER = "lcid";
+	private static final String NAME_PATH = "name";
+	private static final String LANGUAGE_CODE_PATH = "languageCode";
+	private static final String LCID_PATH = "lcid";
 
-	private final SingleValuedFilter<String> nameFilter;
-	private final SingleValuedFilter<String> languageCodeFilter;
-	private final SingleValuedFilter<String> lcidFilter;
+	private final StringSearchCriterion nameSearchCriterion;
+	private final StringSearchCriterion languageCodeSearchCriterion;
+	private final StringSearchCriterion lcidSearchCriterion;
 
 	@Autowired
 	private LocaleService service;
 
 	public LocaleReadController() {
 		super(Integer.class);
-		nameFilter = new SingleValuedFilter<>(NAME_FILTER, RelationalOperator.CONTAINS, "");
-		languageCodeFilter = new SingleValuedFilter<>(LANGUAGE_CODE_FILTER, RelationalOperator.CONTAINS, "");
-		lcidFilter = new SingleValuedFilter<>(LCID_FILTER, RelationalOperator.CONTAINS, "");
+		nameSearchCriterion = new StringSearchCriterion(NAME_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		languageCodeSearchCriterion = new StringSearchCriterion(LANGUAGE_CODE_PATH, StringSearchCriterion.Operator.CONTAINS, null);
+		lcidSearchCriterion = new StringSearchCriterion(LCID_PATH, StringSearchCriterion.Operator.CONTAINS, null);
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getNameFilter() {
-		return nameFilter;
+	@SearchCriterion
+	public StringSearchCriterion getNameSearchCriterion() {
+		return nameSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getLanguageCodeFilter() {
-		return languageCodeFilter;
+	@SearchCriterion
+	public StringSearchCriterion getLanguageCodeSearchCriterion() {
+		return languageCodeSearchCriterion;
 	}
 
-	@Filterable
-	public SingleValuedFilter<String> getLcidFilter() {
-		return lcidFilter;
+	@SearchCriterion
+	public StringSearchCriterion getLcidSearchCriterion() {
+		return lcidSearchCriterion;
 	}
 
 	@Override
 	protected void sort(String sortField, SortOrder sortOrder, List<Locale> list) {
 		super.sort(sortField, sortOrder, list);
 		if (sortField == null) {
-			sortField = NAME_FILTER; // We want to sort by name if no sort field
+			sortField = NAME_PATH; // We want to sort by name if no sort field
 										// was specified.
 		}
 		final SortOrder order = sortOrder;
 		if (null != sortField) {
 			switch (sortField) {
-			case NAME_FILTER: {
+			case NAME_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Locale>() {
 					@Override
@@ -90,7 +89,7 @@ public class LocaleReadController extends AbstractNumericIdAuditableEntityReadCo
 				});
 				break;
 			}
-			case LANGUAGE_CODE_FILTER: {
+			case LANGUAGE_CODE_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Locale>() {
 					@Override
@@ -104,7 +103,7 @@ public class LocaleReadController extends AbstractNumericIdAuditableEntityReadCo
 				});
 				break;
 			}
-			case LCID_FILTER: {
+			case LCID_PATH: {
 				final Comparator<String> comparator = DefaultComparator.<String>getInstance();
 				Collections.sort(list, new Comparator<Locale>() {
 					@Override
