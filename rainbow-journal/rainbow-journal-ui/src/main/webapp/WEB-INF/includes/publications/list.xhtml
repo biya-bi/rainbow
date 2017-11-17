@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:body>
+	<cps:auditableEntityDataGrid id="publicationList"
+		title="#{labels.ListPublicationsTitle}"
+		dataSource="#{publicationReadController}"
+		selectedItem="#{publicationWriteController.model}"
+		selectedValue="#{item.id}"
+		createActionListener="#{publicationWriteController.prepareCreate}"
+		createDialog="publicationCreateDialog"
+		createUpdate=":publicationCreate:form"
+		editDialog="publicationEditDialog" editUpdate=":publicationEdit:form"
+		detailsDialog="publicationDetailsDialog"
+		detailsUpdate=":publicationDetails:form"
+		deleteDialog="publicationDeleteDialog"
+		deleteUpdate=":publicationDelete:form"
+		columnToggleListener="#{publicationWriteController.onToggle}"
+		creatorFilterValue="#{publicationReadController.creatorSearchCriterion.value}"
+		creatorFilterOperator="#{publicationReadController.creatorSearchCriterion.operator}"
+		updaterFilterValue="#{publicationReadController.updaterSearchCriterion.value}"
+		updaterFilterOperator="#{publicationReadController.updaterSearchCriterion.operator}"
+		creationDateFilterValue="#{publicationReadController.creationDateSearchCriterion.value}"
+		creationDateFilterOperator="#{publicationReadController.creationDateSearchCriterion.operator}"
+		lastUpdateDateFilterValue="#{publicationReadController.lastUpdateDateSearchCriterion.value}"
+		lastUpdateDateFilterOperator="#{publicationReadController.lastUpdateDateSearchCriterion.operator}"
+		creatorColumnVisible="#{publicationWriteController.auditColumnsStates[4]}"
+		updaterColumnVisible="#{publicationWriteController.auditColumnsStates[5]}"
+		creationDateColumnVisible="#{publicationWriteController.auditColumnsStates[6]}"
+		lastUpdateDateColumnVisible="#{publicationWriteController.auditColumnsStates[7]}">
+
+		<p:column headerText="#{labels.PublicationJournalTitle}"
+			filterBy="#{item.parent.name}" sortBy="#{item.journal.name}"
+			filterValue="#{publicationReadController.journalNameSearchCriterion.value}">
+
+			<p:commandLink update=":publicationDetails:form"
+				value="#{item.journal.name}"
+				oncomplete="PF('journalDetailsDialog').show()">
+				<f:setPropertyActionListener value="#{item.journal}"
+					target="#{journalWriteController.model}" />
+			</p:commandLink>
+
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="publicationList:form:dataTable"
+					selectedValue="#{publicationReadController.journalNameSearchCriterion.operator}"
+					changeWidgetVar="publicationListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.PublicationPublisherTitle}"
+			filterBy="#{item.parent.name}"
+			sortBy="#{item.publisherProfile.userName}"
+			filterValue="#{publicationReadController.publisherUserNameSearchCriterion.value}">
+
+			<p:outputLabel value="#{item.publisherProfile.userName}" />
+
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="publicationList:form:dataTable"
+					selectedValue="#{publicationReadController.publisherUserNameSearchCriterion.operator}"
+					changeWidgetVar="publicationListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.PublicationDateTitle}"
+			filterBy="#{item.name}" sortBy="#{item.publicationDate}"
+			filterValue="#{publicationReadController.publicationDateSearchCriterion.value}">
+
+			<f:facet name="filter">
+				<p:calendar navigator="true">
+					<p:ajax event="dateSelect" update="@this"
+						oncomplete="PF('publicationListDataTable').filter()" />
+				</p:calendar>
+			</f:facet>
+
+			<h:outputText value="#{item.publicationDate}">
+				<f:convertDateTime dateStyle="short" />
+			</h:outputText>
+			<f:facet name="footer">
+				<cps:comparableFilterSelectOneMenu
+					changeUpdate="publicationList:form:dataTable"
+					selectedValue="#{publicationReadController.publicationDateSearchCriterion.operator}"
+					changeWidgetVar="publicationListDataTable" />
+			</f:facet>
+		</p:column>
+	</cps:auditableEntityDataGrid>
+
+	<ui:include src="/WEB-INF/includes/publications/create.xhtml" />
+	<ui:include src="/WEB-INF/includes/publications/edit.xhtml" />
+	<ui:include src="/WEB-INF/includes/publications/details.xhtml" />
+	<ui:include src="/WEB-INF/includes/publications/delete.xhtml" />
+	<ui:include src="/WEB-INF/includes/journals/details.xhtml" />
+	<ui:include src="/WEB-INF/includes/quickCreate/create_journal.xhtml" />
+
+</h:body>
+</html>
+

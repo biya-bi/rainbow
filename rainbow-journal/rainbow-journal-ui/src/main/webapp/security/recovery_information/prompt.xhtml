@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="/templates/layout.xhtml">
+
+	<ui:define name="title">#{secLabels.ResetRecoveryInformationTitle}</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<p:panelGrid id="panelGrid" style="width: 100%">
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="3">
+							<p:outputLabel value="#{secLabels.ResetRecoveryInformationTitle}" />
+						</p:column>
+					</p:row>
+				</f:facet>
+
+				<p:row>
+					<p:column colspan="3">
+						<p:outputLabel style="font-weight:bold;" value="#{secLabels.ResetRecoveryInformationPrompt}" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column colspan="3">
+						<hr />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.UserNameLabel}" for="username" />
+					</p:column>
+					<p:column>
+						<p:inputText id="username" styleClass="field-value"
+							value="#{resetRecoveryInformationController.userName}"
+							readonly="#{authenticationController.authenticated}"
+							title="#{secLabels.UserNameTitle}" required="true"
+							requiredMessage="#{secValMsg.PasswordRequired}">
+							<p:clientValidator event="keyup" />
+						</p:inputText>
+					</p:column>
+					<p:column>
+						<p:message for="username" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.PasswordLabel}" for="password" />
+					</p:column>
+					<p:column>
+						<p:password id="password" styleClass="field-value"
+							value="#{resetRecoveryInformationController.password}"
+							title="#{secLabels.PasswordTitle}" required="true"
+							requiredMessage="#{secValMsg.PasswordRequired}">
+							<p:clientValidator event="keyup" />
+						</p:password>
+					</p:column>
+					<p:column>
+						<p:message for="password" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<hr />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.RecoveryQuestion1Label}" for="question1" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="question1"
+							value="#{resetRecoveryInformationController.question1}"
+							styleClass="field-value" required="true"
+							requiredMessage="#{secValMsg.RecoveryQuestion1Required}"
+							title="#{secLabels.RecoveryQuestion1Title}">
+							<f:selectItem
+								itemLabel="#{secLabels.SelectRecoveryQuestionLabel}"
+								itemValue="" />
+							<f:selectItems
+								itemDisabled="#{entry.key==resetRecoveryInformationController.question2 || entry.key==resetRecoveryInformationController.question3 || entry.key==resetRecoveryInformationController.question4}"
+								value="#{resetRecoveryInformationController.questions}"
+								var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+							<p:clientValidator event="change" />
+							<p:ajax event="change" update="question2,question3,question4" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<p:message for="question1" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.RecoveryAnswer1Label}" for="answer1" />
+					</p:column>
+					<p:column>
+						<p:password id="answer1" styleClass="field-value"
+							match="confirmAnswer1"
+							requiredMessage="#{secValMsg.RecoveryAnswer1Required}"
+							validatorMessage="#{secValMsg.RecoveryAnswer1AndConfirmRecoveryAnswer1Mismatch}"
+							value="#{resetRecoveryInformationController.answer1}"
+							required="true" title="#{secLabels.RecoveryAnswer1Title}">
+							<p:clientValidator event="keyup" />
+						</p:password>
+					</p:column>
+					<p:column>
+						<p:message for="answer1" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="#{secLabels.ConfirmRecoveryAnswer1Label}"
+							styleClass="field-label" for="confirmAnswer1" />
+					</p:column>
+					<p:column>
+						<p:password id="confirmAnswer1"
+							value="#{resetRecoveryInformationController.answer1}"
+							required="true"
+							requiredMessage="#{secValMsg.ConfirmRecoveryAnswer1Required}"
+							styleClass="field-value"
+							title="#{secLabels.ConfirmRecoveryAnswer1Title}">
+							<p:clientValidator event="keyup" />
+						</p:password>
+					</p:column>
+					<p:column>
+						<p:message for="confirmAnswer1" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<hr />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.RecoveryQuestion2Label}" for="question2" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="question2"
+							value="#{resetRecoveryInformationController.question2}"
+							styleClass="field-value" required="true"
+							requiredMessage="#{secValMsg.RecoveryQuestion2Required}"
+							title="#{secLabels.RecoveryQuestion2Title}">
+							<f:selectItem
+								itemLabel="#{secLabels.SelectRecoveryQuestionLabel}"
+								itemValue="" />
+							<f:selectItems
+								itemDisabled="#{entry.key==resetRecoveryInformationController.question1 || entry.key==resetRecoveryInformationController.question3 || entry.key==resetRecoveryInformationController.question4}"
+								value="#{resetRecoveryInformationController.questions}"
+								var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+							<p:clientValidator event="change" />
+							<p:ajax event="change" update="question1,question3,question4" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<p:message for="question2" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.RecoveryAnswer2Label}" for="answer2" />
+					</p:column>
+					<p:column>
+						<p:password id="answer2" styleClass="field-value"
+							match="confirmAnswer2"
+							requiredMessage="#{secValMsg.RecoveryAnswer2Required}"
+							validatorMessage="#{secValMsg.RecoveryAnswer2AndConfirmRecoveryAnswer2Mismatch}"
+							value="#{resetRecoveryInformationController.answer2}"
+							required="true" title="#{secLabels.RecoveryAnswer2Title}">
+							<p:clientValidator event="keyup" />
+						</p:password>
+					</p:column>
+					<p:column>
+						<p:message for="answer2" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="#{secLabels.ConfirmRecoveryAnswer2Label}"
+							styleClass="field-label" for="confirmAnswer2" />
+					</p:column>
+					<p:column>
+						<p:password id="confirmAnswer2"
+							value="#{resetRecoveryInformationController.answer2}"
+							required="true"
+							requiredMessage="#{secValMsg.ConfirmRecoveryAnswer2Required}"
+							styleClass="field-value"
+							title="#{secLabels.ConfirmRecoveryAnswer2Title}">
+							<p:clientValidator event="keyup" />
+						</p:password>
+					</p:column>
+					<p:column>
+						<p:message for="confirmAnswer2" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<hr />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.RecoveryQuestion3Label}" for="question3" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="question3"
+							value="#{resetRecoveryInformationController.question3}"
+							styleClass="field-value" required="true"
+							requiredMessage="#{secValMsg.RecoveryQuestion3Required}"
+							title="#{secLabels.RecoveryQuestion3Title}">
+							<f:selectItem
+								itemLabel="#{secLabels.SelectRecoveryQuestionLabel}"
+								itemValue="" />
+							<f:selectItems
+								itemDisabled="#{entry.key==resetRecoveryInformationController.question1 || entry.key==resetRecoveryInformationController.question2 || entry.key==resetRecoveryInformationController.question4}"
+								value="#{resetRecoveryInformationController.questions}"
+								var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+							<p:clientValidator event="change" />
+							<p:ajax event="change" update="question1,question2,question4" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<p:message for="question3" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.RecoveryAnswer3Label}" for="answer3" />
+					</p:column>
+					<p:column>
+						<p:password id="answer3" styleClass="field-value"
+							match="confirmAnswer3"
+							requiredMessage="#{secValMsg.RecoveryAnswer3Required}"
+							validatorMessage="#{secValMsg.RecoveryAnswer3AndConfirmRecoveryAnswer3Mismatch}"
+							value="#{resetRecoveryInformationController.answer3}"
+							required="true" title="#{secLabels.RecoveryAnswer3Title}">
+							<p:clientValidator event="keyup" />
+						</p:password>
+					</p:column>
+					<p:column>
+						<p:message for="answer3" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="#{secLabels.ConfirmRecoveryAnswer3Label}"
+							styleClass="field-label" for="confirmAnswer3" />
+					</p:column>
+					<p:column>
+						<p:password id="confirmAnswer3"
+							value="#{resetRecoveryInformationController.answer3}"
+							required="true"
+							requiredMessage="#{secValMsg.ConfirmRecoveryAnswer3Required}"
+							styleClass="field-value"
+							title="#{secLabels.ConfirmRecoveryAnswer3Title}">
+							<p:clientValidator event="keyup" />
+						</p:password>
+					</p:column>
+					<p:column>
+						<p:message for="confirmAnswer3" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<hr />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.RecoveryQuestion4Label}" for="question4" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="question4"
+							value="#{resetRecoveryInformationController.question4}"
+							styleClass="field-value" required="true"
+							requiredMessage="#{secValMsg.RecoveryQuestion4Required}"
+							title="#{secLabels.RecoveryQuestion4Title}">
+							<f:selectItem
+								itemLabel="#{secLabels.SelectRecoveryQuestionLabel}"
+								itemValue="" />
+							<f:selectItems
+								itemDisabled="#{entry.key==resetRecoveryInformationController.question1 || entry.key==resetRecoveryInformationController.question2 || entry.key==resetRecoveryInformationController.question3}"
+								value="#{resetRecoveryInformationController.questions}"
+								var="entry" itemLabel="#{entry.value}" itemValue="#{entry.key}" />
+							<p:clientValidator event="change" />
+							<p:ajax event="change" update="question1,question2,question3" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<p:message for="question4" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.RecoveryAnswer4Label}" for="answer4" />
+					</p:column>
+					<p:column>
+						<p:password id="answer4" styleClass="field-value"
+							match="confirmAnswer4"
+							requiredMessage="#{secValMsg.RecoveryAnswer4Required}"
+							validatorMessage="#{secValMsg.RecoveryAnswer4AndConfirmRecoveryAnswer4Mismatch}"
+							value="#{resetRecoveryInformationController.answer4}"
+							required="true" title="#{secLabels.RecoveryAnswer4Title}">
+							<p:clientValidator event="keyup" />
+						</p:password>
+					</p:column>
+					<p:column>
+						<p:message for="answer4" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="#{secLabels.ConfirmRecoveryAnswer4Label}"
+							styleClass="field-label" for="confirmAnswer4" />
+					</p:column>
+					<p:column>
+						<p:password id="confirmAnswer4"
+							value="#{resetRecoveryInformationController.answer4}"
+							required="true"
+							requiredMessage="#{secValMsg.ConfirmRecoveryAnswer4Required}"
+							styleClass="field-value"
+							title="#{secLabels.ConfirmRecoveryAnswer4Title}">
+							<p:clientValidator event="keyup" />
+						</p:password>
+					</p:column>
+					<p:column>
+						<p:message for="confirmAnswer4" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<p:messages globalOnly="true" />
+					</p:column>
+				</p:row>
+				<f:facet name="footer">
+					<p:row>
+						<p:column colspan="3">
+							<p:panelGrid columns="2" style="float: right;"
+								styleClass="ui-panelgrid-blank">
+								<p:commandButton update="panelGrid"
+									action="#{resetRecoveryInformationController.resetRecoveryInformation}"
+									value="#{labels.Reset}" icon="ui-icon-disk" />
+								<p:button value="#{labels.Cancel}" icon="ui-icon-close"
+									outcome="cancel" />
+							</p:panelGrid>
+						</p:column>
+					</p:row>
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>

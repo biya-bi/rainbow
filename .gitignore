@@ -10,10 +10,11 @@
 /rainbow-faces/target/
 /rainbow-impl/target/
 /rainbow-journal/rainbow-journal-api/target/
+/rainbow-journal/rainbow-journal-faces/target/
 /rainbow-journal/rainbow-journal-impl/target/
 /rainbow-journal/rainbow-journal-orm/target/
 /rainbow-journal/rainbow-journal-server/target/
-/rainbow-journal/rainbow-journal-ui-web/target/
+/rainbow-journal/rainbow-journal-ui/target/
 /rainbow-orm/target/
 /rainbow-orm-eclipselink/target/
 /rainbow-security/rainbow-security-api/target/

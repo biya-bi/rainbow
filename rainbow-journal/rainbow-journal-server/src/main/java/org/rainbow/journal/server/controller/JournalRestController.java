@@ -1,18 +1,17 @@
 package org.rainbow.journal.server.controller;
 
-import java.util.Arrays;
-
-import org.rainbow.core.persistence.SearchCriterion;
-import org.rainbow.core.persistence.RelationalOperator;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedSearchCriterion;
-import org.rainbow.journal.core.entities.File;
-import org.rainbow.journal.core.entities.Journal;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.Predicate;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptionsFactory;
+import org.rainbow.journal.orm.entities.File;
+import org.rainbow.journal.orm.entities.Journal;
 import org.rainbow.journal.server.dto.FileDto;
 import org.rainbow.journal.server.dto.JournalDto;
 import org.rainbow.journal.server.dto.translation.DtoTranslator;
 import org.rainbow.journal.server.search.JournalSearchParam;
-import org.rainbow.service.Service;
+import org.rainbow.journal.service.services.JournalService;
+import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +25,7 @@ public class JournalRestController extends AbstractRestController<Journal, Long,
 
 	@Autowired
 	@Qualifier("journalService")
-	private Service<Journal, Long, SearchOptions> journalService;
+	private JournalService journalService;
 
 	@Autowired
 	@Qualifier("journalDtoTranslator")
@@ -36,8 +35,17 @@ public class JournalRestController extends AbstractRestController<Journal, Long,
 	@Qualifier("fileDtoTranslator")
 	private DtoTranslator<File, FileDto> fileDtoTranslator;
 
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
+
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
+
 	@Override
-	protected Service<Journal, Long, SearchOptions> getService() {
+	protected Service<Journal> getService() {
 		return journalService;
 	}
 
@@ -47,17 +55,12 @@ public class JournalRestController extends AbstractRestController<Journal, Long,
 	}
 
 	@Override
-	protected SearchOptions getSearchOptions(JournalSearchParam searchParam) {
-		SearchOptions options = super.getSearchOptions(searchParam);
-
+	protected Predicate getPredicate(JournalSearchParam searchParam) {
 		if (searchParam.getName() != null) {
-			StringSearchCriterion nameSearchCriterion = new SingleValuedFilter<>("name", RelationalOperator.CONTAINS,
-					searchParam.getName());
-
-			options.setFilters(Arrays.asList(new Filter<?>[] { nameFilter }));
+			return predicateBuilderFactory.create().contains(pathFactory.create("name"), searchParam.getName());
 		}
 
-		return options;
+		return null;
 	}
 
 	@RequestMapping(value = "/{id}/photo", method = RequestMethod.GET)
@@ -66,5 +69,10 @@ public class JournalRestController extends AbstractRestController<Journal, Long,
 		if (journal != null && journal.getPhoto() != null)
 			return fileDtoTranslator.toDto(journal.getPhoto());
 		return null;
+	}
+
+	@Override
+	protected SearchOptionsFactory getSearchOptionsFactory() {
+		return searchOptionsFactory;
 	}
 }

@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+entitygen.DEFAULT_PACKAGE=model
+org.eclipse.jpt.core.platform=eclipselink2_5
+org.eclipse.jpt.jpa.core.discoverAnnotatedClasses=true
+problem.MAPS_ID_VALUE_NOT_SPECIFIED=error
+problem.MAP_KEY_CLASS_NOT_EXIST=error
+problem.PERSISTENCE_UNIT_NONEXISTENT_MAPPING_FILE=error
+problem.PROJECT_INACTIVE_CONNECTION=warning
+problem.PROJECT_INVALID_CONNECTION=warning
+problem.PROJECT_NO_CONNECTION=ignore
+problem.PROJECT_NO_PERSISTENCE_XML=ignore
+problem.TYPE_MAPPING_ID_CLASS_MISSING_HASHCODE_METHOD=error
+workspace_validation_preferences_overridden=true

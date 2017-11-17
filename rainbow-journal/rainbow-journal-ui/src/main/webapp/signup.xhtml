@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<f:view contentType="text/html">
+
+	<f:loadBundle basename="org.rainbow.journal.faces.Labels" var="labels" />
+	<f:loadBundle basename="org.rainbow.journal.faces.ValidationMessages"
+		var="valMsg" />
+	<h:body>
+		<h:outputStylesheet name="css/styles.css" />
+		<h:outputScript name="js/jsfcrud.js" />
+
+		<h:form id="registerUserFormId" prependId="false">
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+
+			<p:panelGrid columns="1">
+				<f:facet name="header">
+					<p:panelGrid columns="2" style="text-align: left;"
+						styleClass="ui-panelgrid-blank">
+						<p:commandButton id="headerSubmitButton" validateClient="true"
+							icon="ui-icon-disk" action="#{userWriteController.signup}"
+							value="#{labels.Submit}" />
+						<p:commandButton id="headerCancelButton" icon="ui-icon-close"
+							value="#{labels.Cancel}" immediate="true"
+							action="index?faces-redirect=true" />
+					</p:panelGrid>
+				</f:facet>
+				<f:facet name="footer">
+					<p:panelGrid columns="2" style="text-align: left;"
+						styleClass="ui-panelgrid-blank">
+						<p:commandButton id="footerSubmitButton" validateClient="true"
+							icon="ui-icon-disk" action="#{userWriteController.signup}"
+							value="#{labels.Submit}" />
+						<p:commandButton id="footerCancelButton" icon="ui-icon-close"
+							value="#{labels.Cancel}" immediate="true"
+							action="index?faces-redirect=true" />
+					</p:panelGrid>
+				</f:facet>
+				  <p:messages id="messages" autoUpdate="true" />
+				<p:panelGrid rendered="#{userWriteController.model != null}">
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.UserNameLabel}" for="userName" />
+						</p:column>
+						<p:column>
+							<p:inputText styleClass="field-value" id="userName"
+								value="#{userWriteController.model.userName}"
+								title="#{labels.UserNameTitle}" required="true"
+								requiredMessage="#{valMsg.UserNameRequired}">
+								<p:clientValidator event="keyup" />
+							</p:inputText>
+						</p:column>
+						<p:column />
+						<p:column>
+							<p:message for="userName" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.PasswordLabel}" for="password" />
+						</p:column>
+						<p:column>
+							<p:password
+								validatorMessage="#{valMsg.PasswordAndConfirmPasswordDonotMatch}"
+								styleClass="field-value" id="password"
+								label="#{labels.PasswordTitle}" match="confirmPassword"
+								value="#{userWriteController.model.membership.password}"
+								title="#{labels.PasswordTitle}" required="true"
+								requiredMessage="#{valMsg.PasswordRequired}">
+								<p:clientValidator event="keyup" />
+								<p:ajax event="keyup" process="password confirmPassword" />
+							</p:password>
+							<p:watermark for="password" value="#{labels.PasswordTitle}" />
+						</p:column>
+						<p:column />
+						<p:column>
+							<p:message for="password" id="passwordError" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.ConfirmPasswordLabel}" for="confirmPassword" />
+						</p:column>
+						<p:column>
+							<p:password styleClass="field-value" id="confirmPassword"
+								label="{labels.ConfirmPasswordTitle}"
+								value="#{userWriteController.model.membership.password}"
+								title="#{labels.ConfirmPasswordTitle}" required="true"
+								requiredMessage="#{valMsg.ConfirmPasswordRequired}">
+								<p:clientValidator event="keyup" />
+								<p:ajax event="keyup" process="password confirmPassword" />
+							</p:password>
+							<p:watermark for="confirmPassword"
+								value="#{labels.ConfirmPasswordTitle}" />
+						</p:column>
+						<p:column />
+						<p:column>
+							<p:message for="confirmPassword" id="confirmPasswordError" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.EmailLabel}" for="email" />
+						</p:column>
+						<p:column>
+							<p:inputText styleClass="field-value" id="email"
+								value="#{userWriteController.model.membership.email}"
+								title="#{labels.EmailTitle}" required="true"
+								requiredMessage="#{valMsg.EmailRequired}">
+
+								<p:clientValidator event="keyup" />
+								<p:ajax event="keyup" />
+
+							</p:inputText>
+						</p:column>
+						<p:column />
+						<p:column>
+							<p:message for="email" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.PhoneLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText styleClass="field-value" id="phone"
+								value="#{userWriteController.model.membership.phone}"
+								title="#{labels.PhoneTitle}" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.LastNameLabel}" for="lastName" />
+						</p:column>
+						<p:column>
+							<p:inputText styleClass="field-value" id="lastName"
+								value="#{userWriteController.profile.lastName}"
+								title="#{labels.LastNameTitle}" required="true"
+								requiredMessage="#{valMsg.LastNameRequired}">
+								<p:clientValidator event="keyup" />
+							</p:inputText>
+						</p:column>
+						<p:column />
+						<p:column>
+							<p:message for="lastName" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.FirstNameLabel}" for="firstName" />
+						</p:column>
+						<p:column>
+							<p:inputText styleClass="field-value" id="firstName"
+								value="#{userWriteController.profile.firstName}"
+								title="#{labels.FirstNameTitle}">
+								<p:clientValidator event="keyup" />
+							</p:inputText>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.BirthDateLabel}" for="birthDate" />
+						</p:column>
+						<p:column>
+							<p:calendar styleClass="field-value" id="birthDate"
+								value="#{userWriteController.profile.birthDate}"
+								title="#{labels.BirthDateTitle}">
+								<p:ajax event="dateSelect" />
+								<p:clientValidator event="dateSelect" />
+								<p:clientValidator event="change" />
+							</p:calendar>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:panelGrid>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

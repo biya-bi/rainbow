@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps">
+
+<ui:composition template="templates/front_office_template.xhtml">
+
+	<ui:define name="bodyContent">
+
+		<h:form>
+
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+
+			<p:dataGrid value="#{journalReadController}" var="item"
+				widgetVar="journalDataGrid" style="border: none;"
+				stickyHeader="false" selectionMode="single" lazy="true"
+				paginator="true"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"
+				scrollable="true" rows="20" rowsPerPageTemplate="20,40,60,80,100">
+
+				<p:panel>
+					<p:panelGrid columns="1">
+						<p:outputLabel value="#{item.name}" />
+						<p:graphicImage value="#{fileController.journalPhoto}"
+							styleClass="photo-style">
+							<f:param name="journalId" value="#{item.id}" />
+						</p:graphicImage>
+					</p:panelGrid>
+					<br />
+					<p:panelGrid columns="3">
+						<p:commandButton value="#{labels.SubscribeLabel}"
+							rendered="#{request.userPrincipal != null}"
+							action="#{frontOfficeController.subscribe}">
+							<f:setPropertyActionListener value="#{item}"
+								target="#{frontOfficeController.selectedJournal}" />
+						</p:commandButton>
+						<p:outputLabel value="#{labels.VerticalSeparator}"
+							rendered="#{request.userPrincipal != null}" />
+						<p:commandLink value="#{labels.ViewPublicationsLabel}"
+							action="publications?faces-redirect=true">
+							<f:setPropertyActionListener value="#{item}"
+								target="#{frontOfficeController.selectedJournal}" />
+						</p:commandLink>
+					</p:panelGrid>
+				</p:panel>
+
+			</p:dataGrid>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

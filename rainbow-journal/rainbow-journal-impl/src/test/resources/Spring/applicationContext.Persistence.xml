@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<bean id="persistenceUnitManager"
+		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:META-INF/persistence.xml</value>
+			</list>
+		</property>
+		<property name="dataSources">
+			<map>
+				<entry key="dataSource" value-ref="dataSource" />
+			</map>
+		</property>
+		<property name="defaultDataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="rainbowJournalEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="RainbowJournalPersistenceUnit" />
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>org.rainbow</value>
+			</list>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="eclipselink.logging.level" value="ALL" />
+				<entry key="javax.persistence.schema-generation.database.action"
+					value="none" />
+				<entry key="eclipselink.weaving" value="false" />
+			</map>
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="true" />
+				<property name="databasePlatform"
+					value="org.eclipse.persistence.platform.database.MySQLPlatform" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="rainbowJournalTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="rainbowJournalEntityManagerFactory" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+</beans>

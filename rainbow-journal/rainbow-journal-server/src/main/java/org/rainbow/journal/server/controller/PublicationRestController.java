@@ -1,20 +1,24 @@
 package org.rainbow.journal.server.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.rainbow.core.persistence.SearchCriterion;
-import org.rainbow.core.persistence.RelationalOperator;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedSearchCriterion;
-import org.rainbow.journal.core.entities.File;
-import org.rainbow.journal.core.entities.Publication;
+import org.rainbow.criteria.Expression;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.Predicate;
+import org.rainbow.criteria.PredicateBuilder;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptionsFactory;
+import org.rainbow.journal.orm.entities.File;
+import org.rainbow.journal.orm.entities.Publication;
 import org.rainbow.journal.server.dto.FileDto;
 import org.rainbow.journal.server.dto.PublicationDto;
 import org.rainbow.journal.server.dto.translation.DtoTranslator;
 import org.rainbow.journal.server.search.PublicationSearchParam;
-import org.rainbow.service.Service;
+import org.rainbow.journal.service.services.PublicationService;
+import org.rainbow.service.services.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +33,7 @@ public class PublicationRestController
 
 	@Autowired
 	@Qualifier("publicationService")
-	private Service<Publication, Long, SearchOptions> publicationService;
+	private PublicationService publicationService;
 
 	@Autowired
 	@Qualifier("publicationDtoTranslator")
@@ -39,8 +43,17 @@ public class PublicationRestController
 	@Qualifier("fileDtoTranslator")
 	private DtoTranslator<File, FileDto> fileDtoTranslator;
 
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
+
+	@Autowired
+	private PathFactory pathFactory;
+
 	@Override
-	protected Service<Publication, Long, SearchOptions> getService() {
+	protected Service<Publication> getService() {
 		return publicationService;
 	}
 
@@ -50,45 +63,52 @@ public class PublicationRestController
 	}
 
 	@Override
-	protected SearchOptions getSearchOptions(PublicationSearchParam searchParam) {
-		SearchOptions options = super.getSearchOptions(searchParam);
+	protected Predicate getPredicate(PublicationSearchParam searchParam) {
+		PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
 
-		List<Filter<?>> filters = new ArrayList<>();
+		List<Predicate> predicates = new ArrayList<>();
 
 		if (searchParam.getJournalId() != null) {
-			SingleValuedFilter<Long> filter = new SingleValuedFilter<>("journal.id", RelationalOperator.EQUAL,
-					searchParam.getJournalId());
-			filters.add(filter);
+			predicates.add(predicateBuilder.equal(pathFactory.create("journal.id"), searchParam.getJournalId()));
 		}
 
 		if (searchParam.getJournalName() != null) {
-			StringSearchCriterion filter = new SingleValuedFilter<>("journal.name", RelationalOperator.CONTAINS,
-					searchParam.getJournalName());
-			filters.add(filter);
+			predicates.add(predicateBuilder.contains(pathFactory.create("journal.name"), searchParam.getJournalName()));
 		}
 
 		if (searchParam.getPublicationDate() != null) {
-			SingleValuedFilter<Date> filter = new SingleValuedFilter<>("publicationDate", RelationalOperator.EQUAL,
-					searchParam.getPublicationDate());
-			filters.add(filter);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(searchParam.getPublicationDate());
+
+			calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+					0, 0, 0);
+			Date lowerBound = calendar.getTime();
+
+			calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+					23, 59, 59);
+			Date upperBound = calendar.getTime();
+
+			Expression<String> exp = pathFactory.create("publicationDate");
+
+			predicates.add(predicateBuilder.and(predicateBuilder.greaterThanOrEqualTo(exp, lowerBound),
+					predicateBuilder.lessThanOrEqualTo(exp, upperBound)));
 		}
 
 		if (searchParam.getPublisherProfileId() != null) {
-			SingleValuedFilter<Long> filter = new SingleValuedFilter<>("publisherProfile.id", RelationalOperator.EQUAL,
-					searchParam.getPublisherProfileId());
-			filters.add(filter);
+			predicates.add(predicateBuilder.equal(pathFactory.create("publisherProfile.id"),
+					searchParam.getPublisherProfileId()));
 		}
 
 		if (searchParam.getPublisherUserName() != null) {
-			StringSearchCriterion filter = new SingleValuedFilter<>("publisherProfile.userName", RelationalOperator.CONTAINS,
-					searchParam.getPublisherUserName());
-			filters.add(filter);
+			predicates.add(predicateBuilder.contains(pathFactory.create("publisherProfile.userName"),
+					searchParam.getPublisherUserName()));
 		}
 
-		if (!filters.isEmpty())
-			options.setFilters(filters);
+		if (!predicates.isEmpty()) {
+			predicateBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		}
 
-		return options;
+		return null;
 	}
 
 	@RequestMapping(value = "/{id}/photo", method = RequestMethod.GET)
@@ -97,6 +117,11 @@ public class PublicationRestController
 		if (publication != null && publication.getFile() != null)
 			return fileDtoTranslator.toDto(publication.getFile());
 		return null;
+	}
+
+	@Override
+	protected SearchOptionsFactory getSearchOptionsFactory() {
+		return searchOptionsFactory;
 	}
 
 }

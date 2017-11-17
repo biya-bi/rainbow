@@ -1,6 +1,6 @@
 package org.rainbow.journal.server.dto.translation;
 
-import org.rainbow.journal.core.entities.File;
+import org.rainbow.journal.orm.entities.File;
 import org.rainbow.journal.server.dto.FileDto;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

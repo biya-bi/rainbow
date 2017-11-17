@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:t="http://journal.rainbow.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<composite:interface>
+</composite:interface>
+
+<composite:implementation>
+	<p:panelGrid rendered="#{journalWriteController.model != null}"
+		styleClass="ui-panelgrid-blank">
+		<p:row>
+			<p:column>
+				<p:panelGrid>
+					<p:graphicImage id="graphicImage"
+						value="#{journalWriteController.photo}" styleClass="photo-style" />
+				</p:panelGrid>
+			</p:column>
+			<p:column>
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.JournalNameLabel}" for="name" />
+						</p:column>
+						<p:column>
+							<p:inputText styleClass="field-value" id="name"
+								value="#{journalWriteController.model.name}"
+								title="#{labels.JournalNameTitle}" required="true"
+								requiredMessage="#{valMsg.JournalNameRequired}">
+								<p:clientValidator event="keyup" />
+							</p:inputText>
+						</p:column>
+						<p:column />
+						<p:column>
+							<p:message for="name" />
+						</p:column>
+					</p:row>
+						<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.JournalActiveLabel}" />
+						</p:column>
+						<p:column>
+							<p:selectBooleanCheckbox styleClass="field-value" id="active"
+								value="#{journalWriteController.model.active}"
+								title="#{labels.JournalActiveTitle}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.JournalTagLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputText styleClass="field-value" id="tag"
+								value="#{journalWriteController.model.tag}"
+								title="#{labels.JournalTagTitle}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel styleClass="field-label"
+								value="#{labels.JournalDescriptionLabel}" />
+						</p:column>
+						<p:column>
+							<p:inputTextarea styleClass="field-value" id="description"
+								value="#{journalWriteController.model.description}"
+								title="#{labels.JournalDescriptionTitle}" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column colspan="2">
+
+				<p:fileUpload id="fileUpload"
+					fileUploadListener="#{journalWriteController.uploadPhoto}"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="1024000"
+					styleClass="field-value" label="#{labels.ChoosePhotoLabel}"
+					uploadLabel="#{labels.UploadPhotoLabel}"
+					cancelLabel="#{labels.CancelLabel}" update="graphicImage" />
+
+			</p:column>
+		</p:row>
+
+	</p:panelGrid>
+</composite:implementation>
+</html>
+

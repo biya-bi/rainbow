@@ -1,0 +1,17 @@
+insert into profile(id,user_name,first_name,last_name,creation_date,last_update_date,version) values (3001,'sample_user1','Sample','User1',current_timestamp(),current_timestamp(),1);
+insert into journal(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (3001,'ACIMED',3001,1,current_timestamp(),current_timestamp(),1);
+insert into journal(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (3002,'Acta Anaesthesiologica Scandinavica',3001,1,current_timestamp(),current_timestamp(),1);
+insert into journal(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (3003,'Acta Oto-Laryngologica',3001,1,current_timestamp(),current_timestamp(),1);
+insert into journal(id,name,owner_profile_id,active,creation_date,last_update_date,version) values (3004,'Acta Orthopaedica et Traumatologica Turcica',3001,1,current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3001,3001,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3002,3003,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3003,3002,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3004,3002,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3005,3002,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3006,3004,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3007,3001,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3008,3001,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3009,3001,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3010,3001,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+insert into publication(id,journal_id,publisher_profile_id,publication_date,creation_date,last_update_date,version) values (3011,3001,3001,current_timestamp(),current_timestamp(),current_timestamp(),1);
+commit;

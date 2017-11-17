@@ -1,0 +1,110 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security.xsd
+http://www.springframework.org/schema/jee
+http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<jee:jndi-lookup id="rainbowJournalApplicationName"
+		jndi-name="${rainbow.journal.applicationName}" lookup-on-startup="true"
+		cache="true" />
+
+	<jee:jndi-lookup id="rainbowJournalWebUsersGroupName"
+		jndi-name="${rainbow.journal.web.users.group.name}" lookup-on-startup="true"
+		cache="true" />
+
+	<security:http auto-config="true" use-expressions="true">
+		<security:csrf disabled="true" />
+		<security:intercept-url pattern="/admin.xhtml"
+			access="hasRole('ROLE_JOURNAL_ADMIN')" />
+		<security:intercept-url pattern="/user_subscriptions.xhtml"
+			access="hasRole('ROLE_JOURNAL_WEB_USER')" />
+		<security:intercept-url pattern="/index.xhtml"
+			access="permitAll" />
+		<security:intercept-url pattern="/registerUser.xhtml"
+			access="permitAll" />
+		<security:intercept-url pattern="/**" access="permitAll" />
+		<security:form-login login-page="/security/login.xhtml" />
+		<security:remember-me key="${remember.me.key}"
+			services-ref="rememberMeServices" />
+		<security:logout invalidate-session="true"
+			delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"
+			logout-success-url="/index.xhtml" />
+	</security:http>
+
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider
+			ref="rememberMeAuthenticationProvider" />
+
+		<security:authentication-provider
+			ref="userDetailsAuthenticationProvider" />
+	</security:authentication-manager>
+
+	<bean id="loginBean" name="loginBean"
+		class="org.rainbow.security.auth.faces.controllers.AuthenticationController"
+		scope="prototype">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="rememberMeServices" ref="rememberMeServices" />
+		<property name="userDetailsService" ref="userDetailsService" />
+	</bean>
+
+	<bean id="rememberMeServices"
+		class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+		<constructor-arg name="key" value="${remember.me.key}" />
+		<constructor-arg name="userDetailsService" ref="userDetailsService" />
+		<property name="alwaysRemember" value="true" />
+		<property name="tokenValiditySeconds" value="1800" />
+	</bean>
+
+	<bean id="rememberMeAuthenticationProvider"
+		class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+		<constructor-arg name="key" value="${remember.me.key}" />
+	</bean>
+
+	<bean id="rememberMeFilter"
+		class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+		<constructor-arg name="authenticationManager" ref="authenticationManager" />
+		<constructor-arg name="rememberMeServices" ref="rememberMeServices" />
+	</bean>
+
+	<bean id="userDetailsAuthenticationProvider"
+		class="org.rainbow.security.service.authentication.UserDetailsAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="passwordAttemptUpdater">
+			<bean
+				class="org.rainbow.security.service.authentication.PasswordAttemptUpdaterImpl">
+				<property name="applicationName" ref="rainbowJournalApplicationName" />
+				<property name="passwordEncoder" ref="passwordEncoder" />
+				<property name="dataSource" ref="rainbowSecurityDataSource" />
+			</bean>
+		</property>
+		<property name="hideUserNotFoundExceptions" value="false" />
+	</bean>
+
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<constructor-arg name="strength" value="4" />
+	</bean>
+
+	<bean id="sensitiveUserDetailsEncrypter"
+		class="org.rainbow.security.service.encryption.SensitiveUserDetailsEncrypterImpl"
+		init-method="encrypt" depends-on="rainbowSecurityDataSource">
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="applicationName" ref="rainbowJournalApplicationName" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
+	</bean>
+
+	<bean id="userDetailsService"
+		class="org.rainbow.security.service.userdetails.UserDetailsServiceImpl">
+		<constructor-arg name="applicationName" ref="rainbowJournalApplicationName" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
+		<property name="enableAuthorities" value="false" />
+		<property name="enableGroups" value="true" />
+	</bean>
+
+</beans>

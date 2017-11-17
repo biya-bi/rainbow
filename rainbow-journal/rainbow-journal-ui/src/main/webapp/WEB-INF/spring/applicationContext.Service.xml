@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="profileService" class="org.rainbow.journal.service.services.ProfileServiceImpl">
+		<property name="dao" ref="profileDao" />
+	</bean>
+
+	<bean id="journalService" class="org.rainbow.journal.service.services.JournalServiceImpl">
+		<property name="dao" ref="journalDao" />
+	</bean>
+
+	<bean id="publicationService"
+		class="org.rainbow.journal.service.services.PublicationServiceImpl">
+		<property name="dao" ref="publicationDao" />
+	</bean>
+
+	<bean id="subscriptionService"
+		class="org.rainbow.journal.service.services.SubscriptionServiceImpl">
+		<property name="dao" ref="subscriptionDao" />
+	</bean>
+
+	<bean id="applicationService"
+		class="org.rainbow.security.service.services.ApplicationServiceImpl">
+		<property name="dao" ref="applicationDao" />
+	</bean>
+
+	<bean id="groupService" class="org.rainbow.security.service.services.GroupServiceImpl">
+		<property name="dao" ref="groupDao" />
+	</bean>
+
+	<bean id="userService" class="org.rainbow.security.service.services.UserServiceImpl">
+		<property name="dao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+	</bean>
+
+	<bean id="userGroupService"
+		class="org.rainbow.security.service.services.UserGroupServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="applicationDao" ref="applicationDao" />
+		<property name="applicationName" ref="rainbowJournalApplicationName" />
+		<property name="authorityDao" ref="authorityDao" />
+		<property name="groupDao" ref="groupDao" />
+	</bean>
+
+	<bean id="userAccountService"
+		class="org.rainbow.security.service.services.UserAccountServiceImpl">
+		<property name="applicationName" ref="rainbowJournalApplicationName" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="dataSource" ref="rainbowSecurityDataSource" />
+	</bean>
+</beans>

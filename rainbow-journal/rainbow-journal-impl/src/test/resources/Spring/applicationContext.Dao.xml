@@ -1,0 +1,11 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="profileDao" class="org.rainbow.journal.persistence.dao.ProfileDaoImpl" />
+	<bean id="journalDao" class="org.rainbow.journal.persistence.dao.JournalDaoImpl" />
+	<bean id="publicationDao" class="org.rainbow.journal.persistence.dao.PublicationDaoImpl" />
+	<bean id="subscriptionDao" class="org.rainbow.journal.persistence.dao.SubscriptionDaoImpl" />
+
+</beans>

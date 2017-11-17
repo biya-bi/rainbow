@@ -3,21 +3,23 @@ package org.rainbow.journal.server.controller;
 import java.util.Arrays;
 import java.util.List;
 
-import org.rainbow.core.persistence.SearchCriterion;
-import org.rainbow.core.persistence.RelationalOperator;
-import org.rainbow.core.persistence.SearchOptions;
-import org.rainbow.core.persistence.SingleValuedSearchCriterion;
-import org.rainbow.journal.core.entities.Profile;
+import org.rainbow.criteria.PathFactory;
+import org.rainbow.criteria.PredicateBuilder;
+import org.rainbow.criteria.PredicateBuilderFactory;
+import org.rainbow.criteria.SearchOptions;
+import org.rainbow.criteria.SearchOptionsFactory;
+import org.rainbow.journal.orm.entities.Profile;
 import org.rainbow.journal.server.dto.SignupDto;
-import org.rainbow.security.core.entities.Application;
-import org.rainbow.security.core.entities.Group;
-import org.rainbow.security.core.entities.Membership;
-import org.rainbow.security.core.entities.User;
-import org.rainbow.security.core.service.UserGroupService;
-import org.rainbow.service.Service;
+import org.rainbow.journal.service.services.ProfileService;
+import org.rainbow.security.orm.entities.Application;
+import org.rainbow.security.orm.entities.Group;
+import org.rainbow.security.orm.entities.Membership;
+import org.rainbow.security.orm.entities.User;
+import org.rainbow.security.service.services.ApplicationService;
+import org.rainbow.security.service.services.GroupService;
+import org.rainbow.security.service.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,60 +33,59 @@ public class UserRestController {
 
 	@Autowired
 	@Qualifier("userService")
-	private Service<User, Long, SearchOptions> userService;
+	private UserService userService;
 
 	@Autowired
 	@Qualifier("applicationService")
-	private Service<Application, Long, SearchOptions> applicationService;
+	private ApplicationService applicationService;
 
 	@Autowired
 	@Qualifier("groupService")
-	private Service<Group, Long, SearchOptions> groupService;
+	private GroupService groupService;
 
 	@Autowired
 	@Qualifier("profileService")
-	private Service<Profile, Long, SearchOptions> profileService;
+	private ProfileService profileService;
 
 	@Autowired
-	@Qualifier("userGroupService")
-	private UserGroupService userGroupService;
-
-	@Value("${application.name}")
+	@Qualifier("rainbowJournalApplicationName")
 	private String applicationName;
 
-	@Value("${default.journal.web.user.group.name}")
-	private String defaultJournalWebUserGroupName;
+	@Autowired
+	@Qualifier("rainbowJournalWebUsersGroupName")
+	private String journalWebUsersGroupName;
+
+	@Autowired
+	private PathFactory pathFactory;
+
+	@Autowired
+	private PredicateBuilderFactory predicateBuilderFactory;
+
+	@Autowired
+	private SearchOptionsFactory searchOptionsFactory;
 
 	private Application getApplication() throws Exception {
-		SearchOptions options = new SearchOptions();
+		final SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("name"), applicationName));
 
-		StringSearchCriterion nameSearchCriterion = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
-				applicationName);
-
-		options.setFilters(Arrays.asList(new Filter<?>[] { nameFilter }));
-
-		List<Application> result = applicationService.find(options);
+		List<Application> result = applicationService.find(searchOptions);
 		if (result != null && result.size() == 1)
 			return result.get(0);
 		throw new IllegalStateException(String.format("No application with name '%s' was found.", applicationName));
 	}
 
 	private Group getGroup() throws Exception {
-		SearchOptions options = new SearchOptions();
+		final PredicateBuilder predicateBuilder = predicateBuilderFactory.create();
+		final SearchOptions searchOptions = searchOptionsFactory.create(
+				predicateBuilder.and(predicateBuilder.equal(pathFactory.create("name"), journalWebUsersGroupName),
+						predicateBuilder.equal(pathFactory.create("application.name"), applicationName)));
 
-		StringSearchCriterion groupNameSearchCriterion = new SingleValuedFilter<>("name", RelationalOperator.EQUAL,
-				defaultJournalWebUserGroupName);
-		StringSearchCriterion applicationNameSearchCriterion = new SingleValuedFilter<>("application.name",
-				RelationalOperator.EQUAL, applicationName);
-
-		options.setFilters(Arrays.asList(new Filter<?>[] { groupNameFilter, applicationNameFilter }));
-
-		List<Group> result = groupService.find(options);
+		List<Group> result = groupService.find(searchOptions);
 		if (result != null && result.size() == 1)
 			return result.get(0);
 		throw new IllegalStateException(
 				String.format("No group with name '%s' has been found in the application with name '%s'.",
-						defaultJournalWebUserGroupName, applicationName));
+						journalWebUsersGroupName, applicationName));
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -92,14 +93,10 @@ public class UserRestController {
 		User user = new User();
 
 		user.setUserName(dto.getUserName());
-		user.setCreator(dto.getUserName());
-		user.setUpdater(dto.getUserName());
 
 		Membership membership = new Membership();
 		membership.setPassword(dto.getPassword());
 		membership.setEmail(dto.getEmail());
-		membership.setPasswordQuestion(dto.getPasswordQuestion());
-		membership.setPasswordQuestionAnswer(dto.getPasswordQuestionAnswer());
 		membership.setPhone(dto.getPhone());
 
 		user.setMembership(membership);
@@ -109,16 +106,13 @@ public class UserRestController {
 
 		Group group = getGroup();
 
-		userService.create(user);
+		user.setGroups(Arrays.asList(group));
 
-		userGroupService.addUsersToGroups(Arrays.asList(new Long[] { user.getId() }),
-				Arrays.asList(new Long[] { group.getId() }), application.getId());
+		userService.create(user);
 
 		Profile profile = new Profile();
 		profile.setUserName(dto.getUserName());
 		profile.setEmail(dto.getEmail());
-		profile.setCreator(dto.getUserName());
-		profile.setUpdater(dto.getUserName());
 		profile.setLastName(dto.getLastName());
 		profile.setFirstName(dto.getFirstName());
 		profile.setBirthDate(dto.getBirthDate());
@@ -134,12 +128,10 @@ public class UserRestController {
 
 		String userName = authentication.getName();
 
-		SearchOptions options = new SearchOptions();
-		StringSearchCriterion filter = new SingleValuedFilter<>("userName", RelationalOperator.EQUAL, userName);
+		final SearchOptions searchOptions = searchOptionsFactory
+				.create(predicateBuilderFactory.create().equal(pathFactory.create("userName"), userName));
 
-		options.setFilters(Arrays.asList(new Filter<?>[] { filter }));
-
-		List<Profile> profiles = profileService.find(options);
+		List<Profile> profiles = profileService.find(searchOptions);
 
 		if (profiles != null && !profiles.isEmpty())
 			return profiles.get(0);

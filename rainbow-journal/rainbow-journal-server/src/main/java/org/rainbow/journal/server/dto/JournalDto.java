@@ -2,7 +2,7 @@ package org.rainbow.journal.server.dto;
 
 import java.util.Date;
 
-public class JournalDto extends TrackableDto<Long> {
+public class JournalDto extends AuditableDto<Long> {
 	/**
 	 * 
 	 */

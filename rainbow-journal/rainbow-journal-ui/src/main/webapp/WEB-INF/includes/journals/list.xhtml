@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cps="http://xmlns.jcp.org/jsf/composite/cps"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:body>
+	<cps:auditableEntityDataGrid id="journalList"
+		title="#{labels.ListJournalsTitle}"
+		dataSource="#{journalReadController}"
+		selectedItem="#{journalWriteController.model}" selectedValue="#{item.id}"
+		createActionListener="#{journalWriteController.prepareCreate}"
+		createDialog="journalCreateDialog" createUpdate=":journalCreate:form"
+		editDialog="journalEditDialog" editUpdate=":journalEdit:form"
+		detailsDialog="journalDetailsDialog"
+		detailsUpdate=":journalDetails:form"
+		deleteDialog="journalDeleteDialog" deleteUpdate=":journalDelete:form"
+		columnToggleListener="#{journalWriteController.onToggle}"
+		creatorFilterValue="#{journalReadController.creatorSearchCriterion.value}"
+		creatorFilterOperator="#{journalReadController.creatorSearchCriterion.operator}"
+		updaterFilterValue="#{journalReadController.updaterSearchCriterion.value}"
+		updaterFilterOperator="#{journalReadController.updaterSearchCriterion.operator}"
+		creationDateFilterValue="#{journalReadController.creationDateSearchCriterion.value}"
+		creationDateFilterOperator="#{journalReadController.creationDateSearchCriterion.operator}"
+		lastUpdateDateFilterValue="#{journalReadController.lastUpdateDateSearchCriterion.value}"
+		lastUpdateDateFilterOperator="#{journalReadController.lastUpdateDateSearchCriterion.operator}"
+		creatorColumnVisible="#{journalWriteController.auditColumnsStates[4]}"
+		updaterColumnVisible="#{journalWriteController.auditColumnsStates[5]}"
+		creationDateColumnVisible="#{journalWriteController.auditColumnsStates[6]}"
+		lastUpdateDateColumnVisible="#{journalWriteController.auditColumnsStates[7]}">
+
+		<p:column headerText="#{labels.JournalNameTitle}"
+			filterBy="#{item.name}" sortBy="#{item.name}"
+			filterValue="#{journalReadController.nameSearchCriterion.value}">
+			<h:outputText value="#{item.name}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="journalList:form:dataTable"
+					selectedValue="#{journalReadController.nameSearchCriterion.operator}"
+					changeWidgetVar="journalListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.JournalOwnerTitle}"
+			filterBy="#{item.name}" sortBy="#{item.ownerProfile.userName}"
+			filterValue="#{journalReadController.ownerProfileUserNameSearchCriterion.value}">
+			<h:outputText value="#{item.ownerProfile.userName}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="journalList:form:dataTable"
+					selectedValue="#{journalReadController.ownerProfileUserNameSearchCriterion.operator}"
+					changeWidgetVar="journalListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.JournalActiveTitle}"
+			filterBy="#{item.name}" sortBy="#{item.active}"
+			filterValue="#{journalReadController.activeSearchCriterion.value}">
+			<p:selectBooleanCheckbox value="#{item.active}" disabled="true" />
+			<f:facet name="footer">
+				<cps:booleanFilterSelectOneMenu
+					changeUpdate="journalList:form:dataTable"
+					selectedValue="#{journalReadController.activeSearchCriterion.value}"
+					changeWidgetVar="journalListDataTable" />
+			</f:facet>
+		</p:column>
+
+		<p:column headerText="#{labels.JournalTagTitle}"
+			filterBy="#{item.name}" sortBy="#{item.tag}"
+			filterValue="#{journalReadController.tagSearchCriterion.value}">
+			<h:outputText value="#{item.tag}" />
+			<f:facet name="footer">
+				<cps:stringFilterSelectOneMenu
+					changeUpdate="journalList:form:dataTable"
+					selectedValue="#{journalReadController.tagSearchCriterion.operator}"
+					changeWidgetVar="journalListDataTable" />
+			</f:facet>
+		</p:column>
+
+	</cps:auditableEntityDataGrid>
+
+	<ui:include src="/WEB-INF/includes/journals/create.xhtml" />
+	<ui:include src="/WEB-INF/includes/journals/edit.xhtml" />
+	<ui:include src="/WEB-INF/includes/journals/details.xhtml" />
+	<ui:include src="/WEB-INF/includes/journals/delete.xhtml" />
+
+
+</h:body>
+</html>
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	<f:viewParam id="user_name" name="user_name"
+		value="#{authenticationController.userName}" />
+</f:metadata>
+
+<ui:composition template="/templates/layout.xhtml">
+	<ui:define name="title">#{c.ApplicationName}</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<p:panelGrid id="panelGrid" styleClass="login-panelgrid">
+				<p:row>
+					<p:column colspan="3">
+						<p />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.UserNameLabel}" for="username" />
+					</p:column>
+					<p:column>
+						<p:inputText id="username" styleClass="field-value"
+							value="#{authenticationController.userName}"
+							title="#{secLabels.UserNameTitle}" required="true"
+							requiredMessage="#{secValMsg.UserNameRequired}">
+							<p:clientValidator event="keyup" />
+						</p:inputText>
+					</p:column>
+					<p:column>
+						<p:message for="username" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel styleClass="field-label"
+							value="#{secLabels.PasswordLabel}" for="password" />
+					</p:column>
+					<p:column>
+						<p:password id="password" styleClass="field-value"
+							value="#{authenticationController.password}"
+							title="#{secLabels.PasswordTitle}" required="true"
+							requiredMessage="#{secValMsg.PasswordRequired}">
+							<p:clientValidator event="keyup" />
+						</p:password>
+					</p:column>
+					<p:column>
+						<p:message for="password" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<p:panelGrid style="float: right;" columns="3">
+							<p:link style="color: #ccc" value="#{secLabels.UnlockUserLabel}"
+								outcome="/security/unlock_user/user_name_prompt" />
+							<p:link style="color: #ccc"
+								value="#{secLabels.ForgotYourPasswordQuestionLabel}"
+								outcome="/security/reset_password/user_name_prompt" />
+							<p:commandButton action="#{authenticationController.login}"
+								value="#{labels.LoginLabel}" icon="ui-icon-power"
+								validateClient="true" update="panelGrid" />
+						</p:panelGrid>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<p:messages id="messages" globalOnly="true" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>

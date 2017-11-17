@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>rainbow-journal-server</artifactId>
 	<packaging>war</packaging>
-	<name>rainbow-journal-server Maven Webapp</name>
+	<name>rainbow-journal-server</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -27,7 +27,6 @@
 		<classmate.version>1.3.3</classmate.version>
 		<eclipselink.version>2.6.2</eclipselink.version>
 		<weld.version>2.0.1.Final</weld.version>
-		<rainbow.security.core.version>0.0.1-SNAPSHOT</rainbow.security.core.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -90,12 +89,6 @@
 			<version>${jackson.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>rainbow-journal-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
 		<!-- Spring Security dependencies -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -117,7 +110,7 @@
 			<artifactId>spring-security-web</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -158,10 +151,9 @@
 			<artifactId>eclipselink</artifactId>
 			<version>${eclipselink.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>rainbow-journal-core</artifactId>
+			<artifactId>rainbow-journal-orm</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -172,12 +164,32 @@
 			<scope>provided</scope>
 		</dependency>
 
-
 		<dependency>
-			<groupId>org.rainbow.security</groupId>
-			<artifactId>rainbow-security-core</artifactId>
-			<version>${rainbow.security.core.version}</version>
+			<groupId>org.rainbow</groupId>
+			<artifactId>rainbow-security-impl</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.rainbow</groupId>
+			<artifactId>rainbow-orm</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.rainbow</groupId>
+			<artifactId>rainbow-orm-eclipselink</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.rainbow</groupId>
+			<artifactId>rainbow-search-criteria</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rainbow-journal-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>rainbow-journal-server</finalName>
@@ -189,7 +201,7 @@
 				<configuration>
 					<scanIntervalSeconds>2</scanIntervalSeconds>
 					<webApp>
-						<contextPath>/rainbow-journal-ui-web</contextPath>
+						<contextPath>/rainbow-journal-server</contextPath>
 					</webApp>
 				</configuration>
 			</plugin>
