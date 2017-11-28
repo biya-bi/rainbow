@@ -11,7 +11,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -69,7 +68,8 @@ public abstract class AbstractAuditableEntity<T extends Serializable> extends Ab
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public AbstractAuditableEntity(String creator, String updater, Date creationDate, Date lastUpdateDate, long version, T id) {
+	public AbstractAuditableEntity(String creator, String updater, Date creationDate, Date lastUpdateDate, long version,
+			T id) {
 		super(id);
 		this.creator = creator;
 		this.updater = updater;
@@ -95,9 +95,8 @@ public abstract class AbstractAuditableEntity<T extends Serializable> extends Ab
 		this.updater = updater;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATION_DATE", nullable = false, updatable = false)
+	@Column(name = "CREATION_DATE", updatable = false)
 	public Date getCreationDate() {
 		return creationDate;
 	}
@@ -106,9 +105,8 @@ public abstract class AbstractAuditableEntity<T extends Serializable> extends Ab
 		this.creationDate = creationDate;
 	}
 
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_UPDATE_DATE", nullable = false)
+	@Column(name = "LAST_UPDATE_DATE")
 	public Date getLastUpdateDate() {
 		return lastUpdateDate;
 	}
