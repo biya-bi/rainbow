@@ -620,7 +620,7 @@ public class UserAccountServiceImpl extends JdbcDaoSupport implements UserAccoun
 
 					@Override
 					public Date mapRow(ResultSet rs, int rowNum) throws SQLException {
-						return rs.getDate("LOGIN_DATE");
+						return rs.getTimestamp("LOGIN_DATE");
 					}
 
 				});

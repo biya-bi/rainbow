@@ -64,7 +64,7 @@ public abstract class Database {
 	}
 
 	public void execute(String sqlFilePath) throws SQLException, FileNotFoundException, IOException {
-		load();
+		//load();
 		StringBuilder stringBuilder = new StringBuilder();
 		File file = new File(sqlFilePath);
 

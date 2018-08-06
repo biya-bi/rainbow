@@ -26,7 +26,7 @@
 		<mysql.version>5.1.23</mysql.version>
 		<jsf.version>2.2.14</jsf.version>
 		<primefaces.version>5.3</primefaces.version>
-		<primefaces.theme.version>1.0.10</primefaces.theme.version>
+		<primefaces.themes.version>1.0.8</primefaces.themes.version>
 		<hibernate.version>6.0.1.Final</hibernate.version>
 		<jstl.version>1.2</jstl.version>
 		<javassist.version>3.22.0-CR1</javassist.version>
@@ -127,9 +127,9 @@
 			<version>${primefaces.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.primefaces.themes</groupId>
+			<groupId>org.primefaces.extensions</groupId>
 			<artifactId>all-themes</artifactId>
-			<version>${primefaces.theme.version}</version>
+			<version>${primefaces.themes.version}</version>
 		</dependency>
 
 		<dependency>

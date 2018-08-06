@@ -11,7 +11,7 @@ package org.rainbow.security.service.authentication;
  */
 public interface PasswordAttemptUpdater {
 	/**
-	 * Updates user details based on the correctness provided credentials
+	 * Updates user details based on the correctness of the provided credentials
 	 * 
 	 * @param userName
 	 *            the user name identifying the user
