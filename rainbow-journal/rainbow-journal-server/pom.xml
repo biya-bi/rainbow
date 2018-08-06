@@ -165,7 +165,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.rainbow</groupId>
+			<groupId>org.rainbow.security</groupId>
 			<artifactId>rainbow-security-impl</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
